@@ -30,8 +30,7 @@ public class PlayerBase : MonoBehaviour
     
     //Slope values
     [Header("Slope Values")]
-
-
+    
     [SerializeField] private float orientToSlopeSpeed;
     [SerializeField] private float slopeDetectionDistance;
 
@@ -54,50 +53,47 @@ public class PlayerBase : MonoBehaviour
     private void Update()
     {
         moveInput = input.Player.Move.ReadValue<Vector2>();
-        
     }
 
     private void FixedUpdate()
     {
-        //SkateForward();
+        SkateForward();
         OrientToSlope();
-        //TurnPlayer();
-        //DeAccelerate();
+        TurnPlayer();
+        DeAccelerate();
     }
     
-    private void SkateForward() // Only accounts for flat ground movement for now.
+    private void SkateForward()
     {
         rb.AddForce(playerModel.forward * (baseMovementSpeed * moveInput.y), ForceMode.Acceleration);
     }
     
     /// <summary>
-    /// Handles turning the player. Rotating the player works best for the movement we are trying to achieve, as
-    /// movement is based on the player's forward direction. Meant to be used in FixedUpdate.
+    /// Handles turning the player model with left and right input. Rotating the player works best for the movement we
+    /// are trying to achieve, as movement is based on the player's forward direction. Meant to be used in FixedUpdate.
     /// </summary>
     private void TurnPlayer() // Rotates the PLAYER MODEL TRANSFORM. We must work with 2 transforms to achieve the desired effect.
     {
-        //float turnAmount = moveInput.x * turnSharpness * Time.fixedDeltaTime;
-        //Quaternion targetRotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + turnAmount, transform.eulerAngles.z);
-        //transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.fixedDeltaTime * turnSpeed);
-        
         if (moveInput.y != 0) playerModel.transform.Rotate(0, turnSharpness * moveInput.x * Time.fixedDeltaTime, 0, Space.Self);
         
     }
-    
+    RaycastHit slopeHit;
     private void OrientToSlope()
     {
-        RaycastHit slopeHit;
         if (Physics.Raycast(transform.position,
                 -transform.up,
                 out slopeHit,
                 slopeDetectionDistance,
                 1 << LayerMask.NameToLayer("Ground")))
         {
-            Quaternion slopeRotation = Quaternion.FromToRotation(transform.up, slopeHit.normal);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, slopeRotation, orientToSlopeSpeed * Time.fixedDeltaTime);
+            
+            Quaternion slopeRotation = Quaternion.FromToRotation(transform.up, slopeHit.normal) * transform.rotation;
+            Debug.Log($"slopeHit.normal: {slopeHit.normal}");
+            Debug.Log($"slopeRotation: {slopeRotation}");
+            transform.rotation = Quaternion.Lerp(transform.rotation, slopeRotation, Time.fixedDeltaTime * orientToSlopeSpeed);
+            
         }
     }
-    
     
     /// <summary>
     /// De-accelerates the player by a fixed value. As long as the de-acceleration value is less than the acceleration
@@ -110,8 +106,8 @@ public class PlayerBase : MonoBehaviour
     
     private void OnDrawGizmos()
     {
-        //Gizmos.color = Color.yellow;
-        //Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - slopeDetectionDistance, transform.position.z));
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, slopeHit.point);
 
     }
 }
