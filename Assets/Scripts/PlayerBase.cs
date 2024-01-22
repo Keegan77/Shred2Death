@@ -45,6 +45,8 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private float slopeDetectionDistance;
     [Tooltip("The distance from the center of the player to the left and right raycast origins. These are used to detect the slope.")]
     [SerializeField] private float slopeRayOffsetFromMid;
+    [Tooltip("X is min, Y is max. If the slope is within this range, the player will not be able to exert a forward force. Used for preventing the player from using forward force up slopes that are too steep")]
+    [SerializeField] private Vector2 slopeRangeWherePlayerCantMove;
     
     [Header("Ground Detection")]
     [SerializeField] private Transform boxPos;
@@ -87,7 +89,7 @@ public class PlayerBase : MonoBehaviour
         // Get the rotation around the x-axis, ranging from -90 to 90
         
         movementSpeed = baseMovementSpeed + offset;
-        Debug.Log(movementSpeed);
+        //Debug.Log(movementSpeed);
     }
     
     private void FixedUpdate()
@@ -111,7 +113,28 @@ public class PlayerBase : MonoBehaviour
     private void SkateForward()
     {
         CalculateSpeedVector();
+        
+        float xRotation = TranslateRotationToRange180(transform.rotation.eulerAngles.x);
+        float zRotation = TranslateRotationToRange180(transform.rotation.eulerAngles.z);
+        
+        Debug.Log("X Rotation: " + xRotation + " Z Rotation: " + zRotation);
+        if (Mathf.Abs(xRotation) > slopeRangeWherePlayerCantMove.x && Mathf.Abs(xRotation) < slopeRangeWherePlayerCantMove.y) return;
+        if (Mathf.Abs(zRotation) > slopeRangeWherePlayerCantMove.x && Mathf.Abs(zRotation) < slopeRangeWherePlayerCantMove.y) return;
+        
+        
         rb.AddForce(playerModel.forward * (movementSpeed * moveInput.y), ForceMode.Acceleration);
+        
+        
+    }
+
+    /// <summary>
+    /// Translates eulerAngles from 0 - +360, to -180 - +180. Makes eulerAngles easier to work with, logically.
+    /// Rotations should never be applied with this method, as it will cause weirdness. This is simply for getting
+    /// eulerAngle values in a range that makes sense.
+    /// </summary>
+    private float TranslateRotationToRange180(float eulerAngle)
+    {
+        return eulerAngle > 180 ? eulerAngle - 360 : eulerAngle;
     }
     
     /// <summary>
@@ -143,6 +166,8 @@ public class PlayerBase : MonoBehaviour
             // Calculate the desired rotation
             Quaternion slopeRotation = Quaternion.FromToRotation(transform.up, averageNormal) * transform.rotation;
 
+            //Debug.Log(Quaternion.FromToRotation(transform.up, averageNormal));
+            
             // Lerp to the desired rotation
             transform.rotation = Quaternion.Lerp(transform.rotation, slopeRotation, Time.fixedDeltaTime * orientToSlopeSpeed);
         }
