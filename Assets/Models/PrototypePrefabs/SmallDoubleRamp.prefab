@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1631296920505761053}
   - component: {fileID: 8025782567640879291}
   - component: {fileID: 457100499491233913}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 16941
+  m_VersionIndex: 16944
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 5918429948846920479}
   - component: {fileID: 4833419188841375478}
   - component: {fileID: 645339085105666896}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -601,7 +601,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 16953
+  m_VersionIndex: 16956
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -715,7 +715,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4135195959857914020}
-  m_Layer: 0
+  - component: {fileID: 8458156356559090179}
+  m_Layer: 6
   m_Name: SmallDoubleRamp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -739,3 +740,25 @@ Transform:
   - {fileID: 6637743686768272548}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &8458156356559090179
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8418209893873654191}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
