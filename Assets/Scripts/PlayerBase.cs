@@ -47,10 +47,15 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private float slopeRayOffsetFromMid;
     [Tooltip("X is min, Y is max. If the slope is within this range, the player will not be able to exert a forward force. Used for preventing the player from using forward force up slopes that are too steep")]
     [SerializeField] private Vector2 slopeRangeWherePlayerCantMove;
+
+    [SerializeField] private float slopedUpSpeedMultipler, slopedDownSpeedMultipler;
     
     [Header("Ground Detection")]
     [SerializeField] private Transform boxPos;
     [SerializeField] private Vector3 boxSize;
+    
+    //Half Pipe values
+    private bool onHalfPipeRamp;
 
     private void Awake()
     {
@@ -80,11 +85,11 @@ public class PlayerBase : MonoBehaviour
         
         if (rb.velocity.y > 0)
         {
-            offset = -rb.velocity.y * 3;
+            offset = -rb.velocity.y * slopedUpSpeedMultipler;
         }
         else if (rb.velocity.y < 0)
         {
-            offset = rb.velocity.y / 3;
+            offset = rb.velocity.y / slopedDownSpeedMultipler;
         }
         // Get the rotation around the x-axis, ranging from -90 to 90
         
@@ -104,27 +109,35 @@ public class PlayerBase : MonoBehaviour
         else
         {
             currentState = PlayerState.Airborne;
+            if (onHalfPipeRamp) HalfPipeAirBehaviour();
+            else ReOrient();
         }
-        
         TurnPlayer();
-        
+
+    }
+
+    private void HalfPipeAirBehaviour()
+    {
+        rb.velocity = new Vector3(0, rb.velocity.y, 0);
     }
     
     private void SkateForward()
     {
         CalculateSpeedVector();
         
-        float xRotation = TranslateRotationToRange180(transform.rotation.eulerAngles.x);
-        float zRotation = TranslateRotationToRange180(transform.rotation.eulerAngles.z);
-        
-        Debug.Log("X Rotation: " + xRotation + " Z Rotation: " + zRotation);
-        if (Mathf.Abs(xRotation) > slopeRangeWherePlayerCantMove.x && Mathf.Abs(xRotation) < slopeRangeWherePlayerCantMove.y) return;
-        if (Mathf.Abs(zRotation) > slopeRangeWherePlayerCantMove.x && Mathf.Abs(zRotation) < slopeRangeWherePlayerCantMove.y) return;
+        float xRotation = TranslateEulersToRange180(transform.rotation.eulerAngles.x);
+        float zRotation = TranslateEulersToRange180(transform.rotation.eulerAngles.z);
         
         
-        rb.AddForce(playerModel.forward * (movementSpeed * moveInput.y), ForceMode.Acceleration);
+        if (Mathf.Abs(xRotation) > slopeRangeWherePlayerCantMove.x &&
+            Mathf.Abs(xRotation) < slopeRangeWherePlayerCantMove.y) return;
+        if (Mathf.Abs(zRotation) > slopeRangeWherePlayerCantMove.x  &&
+            Mathf.Abs(zRotation) < slopeRangeWherePlayerCantMove.y) return;
         
-        
+        rb.AddForce(playerModel.forward * (movementSpeed * moveInput.y), ForceMode.Acceleration); // Only adds force if
+                                                                                                  // the player is not
+                                                                                                  // on a slope that is
+                                                                                                  // too steep.
     }
 
     /// <summary>
@@ -132,7 +145,7 @@ public class PlayerBase : MonoBehaviour
     /// Rotations should never be applied with this method, as it will cause weirdness. This is simply for getting
     /// eulerAngle values in a range that makes sense.
     /// </summary>
-    private float TranslateRotationToRange180(float eulerAngle)
+    private float TranslateEulersToRange180(float eulerAngle)
     {
         return eulerAngle > 180 ? eulerAngle - 360 : eulerAngle;
     }
@@ -165,12 +178,19 @@ public class PlayerBase : MonoBehaviour
 
             // Calculate the desired rotation
             Quaternion slopeRotation = Quaternion.FromToRotation(transform.up, averageNormal) * transform.rotation;
-
-            //Debug.Log(Quaternion.FromToRotation(transform.up, averageNormal));
             
             // Lerp to the desired rotation
-            transform.rotation = Quaternion.Lerp(transform.rotation, slopeRotation, Time.fixedDeltaTime * orientToSlopeSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, slopeRotation, Time.fixedDeltaTime * orientToSlopeSpeed);
         }
+    }
+
+    /// <summary>
+    /// Slowly re-orients the player mid-air to be upright. Meant to be used in FixedUpdate.
+    /// </summary>
+    private void ReOrient()
+    {
+        Quaternion targetRotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 1f);
     }
     
     /// <summary>
@@ -194,5 +214,16 @@ public class PlayerBase : MonoBehaviour
         Gizmos.DrawLine(transform.position + transform.forward * slopeRayOffsetFromMid, rightSlopeHit.point);
         Gizmos.DrawWireCube(boxPos.position, boxSize/2);
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ramp90")) onHalfPipeRamp = true;
+        
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Ramp90")) onHalfPipeRamp = false;
     }
 }
