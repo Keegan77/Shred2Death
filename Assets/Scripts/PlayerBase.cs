@@ -32,6 +32,8 @@ public class PlayerBase : MonoBehaviour
     // Movement values
     [Header("Movement Values")]
     [SerializeField] float baseMovementSpeed;
+
+    private float movementSpeed;
     [Range(0, 1)]
     [SerializeField] float deAccelerationSpeed;
     [SerializeField] float turnSharpness;
@@ -67,14 +69,34 @@ public class PlayerBase : MonoBehaviour
     private void Update()
     {
         moveInput = input.Player.Move.ReadValue<Vector2>();
+        
     }
-
+    
+    private void CalculateSpeedVector()
+    {
+        float offset = rb.velocity.y;
+        
+        if (rb.velocity.y > 0)
+        {
+            offset = -rb.velocity.y * 3;
+        }
+        else if (rb.velocity.y < 0)
+        {
+            offset = rb.velocity.y / 3;
+        }
+        // Get the rotation around the x-axis, ranging from -90 to 90
+        
+        movementSpeed = baseMovementSpeed + offset;
+        Debug.Log(movementSpeed);
+    }
+    
     private void FixedUpdate()
     {
         if (CheckGround())
         {
             SkateForward(); 
             DeAccelerate();
+            OrientToSlope();
             currentState = PlayerState.Skating;
         }
         else
@@ -82,14 +104,14 @@ public class PlayerBase : MonoBehaviour
             currentState = PlayerState.Airborne;
         }
         
-        OrientToSlope();
         TurnPlayer();
         
     }
     
     private void SkateForward()
     {
-        rb.AddForce(playerModel.forward * (baseMovementSpeed * moveInput.y), ForceMode.Acceleration);
+        CalculateSpeedVector();
+        rb.AddForce(playerModel.forward * (movementSpeed * moveInput.y), ForceMode.Acceleration);
     }
     
     /// <summary>
@@ -101,23 +123,7 @@ public class PlayerBase : MonoBehaviour
         if (moveInput.y != 0 || currentState == PlayerState.Airborne) playerModel.transform.Rotate(0, turnSharpness * moveInput.x * Time.fixedDeltaTime, 0, Space.Self);
         
     }
-    //RaycastHit slopeHit;
-    /*private void OrientToSlope()
-    {
-        if (Physics.Raycast(transform.position,
-                -transform.up,
-                out slopeHit,
-                slopeDetectionDistance,
-                1 << LayerMask.NameToLayer("Ground")))
-        {
-            
-            Quaternion slopeRotation = Quaternion.FromToRotation(transform.up, slopeHit.normal) * transform.rotation;
-            /*Debug.Log($"slopeHit.normal: {slopeHit.normal}");
-            Debug.Log($"slopeRotation: {slopeRotation}");#1#
-            transform.rotation = Quaternion.Lerp(transform.rotation, slopeRotation, Time.fixedDeltaTime * orientToSlopeSpeed);
-            
-        }
-    }*/
+
     RaycastHit leftSlopeHit, rightSlopeHit;
     private void OrientToSlope()
     {
