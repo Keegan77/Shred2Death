@@ -14,6 +14,14 @@ using UnityEngine.PlayerLoop;
 
 public class PlayerBase : MonoBehaviour
 {
+    private enum PlayerState // simple shitty state machine
+    {
+        Skating,
+        Airborne
+    }
+
+    private PlayerState currentState;
+
     // Components
     private Rigidbody rb;
     [SerializeField] private Transform playerModel;
@@ -33,6 +41,12 @@ public class PlayerBase : MonoBehaviour
     
     [SerializeField] private float orientToSlopeSpeed;
     [SerializeField] private float slopeDetectionDistance;
+    [Tooltip("The distance from the center of the player to the left and right raycast origins. These are used to detect the slope.")]
+    [SerializeField] private float slopeRayOffsetFromMid;
+    
+    [Header("Ground Detection")]
+    [SerializeField] private Transform boxPos;
+    [SerializeField] private Vector3 boxSize;
 
     private void Awake()
     {
@@ -57,10 +71,20 @@ public class PlayerBase : MonoBehaviour
 
     private void FixedUpdate()
     {
-        SkateForward();
+        if (CheckGround())
+        {
+            SkateForward(); 
+            DeAccelerate();
+            currentState = PlayerState.Skating;
+        }
+        else
+        {
+            currentState = PlayerState.Airborne;
+        }
+        
         OrientToSlope();
         TurnPlayer();
-        DeAccelerate();
+        
     }
     
     private void SkateForward()
@@ -74,11 +98,11 @@ public class PlayerBase : MonoBehaviour
     /// </summary>
     private void TurnPlayer() // Rotates the PLAYER MODEL TRANSFORM. We must work with 2 transforms to achieve the desired effect.
     {
-        if (moveInput.y != 0) playerModel.transform.Rotate(0, turnSharpness * moveInput.x * Time.fixedDeltaTime, 0, Space.Self);
+        if (moveInput.y != 0 || currentState == PlayerState.Airborne) playerModel.transform.Rotate(0, turnSharpness * moveInput.x * Time.fixedDeltaTime, 0, Space.Self);
         
     }
-    RaycastHit slopeHit;
-    private void OrientToSlope()
+    //RaycastHit slopeHit;
+    /*private void OrientToSlope()
     {
         if (Physics.Raycast(transform.position,
                 -transform.up,
@@ -88,10 +112,33 @@ public class PlayerBase : MonoBehaviour
         {
             
             Quaternion slopeRotation = Quaternion.FromToRotation(transform.up, slopeHit.normal) * transform.rotation;
-            Debug.Log($"slopeHit.normal: {slopeHit.normal}");
-            Debug.Log($"slopeRotation: {slopeRotation}");
+            /*Debug.Log($"slopeHit.normal: {slopeHit.normal}");
+            Debug.Log($"slopeRotation: {slopeRotation}");#1#
             transform.rotation = Quaternion.Lerp(transform.rotation, slopeRotation, Time.fixedDeltaTime * orientToSlopeSpeed);
             
+        }
+    }*/
+    RaycastHit leftSlopeHit, rightSlopeHit;
+    private void OrientToSlope()
+    {
+        // Define points on either side of the skateboard
+        Vector3 leftRayOrigin = transform.position - transform.forward * slopeRayOffsetFromMid;
+        Vector3 rightRayOrigin = transform.position + transform.forward * slopeRayOffsetFromMid;
+
+        // Perform raycasts from the defined points
+        bool leftHit = Physics.Raycast(leftRayOrigin, -transform.up, out leftSlopeHit, slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
+        bool rightHit = Physics.Raycast(rightRayOrigin, -transform.up, out rightSlopeHit, slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
+        
+        if (leftHit && rightHit)
+        {
+            // Calculate the average normal
+            Vector3 averageNormal = (leftSlopeHit.normal + rightSlopeHit.normal).normalized;
+
+            // Calculate the desired rotation
+            Quaternion slopeRotation = Quaternion.FromToRotation(transform.up, averageNormal) * transform.rotation;
+
+            // Lerp to the desired rotation
+            transform.rotation = Quaternion.Lerp(transform.rotation, slopeRotation, Time.fixedDeltaTime * orientToSlopeSpeed);
         }
     }
     
@@ -103,11 +150,18 @@ public class PlayerBase : MonoBehaviour
     {
         rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, rb.velocity.y, 0), deAccelerationSpeed);
     }
+
+    private bool CheckGround()
+    {
+        return Physics.CheckBox(boxPos.position, boxSize, transform.rotation, 1 << LayerMask.NameToLayer("Ground"));
+    }
     
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, slopeHit.point);
+        Gizmos.DrawLine(transform.position - transform.forward * slopeRayOffsetFromMid, leftSlopeHit.point);
+        Gizmos.DrawLine(transform.position + transform.forward * slopeRayOffsetFromMid, rightSlopeHit.point);
+        Gizmos.DrawWireCube(boxPos.position, boxSize/2);
 
     }
 }
