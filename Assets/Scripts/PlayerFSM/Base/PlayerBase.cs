@@ -6,7 +6,7 @@ using UnityEngine.PlayerLoop;
 
 //README
 // This script affects rotation values for two transforms. The parent transform is used for slope orientation, while
-// the child transform is used for turning the player + the player's correct forward direction, which is used for the forward force,
+// the child transform is used for turning the player, and it's also used to get the player's correct forward direction, which is used for the forward force,
 // which is applied to the RB. as affected by the parent transform. This is done to achieve the desired effect of the player model
 // rotating perpendicularly to the slope, while the player's forward direction is based on the parent transform's
 // forward direction.
@@ -14,20 +14,12 @@ using UnityEngine.PlayerLoop;
 
 public class PlayerBase : MonoBehaviour
 {
-    private enum PlayerState // simple shitty state machine
-    {
-        Skating,
-        Airborne
-    }
-
-    private PlayerState currentState;
-
     // Components
     private Rigidbody rb;
     [SerializeField] private Transform playerModel;
     //Input
     private Input input;
-    private Vector2 moveInput;
+    public Vector2 moveInput;
     
     // Movement values
     [Header("Movement Values")]
@@ -54,13 +46,28 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private Transform boxPos;
     [SerializeField] private Vector3 boxSize;
     
-    //Half Pipe values
-    private bool onHalfPipeRamp;
+    //state machine
+    private PlayerStateMachine stateMachine;
+    //concrete states
+    public PlayerSkatingState skatingState;
+    public PlayerAirborneState airborneState;
+    public PlayerHalfpipeState halfPipeState;
 
     private void Awake()
     {
         input = new Input();
         rb = GetComponent<Rigidbody>();
+        StateMachineSetup();
+            
+    }
+
+    private void StateMachineSetup()
+    {
+        stateMachine = new PlayerStateMachine();
+        skatingState = new PlayerSkatingState(this, stateMachine);
+        airborneState = new PlayerAirborneState(this, stateMachine);
+        halfPipeState = new PlayerHalfpipeState(this, stateMachine);
+        stateMachine.Init(skatingState);
     }
 
     private void OnEnable()
@@ -75,8 +82,9 @@ public class PlayerBase : MonoBehaviour
 
     private void Update()
     {
+        stateMachine.currentState.LogicUpdate();
+        stateMachine.currentState.HandleInput();
         moveInput = input.Player.Move.ReadValue<Vector2>();
-        
     }
     
     private void CalculateSpeedVector()
@@ -99,29 +107,15 @@ public class PlayerBase : MonoBehaviour
     
     private void FixedUpdate()
     {
-        if (CheckGround())
-        {
-            SkateForward(); 
-            DeAccelerate();
-            OrientToSlope();
-            currentState = PlayerState.Skating;
-        }
-        else
-        {
-            currentState = PlayerState.Airborne;
-            if (onHalfPipeRamp) HalfPipeAirBehaviour();
-            else ReOrient();
-        }
-        TurnPlayer();
-
+        stateMachine.currentState.PhysicsUpdate();
     }
 
-    private void HalfPipeAirBehaviour()
+    public void HalfPipeAirBehaviour()
     {
         rb.velocity = new Vector3(0, rb.velocity.y, 0);
     }
     
-    private void SkateForward()
+    public void SkateForward()
     {
         CalculateSpeedVector();
         
@@ -154,14 +148,13 @@ public class PlayerBase : MonoBehaviour
     /// Handles turning the player model with left and right input. Rotating the player works best for the movement we
     /// are trying to achieve, as movement is based on the player's forward direction. Meant to be used in FixedUpdate.
     /// </summary>
-    private void TurnPlayer() // Rotates the PLAYER MODEL TRANSFORM. We must work with 2 transforms to achieve the desired effect.
+    public void TurnPlayer() // Rotates the PLAYER MODEL TRANSFORM. We must work with 2 transforms to achieve the desired effect.
     {
-        if (moveInput.y != 0 || currentState == PlayerState.Airborne) playerModel.transform.Rotate(0, turnSharpness * moveInput.x * Time.fixedDeltaTime, 0, Space.Self);
-        
+       playerModel.transform.Rotate(0, turnSharpness * moveInput.x * Time.fixedDeltaTime, 0, Space.Self);
     }
 
     RaycastHit leftSlopeHit, rightSlopeHit;
-    private void OrientToSlope()
+    public void OrientToSlope()
     {
         // Define points on either side of the skateboard
         Vector3 leftRayOrigin = transform.position - transform.forward * slopeRayOffsetFromMid;
@@ -187,7 +180,7 @@ public class PlayerBase : MonoBehaviour
     /// <summary>
     /// Slowly re-orients the player mid-air to be upright. Meant to be used in FixedUpdate.
     /// </summary>
-    private void ReOrient()
+    public void ReOrient()
     {
         Quaternion targetRotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 1f);
@@ -197,12 +190,12 @@ public class PlayerBase : MonoBehaviour
     /// De-accelerates the player by a fixed value. As long as the de-acceleration value is less than the acceleration
     /// value, the desired effect will work properly. Meant to be used in FixedUpdate.
     /// </summary>
-    private void DeAccelerate() // Add Force feels too floaty!
+    public void DeAccelerate() // Add Force feels too floaty, used on every frame to counteract the force.
     {
         rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, rb.velocity.y, 0), deAccelerationSpeed);
     }
 
-    private bool CheckGround()
+    public bool CheckGround()
     {
         return Physics.CheckBox(boxPos.position, boxSize, transform.rotation, 1 << LayerMask.NameToLayer("Ground"));
     }
@@ -218,12 +211,17 @@ public class PlayerBase : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ramp90")) onHalfPipeRamp = true;
+        stateMachine.currentState.StateTriggerEnter(other);
         
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        stateMachine.currentState.StateTriggerStay(other);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Ramp90")) onHalfPipeRamp = false;
+        stateMachine.currentState.StateTriggerExit(other);
     }
 }
