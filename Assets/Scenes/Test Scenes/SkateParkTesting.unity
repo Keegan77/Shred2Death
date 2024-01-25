@@ -1641,9 +1641,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerModel: {fileID: 1377087751}
+  moveInput: {x: 0, y: 0}
   baseMovementSpeed: 100
   deAccelerationSpeed: 0.05
   turnSharpness: 300
+  jumpForce: 12
   orientToSlopeSpeed: 11
   slopeDetectionDistance: 4
   slopeRayOffsetFromMid: 0.79
@@ -1652,6 +1654,7 @@ MonoBehaviour:
   slopedDownSpeedMultipler: 4
   boxPos: {fileID: 359867677}
   boxSize: {x: 3.58, y: 0.29, z: 3.4}
+  groundricks: {fileID: 0}
 --- !u!75 &347799397
 ConstantForce:
   m_ObjectHideFlags: 0
@@ -3615,9 +3618,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerModel: {fileID: 0}
+  moveInput: {x: 0, y: 0}
   baseMovementSpeed: 0
   deAccelerationSpeed: 0
   turnSharpness: 0
+  jumpForce: 0
   orientToSlopeSpeed: 5
   slopeDetectionDistance: 3
   slopeRayOffsetFromMid: 0
@@ -3626,6 +3631,7 @@ MonoBehaviour:
   slopedDownSpeedMultipler: 0
   boxPos: {fileID: 0}
   boxSize: {x: 0, y: 0, z: 0}
+  groundricks: {fileID: 0}
 --- !u!1 &965294029
 GameObject:
   m_ObjectHideFlags: 0

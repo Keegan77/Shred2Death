@@ -1,8 +1,6 @@
-using System;
-using Unity.Mathematics;
 using UnityEngine.InputSystem;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
+
 
 //README
 // This script affects rotation values for two transforms. The parent transform is used for slope orientation, while
@@ -29,6 +27,7 @@ public class PlayerBase : MonoBehaviour
     [Range(0, 1)]
     [SerializeField] float deAccelerationSpeed;
     [SerializeField] float turnSharpness;
+    [SerializeField] float jumpForce;
     
     //Slope values
     [Header("Slope Values")]
@@ -53,8 +52,15 @@ public class PlayerBase : MonoBehaviour
     public PlayerAirborneState airborneState;
     public PlayerHalfpipeState halfPipeState;
 
+    [SerializeField] private ScriptableObject groundricks;
+    
+    
+    
+    float jumpInput;
+
     private void Awake()
     {
+        
         input = new Input();
         rb = GetComponent<Rigidbody>();
         StateMachineSetup();
@@ -70,14 +76,22 @@ public class PlayerBase : MonoBehaviour
         stateMachine.Init(skatingState);
     }
 
+    private void Jump(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("jump");
+        if (CheckGround()) rb.AddRelativeForce(transform.up * jumpForce, ForceMode.Impulse);
+    }
+    
     private void OnEnable()
     {
         input.Enable();
+        input.Player.Jump.performed += ctx => Jump(ctx);
     }
 
     private void OnDisable()
     {
         input.Disable();
+        input.Player.Jump.performed -= ctx => Jump(ctx);
     }
 
     private void Update()
@@ -85,6 +99,8 @@ public class PlayerBase : MonoBehaviour
         stateMachine.currentState.LogicUpdate();
         stateMachine.currentState.HandleInput();
         moveInput = input.Player.Move.ReadValue<Vector2>();
+        
+        jumpInput = input.Player.Jump.ReadValue<float>();
     }
     
     private void CalculateSpeedVector()

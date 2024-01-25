@@ -6,8 +6,8 @@ public class PlayerState
 {
     protected PlayerBase player;
     protected PlayerStateMachine stateMachine;
-    
-    public PlayerState(PlayerBase player, PlayerStateMachine stateMachine)
+
+    protected PlayerState(PlayerBase player, PlayerStateMachine stateMachine)
     {
         this.player = player;
         this.stateMachine = stateMachine;
