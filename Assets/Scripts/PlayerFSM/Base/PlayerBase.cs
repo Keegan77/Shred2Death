@@ -15,9 +15,6 @@ public class PlayerBase : MonoBehaviour
     // Components
     private Rigidbody rb;
     [SerializeField] private Transform playerModel;
-    //Input
-    private Input input;
-    public Vector2 moveInput;
     
     // Movement values
     [Header("Movement Values")]
@@ -51,8 +48,6 @@ public class PlayerBase : MonoBehaviour
     public PlayerSkatingState skatingState;
     public PlayerAirborneState airborneState;
     public PlayerHalfpipeState halfPipeState;
-
-    [SerializeField] private ScriptableObject groundricks;
     
     
     
@@ -61,7 +56,6 @@ public class PlayerBase : MonoBehaviour
     private void Awake()
     {
         
-        input = new Input();
         rb = GetComponent<Rigidbody>();
         StateMachineSetup();
             
@@ -76,7 +70,7 @@ public class PlayerBase : MonoBehaviour
         stateMachine.Init(skatingState);
     }
 
-    private void Jump(InputAction.CallbackContext ctx)
+    private void OllieJump(InputAction.CallbackContext ctx)
     {
         Debug.Log("jump");
         if (CheckGround()) rb.AddRelativeForce(transform.up * jumpForce, ForceMode.Impulse);
@@ -84,23 +78,17 @@ public class PlayerBase : MonoBehaviour
     
     private void OnEnable()
     {
-        input.Enable();
-        input.Player.Jump.performed += ctx => Jump(ctx);
+        InputRouting.Instance.input.Player.Jump.performed += ctx => OllieJump(ctx);
     }
 
     private void OnDisable()
     {
-        input.Disable();
-        input.Player.Jump.performed -= ctx => Jump(ctx);
+        InputRouting.Instance.input.Player.Jump.performed -= ctx => OllieJump(ctx);
     }
 
     private void Update()
     {
         stateMachine.currentState.LogicUpdate();
-        stateMachine.currentState.HandleInput();
-        moveInput = input.Player.Move.ReadValue<Vector2>();
-        
-        jumpInput = input.Player.Jump.ReadValue<float>();
     }
     
     private void CalculateSpeedVector()
@@ -144,7 +132,7 @@ public class PlayerBase : MonoBehaviour
         if (Mathf.Abs(zRotation) > slopeRangeWherePlayerCantMove.x  &&
             Mathf.Abs(zRotation) < slopeRangeWherePlayerCantMove.y) return;
         
-        rb.AddForce(playerModel.forward * (movementSpeed * moveInput.y), ForceMode.Acceleration); // Only adds force if
+        rb.AddForce(playerModel.forward * (movementSpeed * InputRouting.Instance.GetMoveInput().y), ForceMode.Acceleration); // Only adds force if
                                                                                                   // the player is not
                                                                                                   // on a slope that is
                                                                                                   // too steep.
@@ -166,7 +154,7 @@ public class PlayerBase : MonoBehaviour
     /// </summary>
     public void TurnPlayer() // Rotates the PLAYER MODEL TRANSFORM. We must work with 2 transforms to achieve the desired effect.
     {
-       playerModel.transform.Rotate(0, turnSharpness * moveInput.x * Time.fixedDeltaTime, 0, Space.Self);
+       playerModel.transform.Rotate(0, turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 0, Space.Self);
     }
 
     RaycastHit leftSlopeHit, rightSlopeHit;
@@ -182,14 +170,13 @@ public class PlayerBase : MonoBehaviour
         
         if (leftHit && rightHit)
         {
-            // Calculate the average normal
             Vector3 averageNormal = (leftSlopeHit.normal + rightSlopeHit.normal).normalized;
 
-            // Calculate the desired rotation
-            Quaternion slopeRotation = Quaternion.FromToRotation(transform.up, averageNormal) * transform.rotation;
+            // stores perpendicular angle into targetRotation
+            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, averageNormal) * transform.rotation;
             
             // Lerp to the desired rotation
-            transform.rotation = Quaternion.Slerp(transform.rotation, slopeRotation, Time.fixedDeltaTime * orientToSlopeSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * orientToSlopeSpeed);
         }
     }
 

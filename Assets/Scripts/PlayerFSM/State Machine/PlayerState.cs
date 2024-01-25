@@ -20,8 +20,6 @@ public class PlayerState
     public virtual void LogicUpdate() { }
     
     public virtual void PhysicsUpdate() { }
-    
-    public virtual void HandleInput() { }
 
     public virtual void StateTriggerEnter(Collider other) { }
     

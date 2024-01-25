@@ -36,11 +36,6 @@ public class PlayerAirborneState : PlayerState
         player.TurnPlayer();
     }
     
-    public override void HandleInput()
-    {
-        base.HandleInput();
-    }
-    
     public override void StateTriggerEnter(Collider other)
     {
         base.StateTriggerEnter(other);
