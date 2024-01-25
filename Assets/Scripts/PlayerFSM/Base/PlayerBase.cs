@@ -15,6 +15,7 @@ public class PlayerBase : MonoBehaviour
     // Components
     private Rigidbody rb;
     [SerializeField] private Transform playerModel;
+    [SerializeField] private Transform raycastPoint;
     
     // Movement values
     [Header("Movement Values")]
@@ -38,9 +39,6 @@ public class PlayerBase : MonoBehaviour
 
     [SerializeField] private float slopedUpSpeedMultipler, slopedDownSpeedMultipler;
     
-    [Header("Ground Detection")]
-    [SerializeField] private Transform boxPos;
-    [SerializeField] private Vector3 boxSize;
     
     //state machine
     private PlayerStateMachine stateMachine;
@@ -160,15 +158,7 @@ public class PlayerBase : MonoBehaviour
     RaycastHit leftSlopeHit, rightSlopeHit;
     public void OrientToSlope()
     {
-        // Define points on either side of the skateboard
-        Vector3 leftRayOrigin = transform.position - transform.forward * slopeRayOffsetFromMid;
-        Vector3 rightRayOrigin = transform.position + transform.forward * slopeRayOffsetFromMid;
-
-        // Perform raycasts from the defined points
-        bool leftHit = Physics.Raycast(leftRayOrigin, -transform.up, out leftSlopeHit, slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
-        bool rightHit = Physics.Raycast(rightRayOrigin, -transform.up, out rightSlopeHit, slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
-        
-        if (leftHit && rightHit)
+        if (CheckGround())
         {
             Vector3 averageNormal = (leftSlopeHit.normal + rightSlopeHit.normal).normalized;
 
@@ -200,15 +190,19 @@ public class PlayerBase : MonoBehaviour
 
     public bool CheckGround()
     {
-        return Physics.CheckBox(boxPos.position, boxSize, transform.rotation, 1 << LayerMask.NameToLayer("Ground"));
+        Vector3 leftRayOrigin = raycastPoint.position - transform.forward * slopeRayOffsetFromMid;
+        Vector3 rightRayOrigin = raycastPoint.position + transform.forward * slopeRayOffsetFromMid;
+        bool leftHit = Physics.Raycast(leftRayOrigin, -transform.up, out leftSlopeHit, slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
+        bool rightHit = Physics.Raycast(rightRayOrigin, -transform.up, out rightSlopeHit, slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
+        
+        return leftHit && rightHit;
     }
     
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position - transform.forward * slopeRayOffsetFromMid, leftSlopeHit.point);
-        Gizmos.DrawLine(transform.position + transform.forward * slopeRayOffsetFromMid, rightSlopeHit.point);
-        Gizmos.DrawWireCube(boxPos.position, boxSize/2);
+        Gizmos.DrawLine(raycastPoint.position - transform.forward * slopeRayOffsetFromMid, leftSlopeHit.point);
+        Gizmos.DrawLine(raycastPoint.position + transform.forward * slopeRayOffsetFromMid, rightSlopeHit.point);
 
     }
 

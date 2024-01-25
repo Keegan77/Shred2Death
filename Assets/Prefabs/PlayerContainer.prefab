@@ -32,7 +32,39 @@ Transform:
   - {fileID: 4169387329316167113}
   - {fileID: 4090211598274385946}
   - {fileID: 3779690081086414861}
+  - {fileID: 2341217886238384527}
   m_Father: {fileID: 748665993148016211}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &626903134854946602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2341217886238384527}
+  m_Layer: 0
+  m_Name: RaycastOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2341217886238384527
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626903134854946602}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4350162463001390448}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &848204589974686075
 GameObject:
@@ -46,7 +78,7 @@ GameObject:
   - component: {fileID: 4905201871642626357}
   - component: {fileID: 1263664992890487036}
   m_Layer: 0
-  m_Name: Wheel1 (2)
+  m_Name: Wheel2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,7 +161,7 @@ GameObject:
   - component: {fileID: 570110652124587295}
   - component: {fileID: 4632683987449584167}
   m_Layer: 0
-  m_Name: Wheel1 (3)
+  m_Name: Wheel4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,7 +278,7 @@ GameObject:
   - component: {fileID: 4169387329316167113}
   - component: {fileID: 1748483324275875062}
   - component: {fileID: 1420146154179825933}
-  - component: {fileID: 3396102419017586646}
+  - component: {fileID: 3174234850440950114}
   m_Layer: 0
   m_Name: Skateboard
   m_TagString: Untagged
@@ -320,8 +352,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3396102419017586646
-BoxCollider:
+--- !u!136 &3174234850440950114
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -338,9 +370,11 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.9595624, y: 2, z: 1}
-  m_Center: {x: 0.47978103, y: -3.5527137e-15, z: 0}
+  serializedVersion: 2
+  m_Radius: 0.32
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: -0.0000009536743, y: 0, z: 0}
 --- !u!1 &2492268264195870200
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,7 +486,7 @@ Transform:
   m_GameObject: {fileID: 8088672281678487563}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.02, y: 4.480989, z: 0.02}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -511,7 +545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerModel: {fileID: 4350162463001390448}
-  moveInput: {x: 0, y: 0}
+  raycastPoint: {fileID: 2341217886238384527}
   baseMovementSpeed: 100
   deAccelerationSpeed: 0.05
   turnSharpness: 300
@@ -521,10 +555,7 @@ MonoBehaviour:
   slopeRayOffsetFromMid: 0.79
   slopeRangeWherePlayerCantMove: {x: 80, y: 100}
   slopedUpSpeedMultipler: 2
-  slopedDownSpeedMultipler: 4
-  boxPos: {fileID: 3779690081086414861}
-  boxSize: {x: 3.58, y: 0.29, z: 3.4}
-  groundricks: {fileID: 0}
+  slopedDownSpeedMultipler: 2
 --- !u!1 &8202567677476445447
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,7 +581,7 @@ Transform:
   m_GameObject: {fileID: 8202567677476445447}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.977, z: 0}
+  m_LocalPosition: {x: 0, y: -2.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -568,7 +599,7 @@ GameObject:
   - component: {fileID: 878488846815559800}
   - component: {fileID: 7668513053293202521}
   m_Layer: 0
-  m_Name: Wheel1 (1)
+  m_Name: Wheel3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
