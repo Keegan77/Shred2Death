@@ -19,8 +19,8 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private Collider skateboardCollider;
     [SerializeField] private Transform playerModel;
     [SerializeField] private Transform raycastPoint;
-    private SplineComputer currentSpline;
-    private double splineCompletionPercent;
+    public SplineComputer currentSpline;
+    public double splineCompletionPercent;
     
     // Movement values
     [Header("Movement Values")]
@@ -231,7 +231,7 @@ public class PlayerBase : MonoBehaviour
         splineCompletionPercent = splineHitPoint.percent;
     }
 
-    public void GrindOnRail()
+    /*public void GrindOnRail()
     {
         
         splineCompletionPercent += Time.deltaTime * baseGrindingSpeed / currentSpline.CalculateLength();
@@ -244,7 +244,7 @@ public class PlayerBase : MonoBehaviour
         {
             splineCompletionPercent = 0;
         }
-    }
+    }*/
 
     public void SetRBKinematic(bool isKinematic)
     {
