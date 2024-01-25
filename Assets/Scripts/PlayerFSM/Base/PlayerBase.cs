@@ -58,6 +58,11 @@ public class PlayerBase : MonoBehaviour
     
     float jumpInput;
 
+    private void Start ()
+    {
+        Enemy_State.playerObject = gameObject;
+    }
+
     private void Awake()
     {
         
