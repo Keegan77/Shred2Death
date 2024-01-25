@@ -1,3 +1,5 @@
+using System;
+using Dreamteck.Splines;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
@@ -14,13 +16,24 @@ public class PlayerBase : MonoBehaviour
 {
     // Components
     private Rigidbody rb;
+    [SerializeField] private Collider skateboardCollider;
     [SerializeField] private Transform playerModel;
     [SerializeField] private Transform raycastPoint;
+    private SplineComputer currentSpline;
+    private double splineCompletionPercent;
     
     // Movement values
     [Header("Movement Values")]
     [SerializeField] float baseMovementSpeed;
 
+    
+
+    [Header("Grind Values")]
+    [SerializeField] private float baseGrindingSpeed;
+
+    [SerializeField] private float grindPositionOffset;
+    [SerializeField] private float grindSampleSmoothing;
+    
     private float movementSpeed;
     [Range(0, 1)]
     [SerializeField] float deAccelerationSpeed;
@@ -46,7 +59,7 @@ public class PlayerBase : MonoBehaviour
     public PlayerSkatingState skatingState;
     public PlayerAirborneState airborneState;
     public PlayerHalfpipeState halfPipeState;
-    
+    public PlayerGrindState grindState;
     
     
     float jumpInput;
@@ -65,6 +78,7 @@ public class PlayerBase : MonoBehaviour
         skatingState = new PlayerSkatingState(this, stateMachine);
         airborneState = new PlayerAirborneState(this, stateMachine);
         halfPipeState = new PlayerHalfpipeState(this, stateMachine);
+        grindState = new PlayerGrindState(this, stateMachine);
         stateMachine.Init(skatingState);
     }
 
@@ -205,13 +219,38 @@ public class PlayerBase : MonoBehaviour
         Gizmos.DrawLine(raycastPoint.position + transform.forward * slopeRayOffsetFromMid, rightSlopeHit.point);
 
     }
-
     private void OnTriggerEnter(Collider other)
     {
         stateMachine.currentState.StateTriggerEnter(other);
         
     }
+    
+    public void SetCurrentSpline(SplineComputer spline, SplineSample splineHitPoint)
+    {
+        currentSpline = spline;
+        splineCompletionPercent = splineHitPoint.percent;
+    }
 
+    public void GrindOnRail()
+    {
+        
+        splineCompletionPercent += Time.deltaTime * baseGrindingSpeed / currentSpline.CalculateLength();
+        SplineSample sample = currentSpline.Evaluate(splineCompletionPercent, SplineComputer.EvaluateMode.Cached);
+        transform.position = Vector3.Lerp(transform.position, sample.position + (Vector3.up * grindPositionOffset), Time.deltaTime * grindSampleSmoothing);
+        //transform.position = sample.position + (Vector3.up * grindPositionOffset);
+        //transform.rotation = sample.rotation;
+        
+        if (splineCompletionPercent >= .99f)
+        {
+            splineCompletionPercent = 0;
+        }
+    }
+
+    public void SetRBKinematic(bool isKinematic)
+    {
+        rb.isKinematic = isKinematic;
+    }
+    
     private void OnTriggerStay(Collider other)
     {
         stateMachine.currentState.StateTriggerStay(other);
@@ -220,5 +259,10 @@ public class PlayerBase : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         stateMachine.currentState.StateTriggerExit(other);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        stateMachine.currentState.StateCollisionEnter(other);
     }
 }

@@ -27,5 +27,7 @@ public class PlayerState
     
     public virtual void StateTriggerStay(Collider other) { }
     
+    public virtual void StateCollisionEnter(Collision other) { } 
+    
     
 }
