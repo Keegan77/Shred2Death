@@ -79,6 +79,9 @@ public class WaveManager : MonoBehaviour
             e.event_Close ();
             yield return e.eventDelay ();
         }
+
+        areaComplete = true;
+        areaEnabled = false;
     }
 
     //Instantiate Enemies at fixed intervals
