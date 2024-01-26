@@ -7,16 +7,6 @@ public class PlayerHalfpipeState : PlayerState
     public PlayerHalfpipeState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
     }
-
-    public override void Enter()
-    {
-        base.Enter();
-    }
-    
-    public override void Exit()
-    {
-        base.Exit();
-    }
     
     public override void LogicUpdate()
     {
@@ -33,16 +23,6 @@ public class PlayerHalfpipeState : PlayerState
         base.PhysicsUpdate();
         player.HalfPipeAirBehaviour();
         player.TurnPlayer();
-    }
-    
-    public override void HandleInput()
-    {
-        base.HandleInput();
-    }
-    
-    public override void StateTriggerEnter(Collider other)
-    {
-        base.StateTriggerEnter(other);
     }
     
     public override void StateTriggerExit(Collider other)

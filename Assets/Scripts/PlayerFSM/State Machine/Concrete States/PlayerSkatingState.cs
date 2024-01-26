@@ -34,12 +34,7 @@ public class PlayerSkatingState : PlayerState
         player.SkateForward();
         player.DeAccelerate();
         player.OrientToSlope();
-        if (player.moveInput.y != 0) player.TurnPlayer();
-    }
-    
-    public override void HandleInput()
-    {
-        base.HandleInput();
+        if (InputRouting.Instance.GetMoveInput().y != 0) player.TurnPlayer();
     }
     
     public override void StateTriggerEnter(Collider other)

@@ -20,14 +20,14 @@ public class PlayerState
     public virtual void LogicUpdate() { }
     
     public virtual void PhysicsUpdate() { }
-    
-    public virtual void HandleInput() { }
 
     public virtual void StateTriggerEnter(Collider other) { }
     
     public virtual void StateTriggerExit(Collider other) { }
     
     public virtual void StateTriggerStay(Collider other) { }
+    
+    public virtual void StateCollisionEnter(Collision other) { } 
     
     
 }
