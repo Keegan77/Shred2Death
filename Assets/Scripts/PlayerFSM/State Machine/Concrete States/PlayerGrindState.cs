@@ -11,10 +11,22 @@ public class PlayerGrindState : PlayerState
     
     public override void Enter()
     {
+        InputRouting.Instance.input.Player.Jump.performed += ctx => JumpOffRail();
         base.Enter();
         player.StartCoroutine(SetUpSplineFollower());
     }
-    
+    public override void Exit()
+    {
+        InputRouting.Instance.input.Player.Jump.performed -= ctx => JumpOffRail();
+    }
+
+    private void JumpOffRail()
+    {
+        sFollower.enabled = false;
+        player.SetRBKinematic(false);
+        player.OllieJump();
+        stateMachine.SwitchState(player.airborneState);
+    }
     //coroutine for setting up the spline follower
     IEnumerator SetUpSplineFollower()
     {
