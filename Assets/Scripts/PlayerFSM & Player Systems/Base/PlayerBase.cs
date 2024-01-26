@@ -22,6 +22,9 @@ public class PlayerBase : MonoBehaviour
     private float movementSpeed;
     private float turnSharpness;
     
+    //caching the move input that was held when drift started
+    
+    
     //state machine
     private PlayerStateMachine stateMachine;
     //concrete states
@@ -44,7 +47,6 @@ public class PlayerBase : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.LogicUpdate();
-        //Debug.Log(rb.velocity.magnitude);
     }
     
     private void FixedUpdate()
@@ -137,6 +139,12 @@ public class PlayerBase : MonoBehaviour
     {
         inputTurningTransform.Rotate(0, turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 0, Space.Self);
     }
+
+   
+    float current, target;
+
+
+
     
     private void CalculateSpeedVector()
     {

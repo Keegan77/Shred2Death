@@ -18,6 +18,8 @@ public class PlayerData : ScriptableObject
     [Header("Drifting Values")] 
     public float baseDriftForce;
     public float baseDriftTurnSharpness;
+    [Tooltip("Used as the T parameter while lerping the drift transform to 90 or 270")]
+    public float playerModelRotationSpeed;
     
     [Header("Slope Orientation Settings")]
     public float slopeOrientationSpeed;

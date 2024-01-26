@@ -8,6 +8,7 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
     
     public Input input { get; private set; }
     private Vector2 moveInput;
+    private bool driftHeld;
     private void Awake()
     {
         if (Instance == null)
@@ -30,14 +31,27 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
     {
         return moveInput;
     }
-    
+    public bool GetDriftInput()
+    {
+        if (moveInput.x != 0)
+        {
+            return driftHeld;
+        }
+        else return false;
+
+    }
     private void OnEnable()
     {
         input.Enable();
+        //drift input should be true if the value is 1
+        input.Player.Drift.performed += ctx => driftHeld = true;
+        input.Player.Drift.canceled += ctx => driftHeld = false;
     }
 
     private void OnDisable()
     {
         input.Disable();
+        input.Player.Drift.performed -= ctx => driftHeld = true;
+        input.Player.Drift.canceled -= ctx => driftHeld = false;
     }
 }

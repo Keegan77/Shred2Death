@@ -26,6 +26,12 @@ public class PlayerSkatingState : PlayerState
         {
             stateMachine.SwitchState(player.airborneState);
         }
+
+        if (InputRouting.Instance.GetDriftInput())
+        {
+            
+            stateMachine.SwitchState(player.driftState);
+        }
     }
     
     public override void PhysicsUpdate()
