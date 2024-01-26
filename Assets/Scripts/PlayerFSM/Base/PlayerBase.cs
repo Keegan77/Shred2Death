@@ -135,10 +135,13 @@ public class PlayerBase : MonoBehaviour
         // too steep.
     }
 
-    private void OllieJump(InputAction.CallbackContext ctx)
+    public void OllieJump()
     {
         Debug.Log("jump");
-        if (CheckGround()) rb.AddRelativeForce(transform.up * jumpForce, ForceMode.Impulse);
+        if (CheckGround())
+        {
+            rb.AddRelativeForce(transform.up * jumpForce, ForceMode.Impulse);
+        }
     }
     
     public void HalfPipeAirBehaviour()
@@ -276,12 +279,12 @@ public class PlayerBase : MonoBehaviour
     
     private void OnEnable()
     {
-        InputRouting.Instance.input.Player.Jump.performed += ctx => OllieJump(ctx);
+        InputRouting.Instance.input.Player.Jump.performed += ctx => OllieJump();
     }
 
     private void OnDisable()
     {
-        InputRouting.Instance.input.Player.Jump.performed -= ctx => OllieJump(ctx);
+        InputRouting.Instance.input.Player.Jump.performed -= ctx => OllieJump();
     }
     
 }
