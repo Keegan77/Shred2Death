@@ -12,25 +12,14 @@ public class PlayerGrindState : PlayerState
     
     public override void Enter()
     {
-        InputRouting.Instance.input.Player.Jump.performed += ctx => JumpOffRail();
         base.Enter();
         player.StartCoroutine(SetUpSplineFollower());
     }
     public override void Exit()
     {
-        InputRouting.Instance.input.Player.Jump.performed -= ctx => JumpOffRail();
     }
 
-    private void JumpOffRail()
-    {
-        var speed = sFollower.followSpeed;
-        sFollower.enabled = false;
-        player.SetRBKinematic(false);
-        GameObject.Destroy(sFollower);
-        player.rb.AddForce(player.transform.forward * speed * 100);
-        player.rb.AddForce(Vector3.up * 5);
-        stateMachine.SwitchState(player.airborneState);
-    }
+
     //coroutine for setting up the spline follower
     IEnumerator SetUpSplineFollower()
     {
@@ -39,7 +28,7 @@ public class PlayerGrindState : PlayerState
         sFollower.spline = player.GetCurrentSpline();
         sFollower.followMode = SplineFollower.FollowMode.Uniform;
         sFollower.updateMethod = SplineFollower.UpdateMethod.Update;
-        sFollower.followSpeed = 10;
+        sFollower.followSpeed = player.GetCurrentSpeed();
         sFollower.wrapMode = SplineFollower.Wrap.Default;
         sFollower.autoStartPosition = false;
         sFollower.SetClipRange(player.GetSplineCompletionPercent(), 1);
@@ -52,7 +41,6 @@ public class PlayerGrindState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        Debug.Log(sFollower.GetPercent());
     }
     
     public override void PhysicsUpdate()

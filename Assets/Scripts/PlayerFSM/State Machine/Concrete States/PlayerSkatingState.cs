@@ -21,7 +21,7 @@ public class PlayerSkatingState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-
+        
         if (!player.CheckGround())
         {
             stateMachine.SwitchState(player.airborneState);
@@ -31,6 +31,7 @@ public class PlayerSkatingState : PlayerState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        player.CalculateTurnSharpness();
         player.SkateForward();
         player.DeAccelerate();
         player.OrientToSlope();

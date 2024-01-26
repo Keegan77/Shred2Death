@@ -2,6 +2,7 @@ using System;
 using Dreamteck.Splines;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 //README
@@ -37,7 +38,8 @@ public class PlayerBase : MonoBehaviour
     private float movementSpeed;
     [Range(0, 1)]
     [SerializeField] float deAccelerationSpeed;
-    [SerializeField] float turnSharpness;
+    [SerializeField] float baseTurnSharpness;
+    private float turnSharpness;
     [SerializeField] float jumpForce;
     
     //Slope values
@@ -74,6 +76,7 @@ public class PlayerBase : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.LogicUpdate();
+        //Debug.Log(rb.velocity.magnitude);
     }
     
     private void FixedUpdate()
@@ -135,10 +138,22 @@ public class PlayerBase : MonoBehaviour
     public void OllieJump()
     {
         Debug.Log("jump");
+        JumpOffRail();
         if (CheckGround())
         {
             rb.AddRelativeForce(transform.up * jumpForce, ForceMode.Impulse);
         }
+    }
+    
+    private void JumpOffRail()
+    {
+        if (stateMachine.currentState != grindState) return;
+        var speed = GetComponent<SplineFollower>().followSpeed;
+        SetRBKinematic(false);
+        GameObject.Destroy(GetComponent<SplineFollower>());
+        rb.AddForce(transform.forward * speed * 100);
+        rb.AddForce(Vector3.up * 20);
+        stateMachine.SwitchState(airborneState);
     }
     
     public void HalfPipeAirBehaviour()
@@ -171,6 +186,14 @@ public class PlayerBase : MonoBehaviour
         
         movementSpeed = baseMovementSpeed + offset;
         //Debug.Log(movementSpeed);
+    }
+
+    public void CalculateTurnSharpness()
+    {
+        if (rb.velocity.magnitude < 20) turnSharpness = baseTurnSharpness;
+        else
+        turnSharpness = baseTurnSharpness / (rb.velocity.magnitude / 15);
+        Debug.Log(turnSharpness);
     }
     
     RaycastHit leftSlopeHit, rightSlopeHit;
@@ -254,6 +277,11 @@ public class PlayerBase : MonoBehaviour
         bool rightHit = Physics.Raycast(rightRayOrigin, -transform.up, out rightSlopeHit, slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
         
         return leftHit && rightHit;
+    }
+
+    public float GetCurrentSpeed()
+    {
+        return rb.velocity.magnitude;
     }
 
 
