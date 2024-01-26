@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using Dreamteck.Splines;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -22,16 +23,18 @@ public class PlayerGrindState : PlayerState
 
     private void JumpOffRail()
     {
+        var speed = sFollower.followSpeed;
         sFollower.enabled = false;
         player.SetRBKinematic(false);
-        player.OllieJump();
+        GameObject.Destroy(sFollower);
+        player.rb.AddForce(player.transform.forward * speed * 100);
+        player.rb.AddForce(Vector3.up * 5);
         stateMachine.SwitchState(player.airborneState);
     }
     //coroutine for setting up the spline follower
     IEnumerator SetUpSplineFollower()
     {
-        sFollower = player.sFollower;
-        player.SetSplineFollowerActive(true);
+        sFollower = player.AddComponent<SplineFollower>();
         sFollower.motion.offset = new Vector2(0, player.grindPositionOffset);
         sFollower.spline = player.GetCurrentSpline();
         sFollower.followMode = SplineFollower.FollowMode.Uniform;

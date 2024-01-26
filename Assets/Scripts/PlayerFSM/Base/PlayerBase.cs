@@ -15,13 +15,12 @@ using UnityEngine;
 public class PlayerBase : MonoBehaviour
 {
     // Components
-    private Rigidbody rb;
+    public Rigidbody rb;
     [SerializeField] private Collider skateboardCollider;
     [SerializeField] private Transform playerModel;
     [SerializeField] private Transform raycastPoint;
     private SplineComputer currentSpline;
     private double splineCompletionPercent;
-    public SplineFollower sFollower;
     
     // Movement values
     [Header("Movement Values")]
@@ -68,8 +67,6 @@ public class PlayerBase : MonoBehaviour
 #region Unity Abstracted Methods
     private void Awake()
     {
-        sFollower = GetComponent<SplineFollower>();
-        sFollower.enabled = false;
         rb = GetComponent<Rigidbody>();
         StateMachineSetup();
     }
@@ -100,7 +97,7 @@ public class PlayerBase : MonoBehaviour
         stateMachine.currentState.StateTriggerExit(other);
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnCollisionStay(Collision other)
     {
         stateMachine.currentState.StateCollisionEnter(other);
     }
@@ -213,10 +210,6 @@ public class PlayerBase : MonoBehaviour
 #endregion
 
 #region Grinding
-    public void SetSplineFollowerActive(bool isActive)
-    {
-        sFollower.enabled = isActive;
-    }
 
 #endregion
 
