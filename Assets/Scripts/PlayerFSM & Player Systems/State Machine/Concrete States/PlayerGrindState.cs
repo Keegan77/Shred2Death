@@ -24,7 +24,7 @@ public class PlayerGrindState : PlayerState
     IEnumerator SetUpSplineFollower()
     {
         sFollower = player.AddComponent<SplineFollower>();
-        sFollower.motion.offset = new Vector2(0, player.grindPositionOffset);
+        sFollower.motion.offset = new Vector2(0, player.playerData.grindPositioningOffset);
         sFollower.spline = player.GetCurrentSpline();
         sFollower.followMode = SplineFollower.FollowMode.Uniform;
         sFollower.updateMethod = SplineFollower.UpdateMethod.Update;
