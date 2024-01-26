@@ -6,15 +6,30 @@ using UnityEngine;
 [Serializable]
 public class Wave
 {
-    [Serializable] class Row
+    [Serializable] public class Row
     {
-        [SerializeField] GameObject enemy;
-        [SerializeField] int count = 1;
+        public GameObject enemy;
+        public int count = 1;
+        public float interval = 1.0f;
     }
 
     [SerializeField]
     Row[] enemies;
     
+    public Row[] getEnemies ()
+    {
+        return enemies;
+    }
 
-    //EnemyCount()
+    public int getEnemyCount ()
+    {
+        int c = 0;
+
+        foreach (Row r in enemies)
+        {
+            c += r.count;
+        }
+
+        return c;
+    }
 }

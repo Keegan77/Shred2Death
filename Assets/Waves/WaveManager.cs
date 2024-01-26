@@ -7,6 +7,19 @@ public class WaveManager : MonoBehaviour
 {
     #region PARAMETERS
 
+    [Header ("Events")]
+
+    //A list of things that can happen when the encounter starts.
+    //It's most commonly going to be closing the gates,
+    //but we can leave the door open for other things to happen.
+    [SerializeField]
+    Wave_Event[] openingEvents;
+
+    //As with the opening events, these are things that happen when the arena is completed.
+    [SerializeField]
+    Wave_Event[] closingEvents;
+
+    [Header("Waves")]
     [SerializeField] Wave[] waves;
 
     #endregion
@@ -24,6 +37,14 @@ public class WaveManager : MonoBehaviour
     #endregion
 
 
+    #region SETUP
+    private void Start ()
+    {
+        //Run a check to see if any of the waves are wrong (0 enemies, or no prefab)
+
+    }
+
+    #endregion
 
     private void OnTriggerEnter (Collider other)
     {
@@ -31,18 +52,37 @@ public class WaveManager : MonoBehaviour
         {
             Debug.Log ("Player has entered the arena");
 
-            //Begin the wave
+            StartCoroutine (beginEncounter ());
         }
     }
 
-    private void Start ()
+    
+    IEnumerator beginEncounter ()
     {
-        //Run a check to see if any of the waves are wrong (0 enemies, or no prefab)
+        //Play the opening events of the arena
+        foreach (Wave_Event e in openingEvents)
+        {
+            e.event_Open ();
+            yield return e.eventDelay ();
+        }
 
+        //Once the opening events are complete, begin the first wave
+        StartCoroutine(playWave ());
     }
 
     //Instantiate Enemies at fixed intervals
         //When each of those enemies spawn, have them move to enter the arena.
+    IEnumerator playWave ()
+    {
+        Debug.Log("Beginning wave" + currentWave + "With " + waves[currentWave].getEnemyCount() + " enmies");
+
+        foreach (Wave.Row row in waves[currentWave].getEnemies())
+        {
+            Debug.Log (row);
+        }
+
+        yield return new WaitForSeconds (1);
+    }
 
     //Each time an enemy dies, take count of the current wave
         //if its empty move on to the next wave
