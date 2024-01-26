@@ -64,6 +64,9 @@ public class PlayerAirborneState : PlayerState
         {
             // Project the player's position onto the spline
             SplineSample hitPoint = hitSpline.Project(player.transform.position);
+            Debug.Log("Player position: " + player.transform.position);
+            Debug.Log("Hit point: " + hitPoint.position);
+            Debug.Log("Hit point percent: " + hitPoint.percent);
             player.SetCurrentSpline(hitSpline, hitPoint);
             stateMachine.SwitchState(player.grindState);
         }

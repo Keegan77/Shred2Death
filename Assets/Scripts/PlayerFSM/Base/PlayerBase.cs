@@ -19,8 +19,9 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private Collider skateboardCollider;
     [SerializeField] private Transform playerModel;
     [SerializeField] private Transform raycastPoint;
-    public SplineComputer currentSpline;
-    public double splineCompletionPercent;
+    private SplineComputer currentSpline;
+    private double splineCompletionPercent;
+    public SplineFollower sFollower;
     
     // Movement values
     [Header("Movement Values")]
@@ -31,7 +32,7 @@ public class PlayerBase : MonoBehaviour
     [Header("Grind Values")]
     [SerializeField] private float baseGrindingSpeed;
 
-    [SerializeField] private float grindPositionOffset;
+    public float grindPositionOffset;
     [SerializeField] private float grindSampleSmoothing;
     
     private float movementSpeed;
@@ -66,10 +67,16 @@ public class PlayerBase : MonoBehaviour
 
     private void Awake()
     {
-        
+        sFollower = GetComponent<SplineFollower>();
+        sFollower.enabled = false;
         rb = GetComponent<Rigidbody>();
         StateMachineSetup();
             
+    }
+    
+    public void SetSplineFollowerActive(bool isActive)
+    {
+        sFollower.enabled = isActive;
     }
 
     private void StateMachineSetup()
@@ -229,6 +236,17 @@ public class PlayerBase : MonoBehaviour
     {
         currentSpline = spline;
         splineCompletionPercent = splineHitPoint.percent;
+    }
+
+    public SplineComputer GetCurrentSpline()
+    {
+        return currentSpline;
+    }
+    
+    public double GetSplineCompletionPercent()
+    {
+        return splineCompletionPercent;
+        //splineCompletionPercent = currentSpline.Project(transform.position).percent;
     }
 
     /*public void GrindOnRail()

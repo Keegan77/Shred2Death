@@ -12,20 +12,32 @@ public class PlayerGrindState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        player.SetRBKinematic(true);
-        sFollower = player.AddComponent<SplineFollower>();
-        sFollower.spline = player.currentSpline;
+        player.StartCoroutine(SetUpSplineFollower());
+    }
+    
+    //coroutine for setting up the spline follower
+    IEnumerator SetUpSplineFollower()
+    {
+        sFollower = player.sFollower;
+        player.SetSplineFollowerActive(true);
+        sFollower.motion.offset = new Vector2(0, player.grindPositionOffset);
+        sFollower.spline = player.GetCurrentSpline();
         sFollower.followMode = SplineFollower.FollowMode.Uniform;
         sFollower.updateMethod = SplineFollower.UpdateMethod.Update;
         sFollower.followSpeed = 10;
+        sFollower.wrapMode = SplineFollower.Wrap.Default;
+        sFollower.autoStartPosition = false;
+        sFollower.SetClipRange(player.GetSplineCompletionPercent(), 1);
+        
+        yield return new WaitUntil(() => sFollower.GetPercent() == 1);
+        sFollower.SetClipRange(0, 1);
         sFollower.wrapMode = SplineFollower.Wrap.Loop;
-        sFollower.SetPercent(player.splineCompletionPercent);
+        Debug.Log(sFollower.GetPercent());
     }
-    
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-
+        Debug.Log(sFollower.GetPercent());
     }
     
     public override void PhysicsUpdate()
