@@ -128,6 +128,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1594708829622345937, guid: 207108fb796d56542a36b891f8d27842, type: 3}
   m_PrefabInstance: {fileID: 241620234}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &95876536 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7092624352909132715, guid: 65dc3dc83cada7046a83c012bb0e5efe, type: 3}
+  m_PrefabInstance: {fileID: 168735701}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &168735701
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -296,18 +301,26 @@ PrefabInstance:
       objectReference: {fileID: 1685353297}
     - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
       propertyPath: waves.Array.data[0].enemies.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
       propertyPath: waves.Array.data[1].enemies.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
       propertyPath: waves.Array.data[0].enemies.Array.data[0].count
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
       propertyPath: waves.Array.data[0].enemies.Array.data[0].enemy
+      value: 
+      objectReference: {fileID: 2021591513531018249, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[0].enemies.Array.data[1].count
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[0].enemies.Array.data[1].enemy
       value: 
       objectReference: {fileID: 2021591513531018249, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
     - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
@@ -318,6 +331,58 @@ PrefabInstance:
       propertyPath: waves.Array.data[1].enemies.Array.data[0].enemy
       value: 
       objectReference: {fileID: 2021591513531018249, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[1].enemies.Array.data[1].count
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[1].enemies.Array.data[1].enemy
+      value: 
+      objectReference: {fileID: 2021591513531018249, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[0].enemies.Array.data[0].interval
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[0].enemies.Array.data[1].interval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[1].enemies.Array.data[0].interval
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[1].enemies.Array.data[1].interval
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[0].enemies.Array.data[0].spawnDelay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[0].enemies.Array.data[0].spawnPoint
+      value: 
+      objectReference: {fileID: 95876536}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[0].enemies.Array.data[1].spawnDelay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[0].enemies.Array.data[1].spawnPoint
+      value: 
+      objectReference: {fileID: 1212316836}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[1].enemies.Array.data[0].spawnPoint
+      value: 
+      objectReference: {fileID: 95876536}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[1].enemies.Array.data[1].spawnDelay
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445278122947217617, guid: 207108fb796d56542a36b891f8d27842, type: 3}
+      propertyPath: waves.Array.data[1].enemies.Array.data[1].spawnPoint
+      value: 
+      objectReference: {fileID: 1212316836}
     - target: {fileID: 8570381167990265751, guid: 207108fb796d56542a36b891f8d27842, type: 3}
       propertyPath: m_Name
       value: WaveManager
@@ -1270,6 +1335,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1212316836 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7092624352909132715, guid: 65dc3dc83cada7046a83c012bb0e5efe, type: 3}
+  m_PrefabInstance: {fileID: 1995916864}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1685353296 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8570381167990265751, guid: 207108fb796d56542a36b891f8d27842, type: 3}
@@ -1287,7 +1357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8f7f57a990f74a853cd2083860b97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventTime: 0
+  eventTime: 2
   Doors:
   - {fileID: 1941647929}
   - {fileID: 746917641}
@@ -1950,9 +2020,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 4.160652
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.8115654, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
