@@ -18,6 +18,10 @@ public class PlayerData : ScriptableObject
     [Header("Drifting Values")] 
     public float baseDriftForce;
     public float baseDriftTurnSharpness;
+    [Tooltip("Amount of rotation applied to the player model during a drift.")]
+    public float driftRotationalOffset;
+
+    public float driftBoostAmount;
     [Tooltip("Used as the T parameter while lerping the drift transform to 90 or 270")]
     public float playerModelRotationSpeed;
     

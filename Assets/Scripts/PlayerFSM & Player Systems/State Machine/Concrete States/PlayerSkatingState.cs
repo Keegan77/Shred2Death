@@ -27,7 +27,7 @@ public class PlayerSkatingState : PlayerState
             stateMachine.SwitchState(player.airborneState);
         }
 
-        if (InputRouting.Instance.GetDriftInput())
+        if (InputRouting.Instance.GetDriftInput(alsoCheckForMoveInput:true))
         {
             
             stateMachine.SwitchState(player.driftState);

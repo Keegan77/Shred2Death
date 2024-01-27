@@ -31,13 +31,16 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
     {
         return moveInput;
     }
-    public bool GetDriftInput()
+    public bool GetDriftInput(bool alsoCheckForMoveInput = false)
     {
-        if (moveInput.x != 0)
+        if (alsoCheckForMoveInput)
         {
-            return driftHeld;
+            if (moveInput.x != 0)
+                return driftHeld;
+            else return false;
         }
-        else return false;
+        else return driftHeld;
+
 
     }
     private void OnEnable()

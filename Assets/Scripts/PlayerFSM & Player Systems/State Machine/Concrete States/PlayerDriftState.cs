@@ -9,17 +9,20 @@ public class PlayerDriftState : PlayerState
     {
     }
 
-    private Vector3 cachedRotation;
+    private float rotationAmount;
+    private bool currentlyRotating;
+    private bool exitQueued;
     private float current, target;
     private float driftDirection; // -1 is left, 1 is right, 0 means no drift occurs
     public override void Enter()
     {
         base.Enter();
+        rotationAmount = player.playerData.driftRotationalOffset;
+        exitQueued = false;
         driftDirection = Mathf.Sign(InputRouting.Instance.GetMoveInput().x);
-        cachedRotation = player.playerModelTransform.localEulerAngles;
         current = 0;
         target = 1;
-        player.StartCoroutine(LerpDriftingTransform());
+        player.StartCoroutine(DriftRotationY(player.playerModelTransform, driftDirection * rotationAmount, player.playerData.playerModelRotationSpeed));
     }
 
     public override void PhysicsUpdate()
@@ -29,34 +32,57 @@ public class PlayerDriftState : PlayerState
         player.OrientToSlope();
         player.DeAccelerate();
         
-        if (InputRouting.Instance.GetDriftInput() == false)
-        {
-            //stateMachine.SwitchState(player.skatingState); // will run the exit code
-        }
 
     }
     
+    public override void LogicUpdate()
+    {
+        base.LogicUpdate();
+        if (InputRouting.Instance.GetDriftInput() == false && !exitQueued)
+        {
+            exitQueued = true;
+        }
+        
+        if (exitQueued && !currentlyRotating)
+        {
+            stateMachine.SwitchState(player.skatingState); // will run the exit code
+        }
+    }
     public void Drift()
     {
         DriftTurnPlayer();
         DriftForce();
-        //LerpDriftingTransform();
     }
     
     public override void Exit()
     {
         base.Exit();
-        //player.inputTurningTransform.rotation = player.playerModelTransform.rotation;
-        //player.playerModelTransform.localEulerAngles = cachedRotation;
+        player.StartCoroutine(DriftRotationY(player.playerModelTransform, 0, 
+            player.playerData.playerModelRotationSpeed));
+        player.StartCoroutine(DriftRotationY(player.inputTurningTransform, player.inputTurningTransform.localEulerAngles.y + rotationAmount * driftDirection,
+            player.playerData.playerModelRotationSpeed, true));
+        
+        
     }
-    
-    private IEnumerator LerpDriftingTransform()
+    private IEnumerator DriftRotationY(Transform transformToRotate, float targetYValue, float rotationSpeed, bool addForce = false)
     {
-        current = Mathf.MoveTowards(current, target, Time.fixedDeltaTime * player.playerData.playerModelRotationSpeed);
-        while (current != 1)
+        Quaternion startRotation = transformToRotate.localRotation;
+        Quaternion targetRotation = Quaternion.Euler(0, targetYValue, 0);
+        current = 0;
+        currentlyRotating = true;
+        
+        while (current < 1)
         {
-            player.playerModelTransform.localEulerAngles = Vector3.Lerp(player.playerModelTransform.localEulerAngles, new Vector3(0, 90, 0), current);
+            current += Time.fixedDeltaTime * rotationSpeed;
+            transformToRotate.localRotation = Quaternion.Lerp(startRotation, targetRotation, current);
+            
             yield return null;
+        }
+
+        currentlyRotating = false;
+        if (addForce)
+        {
+            player.rb.AddForce(transformToRotate.forward * player.playerData.driftBoostAmount, ForceMode.Impulse);
         }
     }
     

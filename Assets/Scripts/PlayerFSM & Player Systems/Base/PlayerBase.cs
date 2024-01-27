@@ -99,7 +99,7 @@ public class PlayerBase : MonoBehaviour
         if (Mathf.Abs(zRotation) > playerData.slopeRangeWherePlayerCantMove.x  &&
             Mathf.Abs(zRotation) < playerData.slopeRangeWherePlayerCantMove.y) return;
             
-        rb.AddForce(inputTurningTransform.forward * (movementSpeed * InputRouting.Instance.GetMoveInput().y), ForceMode.Acceleration); // Only adds force if
+        rb.AddForce(inputTurningTransform.forward * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0 ? InputRouting.Instance.GetMoveInput().y : 0)), ForceMode.Acceleration); // Only adds force if
         // the player is not
         // on a slope that is
         // too steep.
@@ -139,12 +139,6 @@ public class PlayerBase : MonoBehaviour
     {
         inputTurningTransform.Rotate(0, turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 0, Space.Self);
     }
-
-   
-    float current, target;
-
-
-
     
     private void CalculateSpeedVector()
     {
@@ -167,8 +161,7 @@ public class PlayerBase : MonoBehaviour
     public void CalculateTurnSharpness()
     {
         if (rb.velocity.magnitude < 20) turnSharpness = playerData.baseTurnSharpness;
-        else
-        turnSharpness = playerData.baseTurnSharpness / (rb.velocity.magnitude / 15);
+        else turnSharpness = playerData.baseTurnSharpness / (rb.velocity.magnitude / 15);
     }
     
     RaycastHit leftSlopeHit, rightSlopeHit;
