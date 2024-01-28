@@ -22,6 +22,10 @@ public class PlayerData : ScriptableObject
     public float driftRotationalOffset;
 
     public float driftBoostAmount;
+    
+    [Tooltip("Pressing Left or Right while in a drift will increase or decrease the " +
+             "sharpness of the drift by this amount")]
+    public float inputExtraDriftTurnSharpness;
     [Tooltip("Used as the T parameter while lerping the drift transform to 90 or 270")]
     public float playerModelRotationSpeed;
     

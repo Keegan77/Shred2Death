@@ -51,7 +51,7 @@ public class PlayerDriftState : PlayerState
     public void Drift()
     {
         DriftTurnPlayer();
-        DriftForce();
+        if (player.CheckGround()) DriftForce();
     }
     
     public override void Exit()
@@ -86,9 +86,23 @@ public class PlayerDriftState : PlayerState
         }
     }
     
+    private float CalculateTurnSharpness()
+    {
+        float currentInputDirection = InputRouting.Instance.GetMoveInput().x;
+        if (currentInputDirection == 0)
+        {
+            return 0;
+        }
+        
+        float extraSharpness = player.playerData.inputExtraDriftTurnSharpness * InputRouting.Instance.GetMoveInput().x;
+
+        return extraSharpness * driftDirection;
+
+    }
+    
     private void DriftTurnPlayer()
     {
-        player.inputTurningTransform.Rotate(0, player.playerData.baseDriftTurnSharpness * driftDirection * Time.fixedDeltaTime, 0, Space.Self);
+        player.inputTurningTransform.Rotate(0, (player.playerData.baseDriftTurnSharpness + CalculateTurnSharpness()) * driftDirection * Time.fixedDeltaTime, 0, Space.Self);
     }
     
     private void DriftForce()
