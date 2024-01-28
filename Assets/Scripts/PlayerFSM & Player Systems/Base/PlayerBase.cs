@@ -92,12 +92,16 @@ public class PlayerBase : MonoBehaviour
             
         float xRotation = TranslateEulersToRange180(transform.rotation.eulerAngles.x);
         float zRotation = TranslateEulersToRange180(transform.rotation.eulerAngles.z);
-            
-            
-        if (Mathf.Abs(xRotation) > playerData.slopeRangeWherePlayerCantMove.x &&
-            Mathf.Abs(xRotation) < playerData.slopeRangeWherePlayerCantMove.y) return;
-        if (Mathf.Abs(zRotation) > playerData.slopeRangeWherePlayerCantMove.x  &&
-            Mathf.Abs(zRotation) < playerData.slopeRangeWherePlayerCantMove.y) return;
+
+
+        if (rb.velocity.y > 0)
+        {
+            if (Mathf.Abs(xRotation) > playerData.slopeRangeWherePlayerCantMove.x &&
+                Mathf.Abs(xRotation) < playerData.slopeRangeWherePlayerCantMove.y) return;
+            if (Mathf.Abs(zRotation) > playerData.slopeRangeWherePlayerCantMove.x  &&
+                Mathf.Abs(zRotation) < playerData.slopeRangeWherePlayerCantMove.y) return;
+        } // If the player is on a slope that is too steep, don't add force
+        
             
         rb.AddForce(inputTurningTransform.forward * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0 ? InputRouting.Instance.GetMoveInput().y : 0)), ForceMode.Acceleration); // Only adds force if
         // the player is not
