@@ -132,7 +132,17 @@ public class PlayerBase : MonoBehaviour
     
     public void HalfPipeAirBehaviour()
     {
-        rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        Vector3 worldVelocity = rb.velocity;
+
+        // converts the world velocity to local velocity
+        Vector3 localVelocity = transform.InverseTransformDirection(worldVelocity);
+        
+        localVelocity.y = 0;
+
+        // converts the modified local velocity back to world space
+        Vector3 newWorldVelocity = transform.TransformDirection(localVelocity);
+        
+        rb.velocity = newWorldVelocity;
     }
     
     /// <summary>
