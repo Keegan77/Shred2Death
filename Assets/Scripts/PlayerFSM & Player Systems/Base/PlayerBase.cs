@@ -2,56 +2,27 @@ using System;
 using Dreamteck.Splines;
 using UnityEngine.InputSystem;
 using UnityEngine;
-
-
-//README
-// This script affects rotation values for two transforms. The parent transform is used for slope orientation, while
-// the child transform is used for turning the player, and it's also used to get the player's correct forward direction, which is used for the forward force,
-// which is applied to the RB. as affected by the parent transform. This is done to achieve the desired effect of the player model
-// rotating perpendicularly to the slope, while the player's forward direction is based on the parent transform's
-// forward direction.
+using UnityEngine.Serialization;
 
 
 public class PlayerBase : MonoBehaviour
 {
-    // Components
-    private Rigidbody rb;
+    [Header("Component References")]
+    public Rigidbody rb;
     [SerializeField] private Collider skateboardCollider;
-    [SerializeField] private Transform playerModel;
+    public Transform inputTurningTransform, playerModelTransform;
     [SerializeField] private Transform raycastPoint;
     private SplineComputer currentSpline;
     private double splineCompletionPercent;
-    public SplineFollower sFollower;
     
-    // Movement values
-    [Header("Movement Values")]
-    [SerializeField] float baseMovementSpeed;
-
-    
-
-    [Header("Grind Values")]
-    [SerializeField] private float baseGrindingSpeed;
-
-    public float grindPositionOffset;
-    [SerializeField] private float grindSampleSmoothing;
-    
+    //Player Data
+    [Header("Player Data")] [Tooltip("Holds all of the player's base movement values.")]
+    public PlayerData playerData;
+    //Variables which hold calculated values based on their base constants.
     private float movementSpeed;
-    [Range(0, 1)]
-    [SerializeField] float deAccelerationSpeed;
-    [SerializeField] float turnSharpness;
-    [SerializeField] float jumpForce;
+    private float turnSharpness;
     
-    //Slope values
-    [Header("Slope Values")]
-    
-    [SerializeField] private float orientToSlopeSpeed;
-    [SerializeField] private float slopeDetectionDistance;
-    [Tooltip("The distance from the center of the player to the left and right raycast origins. These are used to detect the slope.")]
-    [SerializeField] private float slopeRayOffsetFromMid;
-    [Tooltip("X is min, Y is max. If the slope is within this range, the player will not be able to exert a forward force. Used for preventing the player from using forward force up slopes that are too steep")]
-    [SerializeField] private Vector2 slopeRangeWherePlayerCantMove;
-
-    [SerializeField] private float slopedUpSpeedMultipler, slopedDownSpeedMultipler;
+    //caching the move input that was held when drift started
     
     
     //state machine
@@ -61,6 +32,7 @@ public class PlayerBase : MonoBehaviour
     public PlayerAirborneState airborneState;
     public PlayerHalfpipeState halfPipeState;
     public PlayerGrindState grindState;
+    public PlayerDriftState driftState;
     
     
     float jumpInput;
@@ -68,8 +40,6 @@ public class PlayerBase : MonoBehaviour
 #region Unity Abstracted Methods
     private void Awake()
     {
-        sFollower = GetComponent<SplineFollower>();
-        sFollower.enabled = false;
         rb = GetComponent<Rigidbody>();
         StateMachineSetup();
     }
@@ -100,7 +70,7 @@ public class PlayerBase : MonoBehaviour
         stateMachine.currentState.StateTriggerExit(other);
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnCollisionStay(Collision other)
     {
         stateMachine.currentState.StateCollisionEnter(other);
     }
@@ -108,8 +78,8 @@ public class PlayerBase : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(raycastPoint.position - transform.forward * slopeRayOffsetFromMid, leftSlopeHit.point);
-        Gizmos.DrawLine(raycastPoint.position + transform.forward * slopeRayOffsetFromMid, rightSlopeHit.point);
+        Gizmos.DrawLine(raycastPoint.position - transform.forward * playerData.slopeRayOffsetFromMid, leftSlopeHit.point);
+        Gizmos.DrawLine(raycastPoint.position + transform.forward * playerData.slopeRayOffsetFromMid, rightSlopeHit.point);
 
     }
     
@@ -122,14 +92,18 @@ public class PlayerBase : MonoBehaviour
             
         float xRotation = TranslateEulersToRange180(transform.rotation.eulerAngles.x);
         float zRotation = TranslateEulersToRange180(transform.rotation.eulerAngles.z);
+
+
+        if (rb.velocity.y > 0)
+        {
+            if (Mathf.Abs(xRotation) > playerData.slopeRangeWherePlayerCantMove.x &&
+                Mathf.Abs(xRotation) < playerData.slopeRangeWherePlayerCantMove.y) return;
+            if (Mathf.Abs(zRotation) > playerData.slopeRangeWherePlayerCantMove.x  &&
+                Mathf.Abs(zRotation) < playerData.slopeRangeWherePlayerCantMove.y) return;
+        } // If the player is on a slope that is too steep, don't add force
+        
             
-            
-        if (Mathf.Abs(xRotation) > slopeRangeWherePlayerCantMove.x &&
-            Mathf.Abs(xRotation) < slopeRangeWherePlayerCantMove.y) return;
-        if (Mathf.Abs(zRotation) > slopeRangeWherePlayerCantMove.x  &&
-            Mathf.Abs(zRotation) < slopeRangeWherePlayerCantMove.y) return;
-            
-        rb.AddForce(playerModel.forward * (movementSpeed * InputRouting.Instance.GetMoveInput().y), ForceMode.Acceleration); // Only adds force if
+        rb.AddForce(inputTurningTransform.forward * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0 ? InputRouting.Instance.GetMoveInput().y : 0)), ForceMode.Acceleration); // Only adds force if
         // the player is not
         // on a slope that is
         // too steep.
@@ -138,15 +112,37 @@ public class PlayerBase : MonoBehaviour
     public void OllieJump()
     {
         Debug.Log("jump");
+        JumpOffRail();
         if (CheckGround())
         {
-            rb.AddRelativeForce(transform.up * jumpForce, ForceMode.Impulse);
+            rb.AddRelativeForce(transform.up * playerData.baseJumpForce, ForceMode.Impulse);
         }
+    }
+    
+    private void JumpOffRail()
+    {
+        if (stateMachine.currentState != grindState) return;
+        var speed = GetComponent<SplineFollower>().followSpeed;
+        SetRBKinematic(false);
+        GameObject.Destroy(GetComponent<SplineFollower>());
+        rb.AddForce(transform.forward * speed * 100);
+        rb.AddForce(Vector3.up * 20);
+        stateMachine.SwitchState(airborneState);
     }
     
     public void HalfPipeAirBehaviour()
     {
-        rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        Vector3 worldVelocity = rb.velocity;
+
+        // converts the world velocity to local velocity
+        Vector3 localVelocity = transform.InverseTransformDirection(worldVelocity);
+        
+        localVelocity.y = 0;
+
+        // converts the modified local velocity back to world space
+        Vector3 newWorldVelocity = transform.TransformDirection(localVelocity);
+        
+        rb.velocity = newWorldVelocity;
     }
     
     /// <summary>
@@ -155,7 +151,7 @@ public class PlayerBase : MonoBehaviour
     /// </summary>
     public void TurnPlayer() // Rotates the PLAYER MODEL TRANSFORM. We must work with 2 transforms to achieve the desired effect.
     {
-        playerModel.transform.Rotate(0, turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 0, Space.Self);
+        inputTurningTransform.Rotate(0, turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 0, Space.Self);
     }
     
     private void CalculateSpeedVector()
@@ -164,16 +160,22 @@ public class PlayerBase : MonoBehaviour
         
         if (rb.velocity.y > 0)
         {
-            offset = -rb.velocity.y * slopedUpSpeedMultipler;
+            offset = -rb.velocity.y * playerData.slopedUpSpeedMult;
         }
         else if (rb.velocity.y < 0)
         {
-            offset = rb.velocity.y / slopedDownSpeedMultipler;
+            offset = rb.velocity.y / playerData.slopedDownSpeedMult;
         }
         // Get the rotation around the x-axis, ranging from -90 to 90
         
-        movementSpeed = baseMovementSpeed + offset;
+        movementSpeed = playerData.baseMovementSpeed + offset;
         //Debug.Log(movementSpeed);
+    }
+
+    public void CalculateTurnSharpness()
+    {
+        if (rb.velocity.magnitude < 20) turnSharpness = playerData.baseTurnSharpness;
+        else turnSharpness = playerData.baseTurnSharpness / (rb.velocity.magnitude / 15);
     }
     
     RaycastHit leftSlopeHit, rightSlopeHit;
@@ -187,7 +189,7 @@ public class PlayerBase : MonoBehaviour
             Quaternion targetRotation = Quaternion.FromToRotation(transform.up, averageNormal) * transform.rotation;
             
             // Lerp to the desired rotation
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * orientToSlopeSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * playerData.slopeOrientationSpeed);
         }
     }
 
@@ -206,17 +208,13 @@ public class PlayerBase : MonoBehaviour
     /// </summary>
     public void DeAccelerate() // Add Force feels too floaty, used on every frame to counteract the force.
     {
-        rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, rb.velocity.y, 0), deAccelerationSpeed);
+        rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, rb.velocity.y, 0), playerData.deAccelerationSpeed);
     }
 
 
 #endregion
 
 #region Grinding
-    public void SetSplineFollowerActive(bool isActive)
-    {
-        sFollower.enabled = isActive;
-    }
 
 #endregion
 
@@ -255,13 +253,23 @@ public class PlayerBase : MonoBehaviour
     
     public bool CheckGround()
     {
-        Vector3 leftRayOrigin = raycastPoint.position - transform.forward * slopeRayOffsetFromMid;
-        Vector3 rightRayOrigin = raycastPoint.position + transform.forward * slopeRayOffsetFromMid;
-        bool leftHit = Physics.Raycast(leftRayOrigin, -transform.up, out leftSlopeHit, slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
-        bool rightHit = Physics.Raycast(rightRayOrigin, -transform.up, out rightSlopeHit, slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
+        Vector3 leftRayOrigin = raycastPoint.position - transform.forward * playerData.slopeRayOffsetFromMid;
+        Vector3 rightRayOrigin = raycastPoint.position + transform.forward * playerData.slopeRayOffsetFromMid;
+        bool leftHit = Physics.Raycast(leftRayOrigin, -transform.up, out leftSlopeHit, playerData.slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
+        bool rightHit = Physics.Raycast(rightRayOrigin, -transform.up, out rightSlopeHit, playerData.slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
         
         return leftHit && rightHit;
     }
+
+    public float GetCurrentSpeed()
+    {
+        return rb.velocity.magnitude;
+    }
+
+
+#endregion
+
+#region Drifting
 
 
 #endregion
@@ -274,6 +282,7 @@ public class PlayerBase : MonoBehaviour
         airborneState = new PlayerAirborneState(this, stateMachine);
         halfPipeState = new PlayerHalfpipeState(this, stateMachine);
         grindState = new PlayerGrindState(this, stateMachine);
+        driftState = new PlayerDriftState(this, stateMachine);
         stateMachine.Init(skatingState);
     }
     

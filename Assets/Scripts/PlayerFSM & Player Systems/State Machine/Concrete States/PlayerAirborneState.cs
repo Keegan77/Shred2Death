@@ -60,7 +60,7 @@ public class PlayerAirborneState : PlayerState
     public override void StateCollisionEnter(Collision other)
     {
         base.StateCollisionEnter(other);
-        if (other.gameObject.TryGetComponent<SplineComputer>(out SplineComputer hitSpline))
+        if (other.gameObject.TryGetComponent<SplineComputer>(out SplineComputer hitSpline) && player.rb.velocity.y < 0)
         {
             // Project the player's position onto the spline
             SplineSample hitPoint = hitSpline.Project(player.transform.position);
@@ -69,6 +69,7 @@ public class PlayerAirborneState : PlayerState
             Debug.Log("Hit point percent: " + hitPoint.percent);
             player.SetCurrentSpline(hitSpline, hitPoint);
             stateMachine.SwitchState(player.grindState);
+            
         }
     }
 }

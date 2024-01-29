@@ -21,16 +21,23 @@ public class PlayerSkatingState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-
+        
         if (!player.CheckGround())
         {
             stateMachine.SwitchState(player.airborneState);
+        }
+
+        if (InputRouting.Instance.GetDriftInput(alsoCheckForMoveInput:true))
+        {
+            
+            stateMachine.SwitchState(player.driftState);
         }
     }
     
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        player.CalculateTurnSharpness();
         player.SkateForward();
         player.DeAccelerate();
         player.OrientToSlope();
