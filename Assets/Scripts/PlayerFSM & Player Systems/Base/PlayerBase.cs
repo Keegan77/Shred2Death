@@ -26,7 +26,7 @@ public class PlayerBase : MonoBehaviour
     
     
     //state machine
-    private PlayerStateMachine stateMachine;
+    public PlayerStateMachine stateMachine { get; private set; }
     //concrete states
     public PlayerSkatingState skatingState;
     public PlayerAirborneState airborneState;
@@ -57,7 +57,6 @@ public class PlayerBase : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         stateMachine.currentState.StateTriggerEnter(other);
-        
     }
     
     private void OnTriggerStay(Collider other)

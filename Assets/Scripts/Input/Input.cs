@@ -844,6 +844,138 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PlayerTricks"",
+            ""id"": ""49cb540d-a978-43d8-b694-c8e57ab5b2c2"",
+            ""actions"": [
+                {
+                    ""name"": ""JumpButtonTrick"",
+                    ""type"": ""Button"",
+                    ""id"": ""242fdf10-996c-49a0-bd40-62c9751fc814"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DPadTrick"",
+                    ""type"": ""Value"",
+                    ""id"": ""7564c043-9e63-4c82-b9da-85c299050c65"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LBumperTrick"",
+                    ""type"": ""Value"",
+                    ""id"": ""2b17ebd7-fb30-4b76-b23c-86becd11e853"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""RBumperTrick"",
+                    ""type"": ""Button"",
+                    ""id"": ""2c00a863-ad46-4ea3-97c0-80cd8ecaec39"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f4d497c0-face-4de6-906e-f11638754ba7"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""JumpButtonTrick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""5a00ca58-5b87-47fd-a2b0-4607ae9298ef"",
+                    ""path"": ""2DVector(mode=1)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DPadTrick"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""04ae577a-a1ab-49c1-b087-43bcbf7e76b3"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DPadTrick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""8b92488e-407a-4dac-853e-46f2d4a9ab0b"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DPadTrick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""5e07ff43-b10a-4e20-a0d2-16c55342d702"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DPadTrick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""cf277162-5fb4-4628-9578-fc3a871b80de"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DPadTrick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7d66e059-6b51-4bdf-b90d-5105b5002bcf"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LBumperTrick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""def1c00e-ce83-49b9-85a2-19cf733e1d1f"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RBumperTrick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -928,6 +1060,12 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // PlayerTricks
+        m_PlayerTricks = asset.FindActionMap("PlayerTricks", throwIfNotFound: true);
+        m_PlayerTricks_JumpButtonTrick = m_PlayerTricks.FindAction("JumpButtonTrick", throwIfNotFound: true);
+        m_PlayerTricks_DPadTrick = m_PlayerTricks.FindAction("DPadTrick", throwIfNotFound: true);
+        m_PlayerTricks_LBumperTrick = m_PlayerTricks.FindAction("LBumperTrick", throwIfNotFound: true);
+        m_PlayerTricks_RBumperTrick = m_PlayerTricks.FindAction("RBumperTrick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1181,6 +1319,76 @@ public partial class @Input: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // PlayerTricks
+    private readonly InputActionMap m_PlayerTricks;
+    private List<IPlayerTricksActions> m_PlayerTricksActionsCallbackInterfaces = new List<IPlayerTricksActions>();
+    private readonly InputAction m_PlayerTricks_JumpButtonTrick;
+    private readonly InputAction m_PlayerTricks_DPadTrick;
+    private readonly InputAction m_PlayerTricks_LBumperTrick;
+    private readonly InputAction m_PlayerTricks_RBumperTrick;
+    public struct PlayerTricksActions
+    {
+        private @Input m_Wrapper;
+        public PlayerTricksActions(@Input wrapper) { m_Wrapper = wrapper; }
+        public InputAction @JumpButtonTrick => m_Wrapper.m_PlayerTricks_JumpButtonTrick;
+        public InputAction @DPadTrick => m_Wrapper.m_PlayerTricks_DPadTrick;
+        public InputAction @LBumperTrick => m_Wrapper.m_PlayerTricks_LBumperTrick;
+        public InputAction @RBumperTrick => m_Wrapper.m_PlayerTricks_RBumperTrick;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerTricks; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerTricksActions set) { return set.Get(); }
+        public void AddCallbacks(IPlayerTricksActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PlayerTricksActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlayerTricksActionsCallbackInterfaces.Add(instance);
+            @JumpButtonTrick.started += instance.OnJumpButtonTrick;
+            @JumpButtonTrick.performed += instance.OnJumpButtonTrick;
+            @JumpButtonTrick.canceled += instance.OnJumpButtonTrick;
+            @DPadTrick.started += instance.OnDPadTrick;
+            @DPadTrick.performed += instance.OnDPadTrick;
+            @DPadTrick.canceled += instance.OnDPadTrick;
+            @LBumperTrick.started += instance.OnLBumperTrick;
+            @LBumperTrick.performed += instance.OnLBumperTrick;
+            @LBumperTrick.canceled += instance.OnLBumperTrick;
+            @RBumperTrick.started += instance.OnRBumperTrick;
+            @RBumperTrick.performed += instance.OnRBumperTrick;
+            @RBumperTrick.canceled += instance.OnRBumperTrick;
+        }
+
+        private void UnregisterCallbacks(IPlayerTricksActions instance)
+        {
+            @JumpButtonTrick.started -= instance.OnJumpButtonTrick;
+            @JumpButtonTrick.performed -= instance.OnJumpButtonTrick;
+            @JumpButtonTrick.canceled -= instance.OnJumpButtonTrick;
+            @DPadTrick.started -= instance.OnDPadTrick;
+            @DPadTrick.performed -= instance.OnDPadTrick;
+            @DPadTrick.canceled -= instance.OnDPadTrick;
+            @LBumperTrick.started -= instance.OnLBumperTrick;
+            @LBumperTrick.performed -= instance.OnLBumperTrick;
+            @LBumperTrick.canceled -= instance.OnLBumperTrick;
+            @RBumperTrick.started -= instance.OnRBumperTrick;
+            @RBumperTrick.performed -= instance.OnRBumperTrick;
+            @RBumperTrick.canceled -= instance.OnRBumperTrick;
+        }
+
+        public void RemoveCallbacks(IPlayerTricksActions instance)
+        {
+            if (m_Wrapper.m_PlayerTricksActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPlayerTricksActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PlayerTricksActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PlayerTricksActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PlayerTricksActions @PlayerTricks => new PlayerTricksActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1246,5 +1454,12 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    public interface IPlayerTricksActions
+    {
+        void OnJumpButtonTrick(InputAction.CallbackContext context);
+        void OnDPadTrick(InputAction.CallbackContext context);
+        void OnLBumperTrick(InputAction.CallbackContext context);
+        void OnRBumperTrick(InputAction.CallbackContext context);
     }
 }

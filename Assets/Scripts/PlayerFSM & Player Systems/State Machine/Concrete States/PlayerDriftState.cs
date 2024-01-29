@@ -92,8 +92,8 @@ public class PlayerDriftState : PlayerState
     {
         base.LogicUpdate();
         
-        if (InputRouting.Instance.GetDriftInput() == false && !exitQueued)
-        {
+        if (InputRouting.Instance.GetDriftInput() == false && !exitQueued) //canceling a drift input queues an exit
+        {                                                                  
             exitQueued = true;
         }
         
@@ -115,7 +115,6 @@ public class PlayerDriftState : PlayerState
             player.playerData.playerModelRotationSpeed));
         player.StartCoroutine(DriftRotationY(player.inputTurningTransform, player.inputTurningTransform.localEulerAngles.y + rotationAmount * driftDirection,
             player.playerData.playerModelRotationSpeed, true));
-        
         
     }
     

@@ -822,6 +822,138 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "PlayerTricks",
+            "id": "49cb540d-a978-43d8-b694-c8e57ab5b2c2",
+            "actions": [
+                {
+                    "name": "JumpButtonTrick",
+                    "type": "Button",
+                    "id": "242fdf10-996c-49a0-bd40-62c9751fc814",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DPadTrick",
+                    "type": "Value",
+                    "id": "7564c043-9e63-4c82-b9da-85c299050c65",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "LBumperTrick",
+                    "type": "Value",
+                    "id": "2b17ebd7-fb30-4b76-b23c-86becd11e853",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RBumperTrick",
+                    "type": "Button",
+                    "id": "2c00a863-ad46-4ea3-97c0-80cd8ecaec39",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f4d497c0-face-4de6-906e-f11638754ba7",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "JumpButtonTrick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "5a00ca58-5b87-47fd-a2b0-4607ae9298ef",
+                    "path": "2DVector(mode=1)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DPadTrick",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "04ae577a-a1ab-49c1-b087-43bcbf7e76b3",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DPadTrick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "8b92488e-407a-4dac-853e-46f2d4a9ab0b",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DPadTrick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "5e07ff43-b10a-4e20-a0d2-16c55342d702",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DPadTrick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "cf277162-5fb4-4628-9578-fc3a871b80de",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DPadTrick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "7d66e059-6b51-4bdf-b90d-5105b5002bcf",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LBumperTrick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "def1c00e-ce83-49b9-85a2-19cf733e1d1f",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RBumperTrick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
