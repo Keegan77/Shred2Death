@@ -6,21 +6,30 @@ using UnityEngine.InputSystem;
 
 public static class TrickMaps
 {
+    private static InputAction jumpTrick = InputRouting.Instance.input.PlayerTricks.JumpButtonTrick;
+    private static InputAction LBumperTrick = InputRouting.Instance.input.PlayerTricks.LBumperTrick;
+    private static InputAction RBumperTrick = InputRouting.Instance.input.PlayerTricks.RBumperTrick;
+    
+    private static InputAction DPadUP = InputRouting.Instance.input.PlayerTricks.DpadUP;
+    private static InputAction DPadDOWN = InputRouting.Instance.input.PlayerTricks.DpadDOWN;
+    private static InputAction DPadLEFT = InputRouting.Instance.input.PlayerTricks.DpadLEFT;
+    private static InputAction DPadRIGHT = InputRouting.Instance.input.PlayerTricks.DpadRIGHT;
+    
     #region Trick Creation
     //Skating Tricks
-    static Trick Ollie        = new Trick("Ollie", 100, InputRouting.Instance.input.PlayerTricks.JumpButtonTrick);
-    static Trick Kickflip     = new Trick("Kickflip", 100, InputRouting.Instance.input.PlayerTricks.DPadTrick);
-    static Trick PopShuvIt    = new Trick("PopShuvIt", 100, InputRouting.Instance.input.PlayerTricks.DPadTrick);
+    static Trick Ollie        = new Trick("Ollie", 100, jumpTrick);
+    static Trick Kickflip     = new Trick("Kickflip", 100, DPadRIGHT);
+    static Trick PopShuvIt    = new Trick("PopShuvIt", 100, DPadLEFT);
     
     //Grind Tricks
-    static Trick FiftyFifty   = new Trick("FiftyFifty", 100, InputRouting.Instance.input.PlayerTricks.DPadTrick);
-    static Trick FiveO        = new Trick("Five0", 100, InputRouting.Instance.input.PlayerTricks.DPadTrick);
-    static Trick BoardSlide   = new Trick("BoardSlide", 100, InputRouting.Instance.input.PlayerTricks.LBumperTrick);
+    static Trick FiftyFifty   = new Trick("FiftyFifty", 100, DPadRIGHT);
+    static Trick FiveO        = new Trick("Five0", 100, DPadLEFT);
+    static Trick BoardSlide   = new Trick("BoardSlide", 100, LBumperTrick);
     
     //Air Tricks
-    static Trick Backflip     = new Trick("Backflip", 100, InputRouting.Instance.input.PlayerTricks.DPadTrick);
-    static Trick NoseGrab     = new Trick("Nosegrab", 100, InputRouting.Instance.input.PlayerTricks.DPadTrick);
-    static Trick OneEighty    = new Trick("180", 100, InputRouting.Instance.input.PlayerTricks.RBumperTrick);
+    static Trick Backflip     = new Trick("Backflip", 100, DPadDOWN);
+    static Trick NoseGrab     = new Trick("Nosegrab", 100, DPadUP);
+    static Trick OneEighty    = new Trick("180", 100, RBumperTrick);
     #endregion
     
     

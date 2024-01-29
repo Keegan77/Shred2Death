@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerBase))]
 public class TrickHandler : MonoBehaviour
@@ -17,18 +18,19 @@ public class TrickHandler : MonoBehaviour
     private void Start()
     {
         currentTricks = TrickMaps.StateMap[player.stateMachine.currentState.GetType()];
-        PrintCurrentTrickNames();
+        SetUpTrickInputs();
+        //PrintCurrentTrickNames();
     }
 
     private void UpdateTrickList()
     {
+        DeleteTrickInputs(); // Unsubscribes from old trick inputs before setting new ones
         if (TrickMaps.StateMap.ContainsKey(player.stateMachine.currentState.GetType()))
         {
-            DeleteTrickInputs();
             currentTricks = TrickMaps.StateMap[player.stateMachine.currentState.GetType()];
-            SetUpTrickInputs();
+            SetUpTrickInputs(); // Subscribes to new trick inputs
             
-            PrintCurrentTrickNames();
+            //PrintCurrentTrickNames();
         }
         else
         {
@@ -37,12 +39,15 @@ public class TrickHandler : MonoBehaviour
         }
     }
 
+    private Dictionary<Trick, Action<InputAction.CallbackContext>> trickActions = new Dictionary<Trick, Action<InputAction.CallbackContext>>();
+
     private void SetUpTrickInputs()
     {
         foreach (var trick in currentTricks)
         {
-            //trick.trickAction.performed += ctx => player.anim.SetTrigger(trick.animTriggerName);
-            trick.trickAction.performed += ctx => DoTrick(trick);
+            Action<InputAction.CallbackContext> action = ctx => DoTrick(trick);
+            trick.trickAction.performed += action;
+            trickActions[trick] = action;
         }
     }
 
@@ -50,14 +55,17 @@ public class TrickHandler : MonoBehaviour
     {
         foreach (var trick in currentTricks)
         {
-            //trick.trickAction.performed -= ctx => player.anim.SetTrigger(trick.animTriggerName);
-            trick.trickAction.performed -= ctx => DoTrick(trick);
+            if (trickActions.TryGetValue(trick, out var action))
+            {
+                trick.trickAction.performed -= action;
+                trickActions.Remove(trick);
+            }
         }
     }
 
     private void DoTrick(Trick trick)
     {
-        throw new NotImplementedException();
+        Debug.Log($"Trick Performed: {trick.animTriggerName}");
     }
 
     private void PrintCurrentTrickNames()
@@ -76,5 +84,6 @@ public class TrickHandler : MonoBehaviour
     private void OnDisable()
     {
         ActionEvents.OnPlayerStateSwitch -= UpdateTrickList;
+        DeleteTrickInputs();
     }
 }
