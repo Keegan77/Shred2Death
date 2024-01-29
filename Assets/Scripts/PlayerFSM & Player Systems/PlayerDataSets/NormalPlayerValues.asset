@@ -21,9 +21,12 @@ MonoBehaviour:
   baseDriftForce: 100
   baseDriftTurnSharpness: 120
   driftRotationalOffset: 45
-  driftBoostAmount: 50
+  baseDriftBoost: 20
+  driftBoostAdditive: 15
   inputExtraDriftTurnSharpness: 50
   playerModelRotationSpeed: 0.5
+  lightDriftTime: 1
+  driftPhaseTime: 2
   slopeOrientationSpeed: 11
   slopeDetectionDistance: 2
   slopeRayOffsetFromMid: 0.8

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "PlayerData", menuName = "ScriptableObjects/PlayerDataSet")]
 public class PlayerData : ScriptableObject
@@ -20,18 +21,22 @@ public class PlayerData : ScriptableObject
     public float baseDriftTurnSharpness;
     [Tooltip("Amount of rotation applied to the player model during a drift.")]
     public float driftRotationalOffset;
-
-    public float driftBoostAmount;
-    
-    [Tooltip("Pressing Left or Right while in a drift will increase or decrease the " +
-             "sharpness of the drift by this amount")]
+    public float baseDriftBoost;
+    [Tooltip("Amount of boost added per consecutive drift phase")]
+    public float driftBoostAdditive;
+    [Tooltip("Pressing Left or Right while in a drift will increase or decrease the sharpness of the drift by this amount")]
     public float inputExtraDriftTurnSharpness;
     [Tooltip("Used as the T parameter while lerping the drift transform to 90 or 270")]
     public float playerModelRotationSpeed;
+
+    [Header("Drift Phase Timings")] 
+    [Tooltip("Amount of time in seconds before the drift will grant you a speed boost by sending you to the next drift phase")]
+    public float lightDriftTime;
+    [Tooltip("Amount of time in seconds before each drift boost phase will send you to the next drift phase")]
+    public float driftPhaseTime;
     
     [Header("Slope Orientation Settings")]
     public float slopeOrientationSpeed;
-
     public float slopeDetectionDistance;
     [Tooltip("The distance from the center of the player to the left and right raycast origins. These are used to detect the slope.")]
     public float slopeRayOffsetFromMid;
