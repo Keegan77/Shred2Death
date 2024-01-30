@@ -2,39 +2,38 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ES_MoveTowardsPoint : Enemy_State
 {
     [NonSerialized] public GameObject travelPoint;
+
     public override void Enter ()
     {
-        Debug.Log (gameObject + "Entering the arena.");
+        e.agent.SetDestination (travelPoint.transform.position);
+
+        e.agent.CalculatePath (travelPoint.transform.position, e.agentPath);
+
+    }
+
+    public override void Exit ()
+    {
+        e.agent.ResetPath ();
     }
 
     public override void machinePhysics ()
     {
-        Vector3 pointA = new Vector3 (travelPoint.transform.position.x, 0, travelPoint.transform.position.z);
-        Vector3 pointB = new Vector3 (transform.position.x, 0, transform.position.z);
+        Vector3 distanceToDestination = e.agent.destination - transform.position;
 
-        Vector3 direction = (pointA - pointB).normalized * e.movementSpeed;
-
-        //if you're not there yet, keep moving towards the entry point
-        if ((pointA - pointB).magnitude > 1)
+        if (distanceToDestination.magnitude <= e.agent.stoppingDistance)
         {
-            Vector3 newDirection = new Vector3
-            (
-            direction.x,
-            rb.velocity.y,
-            direction.y
-            );
-
-            rb.velocity = newDirection;
-        }
-
-        //Enemy is close enough to the entry point, change state to idle
-        else
-        {
-            transform.parent.GetComponent<Enemy_StateMachine> ().transitionState (GetComponent<ES_Idle> ());
+            e.stateMachine.transitionState (GetComponent<ES_Idle> ());
         }
     }
+
+    public override void onPlayerSensorActivated ()
+    {
+        e.stateMachine.transitionState (GetComponent<ES_Chase> ());
+    }
+
 }

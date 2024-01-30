@@ -59,12 +59,10 @@ public class Enemy_StateMachine : MonoBehaviour
     
     #region SETUP
 
-    private void Start ()
+    private void Awake ()
     {
         //currentState = initialState;
         statesObject = transform.Find ("States").gameObject;
-
-        transitionState (currentState);
     }
 
     #endregion

@@ -1,18 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ES_Chase : Enemy_State
 {
-    [SerializeField] Enemy_State returnState;
+    [SerializeField] float agentUpdateDistance = 4;
 
     public override void Enter ()
     {
-        base.Enter ();
-        Debug.Log ("Enemy has detected player and will begin chasing them");
+        e.agent.SetDestination (playerObject.transform.position);
     }
     public override void onPlayerSensorDeactivated ()
     {
-        transform.parent.GetComponent<Enemy_StateMachine> ().transitionState (returnState);
+        //transform.parent.GetComponent<Enemy_StateMachine> ().transitionState (returnState);
+        constantUpdate = false;
+    }
+
+    public override void onPlayerSensorActivated ()
+    {
+        constantUpdate = true;
+    }
+
+    //If the player goes too far from the destination point,
+    //calculate a new destination towards the player
+
+    bool constantUpdate = false;
+    public override void machinePhysics ()
+    {
+        Vector3 playerDestinationOffset = playerObject.transform.position - e.agent.destination;
+        
+        if (!constantUpdate && playerDestinationOffset.magnitude > agentUpdateDistance)
+        {
+            e.agent.SetDestination(playerObject.transform.position);
+            Debug.Log ("Resetting Path");
+        }
+
+        if (constantUpdate)
+        {
+            e.agent.SetDestination (playerObject.transform.position);
+        }
     }
 }

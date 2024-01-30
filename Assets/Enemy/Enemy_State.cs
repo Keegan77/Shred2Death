@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// States are the primary system to
@@ -11,13 +12,12 @@ public class Enemy_State : MonoBehaviour
 
     //States will control movement directly.
     //Rigidbody will be set in the start function
-    protected Rigidbody rb;
     protected Enemy e;
 
-    private void Start ()
+    #region STATE MACHINE
+    private void Awake ()
     {
         e = transform.parent.GetComponent<Enemy>();
-        rb = transform.parent.GetComponent<Rigidbody>();
     }
 
     public virtual void Enter ()
@@ -50,4 +50,12 @@ public class Enemy_State : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region NAVIGATION
+    public void EndPath ()
+    {
+        e.agentPath.ClearCorners ();
+    }
+    #endregion
 }
