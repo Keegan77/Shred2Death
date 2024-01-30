@@ -243,7 +243,7 @@ public class PlayerBase : MonoBehaviour
         bool leftHit = Physics.Raycast(leftRayOrigin, -playerModelTransform.up, out leftSlopeHit, playerData.slopeDetectionDistance, layerMask);
         bool rightHit = Physics.Raycast(rightRayOrigin, -playerModelTransform.up, out rightSlopeHit, playerData.slopeDetectionDistance, layerMask);
         
-        return leftHit && rightHit;
+        return leftHit || rightHit;
     }
 
     public float GetCurrentSpeed()
