@@ -43,15 +43,5 @@ public class PlayerSkatingState : PlayerState
         player.OrientToSlope();
         if (InputRouting.Instance.GetMoveInput().y != 0) player.TurnPlayer();
     }
-    
-    public override void StateTriggerEnter(Collider other)
-    {
-        base.StateTriggerEnter(other);
-    }
-    
-    public override void StateTriggerExit(Collider other)
-    {
-        base.StateTriggerExit(other);
-    }
 
 }

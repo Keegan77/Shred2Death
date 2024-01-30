@@ -26,7 +26,7 @@ public class PlayerBase : MonoBehaviour
     
     
     //state machine
-    private PlayerStateMachine stateMachine;
+    public PlayerStateMachine stateMachine { get; private set; }
     //concrete states
     public PlayerSkatingState skatingState;
     public PlayerAirborneState airborneState;
@@ -57,7 +57,6 @@ public class PlayerBase : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         stateMachine.currentState.StateTriggerEnter(other);
-        
     }
     
     private void OnTriggerStay(Collider other)
@@ -78,31 +77,31 @@ public class PlayerBase : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(raycastPoint.position - transform.forward * playerData.slopeRayOffsetFromMid, leftSlopeHit.point);
-        Gizmos.DrawLine(raycastPoint.position + transform.forward * playerData.slopeRayOffsetFromMid, rightSlopeHit.point);
+        Gizmos.DrawLine(raycastPoint.position - playerModelTransform.forward * playerData.slopeRayOffsetFromMid, leftSlopeHit.point);
+        Gizmos.DrawLine(raycastPoint.position + playerModelTransform.forward * playerData.slopeRayOffsetFromMid, rightSlopeHit.point);
 
     }
     
 #endregion
 
 #region Movement Methods
+
+    /// <summary>
+    /// Will exert a force forward if the player's slope isn't too steep. Meant to be used in FixedUpdate.
+    /// </summary>
     public void SkateForward()
     {
         CalculateSpeedVector();
-            
-        float xRotation = TranslateEulersToRange180(transform.rotation.eulerAngles.x);
-        float zRotation = TranslateEulersToRange180(transform.rotation.eulerAngles.z);
-
-
-        if (rb.velocity.y > 0)
-        {
-            if (Mathf.Abs(xRotation) > playerData.slopeRangeWherePlayerCantMove.x &&
-                Mathf.Abs(xRotation) < playerData.slopeRangeWherePlayerCantMove.y) return;
-            if (Mathf.Abs(zRotation) > playerData.slopeRangeWherePlayerCantMove.x  &&
-                Mathf.Abs(zRotation) < playerData.slopeRangeWherePlayerCantMove.y) return;
-        } // If the player is on a slope that is too steep, don't add force
         
-            
+        Vector2 maxSlopeRange = new Vector2(playerData.slopeRangeWherePlayerCantMove.x + 90, playerData.slopeRangeWherePlayerCantMove.y + 90);
+        
+        // calculates the angle between the player's forward direction and the world's down direction
+        float angleWithDownward = Vector3.Angle(inputTurningTransform.forward, Vector3.down);
+
+        bool isFacingUpward = angleWithDownward > maxSlopeRange.x && angleWithDownward < maxSlopeRange.y;
+        
+        if (isFacingUpward) return;
+        
         rb.AddForce(inputTurningTransform.forward * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0 ? InputRouting.Instance.GetMoveInput().y : 0)), ForceMode.Acceleration); // Only adds force if
         // the player is not
         // on a slope that is
@@ -111,7 +110,6 @@ public class PlayerBase : MonoBehaviour
 
     public void OllieJump()
     {
-        Debug.Log("jump");
         JumpOffRail();
         if (CheckGround())
         {
@@ -119,30 +117,15 @@ public class PlayerBase : MonoBehaviour
         }
     }
     
-    private void JumpOffRail()
+    private void JumpOffRail() // whole method is placeholder for testing
     {
         if (stateMachine.currentState != grindState) return;
         var speed = GetComponent<SplineFollower>().followSpeed;
         SetRBKinematic(false);
         GameObject.Destroy(GetComponent<SplineFollower>());
-        rb.AddForce(transform.forward * speed * 100);
+        rb.AddForce(transform.forward * speed * 100); 
         rb.AddForce(Vector3.up * 20);
         stateMachine.SwitchState(airborneState);
-    }
-    
-    public void HalfPipeAirBehaviour()
-    {
-        Vector3 worldVelocity = rb.velocity;
-
-        // converts the world velocity to local velocity
-        Vector3 localVelocity = transform.InverseTransformDirection(worldVelocity);
-        
-        localVelocity.y = 0;
-
-        // converts the modified local velocity back to world space
-        Vector3 newWorldVelocity = transform.TransformDirection(localVelocity);
-        
-        rb.velocity = newWorldVelocity;
     }
     
     /// <summary>
@@ -242,9 +225,10 @@ public class PlayerBase : MonoBehaviour
     }
     
     /// <summary>
+    /// [DEPRECATED: USE LOCALEULERANGLES INSTEAD]
     /// Translates eulerAngles from 0 - +360, to -180 - +180. Makes eulerAngles easier to work with, logically.
     /// Rotations should never be applied with this method, as it will cause weirdness. This is simply for getting
-    /// eulerAngle values in a range that makes sense.
+    /// eulerAngle values in a range that makes sense. 
     /// </summary>
     private float TranslateEulersToRange180(float eulerAngle)
     {
@@ -253,10 +237,10 @@ public class PlayerBase : MonoBehaviour
     
     public bool CheckGround()
     {
-        Vector3 leftRayOrigin = raycastPoint.position - transform.forward * playerData.slopeRayOffsetFromMid;
-        Vector3 rightRayOrigin = raycastPoint.position + transform.forward * playerData.slopeRayOffsetFromMid;
-        bool leftHit = Physics.Raycast(leftRayOrigin, -transform.up, out leftSlopeHit, playerData.slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
-        bool rightHit = Physics.Raycast(rightRayOrigin, -transform.up, out rightSlopeHit, playerData.slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
+        Vector3 leftRayOrigin = raycastPoint.position - playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
+        Vector3 rightRayOrigin = raycastPoint.position + playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
+        bool leftHit = Physics.Raycast(leftRayOrigin, -playerModelTransform.up, out leftSlopeHit, playerData.slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
+        bool rightHit = Physics.Raycast(rightRayOrigin, -playerModelTransform.up, out rightSlopeHit, playerData.slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
         
         return leftHit && rightHit;
     }
