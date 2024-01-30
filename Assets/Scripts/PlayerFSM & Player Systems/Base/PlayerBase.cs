@@ -77,8 +77,8 @@ public class PlayerBase : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(raycastPoint.position - transform.forward * playerData.slopeRayOffsetFromMid, leftSlopeHit.point);
-        Gizmos.DrawLine(raycastPoint.position + transform.forward * playerData.slopeRayOffsetFromMid, rightSlopeHit.point);
+        Gizmos.DrawLine(raycastPoint.position - playerModelTransform.forward * playerData.slopeRayOffsetFromMid, leftSlopeHit.point);
+        Gizmos.DrawLine(raycastPoint.position + playerModelTransform.forward * playerData.slopeRayOffsetFromMid, rightSlopeHit.point);
 
     }
     
@@ -237,10 +237,10 @@ public class PlayerBase : MonoBehaviour
     
     public bool CheckGround()
     {
-        Vector3 leftRayOrigin = raycastPoint.position - transform.forward * playerData.slopeRayOffsetFromMid;
-        Vector3 rightRayOrigin = raycastPoint.position + transform.forward * playerData.slopeRayOffsetFromMid;
-        bool leftHit = Physics.Raycast(leftRayOrigin, -transform.up, out leftSlopeHit, playerData.slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
-        bool rightHit = Physics.Raycast(rightRayOrigin, -transform.up, out rightSlopeHit, playerData.slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
+        Vector3 leftRayOrigin = raycastPoint.position - playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
+        Vector3 rightRayOrigin = raycastPoint.position + playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
+        bool leftHit = Physics.Raycast(leftRayOrigin, -playerModelTransform.up, out leftSlopeHit, playerData.slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
+        bool rightHit = Physics.Raycast(rightRayOrigin, -playerModelTransform.up, out rightSlopeHit, playerData.slopeDetectionDistance, 1 << LayerMask.NameToLayer("Ground"));
         
         return leftHit && rightHit;
     }

@@ -27,10 +27,10 @@ public static class TrickMaps
     static Trick BoardSlide   = new Trick("BoardSlide", 100, LBumperTrick);
     
     //Air Tricks
-    static Trick Backflip     = new Trick("Backflip", 100, DPadDOWN);
-    static Trick NoseGrab     = new Trick("Nosegrab", 100, DPadUP);
-    static Trick OneEighty    = new Trick("180", 100, RBumperTrick);
-    #endregion
+    static Trick Backflip     = new Trick("Backflip", 150, DPadDOWN);
+    static Trick NoseGrab     = new Trick("Nosegrab", 150, DPadUP);
+    static Trick OneEighty    = new Trick("180", 150, RBumperTrick);
+    #endregion // these tricks are just for testing, they will be replaced with real tricks later
     
     
     public static readonly Dictionary<Type, Trick[]> StateMap = new Dictionary<Type, Trick[]>
