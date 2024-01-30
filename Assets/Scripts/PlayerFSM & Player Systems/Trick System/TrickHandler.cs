@@ -65,6 +65,7 @@ public class TrickHandler : MonoBehaviour
 
     private void DoTrick(Trick trick)
     {
+        ActionEvents.OnTrickPerformed?.Invoke(trick);
         Debug.Log($"Trick Performed: {trick.animTriggerName}");
     }
 
