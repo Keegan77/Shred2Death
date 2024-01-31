@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Dreamteck.Splines;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAirborneState : PlayerState
@@ -35,21 +36,34 @@ public class PlayerAirborneState : PlayerState
         
         player.ReOrient();
         player.TurnPlayer();
+        AddAirForce();
+    }
+
+    private void AddAirForce()
+    {
+        Vector3 worldForward = player.inputTurningTransform.forward;
+        Vector3 localForward = player.inputTurningTransform.InverseTransformDirection(worldForward);
+        
+        localForward.x = 0;
+        localForward.y = 0;
+
+        Vector3 newWorldForward = player.inputTurningTransform.TransformDirection(localForward);
+        newWorldForward = newWorldForward.normalized;
+        
+        var forwardInput = InputRouting.Instance.GetMoveInput().y;
+        if (forwardInput < 0)
+        {
+            forwardInput = 0;
+        }
+        
+        player.rb.AddForce(newWorldForward * (player.playerData.airForwardForce * forwardInput), ForceMode.Acceleration);
+        
     }
     
     public override void StateTriggerEnter(Collider other)
     {
         base.StateTriggerEnter(other);
 
-    }
-    
-    public override void StateTriggerStay(Collider other)
-    {
-        base.StateTriggerStay(other);
-        if (other.CompareTag("Ramp90"))
-        {
-            //stateMachine.SwitchState(player.halfPipeState);
-        }
     }
     
     public override void StateTriggerExit(Collider other)

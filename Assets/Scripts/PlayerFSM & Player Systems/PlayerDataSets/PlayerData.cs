@@ -12,6 +12,8 @@ public class PlayerData : ScriptableObject
     public float baseTurnSharpness;
     public float deAccelerationSpeed;
 
+    [Header("Airborne Values (Non-Half Pipe)")]
+    public float airForwardForce;
     [Header("Grinding Values")]
     public float baseGrindingSpeed;
     public float grindPositioningOffset;
