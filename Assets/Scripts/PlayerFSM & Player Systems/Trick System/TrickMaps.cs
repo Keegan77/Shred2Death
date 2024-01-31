@@ -17,19 +17,19 @@ public static class TrickMaps
     
     #region Trick Creation
     //Skating Tricks
-    static Trick Ollie        = new Trick("Ollie", 100, jumpTrick);
-    static Trick Kickflip     = new Trick("Kickflip", 100, DPadRIGHT);
-    static Trick PopShuvIt    = new Trick("PopShuvIt", 100, DPadLEFT);
+    static Trick Ollie        = new Trick("Ollie", 80, jumpTrick);
+    static Trick Kickflip     = new Trick("Ollie", 80, DPadRIGHT);
+    static Trick PopShuvIt    = new Trick("Ollie", 80, DPadLEFT);
     
     //Grind Tricks
-    static Trick FiftyFifty   = new Trick("FiftyFifty", 100, DPadRIGHT);
-    static Trick FiveO        = new Trick("Five0", 100, DPadLEFT);
-    static Trick BoardSlide   = new Trick("BoardSlide", 100, LBumperTrick);
+    static Trick FiftyFifty   = new Trick("Ollie", 120, DPadRIGHT);
+    static Trick FiveO        = new Trick("Ollie", 120, DPadLEFT);
+    static Trick BoardSlide   = new Trick("Ollie", 120, LBumperTrick);
     
     //Air Tricks
-    static Trick Backflip     = new Trick("Backflip", 150, DPadDOWN);
-    static Trick NoseGrab     = new Trick("Nosegrab", 150, DPadUP);
-    static Trick OneEighty    = new Trick("180", 150, RBumperTrick);
+    static Trick Backflip     = new Trick("Ollie", 150, DPadDOWN);
+    static Trick NoseGrab     = new Trick("Ollie", 150, DPadUP);
+    static Trick OneEighty    = new Trick("Ollie", 150, RBumperTrick);
     #endregion // these tricks are just for testing, they will be replaced with real tricks later
     
     

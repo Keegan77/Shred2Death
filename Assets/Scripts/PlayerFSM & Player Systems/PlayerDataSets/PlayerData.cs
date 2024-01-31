@@ -43,6 +43,8 @@ public class PlayerData : ScriptableObject
     [Tooltip("X is min, Y is max. If the slope is within this range, the player will not be able to exert a forward force. Used for preventing the player from using forward force up slopes that are too steep")]
     public Vector2 slopeRangeWherePlayerCantMove;
 
+    public float airReOrientSpeed;
+
     public float slopedUpSpeedMult;
 
     public float slopedDownSpeedMult;
