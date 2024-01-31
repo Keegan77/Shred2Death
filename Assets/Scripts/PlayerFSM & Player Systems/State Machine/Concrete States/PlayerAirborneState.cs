@@ -48,7 +48,7 @@ public class PlayerAirborneState : PlayerState
         base.StateTriggerStay(other);
         if (other.CompareTag("Ramp90"))
         {
-            stateMachine.SwitchState(player.halfPipeState);
+            //stateMachine.SwitchState(player.halfPipeState);
         }
     }
     

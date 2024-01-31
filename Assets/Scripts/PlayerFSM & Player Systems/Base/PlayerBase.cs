@@ -96,8 +96,10 @@ public class PlayerBase : MonoBehaviour
         Vector2 maxSlopeRange = new Vector2(playerData.slopeRangeWherePlayerCantMove.x + 90, playerData.slopeRangeWherePlayerCantMove.y + 90);
         
         // calculates the angle between the player's forward direction and the world's down direction
-        float angleWithDownward = Vector3.Angle(inputTurningTransform.forward, Vector3.down);
+        float angleWithDownward = GetOrientationWithDownward();
 
+        //Debug.Log(angleWithDownward);
+        
         bool isFacingUpward = angleWithDownward > maxSlopeRange.x && angleWithDownward < maxSlopeRange.y;
         
         if (isFacingUpward) return;
@@ -182,7 +184,7 @@ public class PlayerBase : MonoBehaviour
     public void ReOrient()
     {
         Quaternion targetRotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 1f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * playerData.airReOrientSpeed);
     }
     
     /// <summary>
@@ -249,6 +251,11 @@ public class PlayerBase : MonoBehaviour
     public float GetCurrentSpeed()
     {
         return rb.velocity.magnitude;
+    }
+    
+    public float GetOrientationWithDownward()
+    {
+        return Vector3.Angle(inputTurningTransform.forward, Vector3.down);
     }
 
 

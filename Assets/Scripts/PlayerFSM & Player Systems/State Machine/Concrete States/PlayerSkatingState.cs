@@ -22,7 +22,10 @@ public class PlayerSkatingState : PlayerState
     {
         base.LogicUpdate();
         
-        if (!player.CheckGround())
+        if (player.GetOrientationWithDownward() > 140 && player.GetOrientationWithDownward() < 190)
+        {
+            if (!player.CheckGround()) stateMachine.SwitchState(player.halfPipeState);
+        } else if (!player.CheckGround())
         {
             stateMachine.SwitchState(player.airborneState);
         }
