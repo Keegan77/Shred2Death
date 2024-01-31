@@ -13,6 +13,13 @@ public class ES_Idle : Enemy_State
     [SerializeField] float wanderPlayerBias = 5; //offset the search area towards the player
     [SerializeField] float wanderSearchIterations = 25;
     [SerializeField] float wanderStayTime;
+
+
+    //Using this to find where unity is searching
+    Vector3 debugPoint;
+    Vector3 debugPointCorner;
+    Vector3 debugPointPlayer;
+    Vector3 debugPointSearch;
     public override void Enter ()
     {
         //if(SetWanderPoint (out wanderResult))
@@ -47,6 +54,15 @@ public class ES_Idle : Enemy_State
             StartCoroutine (WanderTimer());
         }
 
+    }
+
+    public override void machineUpdate ()
+    {
+        base.machineUpdate ();
+        Debug.DrawLine (debugPoint, debugPoint + new Vector3(0, 5, 0), Color.red);
+        Debug.DrawLine (debugPointCorner, debugPointCorner + new Vector3 (0, 5, 0), Color.green);
+        Debug.DrawLine (debugPointPlayer, debugPointPlayer + new Vector3 (0, 5, 0), Color.blue);
+        Debug.DrawLine (debugPointSearch, debugPointSearch + new Vector3 (0, 5, 0), Color.yellow);
     }
 
     public override void onPlayerSensorActivated ()
@@ -86,12 +102,16 @@ public class ES_Idle : Enemy_State
         //Get the offset of the path with a restriciton of the wander bias
         if (e.agentPath.corners.Length > 0)
         {
-            wanderOffset = e.agentPath.corners[1] - transform.position;
 
+            wanderOffset = transform.position + (e.agentPath.corners[1] - transform.position);
+
+            Debug.Log (wanderOffset);
+            Debug.Log (wanderOffset.magnitude);
             //If the corner is further than the bias shorten it down
             if (wanderOffset.magnitude > wanderPlayerBias)
             {
-                wanderOffset = wanderOffset.normalized * wanderPlayerBias;
+                Debug.Log ("Adjusting wanderoffset");
+                wanderOffset = transform.position + (wanderOffset - transform.position).normalized * wanderPlayerBias;
             }
         }
 
@@ -107,9 +127,14 @@ public class ES_Idle : Enemy_State
         //We have the wander offset now. Search this area for the first candidate point in that area.
         for (int i = 0; i < wanderSearchIterations; i++)
         {
-            //point = wanderOffset + UnityEngine.Random.insideUnitSphere.normalized * wanderSearchRadius;
+            point = wanderOffset + UnityEngine.Random.insideUnitSphere.normalized * wanderSearchRadius;
             Debug.Log ("Sampling point" + point);
-            point = e.agentPath.corners[1];
+            //point = e.agentPath.corners[1];
+
+
+            debugPoint = e.agentPath.corners[1];
+            debugPointCorner = wanderOffset;
+            debugPointPlayer = transform.position;
 
             NavMeshHit hit;
 
@@ -119,6 +144,8 @@ public class ES_Idle : Enemy_State
                 Debug.Log ("Navmesh wander point found");
 
                 wanderResult = hit.position;
+                debugPointSearch = hit.position;
+
                 return true;
             }
         }
