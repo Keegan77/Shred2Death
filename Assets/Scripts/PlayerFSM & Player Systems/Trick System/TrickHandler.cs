@@ -30,7 +30,7 @@ public class TrickHandler : MonoBehaviour
             currentTricks = TrickMaps.StateMap[player.stateMachine.currentState.GetType()];
             SetUpTrickInputs(); // Subscribes to new trick inputs
             
-            //PrintCurrentTrickNames();
+            //PrintCurrentTrickNames();us
         }
         else
         {

@@ -7,10 +7,13 @@ public class PlayerSkatingState : PlayerState
     public PlayerSkatingState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
     }
+
+    private bool enteredHalfPipeSection;
     
     public override void Enter()
     {
         base.Enter();
+        enteredHalfPipeSection = false;
     }
     
     public override void Exit()
@@ -22,9 +25,19 @@ public class PlayerSkatingState : PlayerState
     {
         base.LogicUpdate();
         
-        if (player.GetOrientationWithDownward() > 140 && player.GetOrientationWithDownward() < 190)
+        if (enteredHalfPipeSection)
         {
-            if (!player.CheckGround()) stateMachine.SwitchState(player.halfPipeState);
+            if (!player.CheckGround() && !InputRouting.Instance.GetBoostInput())
+            {
+                stateMachine.SwitchState(player.halfPipeState);
+                Debug.Log("No ground, no boost input, entering half pipe state");
+            }
+            else if (!player.CheckGround() && InputRouting.Instance.GetBoostInput())
+            {
+                stateMachine.SwitchState(player.airborneState);
+                Debug.Log("No ground, with boost input, entering airborne state");
+            }
+            
         } else if (!player.CheckGround())
         {
             stateMachine.SwitchState(player.airborneState);
@@ -32,7 +45,6 @@ public class PlayerSkatingState : PlayerState
 
         if (InputRouting.Instance.GetDriftInput(alsoCheckForMoveInput:true))
         {
-            
             stateMachine.SwitchState(player.driftState);
         }
     }
@@ -45,6 +57,13 @@ public class PlayerSkatingState : PlayerState
         player.DeAccelerate();
         player.OrientToSlope();
         if (InputRouting.Instance.GetMoveInput().y != 0) player.TurnPlayer();
+    }
+    
+    public override void StateTriggerStay(Collider other)
+    {
+        base.StateTriggerStay(other);
+        if (other.CompareTag("Ramp90")) enteredHalfPipeSection = true;
+
     }
 
 }
