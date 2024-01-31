@@ -77,9 +77,17 @@ public class PlayerBase : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(raycastPoint.position - playerModelTransform.forward * playerData.slopeRayOffsetFromMid, leftSlopeHit.point);
-        Gizmos.DrawLine(raycastPoint.position + playerModelTransform.forward * playerData.slopeRayOffsetFromMid, rightSlopeHit.point);
-
+        Vector3 backRayOrigin = raycastPoint.position - playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
+        Vector3 forwardRayOrigin = raycastPoint.position + playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
+       
+        Vector3 leftRayOrigin = raycastPoint.position - playerModelTransform.right * playerData.slopeRayOffsetFromMid;
+        Vector3 rightRayOrigin = raycastPoint.position + playerModelTransform.right * playerData.slopeRayOffsetFromMid;
+        
+        Gizmos.DrawLine(backRayOrigin, backRayOrigin + Vector3.down * playerData.slopeDetectionDistance);
+        Gizmos.DrawLine(forwardRayOrigin, forwardRayOrigin + Vector3.down * playerData.slopeDetectionDistance);
+        
+        Gizmos.DrawLine(leftRayOrigin, leftRayOrigin + Vector3.down * playerData.slopeDetectionDistance);
+        Gizmos.DrawLine(rightRayOrigin, rightRayOrigin + Vector3.down * playerData.slopeDetectionDistance);
     }
     
 #endregion
@@ -162,13 +170,13 @@ public class PlayerBase : MonoBehaviour
         if (rb.velocity.magnitude < 20) turnSharpness = playerData.baseTurnSharpness;
         else turnSharpness = playerData.baseTurnSharpness / (rb.velocity.magnitude / 15);
     }
-    
-    RaycastHit leftSlopeHit, rightSlopeHit;
+
+    private RaycastHit backSlopeHit, forwardSlopeHit, leftSlopeHit, rightSlopeHit;
     public void OrientToSlope()
     {
         if (CheckGround())
         {
-            Vector3 averageNormal = (leftSlopeHit.normal + rightSlopeHit.normal).normalized;
+            Vector3 averageNormal = (backSlopeHit.normal + forwardSlopeHit.normal + leftSlopeHit.normal + rightSlopeHit.normal).normalized;
 
             // stores perpendicular angle into targetRotation
             Quaternion targetRotation = Quaternion.FromToRotation(transform.up, averageNormal) * transform.rotation;
@@ -240,12 +248,30 @@ public class PlayerBase : MonoBehaviour
     public bool CheckGround()
     {
         var layerMask = (1 << LayerMask.NameToLayer("Ground"));
-        Vector3 leftRayOrigin = raycastPoint.position - playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
-        Vector3 rightRayOrigin = raycastPoint.position + playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
-        bool leftHit = Physics.Raycast(leftRayOrigin, -playerModelTransform.up, out leftSlopeHit, playerData.slopeDetectionDistance, layerMask);
-        bool rightHit = Physics.Raycast(rightRayOrigin, -playerModelTransform.up, out rightSlopeHit, playerData.slopeDetectionDistance, layerMask);
         
-        return leftHit || rightHit;
+        Vector3 backRayOrigin = raycastPoint.position - playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
+        Vector3 forwardRayOrigin = raycastPoint.position + playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
+        
+        bool backRayHit = Physics.Raycast(backRayOrigin, -playerModelTransform.up, out backSlopeHit, playerData.slopeDetectionDistance, layerMask);
+        bool forwardRayHit = Physics.Raycast(forwardRayOrigin, -playerModelTransform.up, out forwardSlopeHit, playerData.slopeDetectionDistance, layerMask);
+        
+        Vector3 leftRayOrigin = raycastPoint.position - playerModelTransform.right * playerData.slopeRayOffsetFromMid;
+        Vector3 rightRayOrigin = raycastPoint.position + playerModelTransform.right * playerData.slopeRayOffsetFromMid;
+        
+        bool leftRayHit = Physics.Raycast(leftRayOrigin, -playerModelTransform.up, out leftSlopeHit, playerData.slopeDetectionDistance, layerMask);
+        bool rightRayHit = Physics.Raycast(rightRayOrigin, -playerModelTransform.up, out rightSlopeHit, playerData.slopeDetectionDistance, layerMask);
+
+        return backRayHit || forwardRayHit || leftRayHit || rightRayHit;
+    }
+
+    /// <summary>
+    /// This method is for checking a raycast forward from the skateboard, will be used for checking if the player
+    /// has fallen flat on their face.
+    /// </summary>
+    /// <returns>True if Raycast hits ground</returns>
+    public bool CheckGroundExtensions()
+    {
+        return true;
     }
 
     public float GetCurrentSpeed()

@@ -24,18 +24,15 @@ public class PlayerSkatingState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        
         if (enteredHalfPipeSection)
         {
-            if (!player.CheckGround() && !InputRouting.Instance.GetBoostInput())
+            if (!player.CheckGround() && !InputRouting.Instance.GetBoostInput() && !player.GetOrientationWithDownward().IsInRangeOf(70, 110))
             {
                 stateMachine.SwitchState(player.halfPipeState);
-                Debug.Log("No ground, no boost input, entering half pipe state");
             }
             else if (!player.CheckGround() && InputRouting.Instance.GetBoostInput())
             {
                 stateMachine.SwitchState(player.airborneState);
-                Debug.Log("No ground, with boost input, entering airborne state");
             }
             
         } else if (!player.CheckGround())
