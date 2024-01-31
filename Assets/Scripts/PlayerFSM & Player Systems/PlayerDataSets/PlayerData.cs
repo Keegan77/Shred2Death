@@ -39,7 +39,8 @@ public class PlayerData : ScriptableObject
     
     [Header("Slope Orientation Settings")]
     public float slopeOrientationSpeed;
-    public float slopeDetectionDistance;
+    public float slopeDownDetectionDistance;
+    public float slopeForwardDetectionDistance;
     [Tooltip("The distance from the center of the player to the left and right raycast origins. These are used to detect the slope.")]
     public float slopeRayOffsetFromMid;
     [Tooltip("X is min, Y is max. If the slope is within this range, the player will not be able to exert a forward force. Used for preventing the player from using forward force up slopes that are too steep")]

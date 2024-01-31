@@ -23,6 +23,7 @@ public class PlayerHalfpipeState : PlayerState
         base.PhysicsUpdate();
         HalfPipeAirBehaviour();
         player.TurnPlayer();
+        player.OrientFromExtensions();
     }
     /// <summary>
     /// Makes sure the player lands back on the half pipe. This is done by restricting the player's local Y velocity
