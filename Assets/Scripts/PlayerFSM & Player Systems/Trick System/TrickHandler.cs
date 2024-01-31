@@ -35,7 +35,7 @@ public class TrickHandler : MonoBehaviour
         else
         {
             DeleteTrickInputs();
-            Debug.LogError("No tricks found for this state!");
+            //Debug.LogError("No tricks found for this state!");
         }
     }
 
@@ -65,8 +65,8 @@ public class TrickHandler : MonoBehaviour
 
     private void DoTrick(Trick trick)
     {
-        ActionEvents.OnTrickPerformed?.Invoke(trick);
-        Debug.Log($"Trick Performed: {trick.animTriggerName}");
+        ActionEvents.OnTrickRequested?.Invoke(trick);
+        //Debug.Log($"Trick Performed: {trick.animTriggerName}");
     }
 
     private void PrintCurrentTrickNames()
