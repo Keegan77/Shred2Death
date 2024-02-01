@@ -9,21 +9,13 @@ public class PlayerAirborneState : PlayerState
     public PlayerAirborneState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
     }
-
-    public override void Enter()
-    {
-        base.Enter();
-    }
     
-    public override void Exit()
-    {
-        base.Exit();
-    }
     
     public override void LogicUpdate()
     {
         base.LogicUpdate();
 
+        
         if (player.CheckGround())
         {
             stateMachine.SwitchState(player.skatingState);
@@ -37,6 +29,8 @@ public class PlayerAirborneState : PlayerState
         player.ReOrient();
         player.TurnPlayer();
         AddAirForce();
+        CheckForSpline();
+        
     }
 
     private void AddAirForce()
@@ -60,17 +54,27 @@ public class PlayerAirborneState : PlayerState
         
     }
     
-    public override void StateTriggerEnter(Collider other)
+    private void CheckForSpline()
     {
-        base.StateTriggerEnter(other);
-
+        float radius = 10f;
+        
+        RaycastHit[] hits = Physics.SphereCastAll(player.transform.position, radius, player.transform.forward, 0, 1 << LayerMask.NameToLayer("Spline"));
+        
+        
+        foreach (RaycastHit hit in hits)
+        {
+            SplineComputer hitSpline = hit.collider.GetComponent<SplineComputer>();
+            SplineSample hitPoint = hitSpline.Project(player.transform.position);
+            //Debug.Log(Vector3.Distance(player.transform.position, hitPoint.position));
+            if (Vector3.Distance(player.transform.position, hitPoint.position) < 4f && player.rb.velocity.y < 0)
+            {
+                player.SetCurrentSpline(hitSpline, hitPoint);
+                stateMachine.SwitchState(player.grindState);
+            }
+        }
     }
     
-    public override void StateTriggerExit(Collider other)
-    {
-        base.StateTriggerExit(other);
-    }  
-    
+    /*
     public override void StateCollisionEnter(Collision other)
     {
         base.StateCollisionEnter(other);
@@ -85,5 +89,5 @@ public class PlayerAirborneState : PlayerState
             stateMachine.SwitchState(player.grindState);
             
         }
-    }
+    }*/
 }

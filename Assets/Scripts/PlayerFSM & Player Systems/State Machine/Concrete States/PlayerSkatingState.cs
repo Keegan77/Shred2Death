@@ -6,6 +6,7 @@ public class PlayerSkatingState : PlayerState
 {
     public PlayerSkatingState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
+        inputActions.Add(InputRouting.Instance.input.Player.Jump, ctx => player.OllieJump());
     }
 
     private bool enteredHalfPipeSection;
@@ -30,7 +31,7 @@ public class PlayerSkatingState : PlayerState
             {
                 stateMachine.SwitchState(player.halfPipeState);
             }
-            else if (!player.CheckGround() && InputRouting.Instance.GetBoostInput())
+            else if (!player.CheckGround())
             {
                 stateMachine.SwitchState(player.airborneState);
             }

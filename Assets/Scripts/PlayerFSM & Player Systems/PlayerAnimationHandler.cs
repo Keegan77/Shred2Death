@@ -39,13 +39,11 @@ public class PlayerAnimationHandler : MonoBehaviour
         var currentClipInfo = animator.GetCurrentAnimatorClipInfo(0); // 0 refers to the base animation layer
         trickBeingPerformed = true;
         
-        Debug.Log("Trick Animation Started");
         ActionEvents.OnTrickPerformed?.Invoke(trick);
         
         if (trick.customMethod != null) trick.customMethod.Invoke(player);
         
         yield return new WaitForSeconds(currentClipInfo[0].clip.length);
-        Debug.Log("Trick Animation Complete");
         
         trickBeingPerformed = false;
         

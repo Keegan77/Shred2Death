@@ -7,37 +7,67 @@ using UnityEngine;
 
 public class PlayerGrindState : PlayerState
 {
-    public PlayerGrindState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine) { }
+    public PlayerGrindState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
+    {
+        
+    }
     private SplineFollower sFollower;
     
     public override void Enter()
     {
         base.Enter();
-        player.StartCoroutine(SetUpSplineFollower());
+        
+        SetUpSplineFollower();
+        
     }
     public override void Exit()
     {
+        sFollower.enabled = false;
     }
-
-
-    //coroutine for setting up the spline follower
-    IEnumerator SetUpSplineFollower()
+    
+    
+    private void SetUpSplineFollower()
     {
-        sFollower = player.AddComponent<SplineFollower>();
-        sFollower.motion.offset = new Vector2(0, player.playerData.grindPositioningOffset);
+        sFollower = player.GetComponent<SplineFollower>();
         sFollower.spline = player.GetCurrentSpline();
-        sFollower.followMode = SplineFollower.FollowMode.Uniform;
-        sFollower.updateMethod = SplineFollower.UpdateMethod.Update;
-        sFollower.followSpeed = player.GetCurrentSpeed();
-        sFollower.wrapMode = SplineFollower.Wrap.Default;
-        sFollower.autoStartPosition = false;
-        sFollower.SetClipRange(player.GetSplineCompletionPercent(), 1);
+        sFollower.enabled = true;
         
-        yield return new WaitUntil(() => sFollower.GetPercent() == 1);
-        sFollower.SetClipRange(0, 1);
-        sFollower.wrapMode = SplineFollower.Wrap.Loop;
-        Debug.Log(sFollower.GetPercent());
+        Vector3 playerForward = player.inputTurningTransform.forward;
+        
+        SplineSample sample = sFollower.spline.Project(player.transform.position);
+        
+        Vector3 splineTangent = sample.forward;
+
+        
+        if (player.rb.velocity.magnitude < 10) sFollower.followSpeed = 15;
+        else sFollower.followSpeed = player.rb.velocity.magnitude - 10;
+
+        // calculates the dot product of the player's velocity and the spline sample forward to determine if the player is moving forward or backward
+        float dotProduct = Vector3.Dot(playerForward, splineTangent);
+
+        // Set the SplineFollower to move forward or backward based on the dot product
+        
+        if (dotProduct > 0) // if the product is positive, that means we are moving in the direction of the spline
+        {
+            sFollower.followSpeed = Mathf.Abs(sFollower.followSpeed);
+            sFollower.direction = Spline.Direction.Forward;
+        }
+        else
+        {
+            sFollower.followSpeed = -Mathf.Abs(sFollower.followSpeed);
+            sFollower.direction = Spline.Direction.Backward;
+        }
+
+        sFollower.SetPercent(player.GetSplineCompletionPercent());
+        sFollower.motion.offset = new Vector2(0, player.playerData.grindPositioningOffset);
     }
+
+    private void JumpOffRail()
+    {
+        player.OllieJump();
+        stateMachine.SwitchState(player.airborneState);
+    }
+    
     public override void LogicUpdate()
     {
         base.LogicUpdate();

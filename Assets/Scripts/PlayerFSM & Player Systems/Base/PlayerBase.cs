@@ -47,6 +47,8 @@ public class PlayerBase : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.LogicUpdate();
+        
+        Debug.Log(stateMachine.currentState);
     }
     
     private void FixedUpdate()
@@ -321,16 +323,6 @@ public class PlayerBase : MonoBehaviour
         grindState = new PlayerGrindState(this, stateMachine);
         driftState = new PlayerDriftState(this, stateMachine);
         stateMachine.Init(skatingState);
-    }
-    
-    private void OnEnable()
-    {
-        InputRouting.Instance.input.Player.Jump.performed += ctx => OllieJump();
-    }
-
-    private void OnDisable()
-    {
-        InputRouting.Instance.input.Player.Jump.performed -= ctx => OllieJump();
     }
     
 }
