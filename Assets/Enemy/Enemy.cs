@@ -24,6 +24,10 @@ public class Enemy : MonoBehaviour
     [NonSerialized] public Enemy_NavManager agentManger;
     [NonSerialized] public NavMeshPath agentPath;
 
+    //agentSettings will be set by 
+    [NonSerialized] public static NavMeshBuildSettings[] agentSettings;
+    [NonSerialized] public int agentIndex = 0;
+
     [NonSerialized] public Enemy_StateMachine stateMachine;
 
     WaveManager waveManager; //Set by waveManager when the enemy object is instantiated
@@ -41,16 +45,33 @@ public class Enemy : MonoBehaviour
         agentPath = new NavMeshPath ();
     }
 
+    //After it's spawned, the static variable for agentSettings should exist.
     private void Start ()
     {
         //rb.isKinematic = false;
         //rb.useGravity = true;
+
+        Debug.Log (agent.agentTypeID);
+        for (int i = 0; i < agentSettings.Length; i++)
+        {
+            Debug.Log (agentSettings[i].agentTypeID);
+            if (agentSettings[i].agentTypeID == agent.agentTypeID)
+            {
+                Debug.Log ("Agent Match found");
+                agentIndex = i;
+
+                Debug.Log (agentSettings[agentIndex].agentClimb);
+                break;
+            }
+        }
+
     }
 
-    public void setManager (WaveManager w)
+    public void SetManager (WaveManager w)
     {
         waveManager = w;
     }
+
     #endregion
 
     #region SCRIPT FUNCTIONS

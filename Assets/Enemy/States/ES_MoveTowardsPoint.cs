@@ -34,6 +34,7 @@ public class ES_MoveTowardsPoint : Enemy_State
     public override void onPlayerSensorActivated ()
     {
         e.stateMachine.transitionState (GetComponent<ES_Chase> ());
+        GetComponent<ES_Chase> ().onPlayerSensorActivated ();
     }
 
 }

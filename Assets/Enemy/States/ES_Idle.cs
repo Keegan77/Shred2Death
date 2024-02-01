@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 //When not chasing the player,
 //pick random points to navigate to every so often.
@@ -12,7 +13,8 @@ public class ES_Idle : Enemy_State
     [SerializeField] float wanderSearchRadius = 10;
     [SerializeField] float wanderPlayerBias = 5; //offset the search area towards the player
     [SerializeField] float wanderSearchIterations = 25;
-    [SerializeField] float wanderStayTime;
+    [SerializeField] float wanderStayTimeMin;
+    [SerializeField] float wanderStayTimeMax;
 
 
     //Using this to find where unity is searching
@@ -67,7 +69,8 @@ public class ES_Idle : Enemy_State
 
     public override void onPlayerSensorActivated ()
     {
-        transform.parent.GetComponent<Enemy_StateMachine> ().transitionState (GetComponent<ES_Chase>());
+        e.stateMachine.transitionState (GetComponent<ES_Chase>());
+        GetComponent<ES_Chase>().onPlayerSensorActivated ();
     }
 
     //calculates the path an enemy would take to reach the player,
@@ -127,9 +130,26 @@ public class ES_Idle : Enemy_State
         //We have the wander offset now. Search this area for the first candidate point in that area.
         for (int i = 0; i < wanderSearchIterations; i++)
         {
-            point = wanderOffset + UnityEngine.Random.insideUnitSphere.normalized * wanderSearchRadius;
+            //point = wanderOffset + UnityEngine.Random.insideUnitSphere.normalized * wanderSearchRadius;
+
+            //The search are is defined by getting a point in a 2D circle around the player,
+            //and then firing a raycast downwards towards the ground as a way to search for valid points
+            //Vector3 ceilingCheck;
+
+            if(Physics.Raycast(transform.position, Vector3.up, Enemy.agentSettings[e.agentIndex].maxJumpAcrossDistance, LayerMask.GetMask("Ground")))
+            {
+                Debug.Log ("Raycast hit something");
+                
+            }
+            else
+            {
+                Debug.Log ("Raycast did not hit something");
+            }
+
+            Vector2 pointFlat = UnityEngine.Random.insideUnitCircle.normalized * wanderSearchRadius;
+            point = wanderOffset + new Vector3 (pointFlat.x, transform.position.y, pointFlat.y);
+
             Debug.Log ("Sampling point" + point);
-            //point = e.agentPath.corners[1];
 
 
             debugPoint = e.agentPath.corners[1];
@@ -162,7 +182,7 @@ public class ES_Idle : Enemy_State
     IEnumerator WanderTimer ()
     {
         isWaiting = true;
-        yield return new WaitForSeconds (wanderStayTime);
+        yield return new WaitForSeconds (Random.Range(wanderStayTimeMin, wanderStayTimeMax));
 
         if (SetWanderPoint())
         {

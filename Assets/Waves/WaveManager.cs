@@ -119,7 +119,7 @@ public class WaveManager : MonoBehaviour
             //e.GetComponent<Enemy>().agent = e.gameObject.GetComponent<NavMeshAgent> (); 
 
             e.GetComponent<Enemy_StateMachine> ().transitionState (enterState);
-            e.GetComponent<Enemy> ().setManager (this);
+            e.GetComponent<Enemy> ().SetManager (this);
 
             yield return new WaitForSeconds (row.interval);
         }

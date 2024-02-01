@@ -29,16 +29,20 @@ public class ES_Chase : Enemy_State
     public override void machinePhysics ()
     {
         Vector3 playerDestinationOffset = playerObject.transform.position - e.agent.destination;
-        
-        if (!constantUpdate && playerDestinationOffset.magnitude > agentUpdateDistance)
+
+
+        if (constantUpdate)
+        {
+            e.agent.SetDestination (playerObject.transform.position);
+
+            Debug.Log (e.agent.pathStatus);
+        }
+        else if (playerDestinationOffset.magnitude > agentUpdateDistance)
         {
             e.agent.SetDestination(playerObject.transform.position);
             Debug.Log ("Resetting Path");
         }
 
-        if (constantUpdate)
-        {
-            e.agent.SetDestination (playerObject.transform.position);
-        }
+        
     }
 }
