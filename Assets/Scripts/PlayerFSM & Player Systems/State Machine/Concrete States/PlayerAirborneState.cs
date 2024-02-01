@@ -8,10 +8,21 @@ public class PlayerAirborneState : PlayerState
 {
     public PlayerAirborneState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
-        inputActions.Add(InputRouting.Instance.input.Player.Jump, ctx => player.OllieJump());
+        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => CheckForSpline()});
     }
     
-    
+    public override void Enter()
+    {
+        base.Enter();
+        SubscribeInputs();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        UnsubscribeInputs();
+    }
+
     public override void LogicUpdate()
     {
         base.LogicUpdate();
@@ -30,7 +41,6 @@ public class PlayerAirborneState : PlayerState
         player.ReOrient();
         player.TurnPlayer();
         AddAirForce();
-        CheckForSpline();
         
     }
 
@@ -67,7 +77,7 @@ public class PlayerAirborneState : PlayerState
             SplineComputer hitSpline = hit.collider.GetComponent<SplineComputer>();
             SplineSample hitPoint = hitSpline.Project(player.transform.position);
             //Debug.Log(Vector3.Distance(player.transform.position, hitPoint.position));
-            if (Vector3.Distance(player.transform.position, hitPoint.position) < 4f && player.rb.velocity.y < 0)
+            if (Vector3.Distance(player.transform.position, hitPoint.position) < 3.5f)
             {
                 player.SetCurrentSpline(hitSpline, hitPoint);
                 stateMachine.SwitchState(player.grindState);

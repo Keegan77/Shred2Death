@@ -42,13 +42,14 @@ public class PlayerBase : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         StateMachineSetup();
+        GetComponent<SplineFollower>().enabled = false;
     }
     
     private void Update()
     {
         stateMachine.currentState.LogicUpdate();
         
-        Debug.Log(stateMachine.currentState);
+        //Debug.Log(stateMachine.currentState);
     }
     
     private void FixedUpdate()
@@ -125,23 +126,21 @@ public class PlayerBase : MonoBehaviour
 
     public void OllieJump()
     {
-        JumpOffRail();
         if (CheckGround())
         {
             rb.AddRelativeForce(transform.up * playerData.baseJumpForce, ForceMode.Impulse);
         }
     }
     
-    private void JumpOffRail() // whole method is placeholder for testing
+    /*private void JumpOffRail() // whole method is placeholder for testing
     {
         if (stateMachine.currentState != grindState) return;
         var speed = GetComponent<SplineFollower>().followSpeed;
         SetRBKinematic(false);
-        GameObject.Destroy(GetComponent<SplineFollower>());
         rb.AddForce(transform.forward * speed * 100); 
         rb.AddForce(Vector3.up * 20);
         stateMachine.SwitchState(airborneState);
-    }
+    }*/
     
     /// <summary>
     /// Handles turning the player model with left and right input. Rotating the player works best for the movement we
@@ -322,7 +321,7 @@ public class PlayerBase : MonoBehaviour
         halfPipeState = new PlayerHalfpipeState(this, stateMachine);
         grindState = new PlayerGrindState(this, stateMachine);
         driftState = new PlayerDriftState(this, stateMachine);
-        stateMachine.Init(skatingState);
+        stateMachine.Init(airborneState);
     }
     
 }

@@ -14,12 +14,10 @@ public class PlayerState
         public Action<InputAction.CallbackContext> onPerformed;
         public Action<InputAction.CallbackContext> onCanceled;
         // Add more actions as needed
-    } // so we can subscribe different contexts to methods from states
+    } // so we can subscribe different methods in states to multiple different input actions 
     
-    protected Dictionary<InputAction, InputActionEvents> inputActions;
+    protected Dictionary<InputAction, InputActionEvents> inputActions; // holds our input actions and their respective events
     
-
-
     protected PlayerState(PlayerBase player, PlayerStateMachine stateMachine)
     {
         this.player = player;
@@ -29,12 +27,12 @@ public class PlayerState
 
     public virtual void Enter()
     {
-        SubscribeInputs();
+        
     }
 
     public virtual void Exit()
     {
-        UnsubscribeInputs();
+        //UnsubscribeInputs();
     }
     
     public virtual void LogicUpdate() { }
@@ -53,8 +51,9 @@ public class PlayerState
     {
         foreach (var pair in inputActions)
         {
-            pair.Key.performed += pair.Value.onPerformed;
-            pair.Key.canceled += pair.Value.onCanceled;
+            Debug.Log("Subscribing to " + pair.Key);
+            if (pair.Value.onPerformed != null) pair.Key.performed += pair.Value.onPerformed;
+            if (pair.Value.onCanceled != null)  pair.Key.canceled += pair.Value.onCanceled;
         }
     }
     
@@ -62,8 +61,9 @@ public class PlayerState
     {
         foreach (var pair in inputActions)
         {
-            pair.Key.performed -= pair.Value.onPerformed;
-            pair.Key.canceled -= pair.Value.onCanceled;
+            Debug.Log("Unsubscribing from " + pair.Key);
+            if (pair.Value.onPerformed != null) pair.Key.performed -= pair.Value.onPerformed;
+            if (pair.Value.onCanceled != null) pair.Key.canceled -= pair.Value.onCanceled;
         }
     }
     

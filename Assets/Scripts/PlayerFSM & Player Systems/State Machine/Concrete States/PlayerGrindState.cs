@@ -9,20 +9,22 @@ public class PlayerGrindState : PlayerState
 {
     public PlayerGrindState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
-        
+        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => JumpOffRail()});
     }
     private SplineFollower sFollower;
     
     public override void Enter()
     {
         base.Enter();
-        
+        SubscribeInputs();
         SetUpSplineFollower();
         
     }
     public override void Exit()
     {
+        UnsubscribeInputs();
         sFollower.enabled = false;
+        sFollower.spline = null;
     }
     
     
@@ -39,8 +41,8 @@ public class PlayerGrindState : PlayerState
         Vector3 splineTangent = sample.forward;
 
         
-        if (player.rb.velocity.magnitude < 10) sFollower.followSpeed = 15;
-        else sFollower.followSpeed = player.rb.velocity.magnitude - 10;
+        if (player.rb.velocity.magnitude < 15) sFollower.followSpeed = 15;
+        else sFollower.followSpeed = player.rb.velocity.magnitude;
 
         // calculates the dot product of the player's velocity and the spline sample forward to determine if the player is moving forward or backward
         float dotProduct = Vector3.Dot(playerForward, splineTangent);
@@ -64,7 +66,9 @@ public class PlayerGrindState : PlayerState
 
     private void JumpOffRail()
     {
-        player.OllieJump();
+        player.rb.AddForce(player.transform.up * player.playerData.baseJumpForce, ForceMode.Impulse);
+        player.rb.AddForce(player.inputTurningTransform.forward * player.playerData.baseJumpForce, ForceMode.Impulse);
+        //player.OllieJump();
         stateMachine.SwitchState(player.airborneState);
     }
     

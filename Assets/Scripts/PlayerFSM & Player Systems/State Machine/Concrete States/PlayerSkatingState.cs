@@ -14,11 +14,13 @@ public class PlayerSkatingState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        SubscribeInputs();
         enteredHalfPipeSection = false;
     }
     
     public override void Exit()
     {
+        UnsubscribeInputs();
         base.Exit();
     }
     
