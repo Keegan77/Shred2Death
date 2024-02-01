@@ -9,6 +9,8 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
     public Input input { get; private set; }
     private Vector2 moveInput;
     private bool driftHeld;
+    private bool boostHeld;
+    private bool jumpHeld;
     private void Awake()
     {
         if (Instance == null)
@@ -40,8 +42,16 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
             else return false;
         }
         else return driftHeld;
-
-
+    }
+    
+    public bool GetBoostInput()
+    {
+        return boostHeld;
+    }
+    
+    public bool GetJumpInput()
+    {
+        return jumpHeld;
     }
     private void OnEnable()
     {
@@ -49,6 +59,12 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
         //drift input should be true if the value is 1
         input.Player.Drift.performed += ctx => driftHeld = true;
         input.Player.Drift.canceled += ctx => driftHeld = false;
+        
+        input.Player.Jump.performed += ctx => jumpHeld = true;
+        input.Player.Jump.canceled += ctx => jumpHeld = false;
+        
+        input.Player.Boost.performed += ctx => boostHeld = true;
+        input.Player.Boost.canceled += ctx => boostHeld = false;
     }
 
     private void OnDisable()
@@ -56,5 +72,11 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
         input.Disable();
         input.Player.Drift.performed -= ctx => driftHeld = true;
         input.Player.Drift.canceled -= ctx => driftHeld = false;
+        
+        input.Player.Jump.performed -= ctx => jumpHeld = true;
+        input.Player.Jump.canceled -= ctx => jumpHeld = false;
+        
+        input.Player.Boost.performed -= ctx => boostHeld = true;
+        input.Player.Boost.canceled -= ctx => boostHeld = false;
     }
 }
