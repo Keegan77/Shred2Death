@@ -19,7 +19,7 @@ public static class TrickMaps
     //Skating Tricks
     static Trick Ollie        = new Trick("Ollie", 80, jumpTrick);
     static Trick Kickflip     = new Trick("Ollie", 80, DPadRIGHT);
-    static Trick PopShuvIt    = new Trick("Ollie", 80, DPadLEFT);
+    static Trick PopShuvIt    = new Trick("Ollie", 80, DPadLEFT, CustomTrickMethods.PopShuvItCustomFunction);
     
     //Grind Tricks
     static Trick FiftyFifty   = new Trick("Ollie", 120, DPadRIGHT);
@@ -48,11 +48,14 @@ public class Trick
     public string animTriggerName { get; }
     public float score { get; }
     public InputAction trickAction { get; }
+    
+    public CustomTrickMethods.TrickMethod customMethod { get; }
 
-    public Trick(string animTriggerName, float score, InputAction trickAction)
+    public Trick(string animTriggerName, float score, InputAction trickAction, CustomTrickMethods.TrickMethod customMethod = null)
     {
         this.animTriggerName = animTriggerName;
         this.score = score;
         this.trickAction = trickAction;
+        this.customMethod = customMethod;
     }
 }

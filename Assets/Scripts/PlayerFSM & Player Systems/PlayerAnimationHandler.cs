@@ -9,6 +9,7 @@ using UnityEngine;
 public class PlayerAnimationHandler : MonoBehaviour
 {
     [SerializeField] Animator animator;
+    [SerializeField] PlayerBase player;
     private bool trickBeingPerformed;
 
     private void OnEnable()
@@ -40,6 +41,8 @@ public class PlayerAnimationHandler : MonoBehaviour
         
         Debug.Log("Trick Animation Started");
         ActionEvents.OnTrickPerformed?.Invoke(trick);
+        
+        if (trick.customMethod != null) trick.customMethod.Invoke(player);
         
         yield return new WaitForSeconds(currentClipInfo[0].clip.length);
         Debug.Log("Trick Animation Complete");
