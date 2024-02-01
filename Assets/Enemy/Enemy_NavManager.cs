@@ -30,6 +30,7 @@ public class Enemy_NavManager : MonoBehaviour
     {
         if (agent.isOnOffMeshLink)
         {
+            Debug.Log ("Agent is on the link");
             NavMovement_Jump ();
         }
     }
