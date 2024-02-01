@@ -6,7 +6,7 @@ public class PlayerSkatingState : PlayerState
 {
     public PlayerSkatingState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
-        inputActions.Add(InputRouting.Instance.input.Player.Jump, ctx => player.OllieJump());
+        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => player.OllieJump()});
     }
 
     private bool enteredHalfPipeSection;

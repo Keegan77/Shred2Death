@@ -9,13 +9,22 @@ public class PlayerState
     protected PlayerBase player;
     protected PlayerStateMachine stateMachine;
     
-    protected Dictionary<InputAction, Action<InputAction.CallbackContext>> inputActions;
+    public struct InputActionEvents
+    {
+        public Action<InputAction.CallbackContext> onPerformed;
+        public Action<InputAction.CallbackContext> onCanceled;
+        // Add more actions as needed
+    } // so we can subscribe different contexts to methods from states
+    
+    protected Dictionary<InputAction, InputActionEvents> inputActions;
+    
+
 
     protected PlayerState(PlayerBase player, PlayerStateMachine stateMachine)
     {
         this.player = player;
         this.stateMachine = stateMachine;
-        inputActions = new Dictionary<InputAction, Action<InputAction.CallbackContext>>();
+        inputActions = new Dictionary<InputAction, InputActionEvents>();
     }
 
     public virtual void Enter()
@@ -44,7 +53,8 @@ public class PlayerState
     {
         foreach (var pair in inputActions)
         {
-            pair.Key.performed += pair.Value;
+            pair.Key.performed += pair.Value.onPerformed;
+            pair.Key.canceled += pair.Value.onCanceled;
         }
     }
     
@@ -52,7 +62,8 @@ public class PlayerState
     {
         foreach (var pair in inputActions)
         {
-            pair.Key.performed -= pair.Value;
+            pair.Key.performed -= pair.Value.onPerformed;
+            pair.Key.canceled -= pair.Value.onCanceled;
         }
     }
     

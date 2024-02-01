@@ -8,6 +8,7 @@ public class PlayerAirborneState : PlayerState
 {
     public PlayerAirborneState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
+        inputActions.Add(InputRouting.Instance.input.Player.Jump, ctx => player.OllieJump());
     }
     
     
