@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -64,6 +65,8 @@ public class ES_Idle : Enemy_State
         Debug.DrawLine (debugPoint, debugPoint + new Vector3(0, 5, 0), Color.red);
         Debug.DrawLine (debugPointCorner, debugPointCorner + new Vector3 (0, 5, 0), Color.green);
         Debug.DrawLine (debugPointPlayer, debugPointPlayer + new Vector3 (0, 5, 0), Color.blue);
+
+        Debug.DrawLine (groundHit.point, groundHit.point + new Vector3 (0, 10, 0), Color.white);
         Debug.DrawLine (debugPointSearch, debugPointSearch + new Vector3 (0, 5, 0), Color.yellow);
     }
 
@@ -77,6 +80,8 @@ public class ES_Idle : Enemy_State
     //and then uses the first point along that path as a direction for the wander bias.
 
     Vector3 wanderResult = Vector3.zero;
+    RaycastHit groundHit;
+    Vector3 pointSearchOrigin;
     public bool SetWanderPoint ()
     {
         Vector3 wanderOffset = Vector3.zero;
@@ -100,6 +105,7 @@ public class ES_Idle : Enemy_State
         foreach (Vector3 i in e.agentPath.corners)
         {
             Debug.Log ("Enemypath point " + i);
+            Debug.DrawLine (i, i + new Vector3 (0, 1, 0), Color.red);
         }
 
         //Get the offset of the path with a restriciton of the wander bias
@@ -126,28 +132,64 @@ public class ES_Idle : Enemy_State
         }
 
 
+        //The search are is defined by getting a point in a 2D circle around the player,
+        //and then firing a raycast downwards towards the ground as a way to search for valid points
+        
+
+        //If you hit the ceiling how much are you subtracting from the height of the downwards raycast
+        //
+
+        RaycastHit ceilingCheck;
+        Vector3 ceilingPoint = Vector3.zero;
+        //float searchDistanceJump = 0;
+        float searchDistanceDrop = Enemy.agentSettings[e.agentIndex].ledgeDropHeight;
+        
+        if (Physics.Raycast (transform.position, Vector3.up, out ceilingCheck, Enemy.agentSettings[e.agentIndex].maxJumpAcrossDistance, LayerMask.GetMask ("Ground")))
+        {
+            Debug.Log ("Raycast hit something");
+            //Debug.Log (ceilingCheck.point);
+            //searchDistanceJump = ceilingCheck.point.y;
+
+            ceilingPoint = ceilingCheck.point;
+        }
+        else
+        {
+            Debug.Log ("Raycast did not hit something");
+            //Debug.Log (ceilingCheck.point);
+            //searchDistanceJump = transform.position.y + Enemy.agentSettings[e.agentIndex].maxJumpAcrossDistance;
+
+            ceilingPoint = transform.position + new Vector3 (0, Enemy.agentSettings[e.agentIndex].maxJumpAcrossDistance, 0);
+        }
+
+        
+
         Vector3 point = Vector3.zero;
         //We have the wander offset now. Search this area for the first candidate point in that area.
         for (int i = 0; i < wanderSearchIterations; i++)
         {
             //point = wanderOffset + UnityEngine.Random.insideUnitSphere.normalized * wanderSearchRadius;
 
-            //The search are is defined by getting a point in a 2D circle around the player,
-            //and then firing a raycast downwards towards the ground as a way to search for valid points
-            //Vector3 ceilingCheck;
+            Vector2 pointFlat = UnityEngine.Random.insideUnitCircle.normalized * wanderSearchRadius;
+            //point = wanderOffset + new Vector3 (pointFlat.x, transform.position.y, pointFlat.y);
+            point = wanderOffset + new Vector3 (pointFlat.x, ceilingPoint.y, pointFlat.y);
 
-            if(Physics.Raycast(transform.position, Vector3.up, Enemy.agentSettings[e.agentIndex].maxJumpAcrossDistance, LayerMask.GetMask("Ground")))
+            //pointSearchOrigin = new Vector3 (point.x, ceilingPoint.y, point.y);
+
+            Debug.Log ((point.y - transform.position.y) + searchDistanceDrop);
+            //From the point, 
+            if (Physics.Raycast (point, Vector3.down, out groundHit, (point.y - transform.position.y) + searchDistanceDrop, LayerMask.GetMask ("Ground")))
             {
-                Debug.Log ("Raycast hit something");
+                Debug.Log ("Raycastpoint found");
+                Debug.Log (groundHit.point);
+                Debug.DrawLine (point, new Vector3 (point.x, transform.position.y - searchDistanceDrop, point.z), Color.black);
                 
             }
             else
             {
-                Debug.Log ("Raycast did not hit something");
+                Debug.Log ("Raycastpoint not found");
+                
             }
-
-            Vector2 pointFlat = UnityEngine.Random.insideUnitCircle.normalized * wanderSearchRadius;
-            point = wanderOffset + new Vector3 (pointFlat.x, transform.position.y, pointFlat.y);
+            
 
             Debug.Log ("Sampling point" + point);
 
@@ -156,18 +198,25 @@ public class ES_Idle : Enemy_State
             debugPointCorner = wanderOffset;
             debugPointPlayer = transform.position;
 
-            NavMeshHit hit;
+            
+            //Debug.DrawLine (pointSearchOrigin, new Vector3 (pointSearchOrigin.x, 0, pointSearchOrigin.z), Color.white);
+            NavMeshHit navHit;
 
             //If a point on the navmesh was found
-            if (NavMesh.SamplePosition(point, out hit, 1, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(groundHit.point, out navHit, 1, NavMesh.AllAreas))
             {
                 Debug.Log ("Navmesh wander point found");
 
-                wanderResult = hit.position;
-                debugPointSearch = hit.position;
+                wanderResult = navHit.position;
+                debugPointSearch = navHit.position;
 
+
+                Debug.Break ();
                 return true;
             }
+
+
+            
         }
 
         //if none of the points in the navmesh search were valid:
