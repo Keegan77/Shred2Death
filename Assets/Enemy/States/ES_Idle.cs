@@ -182,41 +182,37 @@ public class ES_Idle : Enemy_State
                 Debug.Log ("Raycastpoint found");
                 Debug.Log (groundHit.point);
                 Debug.DrawLine (point, new Vector3 (point.x, transform.position.y - searchDistanceDrop, point.z), Color.black);
-                
+
+
+                Debug.Log ("Sampling point" + point);
+
+
+                debugPoint = e.agentPath.corners[1];
+                debugPointCorner = wanderOffset;
+                debugPointPlayer = transform.position;
+
+
+                //Debug.DrawLine (pointSearchOrigin, new Vector3 (pointSearchOrigin.x, 0, pointSearchOrigin.z), Color.white);
+                NavMeshHit navHit;
+
+                //If a point on the navmesh was found
+                if (NavMesh.SamplePosition (groundHit.point, out navHit, 1, NavMesh.AllAreas))
+                {
+                    Debug.Log ("Navmesh wander point found");
+
+                    wanderResult = navHit.position;
+                    debugPointSearch = navHit.position;
+
+
+                    Debug.Break ();
+                    return true;
+                }
             }
             else
             {
                 Debug.Log ("Raycastpoint not found");
                 
             }
-            
-
-            Debug.Log ("Sampling point" + point);
-
-
-            debugPoint = e.agentPath.corners[1];
-            debugPointCorner = wanderOffset;
-            debugPointPlayer = transform.position;
-
-            
-            //Debug.DrawLine (pointSearchOrigin, new Vector3 (pointSearchOrigin.x, 0, pointSearchOrigin.z), Color.white);
-            NavMeshHit navHit;
-
-            //If a point on the navmesh was found
-            if (NavMesh.SamplePosition(groundHit.point, out navHit, 1, NavMesh.AllAreas))
-            {
-                Debug.Log ("Navmesh wander point found");
-
-                wanderResult = navHit.position;
-                debugPointSearch = navHit.position;
-
-
-                Debug.Break ();
-                return true;
-            }
-
-
-            
         }
 
         //if none of the points in the navmesh search were valid:
