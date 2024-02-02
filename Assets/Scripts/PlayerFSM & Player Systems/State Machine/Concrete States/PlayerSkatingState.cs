@@ -6,25 +6,38 @@ public class PlayerSkatingState : PlayerState
 {
     public PlayerSkatingState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
+        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => player.OllieJump()});
     }
+
+    private bool enteredHalfPipeSection;
     
     public override void Enter()
     {
         base.Enter();
+        SubscribeInputs();
+        enteredHalfPipeSection = false;
     }
     
     public override void Exit()
     {
+        UnsubscribeInputs();
         base.Exit();
     }
     
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        
-        if (player.GetOrientationWithDownward() > 140 && player.GetOrientationWithDownward() < 190)
+        if (enteredHalfPipeSection)
         {
-            if (!player.CheckGround()) stateMachine.SwitchState(player.halfPipeState);
+            if (!player.CheckGround() && !InputRouting.Instance.GetBoostInput() && !player.GetOrientationWithDownward().IsInRangeOf(70, 110))
+            {
+                stateMachine.SwitchState(player.halfPipeState);
+            }
+            else if (!player.CheckGround())
+            {
+                stateMachine.SwitchState(player.airborneState);
+            }
+            
         } else if (!player.CheckGround())
         {
             stateMachine.SwitchState(player.airborneState);
@@ -32,7 +45,6 @@ public class PlayerSkatingState : PlayerState
 
         if (InputRouting.Instance.GetDriftInput(alsoCheckForMoveInput:true))
         {
-            
             stateMachine.SwitchState(player.driftState);
         }
     }
@@ -45,6 +57,13 @@ public class PlayerSkatingState : PlayerState
         player.DeAccelerate();
         player.OrientToSlope();
         if (InputRouting.Instance.GetMoveInput().y != 0) player.TurnPlayer();
+    }
+    
+    public override void StateTriggerStay(Collider other)
+    {
+        base.StateTriggerStay(other);
+        if (other.CompareTag("Ramp90")) enteredHalfPipeSection = true;
+
     }
 
 }
