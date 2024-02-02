@@ -17,6 +17,7 @@ public class PlayerData : ScriptableObject
     [Header("Grinding Values")]
     public float baseGrindingSpeed;
     public float grindPositioningOffset;
+    public float grindTurnSharpness;
 
     [Header("Drifting Values")] 
     public float baseDriftForce;
@@ -30,6 +31,8 @@ public class PlayerData : ScriptableObject
     public float inputExtraDriftTurnSharpness;
     [Tooltip("Used as the T parameter while lerping the drift transform to 90 or 270")]
     public float playerModelRotationSpeed;
+
+    public float railSnapTime;
 
     [Header("Drift Phase Timings")] 
     [Tooltip("Amount of time in seconds before the drift will grant you a speed boost by sending you to the next drift phase")]
@@ -45,6 +48,8 @@ public class PlayerData : ScriptableObject
     public float slopeRayOffsetFromMid;
     [Tooltip("X is min, Y is max. If the slope is within this range, the player will not be able to exert a forward force. Used for preventing the player from using forward force up slopes that are too steep")]
     public Vector2 slopeRangeWherePlayerCantMove;
+    [Tooltip("Used when your detection raycasts indicate that you are about to hit the ground at full force on your face/side/back. This refers to the speed at which the player will re-orient to match the ground")]
+    public float emergencySlopeReOrientSpeed;
 
     public float airReOrientSpeed;
 

@@ -278,6 +278,7 @@ GameObject:
   - component: {fileID: 1748483324275875062}
   - component: {fileID: 1420146154179825933}
   - component: {fileID: 3174234850440950114}
+  - component: {fileID: 345654048053997415}
   m_Layer: 0
   m_Name: Skateboard
   m_TagString: Untagged
@@ -374,6 +375,29 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: -0.0000009536743, y: 0, z: 0}
+--- !u!136 &345654048053997415
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2461098103126929152}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.71
+  m_Height: 14.803897
+  m_Direction: 0
+  m_Center: {x: -8.888872, y: -0.00000023841844, z: -0.0000000065172046}
 --- !u!1 &2492268264195870200
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,7 +495,6 @@ GameObject:
   - component: {fileID: 6407103333427661897}
   - component: {fileID: 5634048925312985684}
   - component: {fileID: 2463772219495217795}
-  - component: {fileID: 6936554992203104437}
   m_Layer: 0
   m_Name: PlayerContainer
   m_TagString: Untagged
@@ -546,12 +569,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac79b49f2d1297d4290c65141ec2caf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
+  rb: {fileID: 7228581909557612171}
   skateboardCollider: {fileID: 3174234850440950114}
   inputTurningTransform: {fileID: 3400321096179317703}
   playerModelTransform: {fileID: 4350162463001390448}
   raycastPoint: {fileID: 2341217886238384527}
   playerData: {fileID: 11400000, guid: 1a3dc727a00a88b4dab330927467122e, type: 2}
+  grindRailFollower: {fileID: 5986969473009569870, guid: 58642cd707a8a1e449bef0d5c13f5759, type: 3}
 --- !u!114 &5634048925312985684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,123 +602,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7047733092946719887}
   player: {fileID: 6407103333427661897}
---- !u!114 &6936554992203104437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8088672281678487563}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ddc1a2536715a24095c464a2c394d5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateMethod: 0
-  _spline: {fileID: 0}
-  _autoUpdate: 0
-  _rotationModifier:
-    blend: 1
-    useClippedPercent: 0
-    keys: []
-  _offsetModifier:
-    blend: 1
-    useClippedPercent: 0
-    keys: []
-  _colorModifier:
-    blend: 1
-    useClippedPercent: 0
-    keys: []
-  _sizeModifier:
-    blend: 1
-    useClippedPercent: 0
-    keys: []
-  _clipFromSample:
-    position: {x: 0, y: 0, z: 0}
-    up: {x: 0, y: 0, z: 0}
-    forward: {x: 0, y: 0, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 0}
-    size: 0
-    percent: 0
-  _clipToSample:
-    position: {x: 0, y: 0, z: 0}
-    up: {x: 0, y: 0, z: 0}
-    forward: {x: 0, y: 0, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 0}
-    size: 0
-    percent: 0
-  _loopSamples: 0
-  _clipFrom: 0
-  _clipTo: 1
-  animClipFrom: 0
-  animClipTo: 1
-  multithreaded: 0
-  buildOnAwake: 0
-  buildOnEnable: 1
-  applyDirectionRotation: 0
-  useTriggers: 0
-  triggerGroup: 0
-  _direction: 1
-  _dontLerpDirection: 0
-  _physicsMode: 0
-  _motion:
-    _hasOffset: 0
-    _hasRotationOffset: 0
-    _offset: {x: 0, y: 0}
-    _rotationOffset: {x: 0, y: 0, z: 0}
-    _baseScale: {x: 1, y: 1, z: 1}
-    _2dMode: 0
-    velocityHandleMode: 0
-    applyPositionX: 1
-    applyPositionY: 1
-    applyPositionZ: 1
-    applyPosition2D: 1
-    retainLocalPosition: 0
-    direction: 1
-    applyRotationX: 1
-    applyRotationY: 1
-    applyRotationZ: 1
-    applyRotation2D: 1
-    retainLocalRotation: 0
-    applyScaleX: 0
-    applyScaleY: 0
-    applyScaleZ: 0
-    targetUser: {fileID: 0}
-  targetRigidbody: {fileID: 7228581909557612171}
-  targetRigidbody2D: {fileID: 0}
-  targetTransform: {fileID: 748665993148016211}
-  _result:
-    position: {x: 0, y: 0, z: 0}
-    up: {x: 0, y: 0, z: 0}
-    forward: {x: 0, y: 0, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 0}
-    size: 0
-    percent: 0
-  _finalResult:
-    position: {x: 0, y: 0, z: 0}
-    up: {x: 0, y: 0, z: 0}
-    forward: {x: 0, y: 0, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 0}
-    size: 0
-    percent: 0
-  wrapMode: 1
-  followMode: 0
-  autoStartPosition: 0
-  _follow: 1
-  _startPosition: 0
-  preserveUniformSpeedWithOffset: 0
-  _followSpeed: 0
-  _followDuration: 1
-  _speedModifier:
-    blend: 1
-    useClippedPercent: 0
-    keys: []
-  _unityOnEndReached:
-    m_PersistentCalls:
-      m_Calls: []
-  _unityOnBeginningReached:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8803852019208925205
 GameObject:
   m_ObjectHideFlags: 0
