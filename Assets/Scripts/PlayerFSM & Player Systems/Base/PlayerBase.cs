@@ -89,15 +89,28 @@ public class PlayerBase : MonoBehaviour
         Gizmos.DrawLine(forwardRayOrigin, forwardRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
         Gizmos.DrawLine(leftRayOrigin, leftRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
         Gizmos.DrawLine(rightRayOrigin, rightRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
-
-        // Change Gizmos color for CheckGroundExtensions()
+        
         Gizmos.color = Color.blue;
 
-        // Draw raycasts for CheckGroundExtensions()
-        Gizmos.DrawLine(backRayOrigin, backRayOrigin - inputTurningTransform.forward * playerData.slopeForwardDetectionDistance);
-        Gizmos.DrawLine(forwardRayOrigin, forwardRayOrigin + inputTurningTransform.forward * playerData.slopeForwardDetectionDistance);
-        Gizmos.DrawLine(leftRayOrigin, leftRayOrigin - inputTurningTransform.right * playerData.slopeForwardDetectionDistance);
-        Gizmos.DrawLine(rightRayOrigin, rightRayOrigin + inputTurningTransform.right * playerData.slopeForwardDetectionDistance);
+        // Calculates end points for the ground extension rays
+        Vector3 backRayEndPoint = backRayOrigin - inputTurningTransform.forward * playerData.slopeForwardDetectionDistance;
+        Vector3 forwardRayEndPoint = forwardRayOrigin + inputTurningTransform.forward * playerData.slopeForwardDetectionDistance;
+        Vector3 leftRayEndPoint = leftRayOrigin - inputTurningTransform.right * playerData.slopeForwardDetectionDistance;
+        Vector3 rightRayEndPoint = rightRayOrigin + inputTurningTransform.right * playerData.slopeForwardDetectionDistance;
+
+        // CheckGroundExtensions() rays
+        Gizmos.DrawLine(backRayOrigin, backRayEndPoint);
+        Gizmos.DrawLine(forwardRayOrigin, forwardRayEndPoint);
+        Gizmos.DrawLine(leftRayOrigin, leftRayEndPoint);
+        Gizmos.DrawLine(rightRayOrigin, rightRayEndPoint);
+
+        // lines between the tips of each ground extension ray (makes a diamond around the player)
+        Gizmos.color = Color.green;
+        
+        Gizmos.DrawLine(forwardRayEndPoint, rightRayEndPoint);
+        Gizmos.DrawLine(rightRayEndPoint, backRayEndPoint);
+        Gizmos.DrawLine(backRayEndPoint, leftRayEndPoint);
+        Gizmos.DrawLine(leftRayEndPoint, forwardRayEndPoint);
     }
     
 #endregion
@@ -117,8 +130,8 @@ public class PlayerBase : MonoBehaviour
         float angleWithDownward = GetOrientationWithDownward();
 
         //Debug.Log(angleWithDownward);
-        
-        bool isFacingUpward = angleWithDownward > maxSlopeRange.x && angleWithDownward < maxSlopeRange.y;
+
+        bool isFacingUpward = angleWithDownward.IsInRangeOf(maxSlopeRange.x, maxSlopeRange.y);
         
         if (isFacingUpward) return;
         
