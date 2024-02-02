@@ -9,7 +9,7 @@ public class ES_Chase : Enemy_State
 
     public override void Enter ()
     {
-        e.agent.SetDestination (playerObject.transform.position);
+        e.agent.SetDestination (Enemy.playerObject.transform.position);
     }
     public override void onPlayerSensorDeactivated ()
     {
@@ -28,18 +28,18 @@ public class ES_Chase : Enemy_State
     bool constantUpdate = false;
     public override void machinePhysics ()
     {
-        Vector3 playerDestinationOffset = playerObject.transform.position - e.agent.destination;
+        Vector3 playerDestinationOffset = Enemy.playerObject.transform.position - e.agent.destination;
 
 
         if (constantUpdate)
         {
-            e.agent.SetDestination (playerObject.transform.position);
+            e.agent.SetDestination (Enemy.playerObject.transform.position);
 
             Debug.Log (e.agent.pathStatus);
         }
         else if (playerDestinationOffset.magnitude > agentUpdateDistance)
         {
-            e.agent.SetDestination(playerObject.transform.position);
+            e.agent.SetDestination(Enemy.playerObject.transform.position);
             Debug.Log ("Resetting Path");
         }
 

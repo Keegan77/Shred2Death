@@ -23,6 +23,7 @@ public class ES_Idle : Enemy_State
     Vector3 debugPointCorner;
     Vector3 debugPointPlayer;
     Vector3 debugPointSearch;
+    Vector3 debugPointGround;
     public override void Enter ()
     {
         //if(SetWanderPoint (out wanderResult))
@@ -66,7 +67,7 @@ public class ES_Idle : Enemy_State
         Debug.DrawLine (debugPointCorner, debugPointCorner + new Vector3 (0, 5, 0), Color.green);
         Debug.DrawLine (debugPointPlayer, debugPointPlayer + new Vector3 (0, 5, 0), Color.blue);
 
-        Debug.DrawLine (groundHit.point, groundHit.point + new Vector3 (0, 10, 0), Color.white);
+        Debug.DrawLine (debugPointGround, debugPointGround + new Vector3 (0, 10, 0), Color.white);
         Debug.DrawLine (debugPointSearch, debugPointSearch + new Vector3 (0, 5, 0), Color.yellow);
     }
 
@@ -80,14 +81,12 @@ public class ES_Idle : Enemy_State
     //and then uses the first point along that path as a direction for the wander bias.
 
     Vector3 wanderResult = Vector3.zero;
-    RaycastHit groundHit;
-    Vector3 pointSearchOrigin;
     public bool SetWanderPoint ()
     {
         Vector3 wanderOffset = Vector3.zero;
 
         //Calculate a path to the player
-        e.agent.CalculatePath (playerObject.transform.position, e.agentPath);
+        e.agent.CalculatePath (Enemy.playerObject.transform.position, e.agentPath);
 
         Debug.Log(e.agentPath.status);
 
@@ -163,12 +162,13 @@ public class ES_Idle : Enemy_State
 
         
 
-        Vector3 point = Vector3.zero;
+        
         //We have the wander offset now. Search this area for the first candidate point in that area.
         for (int i = 0; i < wanderSearchIterations; i++)
         {
             //point = wanderOffset + UnityEngine.Random.insideUnitSphere.normalized * wanderSearchRadius;
 
+            Vector3 point = Vector3.zero;
             Vector2 pointFlat = UnityEngine.Random.insideUnitCircle.normalized * wanderSearchRadius;
             //point = wanderOffset + new Vector3 (pointFlat.x, transform.position.y, pointFlat.y);
             point = wanderOffset + new Vector3 (pointFlat.x, ceilingPoint.y, pointFlat.y);
@@ -176,6 +176,7 @@ public class ES_Idle : Enemy_State
             //pointSearchOrigin = new Vector3 (point.x, ceilingPoint.y, point.y);
 
             Debug.Log ((point.y - transform.position.y) + searchDistanceDrop);
+            RaycastHit groundHit;
             //From the point, 
             if (Physics.Raycast (point, Vector3.down, out groundHit, (point.y - transform.position.y) + searchDistanceDrop, LayerMask.GetMask ("Ground")))
             {
@@ -190,6 +191,7 @@ public class ES_Idle : Enemy_State
                 debugPoint = e.agentPath.corners[1];
                 debugPointCorner = wanderOffset;
                 debugPointPlayer = transform.position;
+                debugPointGround = groundHit.point;
 
 
                 //Debug.DrawLine (pointSearchOrigin, new Vector3 (pointSearchOrigin.x, 0, pointSearchOrigin.z), Color.white);
@@ -204,7 +206,6 @@ public class ES_Idle : Enemy_State
                     debugPointSearch = navHit.position;
 
 
-                    Debug.Break ();
                     return true;
                 }
             }

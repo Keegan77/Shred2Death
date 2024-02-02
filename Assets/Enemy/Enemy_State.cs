@@ -8,7 +8,7 @@ using UnityEngine.AI;
 /// </summary>
 public class Enemy_State : MonoBehaviour
 {
-    public static GameObject playerObject;
+    //public static GameObject playerObject;
 
     //States will control movement directly.
     //Rigidbody will be set in the start function
