@@ -12,7 +12,6 @@ public class Sensor : MonoBehaviour
     protected virtual void Activate ()
     {
         Debug.Log ("Activated");
-        Debug.Log(Enemy_State.playerObject.name);
         transform.parent.parent.GetComponent<Enemy_StateMachine> ().sensorActivated ();
     }
 
