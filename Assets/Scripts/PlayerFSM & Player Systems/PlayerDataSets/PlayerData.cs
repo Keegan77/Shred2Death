@@ -11,14 +11,24 @@ public class PlayerData : ScriptableObject
     public float baseJumpForce;
     public float baseTurnSharpness;
     public float deAccelerationSpeed;
-
+    
+    
+    
     [Header("Airborne Values (Non-Half Pipe)")]
     public float airForwardForce;
+    
+    
+    
     [Header("Grinding Values")]
-    public float baseGrindingSpeed;
+    public float minGrindSpeed;
+    public float maxGrindSpeed;
+    public float grindSpeedAdditive;
     public float grindPositioningOffset;
     public float grindTurnSharpness;
+    public float railSnapTime;
 
+    
+    
     [Header("Drifting Values")] 
     public float baseDriftForce;
     public float baseDriftTurnSharpness;
@@ -31,14 +41,16 @@ public class PlayerData : ScriptableObject
     public float inputExtraDriftTurnSharpness;
     [Tooltip("Used as the T parameter while lerping the drift transform to 90 or 270")]
     public float playerModelRotationSpeed;
-
-    public float railSnapTime;
-
+    
+    
+    
     [Header("Drift Phase Timings")] 
     [Tooltip("Amount of time in seconds before the drift will grant you a speed boost by sending you to the next drift phase")]
     public float lightDriftTime;
     [Tooltip("Amount of time in seconds before each drift boost phase will send you to the next drift phase")]
     public float driftPhaseTime;
+    
+    
     
     [Header("Slope Orientation Settings")]
     public float slopeOrientationSpeed;

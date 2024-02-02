@@ -17,9 +17,12 @@ MonoBehaviour:
   baseTurnSharpness: 300
   deAccelerationSpeed: 0.05
   airForwardForce: 15
-  baseGrindingSpeed: 1
+  minGrindSpeed: 15
+  maxGrindSpeed: 25
+  grindSpeedAdditive: 10
   grindPositioningOffset: 3.5
   grindTurnSharpness: 200
+  railSnapTime: 3
   baseDriftForce: 100
   baseDriftTurnSharpness: 120
   driftRotationalOffset: 45
@@ -27,7 +30,6 @@ MonoBehaviour:
   driftBoostAdditive: 15
   inputExtraDriftTurnSharpness: 50
   playerModelRotationSpeed: 0.5
-  railSnapTime: 3
   lightDriftTime: 1
   driftPhaseTime: 2
   slopeOrientationSpeed: 15
