@@ -45,6 +45,8 @@ public class PlayerData : ScriptableObject
     public float slopeRayOffsetFromMid;
     [Tooltip("X is min, Y is max. If the slope is within this range, the player will not be able to exert a forward force. Used for preventing the player from using forward force up slopes that are too steep")]
     public Vector2 slopeRangeWherePlayerCantMove;
+    [Tooltip("Used when your detection raycasts indicate that you are about to hit the ground at full force on your face/side/back. This refers to the speed at which the player will re-orient to match the ground")]
+    public float emergencySlopeReOrientSpeed;
 
     public float airReOrientSpeed;
 
