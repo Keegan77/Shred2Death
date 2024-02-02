@@ -1,12 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
-using Cinemachine;
 using Dreamteck.Splines;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerGrindState : PlayerState
 {
+    private GameObject followerObj;
+    private bool lerping;
     public PlayerGrindState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => JumpOffRail()});
@@ -16,21 +15,24 @@ public class PlayerGrindState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        lerping = true;
         SubscribeInputs();
         SetUpSplineFollower();
+        player.StartCoroutine(LerpToFollower(player.playerData.railSnapTime));
+        player.SetRBKinematic(true);
         
     }
     public override void Exit()
     {
         UnsubscribeInputs();
-        sFollower.enabled = false;
-        sFollower.spline = null;
+        GameObject.Destroy(followerObj);
     }
     
     
     private void SetUpSplineFollower()
     {
-        sFollower = player.GetComponent<SplineFollower>();
+        followerObj = GameObject.Instantiate(player.grindRailFollower);
+        sFollower = followerObj.GetComponent<SplineFollower>();
         sFollower.spline = player.GetCurrentSpline();
         sFollower.enabled = true;
         
@@ -59,13 +61,13 @@ public class PlayerGrindState : PlayerState
             sFollower.followSpeed = -Mathf.Abs(sFollower.followSpeed);
             sFollower.direction = Spline.Direction.Backward;
         }
-
+        
         sFollower.SetPercent(player.GetSplineCompletionPercent());
-        sFollower.motion.offset = new Vector2(0, player.playerData.grindPositioningOffset);
     }
 
     private void JumpOffRail()
     {
+        player.SetRBKinematic(false);
         player.rb.AddForce(player.transform.up * player.playerData.baseJumpForce, ForceMode.Impulse);
         player.rb.AddForce(player.inputTurningTransform.forward * player.playerData.baseJumpForce, ForceMode.Impulse);
         //player.OllieJump();
@@ -75,12 +77,37 @@ public class PlayerGrindState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        if (lerping) return;
+        
+        player.transform.position = sFollower.result.position + new Vector3(0, player.playerData.grindPositioningOffset, 0);
+        player.transform.localEulerAngles = new Vector3(0, sFollower.result.rotation.eulerAngles.y, 0);
+        player.TurnPlayer(true, player.playerData.grindTurnSharpness * Time.deltaTime);
+        
     }
+
+    private IEnumerator LerpToFollower(float seconds)
+    {
+        float t = 0;
+        Vector3 startPos = player.transform.position;
+        Quaternion startRot = player.transform.rotation;
+        
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, Time.deltaTime * seconds);
+            Vector3 endPos = sFollower.result.position + new Vector3(0, player.playerData.grindPositioningOffset, 0);
+            Quaternion endRot = new Quaternion(0, sFollower.result.rotation.y, 0, sFollower.result.rotation.w);
+            player.transform.position = Vector3.Lerp(startPos, endPos, t);
+            player.transform.rotation = Quaternion.Lerp(startRot, endRot, t);
+            yield return null;
+        }
+
+        lerping = false;
+    }
+
     
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        //player.GrindOnRail();
-        //player.TurnPlayer();
+        // Calculate the new position
     }
 }

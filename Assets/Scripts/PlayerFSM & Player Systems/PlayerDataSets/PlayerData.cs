@@ -17,6 +17,7 @@ public class PlayerData : ScriptableObject
     [Header("Grinding Values")]
     public float baseGrindingSpeed;
     public float grindPositioningOffset;
+    public float grindTurnSharpness;
 
     [Header("Drifting Values")] 
     public float baseDriftForce;
@@ -30,6 +31,8 @@ public class PlayerData : ScriptableObject
     public float inputExtraDriftTurnSharpness;
     [Tooltip("Used as the T parameter while lerping the drift transform to 90 or 270")]
     public float playerModelRotationSpeed;
+
+    public float railSnapTime;
 
     [Header("Drift Phase Timings")] 
     [Tooltip("Amount of time in seconds before the drift will grant you a speed boost by sending you to the next drift phase")]

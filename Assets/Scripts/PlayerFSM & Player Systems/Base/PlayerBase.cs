@@ -34,6 +34,7 @@ public class PlayerBase : MonoBehaviour
     public PlayerHalfpipeState halfPipeState;
     public PlayerGrindState grindState;
     public PlayerDriftState driftState;
+    public GameObject grindRailFollower;
     
     
     float jumpInput;
@@ -42,7 +43,6 @@ public class PlayerBase : MonoBehaviour
     private void Awake()
     {
         StateMachineSetup();
-        GetComponent<SplineFollower>().enabled = false;
     }
     
     private void Update()
@@ -163,9 +163,14 @@ public class PlayerBase : MonoBehaviour
     /// Handles turning the player model with left and right input. Rotating the player works best for the movement we
     /// are trying to achieve, as movement is based on the player's forward direction. Meant to be used in FixedUpdate.
     /// </summary>
-    public void TurnPlayer() // Rotates the PLAYER MODEL TRANSFORM. We must work with 2 transforms to achieve the desired effect.
+    public void TurnPlayer(bool overrideTurnSharpness = false, float newTurnSharpness = 0) // Rotates the PLAYER MODEL TRANSFORM. We must work with 2 transforms to achieve the desired effect.
     {
-        inputTurningTransform.Rotate(0, turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 0, Space.Self);
+        inputTurningTransform.Rotate(0,
+            overrideTurnSharpness ?
+                newTurnSharpness * InputRouting.Instance.GetMoveInput().x :
+                turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 
+            0, 
+            Space.Self);
     }
     
     private void CalculateSpeedVector()
