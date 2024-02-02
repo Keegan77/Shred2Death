@@ -22,7 +22,8 @@ public class PlayerBase : MonoBehaviour
     private float movementSpeed;
     private float turnSharpness;
     
-    //caching the move input that was held when drift started
+    //raycast slope detection origin points
+    private Vector3 backRayOrigin, forwardRayOrigin, leftRayOrigin, rightRayOrigin;
     
     
     //state machine
@@ -33,6 +34,7 @@ public class PlayerBase : MonoBehaviour
     public PlayerHalfpipeState halfPipeState;
     public PlayerGrindState grindState;
     public PlayerDriftState driftState;
+    public GameObject grindRailFollower;
     
     
     float jumpInput;
@@ -40,9 +42,7 @@ public class PlayerBase : MonoBehaviour
 #region Unity Abstracted Methods
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
         StateMachineSetup();
-        GetComponent<SplineFollower>().enabled = false;
     }
     
     private void Update()
@@ -76,24 +76,41 @@ public class PlayerBase : MonoBehaviour
     {
         stateMachine.currentState.StateCollisionEnter(other);
     }
-    
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
-        Vector3 backRayOrigin = raycastPoint.position - playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
-        Vector3 forwardRayOrigin = raycastPoint.position + playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
-       
-        Vector3 leftRayOrigin = raycastPoint.position - playerModelTransform.right * playerData.slopeRayOffsetFromMid;
-        Vector3 rightRayOrigin = raycastPoint.position + playerModelTransform.right * playerData.slopeRayOffsetFromMid;
+        // Update the ray origin points
+        UpdateRayOriginPoints();
+
+        // Set Gizmos color
+        Gizmos.color = Color.red;
+
+        // Draw raycasts for CheckGround()
+        Gizmos.DrawLine(backRayOrigin, backRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
+        Gizmos.DrawLine(forwardRayOrigin, forwardRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
+        Gizmos.DrawLine(leftRayOrigin, leftRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
+        Gizmos.DrawLine(rightRayOrigin, rightRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
         
-        Gizmos.DrawLine(backRayOrigin, backDownwardSlopeHit.point/*backRayOrigin + Vector3.down * playerData.slopeDownDetectionDistance*/);
-        Gizmos.DrawLine(forwardRayOrigin, forwardDownwardSlopeHit.point/*forwardRayOrigin + Vector3.down * playerData.slopeDownDetectionDistance*/);
+        Gizmos.color = Color.blue;
+
+        // Calculates end points for the ground extension rays
+        Vector3 backRayEndPoint = backRayOrigin - inputTurningTransform.forward * playerData.slopeForwardDetectionDistance;
+        Vector3 forwardRayEndPoint = forwardRayOrigin + inputTurningTransform.forward * playerData.slopeForwardDetectionDistance;
+        Vector3 leftRayEndPoint = leftRayOrigin - inputTurningTransform.right * playerData.slopeForwardDetectionDistance;
+        Vector3 rightRayEndPoint = rightRayOrigin + inputTurningTransform.right * playerData.slopeForwardDetectionDistance;
+
+        // CheckGroundExtensions() rays
+        Gizmos.DrawLine(backRayOrigin, backRayEndPoint);
+        Gizmos.DrawLine(forwardRayOrigin, forwardRayEndPoint);
+        Gizmos.DrawLine(leftRayOrigin, leftRayEndPoint);
+        Gizmos.DrawLine(rightRayOrigin, rightRayEndPoint);
+
+        // lines between the tips of each ground extension ray (makes a diamond around the player)
+        Gizmos.color = Color.green;
         
-        Gizmos.DrawLine(backRayOrigin, backwardSlopeHit.point);
-        Gizmos.DrawLine(forwardRayOrigin, forwardSlopeHit.point/*forwardRayOrigin - Vector3.forward * playerData.slopeForwardDetectionDistance*/);
-        
-        Gizmos.DrawLine(leftRayOrigin, leftSlopeHit.point /*leftRayOrigin + Vector3.down * playerData.slopeDownDetectionDistance*/);
-        Gizmos.DrawLine(rightRayOrigin, rightSlopeHit.point /*rightRayOrigin + Vector3.down * playerData.slopeDownDetectionDistance*/);
+        Gizmos.DrawLine(forwardRayEndPoint, rightRayEndPoint);
+        Gizmos.DrawLine(rightRayEndPoint, backRayEndPoint);
+        Gizmos.DrawLine(backRayEndPoint, leftRayEndPoint);
+        Gizmos.DrawLine(leftRayEndPoint, forwardRayEndPoint);
     }
     
 #endregion
@@ -113,8 +130,8 @@ public class PlayerBase : MonoBehaviour
         float angleWithDownward = GetOrientationWithDownward();
 
         //Debug.Log(angleWithDownward);
-        
-        bool isFacingUpward = angleWithDownward > maxSlopeRange.x && angleWithDownward < maxSlopeRange.y;
+
+        bool isFacingUpward = angleWithDownward.IsInRangeOf(maxSlopeRange.x, maxSlopeRange.y);
         
         if (isFacingUpward) return;
         
@@ -146,9 +163,14 @@ public class PlayerBase : MonoBehaviour
     /// Handles turning the player model with left and right input. Rotating the player works best for the movement we
     /// are trying to achieve, as movement is based on the player's forward direction. Meant to be used in FixedUpdate.
     /// </summary>
-    public void TurnPlayer() // Rotates the PLAYER MODEL TRANSFORM. We must work with 2 transforms to achieve the desired effect.
+    public void TurnPlayer(bool overrideTurnSharpness = false, float newTurnSharpness = 0) // Rotates the PLAYER MODEL TRANSFORM. We must work with 2 transforms to achieve the desired effect.
     {
-        inputTurningTransform.Rotate(0, turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 0, Space.Self);
+        inputTurningTransform.Rotate(0,
+            overrideTurnSharpness ?
+                newTurnSharpness * InputRouting.Instance.GetMoveInput().x :
+                turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 
+            0, 
+            Space.Self);
     }
     
     private void CalculateSpeedVector()
@@ -200,10 +222,10 @@ public class PlayerBase : MonoBehaviour
             
             Vector3 averageNormal = (forwardSlopeHit.normal).normalized;
             
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, averageNormal) * transform.rotation;
+            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
 
             // Lerp to the desired rotation
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * playerData.slopeOrientationSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * playerData.emergencySlopeReOrientSpeed);
         }
     }
 
@@ -262,26 +284,29 @@ public class PlayerBase : MonoBehaviour
     {
         return eulerAngle > 180 ? eulerAngle - 360 : eulerAngle;
     }
+
+    private void UpdateRayOriginPoints()
+    {
+        backRayOrigin = raycastPoint.position - playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
+        forwardRayOrigin = raycastPoint.position + playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
+        
+        leftRayOrigin = raycastPoint.position - playerModelTransform.right * playerData.slopeRayOffsetFromMid;
+        rightRayOrigin = raycastPoint.position + playerModelTransform.right * playerData.slopeRayOffsetFromMid;
+    }
     
     public bool CheckGround()
     {
         var layerMask = (1 << LayerMask.NameToLayer("Ground"));
         
-        Vector3 backRayOrigin = raycastPoint.position - playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
-        Vector3 forwardRayOrigin = raycastPoint.position + playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
-        
-        Vector3 leftRayOrigin = raycastPoint.position - playerModelTransform.right * playerData.slopeRayOffsetFromMid;
-        Vector3 rightRayOrigin = raycastPoint.position + playerModelTransform.right * playerData.slopeRayOffsetFromMid;
+        UpdateRayOriginPoints();
         
         bool backDownRayHit = Physics.Raycast(backRayOrigin, -playerModelTransform.up, out backDownwardSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
         bool forwardDownRayHit = Physics.Raycast(forwardRayOrigin, -playerModelTransform.up, out forwardDownwardSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
         
+        bool leftDownRayHit = Physics.Raycast(leftRayOrigin, -playerModelTransform.up, out leftSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
+        bool rightDownRayHit = Physics.Raycast(rightRayOrigin, -playerModelTransform.up, out rightSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
 
-        
-        bool leftRayHit = Physics.Raycast(leftRayOrigin, -playerModelTransform.up, out leftSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
-        bool rightRayHit = Physics.Raycast(rightRayOrigin, -playerModelTransform.up, out rightSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
-
-        return backDownRayHit || forwardDownRayHit || leftRayHit || rightRayHit;
+        return backDownRayHit || forwardDownRayHit || leftDownRayHit || rightDownRayHit;
     }
 
     /// <summary>
@@ -293,13 +318,16 @@ public class PlayerBase : MonoBehaviour
     {
         var layerMask = (1 << LayerMask.NameToLayer("Ground"));
         
-        Vector3 backRayOrigin = raycastPoint.position - inputTurningTransform.forward * playerData.slopeRayOffsetFromMid;
-        Vector3 forwardRayOrigin = raycastPoint.position + inputTurningTransform.forward * playerData.slopeRayOffsetFromMid;
+        UpdateRayOriginPoints();
         
         bool backRayHit = Physics.Raycast(backRayOrigin, -inputTurningTransform.forward, out backwardSlopeHit, playerData.slopeForwardDetectionDistance, layerMask);
         bool forwardRayHit = Physics.Raycast(forwardRayOrigin, inputTurningTransform.forward, out forwardSlopeHit, playerData.slopeForwardDetectionDistance, layerMask);
         
-        return forwardRayHit;
+        bool leftRayHit = Physics.Raycast(leftRayOrigin, -inputTurningTransform.right, out leftSlopeHit, playerData.slopeForwardDetectionDistance, layerMask);
+        bool rightRayHit = Physics.Raycast(rightRayOrigin, inputTurningTransform.right, out rightSlopeHit, playerData.slopeForwardDetectionDistance, layerMask);
+        
+        
+        return forwardRayHit || backRayHit || leftRayHit || rightRayHit;
     }
 
     public float GetCurrentSpeed()

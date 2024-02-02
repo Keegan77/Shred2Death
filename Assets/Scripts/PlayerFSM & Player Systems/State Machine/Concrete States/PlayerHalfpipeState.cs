@@ -32,17 +32,7 @@ public class PlayerHalfpipeState : PlayerState
     /// </summary>
     public void HalfPipeAirBehaviour() 
     {
-        Vector3 worldVelocity = player.rb.velocity;
-
-        // converts the world velocity to local velocity
-        Vector3 localVelocity = player.transform.InverseTransformDirection(worldVelocity);
-        
-        localVelocity.y = 0;
-
-        // converts the modified local velocity back to world space
-        Vector3 newWorldVelocity = player.transform.TransformDirection(localVelocity);
-        
-        player.rb.velocity = newWorldVelocity;
+        player.rb.SetLocalAxisVelocity(Vector3.up, 0);
     }
     
     public override void StateTriggerExit(Collider other)
