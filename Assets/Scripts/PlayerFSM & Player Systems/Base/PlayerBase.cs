@@ -12,6 +12,7 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private Collider skateboardCollider;
     public Transform inputTurningTransform, playerModelTransform;
     [SerializeField] private Transform raycastPoint;
+    [SerializeField] private Transform extensionRaycastPoint;
     private SplineComputer currentSpline;
     private double splineCompletionPercent;
     
@@ -23,8 +24,12 @@ public class PlayerBase : MonoBehaviour
     private float turnSharpness;
     
     //raycast slope detection origin points
-    private Vector3 backRayOrigin, forwardRayOrigin, leftRayOrigin, rightRayOrigin;
+    [HideInInspector] public Vector3 forwardLeftRayOrigin, forwardRightRayOrigin, backLeftRayOrigin, backRightRayOrigin;
+    [HideInInspector] public Vector3 forwardRayOrigin, backRayOrigin, leftRayOrigin, rightRayOrigin;
+    Vector3 backRayEndPoint, forwardRayEndPoint, leftRayEndPoint, rightRayEndPoint;
     
+    [HideInInspector] public RaycastHit leftSlopeHit, rightSlopeHit, forwardSlopeHit, backSlopeHit;
+    [HideInInspector] public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit;
     
     //state machine
     public PlayerStateMachine stateMachine { get; private set; }
@@ -36,13 +41,20 @@ public class PlayerBase : MonoBehaviour
     public PlayerDriftState driftState;
     public GameObject grindRailFollower;
     
+
     
     float jumpInput;
+
+    private SlopeOrientationHandler slopeOrientationHandler;
 
 #region Unity Abstracted Methods
     private void Awake()
     {
         StateMachineSetup();
+        slopeOrientationHandler = new SlopeOrientationHandler(this, 
+                                                                       playerData, 
+                                                                       playerModelTransform, 
+                                                                       inputTurningTransform);
     }
     
     private void Update()
@@ -85,26 +97,21 @@ public class PlayerBase : MonoBehaviour
         Gizmos.color = Color.red;
 
         // Draw raycasts for CheckGround()
-        Gizmos.DrawLine(backRayOrigin, backRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
-        Gizmos.DrawLine(forwardRayOrigin, forwardRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
-        Gizmos.DrawLine(leftRayOrigin, leftRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
-        Gizmos.DrawLine(rightRayOrigin, rightRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
+        Gizmos.DrawLine(backLeftRayOrigin, backLeftRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
+        Gizmos.DrawLine(backRightRayOrigin, backRightRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
+        Gizmos.DrawLine(forwardLeftRayOrigin, forwardLeftRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
+        Gizmos.DrawLine(forwardRightRayOrigin, forwardRightRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
         
         Gizmos.color = Color.blue;
+        
 
-        // Calculates end points for the ground extension rays
-        Vector3 backRayEndPoint = backRayOrigin - inputTurningTransform.forward * playerData.slopeForwardDetectionDistance;
-        Vector3 forwardRayEndPoint = forwardRayOrigin + inputTurningTransform.forward * playerData.slopeForwardDetectionDistance;
-        Vector3 leftRayEndPoint = leftRayOrigin - inputTurningTransform.right * playerData.slopeForwardDetectionDistance;
-        Vector3 rightRayEndPoint = rightRayOrigin + inputTurningTransform.right * playerData.slopeForwardDetectionDistance;
-
-        // CheckGroundExtensions() rays
+        // CheckGroundExtensions() rays (only for visuals in scene. Not used in actual code)
         Gizmos.DrawLine(backRayOrigin, backRayEndPoint);
         Gizmos.DrawLine(forwardRayOrigin, forwardRayEndPoint);
         Gizmos.DrawLine(leftRayOrigin, leftRayEndPoint);
         Gizmos.DrawLine(rightRayOrigin, rightRayEndPoint);
 
-        // lines between the tips of each ground extension ray (makes a diamond around the player)
+        // lines between the tips of each ground extension ray (makes a diamond around the player, this is whats used for edge detection)
         Gizmos.color = Color.green;
         
         Gizmos.DrawLine(forwardRayEndPoint, rightRayEndPoint);
@@ -196,47 +203,6 @@ public class PlayerBase : MonoBehaviour
         if (rb.velocity.magnitude < 20) turnSharpness = playerData.baseTurnSharpness;
         else turnSharpness = playerData.baseTurnSharpness / (rb.velocity.magnitude / 15);
     }
-
-    private RaycastHit backDownwardSlopeHit, forwardDownwardSlopeHit, leftSlopeHit, rightSlopeHit, forwardSlopeHit, backwardSlopeHit;
-    public void OrientToSlope()
-    {
-        if (CheckGround())
-        {
-            Vector3 averageNormal = (backDownwardSlopeHit.normal + forwardDownwardSlopeHit.normal + leftSlopeHit.normal +
-                             rightSlopeHit.normal).normalized;
-
-            // stores perpendicular angle into targetRotation
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, averageNormal) * transform.rotation;
-
-            // Lerp to the desired rotation
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
-                Time.fixedDeltaTime * playerData.slopeOrientationSpeed);
-        }
-    }
-
-    public void OrientFromExtensions()
-    {
-        if (CheckGroundExtensions())
-        {
-            Debug.Log($"Forward slope hit normal: {forwardSlopeHit.normal}");
-            
-            Vector3 averageNormal = (forwardSlopeHit.normal).normalized;
-            
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
-
-            // Lerp to the desired rotation
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * playerData.emergencySlopeReOrientSpeed);
-        }
-    }
-
-    /// <summary>
-    /// Slowly re-orients the player mid-air to be upright. Meant to be used in FixedUpdate.
-    /// </summary>
-    public void ReOrient()
-    {
-        Quaternion targetRotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * playerData.airReOrientSpeed);
-    }
     
     /// <summary>
     /// De-accelerates the player by a fixed value. As long as the de-acceleration value is less than the acceleration
@@ -250,8 +216,7 @@ public class PlayerBase : MonoBehaviour
 
 #endregion
 
-
-#region Helper Methods, Getters, & Setters
+#region Grinding Methods
     public void SetCurrentSpline(SplineComputer spline, SplineSample splineHitPoint)
     {
         currentSpline = spline;
@@ -262,36 +227,53 @@ public class PlayerBase : MonoBehaviour
     {
         return currentSpline;
     }
-        
+            
     public double GetSplineCompletionPercent()
     {
         return splineCompletionPercent;
         //splineCompletionPercent = currentSpline.Project(transform.position).percent;
     }
 
+
+#endregion
+
+#region Helper Methods, Getters, & Setters
+
     public void SetRBKinematic(bool isKinematic)
     {
         rb.isKinematic = isKinematic;
     }
-    
-    /// <summary>
-    /// [DEPRECATED: USE LOCALEULERANGLES INSTEAD]
-    /// Translates eulerAngles from 0 - +360, to -180 - +180. Makes eulerAngles easier to work with, logically.
-    /// Rotations should never be applied with this method, as it will cause weirdness. This is simply for getting
-    /// eulerAngle values in a range that makes sense. 
-    /// </summary>
-    private float TranslateEulersToRange180(float eulerAngle)
-    {
-        return eulerAngle > 180 ? eulerAngle - 360 : eulerAngle;
-    }
 
+    /// <summary>
+    /// Updates every raycast origin point around the player whenever this is called.
+    /// This must be called before doing any raycasts.
+    /// </summary>
     private void UpdateRayOriginPoints()
     {
-        backRayOrigin = raycastPoint.position - playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
-        forwardRayOrigin = raycastPoint.position + playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
+        Vector3 forwardMultByOffset = playerModelTransform.forward * playerData.slopeRayOffsetFromZ;
+        Vector3 rightMultByOffset = playerModelTransform.right * playerData.slopeRayOffsetFromX;
         
-        leftRayOrigin = raycastPoint.position - playerModelTransform.right * playerData.slopeRayOffsetFromMid;
-        rightRayOrigin = raycastPoint.position + playerModelTransform.right * playerData.slopeRayOffsetFromMid;
+        forwardLeftRayOrigin = raycastPoint.position + (forwardMultByOffset) - (rightMultByOffset);
+        forwardRightRayOrigin = raycastPoint.position + (forwardMultByOffset) + (rightMultByOffset);
+        
+        backLeftRayOrigin = raycastPoint.position - (forwardMultByOffset) - (rightMultByOffset);
+        backRightRayOrigin = raycastPoint.position - (forwardMultByOffset) + (rightMultByOffset);
+        
+
+        backRayOrigin = extensionRaycastPoint.position - forwardMultByOffset;
+        forwardRayOrigin = extensionRaycastPoint.position + forwardMultByOffset;
+        
+        leftRayOrigin = extensionRaycastPoint.position - rightMultByOffset;
+        rightRayOrigin = extensionRaycastPoint.position + rightMultByOffset;
+        
+        Vector3 forwardMultByDistance = inputTurningTransform.forward * playerData.slopeForwardDetectionDistance;
+        Vector3 rightMultByDistance = inputTurningTransform.right * playerData.slopeForwardDetectionDistance;
+
+        backRayEndPoint = backRayOrigin - forwardMultByDistance;
+        forwardRayEndPoint = forwardRayOrigin + forwardMultByDistance;
+        leftRayEndPoint = leftRayOrigin - rightMultByDistance;
+        rightRayEndPoint = rightRayOrigin + rightMultByDistance;
+        
     }
     
     public bool CheckGround()
@@ -300,18 +282,19 @@ public class PlayerBase : MonoBehaviour
         
         UpdateRayOriginPoints();
         
-        bool backDownRayHit = Physics.Raycast(backRayOrigin, -playerModelTransform.up, out backDownwardSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
-        bool forwardDownRayHit = Physics.Raycast(forwardRayOrigin, -playerModelTransform.up, out forwardDownwardSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
+        bool backLeftDownRayHit = Physics.Raycast(backLeftRayOrigin, -playerModelTransform.up, out backLeftSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
+        bool backRightDownRayHit = Physics.Raycast(backRightRayOrigin, -playerModelTransform.up, out backRightSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
         
-        bool leftDownRayHit = Physics.Raycast(leftRayOrigin, -playerModelTransform.up, out leftSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
-        bool rightDownRayHit = Physics.Raycast(rightRayOrigin, -playerModelTransform.up, out rightSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
+        bool forwardLeftDownRayHit = Physics.Raycast(forwardLeftRayOrigin, -playerModelTransform.up, out forwardLeftSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
+        bool forwardRightDownRayHit = Physics.Raycast(forwardRightRayOrigin, -playerModelTransform.up, out forwardRightSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
 
-        return backDownRayHit || forwardDownRayHit || leftDownRayHit || rightDownRayHit;
+
+        return (forwardLeftDownRayHit && forwardRightDownRayHit) || (backLeftDownRayHit && backRightDownRayHit);
     }
 
     /// <summary>
-    /// This method is for checking a raycast forward from the skateboard, will be used for checking if the player
-    /// has fallen flat on their face.
+    /// This method is for checking a raycast forward from the skateboard, used for checking if the player
+    /// has fallen horizontally near the ground
     /// </summary>
     /// <returns>True if Raycast hits ground</returns>
     public bool CheckGroundExtensions()
@@ -320,19 +303,23 @@ public class PlayerBase : MonoBehaviour
         
         UpdateRayOriginPoints();
         
-        bool backRayHit = Physics.Raycast(backRayOrigin, -inputTurningTransform.forward, out backwardSlopeHit, playerData.slopeForwardDetectionDistance, layerMask);
-        bool forwardRayHit = Physics.Raycast(forwardRayOrigin, inputTurningTransform.forward, out forwardSlopeHit, playerData.slopeForwardDetectionDistance, layerMask);
         
-        bool leftRayHit = Physics.Raycast(leftRayOrigin, -inputTurningTransform.right, out leftSlopeHit, playerData.slopeForwardDetectionDistance, layerMask);
-        bool rightRayHit = Physics.Raycast(rightRayOrigin, inputTurningTransform.right, out rightSlopeHit, playerData.slopeForwardDetectionDistance, layerMask);
+        bool lineOneHit = Physics.Linecast(forwardRayOrigin, rightRayEndPoint, out RaycastHit hit, layerMask);
+        bool lineTwoHit = Physics.Linecast(rightRayOrigin, backRayEndPoint, out RaycastHit hit2, layerMask);
+        bool lineThreeHit = Physics.Linecast(backRayOrigin, leftRayEndPoint, out RaycastHit hit3, layerMask);
+        bool lineFourHit = Physics.Linecast(leftRayOrigin, forwardRayEndPoint, out RaycastHit hit4, layerMask);
         
-        
-        return forwardRayHit || backRayHit || leftRayHit || rightRayHit;
+        return lineOneHit || lineTwoHit || lineThreeHit || lineFourHit;
     }
 
     public float GetCurrentSpeed()
     {
         return rb.velocity.magnitude;
+    }
+    
+    public SlopeOrientationHandler GetOrientationHandler()
+    {
+        return slopeOrientationHandler;
     }
     
     public float GetOrientationWithDownward()

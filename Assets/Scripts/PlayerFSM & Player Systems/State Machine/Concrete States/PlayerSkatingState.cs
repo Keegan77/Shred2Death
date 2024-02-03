@@ -55,7 +55,7 @@ public class PlayerSkatingState : PlayerState
         player.CalculateTurnSharpness();
         player.SkateForward();
         player.DeAccelerate();
-        player.OrientToSlope();
+        if (player.CheckGround()) player.GetOrientationHandler().OrientToSlope();
         if (InputRouting.Instance.GetMoveInput().y != 0) player.TurnPlayer();
     }
     

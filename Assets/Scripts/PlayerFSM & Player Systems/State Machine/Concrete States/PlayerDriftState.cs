@@ -45,11 +45,14 @@ public class PlayerDriftState : PlayerState
 
         if (!player.CheckGround())
         {
-            player.ReOrient();
+            player.GetOrientationHandler().ReOrient();
         }
-        
+        else
+        {
+            player.GetOrientationHandler().OrientToSlope();
+        }
         Drift();
-        player.OrientToSlope();
+        
         player.DeAccelerate();
         //.Log(driftSpeedBoost);
         timer += Time.deltaTime;

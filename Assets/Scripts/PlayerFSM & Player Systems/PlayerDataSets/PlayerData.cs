@@ -57,7 +57,12 @@ public class PlayerData : ScriptableObject
     public float slopeDownDetectionDistance;
     public float slopeForwardDetectionDistance;
     [Tooltip("The distance from the center of the player to the left and right raycast origins. These are used to detect the slope.")]
-    public float slopeRayOffsetFromMid;
+    public float slopeRayOffsetFromZ;
+
+    [Tooltip("The height offset of the ground extension raycasts. These raycasts are used to detect if the player has fallen over, and will re-orient the player if the player has fallen over and they are about to hit the ground")]
+    public float extensionRayHeightOffset;
+
+    public float slopeRayOffsetFromX;
     [Tooltip("X is min, Y is max. If the slope is within this range, the player will not be able to exert a forward force. Used for preventing the player from using forward force up slopes that are too steep")]
     public Vector2 slopeRangeWherePlayerCantMove;
     [Tooltip("Used when your detection raycasts indicate that you are about to hit the ground at full force on your face/side/back. This refers to the speed at which the player will re-orient to match the ground")]

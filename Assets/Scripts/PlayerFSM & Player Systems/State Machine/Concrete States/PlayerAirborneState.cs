@@ -38,7 +38,7 @@ public class PlayerAirborneState : PlayerState
     {
         base.PhysicsUpdate();
         
-        player.ReOrient();
+        player.GetOrientationHandler().ReOrient();
         player.TurnPlayer();
         AddAirForce();
         
