@@ -8,10 +8,17 @@ public class PlayerHalfpipeState : PlayerState
     {
     }
     
-public override void Enter()
+    public override void Enter()
     {
         base.Enter();
+        //player.StartCoroutine(player.ScaleCapsuleCollider(0.25f)); //EXPERIMENTAL - scales the player's collider to fit the half pipe
         player.GetMovementMethods().StopBoost();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        //player.StartCoroutine(player.ScaleCapsuleCollider(player.GetOriginalColliderRadius()));
     }
     
     public override void LogicUpdate()

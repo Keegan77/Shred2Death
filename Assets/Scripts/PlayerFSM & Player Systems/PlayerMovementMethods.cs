@@ -102,7 +102,7 @@ public class PlayerMovementMethods
     {
         rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, rb.velocity.y, 0), playerData.deAccelerationSpeed);
     }
-
+    
     private Coroutine boostTimerCoroutine;
     private Coroutine rechargeBoostCoroutine;
     public void StartBoost() // subscribe to on input performed boost input
@@ -141,8 +141,6 @@ public class PlayerMovementMethods
         while (boostTimer < playerData.boostDuration)
         {
             boostTimer += Time.deltaTime;
-            Debug.Log(boostTimer);
-
             yield return null;
         }
         currentlyBoosting = false;
@@ -155,8 +153,6 @@ public class PlayerMovementMethods
         while (boostTimer > 0)
         {
             boostTimer -= Time.deltaTime;
-            Debug.Log(boostTimer);
-
             yield return null;
         }
         currentlyRecharging = false;

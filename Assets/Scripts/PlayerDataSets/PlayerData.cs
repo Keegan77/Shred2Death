@@ -64,4 +64,7 @@ public class PlayerData : ScriptableObject
 
     public float slopedDownSpeedMult;
 
+    [Header("Camera settings")] public float defaultFOV;
+    public float maxFOV;
+
 }

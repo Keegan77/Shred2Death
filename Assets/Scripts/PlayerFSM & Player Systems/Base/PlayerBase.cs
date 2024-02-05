@@ -1,8 +1,8 @@
 using System;
+using System.Collections;
 using Dreamteck.Splines;
 using UnityEngine.InputSystem;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 public class PlayerBase : MonoBehaviour
@@ -10,10 +10,11 @@ public class PlayerBase : MonoBehaviour
     [Header("Component References")]
     public Rigidbody rb;
     [SerializeField] private Collider skateboardCollider;
-    public Transform inputTurningTransform, playerModelTransform;
+    public Transform inputTurningTransform, playerModelTransform; // this is public because we want access from our states
     [SerializeField] private Transform raycastPoint;
     [SerializeField] private Transform extensionRaycastPoint;
     [SerializeField] private SlopeOrientationHandler orientationHandler;
+    [SerializeField] private CapsuleCollider skateboardColliderCapsule;
     private SplineComputer currentSpline;
     private double splineCompletionPercent;
     private PlayerMovementMethods movementMethods;
@@ -42,11 +43,14 @@ public class PlayerBase : MonoBehaviour
     public PlayerDriftState driftState;
     public GameObject grindRailFollower;
     
+    float skateboardOriginalColliderRadius;
+    
 
 #region Unity Methods
     private void Awake()
     {
         StateMachineSetup();
+        skateboardOriginalColliderRadius = skateboardColliderCapsule.radius;
         movementMethods = new PlayerMovementMethods(this, rb, playerData, inputTurningTransform);
     }
     
@@ -173,7 +177,7 @@ public class PlayerBase : MonoBehaviour
         bool forwardRightDownRayHit = Physics.Raycast(forwardRightRayOrigin, -playerModelTransform.up, out forwardRightSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
 
 
-        return (forwardLeftDownRayHit || forwardRightDownRayHit) || (backLeftDownRayHit || backRightDownRayHit);
+        return (forwardLeftDownRayHit && forwardRightDownRayHit) || (backLeftDownRayHit && backRightDownRayHit);
     }
 
     /// <summary>
@@ -221,6 +225,28 @@ public class PlayerBase : MonoBehaviour
         grindState = new PlayerGrindState(this, stateMachine);
         driftState = new PlayerDriftState(this, stateMachine);
         stateMachine.Init(airborneState);
+    }
+    
+    public float GetOriginalColliderRadius()
+    {
+        return skateboardOriginalColliderRadius;
+    }
+    public IEnumerator ScaleCapsuleCollider(float newRadius)
+    {
+        float duration = .15f; // Duration for the scaling operation, adjust as needed
+        float elapsed = 0f;
+
+        float originalRadius = skateboardColliderCapsule.radius;
+
+        while (Mathf.Abs(skateboardColliderCapsule.radius - newRadius) > 0.01f)
+        {
+            elapsed += Time.deltaTime;
+            skateboardColliderCapsule.radius = Mathf.Lerp(originalRadius, newRadius, elapsed / duration);
+            yield return null;
+        }
+
+        // Ensure the final radius is exactly what's expected
+        skateboardColliderCapsule.radius = newRadius;
     }
     
 }

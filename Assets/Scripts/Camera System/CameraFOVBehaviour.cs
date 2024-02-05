@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CameraFOVBehaviour : MonoBehaviour
 {
-    [SerializeField] GameObject player;
+    [SerializeField] PlayerBase player;
     private Camera camera;
     private Rigidbody rb;
     float defaultFOV = 40;
@@ -27,6 +27,7 @@ public class CameraFOVBehaviour : MonoBehaviour
         if (magnitude != 0)
         {
             currentFOV = defaultFOV + magnitude / 3;
+            currentFOV = Mathf.Clamp(currentFOV, player.playerData.defaultFOV, player.playerData.maxFOV);
             camera.fieldOfView = currentFOV;
         }
         
