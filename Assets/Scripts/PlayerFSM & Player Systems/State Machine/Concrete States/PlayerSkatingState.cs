@@ -9,6 +9,12 @@ public class PlayerSkatingState : PlayerState
     {
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
             { onPerformed = ctx => player.GetMovementMethods().OllieJump()});
+        
+        inputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
+        {
+            onPerformed = ctx => player.GetMovementMethods().StartBoost(),
+            onCanceled = ctx => player.GetMovementMethods().StopBoost()
+        });
     }
 
     private bool enteredHalfPipeSection;

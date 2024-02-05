@@ -8,6 +8,12 @@ public class PlayerHalfpipeState : PlayerState
     {
     }
     
+public override void Enter()
+    {
+        base.Enter();
+        player.GetMovementMethods().StopBoost();
+    }
+    
     public override void LogicUpdate()
     {
         base.LogicUpdate();

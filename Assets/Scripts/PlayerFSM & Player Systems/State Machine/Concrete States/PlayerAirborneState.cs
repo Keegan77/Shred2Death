@@ -9,6 +9,12 @@ public class PlayerAirborneState : PlayerState
     public PlayerAirborneState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => CheckForSpline()});
+        
+        inputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
+        {
+            onPerformed = ctx => player.GetMovementMethods().StartBoost(),
+            onCanceled = ctx => player.GetMovementMethods().StopBoost()
+        });
     }
     
     public override void Enter()

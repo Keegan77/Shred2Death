@@ -11,12 +11,17 @@ public class PlayerMovementMethods
     private Transform inputTurningTransform;
     private float movementSpeed;
     private float turnSharpness;
+    private float boostTimer;
+
+    private float baseSpeed;
     public PlayerMovementMethods(PlayerBase player, Rigidbody rb, PlayerData playerData, Transform inputTurningTransform)
     {
         this.rb = rb;
         this.playerData = playerData;
         this.player = player;
         this.inputTurningTransform = inputTurningTransform;
+        
+        baseSpeed = playerData.baseMovementSpeed;
     }
     
     /// <summary>
@@ -69,8 +74,6 @@ public class PlayerMovementMethods
             -(player.GetOrientationWithDownward() - 90) * slopeMultiplier; // this is a negative so if we are going
                                                                            // down, we add force, if we are going up,
                                                                            // we decrease force
-        
-        Debug.Log(calculateExtraForce(playerData.slopedUpSpeedMult));
         if (rb.velocity.y > 0)
         {
             offset = calculateExtraForce(playerData.slopedUpSpeedMult);
@@ -81,7 +84,7 @@ public class PlayerMovementMethods
         }
         // Get the rotation around the x-axis, ranging from -90 to 90
         
-        movementSpeed = playerData.baseMovementSpeed + offset;
+        movementSpeed = baseSpeed + offset;
         //Debug.Log(movementSpeed);
     }
 
@@ -99,4 +102,64 @@ public class PlayerMovementMethods
     {
         rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, rb.velocity.y, 0), playerData.deAccelerationSpeed);
     }
+
+    private Coroutine boostTimerCoroutine;
+    private Coroutine rechargeBoostCoroutine;
+    public void StartBoost() // subscribe to on input performed boost input
+    {
+        if (boostTimer > playerData.boostDuration) return;
+        if (rechargeBoostCoroutine != null)
+        {
+            player.StopCoroutine(rechargeBoostCoroutine);
+            currentlyRecharging = false;
+            rechargeBoostCoroutine = null;
+        }
+        
+        baseSpeed = playerData.baseBoostSpeed;
+        if (currentlyBoosting) return;
+        boostTimerCoroutine = player.StartCoroutine(BoostTimer());
+    }
+
+    bool currentlyBoosting;
+    bool currentlyRecharging;
+    public void StopBoost() // subscribe this to on input canceled boost input cancel
+    {
+        if (boostTimerCoroutine != null)
+        {
+            player.StopCoroutine(boostTimerCoroutine);
+            currentlyBoosting = false;
+            boostTimerCoroutine = null;
+        }
+        baseSpeed = playerData.baseMovementSpeed;
+        if (currentlyRecharging) return;
+        rechargeBoostCoroutine = player.StartCoroutine(RechargeBoost());
+    }
+    
+    private IEnumerator BoostTimer()
+    {
+        currentlyBoosting = true;
+        while (boostTimer < playerData.boostDuration)
+        {
+            boostTimer += Time.deltaTime;
+            Debug.Log(boostTimer);
+
+            yield return null;
+        }
+        currentlyBoosting = false;
+        StopBoost();
+    }
+
+    private IEnumerator RechargeBoost()
+    {
+        currentlyRecharging = true;
+        while (boostTimer > 0)
+        {
+            boostTimer -= Time.deltaTime;
+            Debug.Log(boostTimer);
+
+            yield return null;
+        }
+        currentlyRecharging = false;
+    }
+    
 }

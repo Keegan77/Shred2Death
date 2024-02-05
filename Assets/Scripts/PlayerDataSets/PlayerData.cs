@@ -8,6 +8,9 @@ public class PlayerData : ScriptableObject
 {
     [Header("Movement Values")]
     public float baseMovementSpeed;
+
+    public float baseBoostSpeed;
+    public float boostDuration;
     public float baseJumpForce;
     public float baseTurnSharpness;
     public float deAccelerationSpeed;
