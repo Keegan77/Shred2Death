@@ -42,7 +42,7 @@ public class ES_Turret : Enemy_State
         }
         else
         {
-            e.spawnBullet (bulletInfo);
+            bulletInfo.spawnBullet (e.muzzlePoint);
         }
 
         bulletReady = true;

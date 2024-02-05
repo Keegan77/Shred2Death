@@ -459,7 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99420d753f78df4f899e85ff8347443, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 25
   driftSpeed: 0
 --- !u!114 &1581508540
 MonoBehaviour:
@@ -726,9 +726,17 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 6.28
       objectReference: {fileID: 0}
+    - target: {fileID: 8493642356577302058, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+      propertyPath: bulletInfo
+      value: 
+      objectReference: {fileID: 847110466}
     - target: {fileID: 8879304838989165630, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: fireRate
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8879304838989165630, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+      propertyPath: deviation
+      value: 0.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
 
     [NonSerialized] public Enemy_StateMachine stateMachine;
 
-    GameObject muzzlePoint;
+    [NonSerialized] public GameObject muzzlePoint;
 
     [Header ("Components")]
     WaveManager waveManager; //Set by waveManager when the enemy object is instantiated
@@ -95,42 +95,6 @@ public class Enemy : MonoBehaviour
         waveManager.removeEnemy ();
 
         Destroy (gameObject);
-    }
-
-
-    public void spawnBullet(Enemy_BulletInfo i)
-    {
-        Vector3 solvedPosition = Enemy_Bullet.LeadShot(playerObject, muzzlePoint, i);
-        Debug.Log(solvedPosition);
-        if(solvedPosition == Vector3.zero)
-        {
-            Debug.Log ("Recognized bullet won't fire right");
-            return;
-        }
-
-        GameObject eb = Instantiate (i.bulletObject, transform.position, Quaternion.identity);
-
-        //Once the bullet is spawned,
-        eb.transform.LookAt (solvedPosition);
-
-        eb.GetComponent<Rigidbody> ().velocity = eb.transform.forward * i.speed;
-
-        eb.SetActive (true);
-
-        eb.GetComponent<Enemy_Bullet>().StartCoroutine(eb.GetComponent<Enemy_Bullet>().lifeTimer(i.timeToLive));
-
-        #region debug lines
-        Debug.DrawLine(playerObject.transform.position, solvedPosition);
-        Debug.DrawLine(playerObject.transform.position + new Vector3 (0, 1, 0), ((solvedPosition - playerObject.transform.position).normalized) * playerObject.GetComponent<Rigidbody>().velocity.magnitude + new Vector3 (0, 1, 0) + playerObject.transform.position);
-        Debug.DrawLine(playerObject.transform.position + new Vector3 (0, 2, 0), ((solvedPosition - playerObject.transform.position).normalized) * playerObject.GetComponent<Rigidbody>().velocity.magnitude * 5 + new Vector3 (0, 2, 0) + playerObject.transform.position);
-
-        Debug.DrawLine(eb.transform.position, solvedPosition);
-        Debug.DrawLine (eb.transform.position + new Vector3 (0, 1, 0), eb.transform.forward * eb.GetComponent<Rigidbody> ().velocity.magnitude + new Vector3 (0, 1, 0) + eb.transform.position);
-        Debug.DrawLine (eb.transform.position + new Vector3 (0, 2, 0), eb.transform.forward * eb.GetComponent<Rigidbody> ().velocity.magnitude * 5 + new Vector3 (0, 2, 0) + eb.transform.position);
-        #endregion
-
-
-        //Debug.Break ();
     }
 
     #endregion

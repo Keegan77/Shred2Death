@@ -20,14 +20,13 @@ public class Enemy_Bullet : MonoBehaviour
     //Returns a point in space of which a projectile at its speed
     //will make contact with a player at their current speed.
 
-    //TODO: Add inaccuracy calculations which will be provided by bulletInfo
     //TODO: The slope based off the player's velocity would be a good thing to look at for more accurate shots
     public static Vector3 LeadShot (GameObject p, GameObject e, Enemy_BulletInfo i)
     {
         Rigidbody prb = p.GetComponent<Rigidbody> ();
         if (prb == null) return Vector3.zero;
 
-        if ( prb.velocity == Vector3.zero ) return prb.transform.position;
+        if ( prb.velocity == Vector3.zero ) return prb.transform.position + UnityEngine.Random.insideUnitSphere * i.deviation; ;
         //return prb.velocity * ((p.transform.position - e.transform.position).magnitude / speed);
 
         //Forums approach: Not mathmatecally accurate but it gets close
@@ -50,9 +49,9 @@ public class Enemy_Bullet : MonoBehaviour
 
         
 
-        Debug.Log ($"Time 0 || Player: 0 | Bullet: {travelTime}");
-        Debug.Log ($"Time 1 || Player: {tp1} | Bullet: {te1}");
-        Debug.Log ($"Time 2 || Player: {tp2} | Bullet: {te2}");
+        //Debug.Log ($"Time 0 || Player: 0 | Bullet: {travelTime}");
+        //Debug.Log ($"Time 1 || Player: {tp1} | Bullet: {te1}");
+        //Debug.Log ($"Time 2 || Player: {tp2} | Bullet: {te2}");
         
 
         float slopeP = (tp2 - tp1) / 5;
@@ -60,7 +59,7 @@ public class Enemy_Bullet : MonoBehaviour
 
         if (slopeE > slopeP )
         {
-            Debug.Log ("Did not fire. Player is outrunning the bullet.");
+            //Debug.Log ("Did not fire. Player is outrunning the bullet.");
             return Vector3.zero;
         }
 
@@ -71,11 +70,10 @@ public class Enemy_Bullet : MonoBehaviour
         float tp3 = Vector3.Distance (p.transform.position, intersect3) / prb.velocity.magnitude;
         float te3 = Vector3.Distance (e.transform.position, intersect3) / i.speed;
 
-        Debug.Log ($"Compensation: {compensate}");
-        Debug.Log ($"Time 3 || Player: {tp3} | Bullet: {te3}");
+        //Debug.Log ($"Compensation: {compensate}");
+        //Debug.Log ($"Time 3 || Player: {tp3} | Bullet: {te3}");
 
-
-        return intersect3;
+        return intersect3 + UnityEngine.Random.insideUnitSphere * i.deviation;
 
     }
 

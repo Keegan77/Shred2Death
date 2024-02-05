@@ -79,10 +79,9 @@ public class ES_Chase : Enemy_State
     {
         bulletKey = false;
 
-
         yield return new WaitForSeconds (UnityEngine.Random.Range (bulletWaitMin, bulletWaitMax));
 
-        e.spawnBullet (bulletInfo);
+        bulletInfo.spawnBullet (e.muzzlePoint);
 
         bulletKey = true;
     }

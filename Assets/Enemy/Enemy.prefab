@@ -231,11 +231,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletObject: {fileID: 1648210184017437467, guid: 27431693b39e2d74f9e3d709c9248175, type: 3}
-  speed: 15
+  speed: 20
   fireRate: 1
   timeToLive: 5
-  deviationAccuracy: 0
-  deviationLead: 0
+  deviation: 0.75
 --- !u!1 &7124167519604009635
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +369,7 @@ MonoBehaviour:
   wanderPlayerBias: 5
   wanderSearchIterations: 5
   wanderStayTimeMin: 1
-  wanderStayTimeMax: 5
+  wanderStayTimeMax: 3
 --- !u!114 &8493642356577302058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,6 +383,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agentUpdateDistance: 10
+  chaseUpdateTimer: 3
+  bulletInfo: {fileID: 8879304838989165630}
+  bulletWaitMin: 1
+  bulletWaitMax: 5
 --- !u!114 &1962147261089565403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f5ca0eed51f0841a403e0429eb53d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletInfo: {fileID: 0}
+  bulletInfo: {fileID: 8879304838989165630}
 --- !u!1 &8998884110879878547
 GameObject:
   m_ObjectHideFlags: 0
