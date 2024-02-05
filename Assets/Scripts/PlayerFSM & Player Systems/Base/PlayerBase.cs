@@ -29,7 +29,7 @@ public class PlayerBase : MonoBehaviour
     [HideInInspector] public Vector3 forwardRayOrigin, backRayOrigin, leftRayOrigin, rightRayOrigin;
     Vector3 backRayEndPoint, forwardRayEndPoint, leftRayEndPoint, rightRayEndPoint;
     
-    [HideInInspector] public RaycastHit leftSlopeHit, rightSlopeHit, forwardSlopeHit, backSlopeHit;
+    //[HideInInspector] public RaycastHit leftSlopeHit, rightSlopeHit, forwardSlopeHit, backSlopeHit;
     [HideInInspector] public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit;
     
     //state machine
@@ -42,47 +42,20 @@ public class PlayerBase : MonoBehaviour
     public PlayerDriftState driftState;
     public GameObject grindRailFollower;
     
-    float jumpInput;
-    
 
-#region Unity Abstracted Methods
+#region Unity Methods
     private void Awake()
     {
         StateMachineSetup();
         movementMethods = new PlayerMovementMethods(this, rb, playerData, inputTurningTransform);
     }
     
-    private void Update()
-    {
-        stateMachine.currentState.LogicUpdate();
-        
-        //Debug.Log(stateMachine.currentState);
-    }
-    
-    private void FixedUpdate()
-    {
-        stateMachine.currentState.PhysicsUpdate();
-    }
-    
-    private void OnTriggerEnter(Collider other)
-    {
-        stateMachine.currentState.StateTriggerEnter(other);
-    }
-    
-    private void OnTriggerStay(Collider other)
-    {
-        stateMachine.currentState.StateTriggerStay(other);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        stateMachine.currentState.StateTriggerExit(other);
-    }
-
-    private void OnCollisionStay(Collision other)
-    {
-        stateMachine.currentState.StateCollisionEnter(other);
-    }
+    private void Update() => stateMachine.currentState.LogicUpdate();
+    private void FixedUpdate() => stateMachine.currentState.PhysicsUpdate();
+    private void OnTriggerEnter(Collider other) => stateMachine.currentState.StateTriggerEnter(other);
+    private void OnTriggerStay(Collider other) => stateMachine.currentState.StateTriggerStay(other);
+    private void OnTriggerExit(Collider other) => stateMachine.currentState.StateTriggerExit(other);
+    private void OnCollisionStay(Collision other) => stateMachine.currentState.StateCollisionEnter(other);
     private void OnDrawGizmos()
     {
         // Update the ray origin points

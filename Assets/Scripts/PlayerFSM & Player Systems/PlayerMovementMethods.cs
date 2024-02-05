@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,12 +19,12 @@ public class PlayerMovementMethods
         this.inputTurningTransform = inputTurningTransform;
     }
     
-        /// <summary>
+    /// <summary>
     /// Will exert a force forward if the player's slope isn't too steep. Meant to be used in FixedUpdate.
     /// </summary>
     public void SkateForward()
     {
-        CalculateSpeedVector();
+        CalculateCurrentSpeed();
         
         Vector2 maxSlopeRange = new Vector2(playerData.slopeRangeWherePlayerCantMove.x + 90, playerData.slopeRangeWherePlayerCantMove.y + 90);
         
@@ -36,10 +37,9 @@ public class PlayerMovementMethods
         
         if (isFacingUpward) return;
         
-        rb.AddForce(inputTurningTransform.forward * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0 ? InputRouting.Instance.GetMoveInput().y : 0)), ForceMode.Acceleration); // Only adds force if
-        // the player is not
-        // on a slope that is
-        // too steep.
+        rb.AddForce(inputTurningTransform.forward * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0 ? 
+            InputRouting.Instance.GetMoveInput().y : 0)), ForceMode.Acceleration); 
+        // Only adds force if the player is not on a slope that is too steep.
     }
 
     public void OllieJump()
@@ -51,7 +51,7 @@ public class PlayerMovementMethods
     /// Handles turning the player model with left and right input. Rotating the player works best for the movement we
     /// are trying to achieve, as movement is based on the player's forward direction. Meant to be used in FixedUpdate.
     /// </summary>
-    public void TurnPlayer(bool overrideTurnSharpness = false, float newTurnSharpness = 0) // Rotates the PLAYER MODEL TRANSFORM. We must work with 2 transforms to achieve the desired effect.
+    public void TurnPlayer(bool overrideTurnSharpness = false, float newTurnSharpness = 0) // Rotates the input turning transform
     {
         inputTurningTransform.Rotate(0,
             overrideTurnSharpness ?
@@ -61,18 +61,23 @@ public class PlayerMovementMethods
             Space.Self);
     }
     
-    private void CalculateSpeedVector() 
-        //TODO: The calculation in this method doesn't achieve desired results and can be improved.
+    private void CalculateCurrentSpeed() 
     {
         float offset = rb.velocity.y;
+        float extraForce;
+        Func<float, float> calculateExtraForce = (slopeMultiplier) =>
+            -(player.GetOrientationWithDownward() - 90) * slopeMultiplier; // this is a negative so if we are going
+                                                                           // down, we add force, if we are going up,
+                                                                           // we decrease force
         
+        Debug.Log(calculateExtraForce(playerData.slopedUpSpeedMult));
         if (rb.velocity.y > 0)
         {
-            offset = -rb.velocity.y * playerData.slopedUpSpeedMult;
+            offset = calculateExtraForce(playerData.slopedUpSpeedMult);
         }
         else if (rb.velocity.y < 0)
         {
-            offset = rb.velocity.y * playerData.slopedDownSpeedMult;
+            offset = calculateExtraForce(playerData.slopedDownSpeedMult);
         }
         // Get the rotation around the x-axis, ranging from -90 to 90
         

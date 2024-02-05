@@ -44,10 +44,6 @@ public class SlopeOrientationHandler : MonoBehaviour
     
     public void OrientFromExtensions() // should refactor into a coroutine to do this, so we are locked into orienting
     {
-        Debug.Log($"Forward slope hit normal: {playerBase.forwardSlopeHit.normal}");
-        
-        Vector3 averageNormal = (playerBase.forwardSlopeHit.normal).normalized;
-        
         Quaternion targetRotation = Quaternion.FromToRotation(playerBase.transform.up, Vector3.up) 
                                     * playerBase.transform.rotation;
 
