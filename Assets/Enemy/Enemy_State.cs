@@ -27,7 +27,7 @@ public class Enemy_State : MonoBehaviour
 
     public virtual void Exit ()
     {
-
+        StopAllCoroutines();
     }
 
     public virtual void machineUpdate ()
@@ -57,5 +57,9 @@ public class Enemy_State : MonoBehaviour
     {
         e.agentPath.ClearCorners ();
     }
+    #endregion
+
+    #region COROUTINES
+
     #endregion
 }
