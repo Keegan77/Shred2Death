@@ -39,7 +39,7 @@ public class PlayerHalfpipeState : PlayerState
     
     public override void StateTriggerExit(Collider other)
     {
-        /*base.StateTriggerExit(other);
+        base.StateTriggerExit(other);
         Debug.Log("Exited half pipe volume");
         if (other.CompareTag("Ramp90"))
         {
@@ -47,7 +47,7 @@ public class PlayerHalfpipeState : PlayerState
             
             else stateMachine.SwitchState(player.airborneState);
             
-        }*/
+        }
     }
     
     

@@ -156,16 +156,6 @@ public class PlayerBase : MonoBehaviour
         }
     }
     
-    /*private void JumpOffRail() // whole method is placeholder for testing
-    {
-        if (stateMachine.currentState != grindState) return;
-        var speed = GetComponent<SplineFollower>().followSpeed;
-        SetRBKinematic(false);
-        rb.AddForce(transform.forward * speed * 100); 
-        rb.AddForce(Vector3.up * 20);
-        stateMachine.SwitchState(airborneState);
-    }*/
-    
     /// <summary>
     /// Handles turning the player model with left and right input. Rotating the player works best for the movement we
     /// are trying to achieve, as movement is based on the player's forward direction. Meant to be used in FixedUpdate.
@@ -180,7 +170,8 @@ public class PlayerBase : MonoBehaviour
             Space.Self);
     }
     
-    private void CalculateSpeedVector()
+    private void CalculateSpeedVector() 
+        //TODO: The calculation in this method doesn't achieve desired results and can be improved.
     {
         float offset = rb.velocity.y;
         
@@ -190,7 +181,7 @@ public class PlayerBase : MonoBehaviour
         }
         else if (rb.velocity.y < 0)
         {
-            offset = rb.velocity.y / playerData.slopedDownSpeedMult;
+            offset = rb.velocity.y * playerData.slopedDownSpeedMult;
         }
         // Get the rotation around the x-axis, ranging from -90 to 90
         
@@ -289,7 +280,7 @@ public class PlayerBase : MonoBehaviour
         bool forwardRightDownRayHit = Physics.Raycast(forwardRightRayOrigin, -playerModelTransform.up, out forwardRightSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
 
 
-        return (forwardLeftDownRayHit && forwardRightDownRayHit) || (backLeftDownRayHit && backRightDownRayHit);
+        return (forwardLeftDownRayHit || forwardRightDownRayHit) || (backLeftDownRayHit || backRightDownRayHit);
     }
 
     /// <summary>

@@ -154,7 +154,7 @@ public class PlayerDriftState : PlayerState
     private float CalculateTurnSharpness()
     {
         float currentInputDirection = InputRouting.Instance.GetMoveInput().x;
-        if (currentInputDirection == 0)
+        if (currentInputDirection < 0)
         {
             return 0;
         }
