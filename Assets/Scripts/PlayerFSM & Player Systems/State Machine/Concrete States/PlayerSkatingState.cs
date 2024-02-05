@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerSkatingState : PlayerState
 {
+    private PlayerMovementMethods movementMethods;
     public PlayerSkatingState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
-        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => player.OllieJump()});
+        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
+            { onPerformed = ctx => player.GetMovementMethods().OllieJump()});
     }
 
     private bool enteredHalfPipeSection;
@@ -16,6 +18,7 @@ public class PlayerSkatingState : PlayerState
         base.Enter();
         SubscribeInputs();
         enteredHalfPipeSection = false;
+        movementMethods = player.GetMovementMethods();
     }
     
     public override void Exit()
@@ -52,11 +55,11 @@ public class PlayerSkatingState : PlayerState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        player.CalculateTurnSharpness();
-        player.SkateForward();
-        player.DeAccelerate();
+        movementMethods.CalculateTurnSharpness();
+        movementMethods.SkateForward();
+        movementMethods.DeAccelerate();
         if (player.CheckGround()) player.GetOrientationHandler().OrientToSlope();
-        if (InputRouting.Instance.GetMoveInput().y != 0) player.TurnPlayer();
+        if (InputRouting.Instance.GetMoveInput().y != 0) movementMethods.TurnPlayer();
     }
     
     public override void StateTriggerStay(Collider other)

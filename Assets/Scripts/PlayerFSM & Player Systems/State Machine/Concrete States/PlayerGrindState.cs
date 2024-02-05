@@ -84,7 +84,7 @@ public class PlayerGrindState : PlayerState
         
         player.transform.position = sFollower.result.position + new Vector3(0, player.playerData.grindPositioningOffset, 0);
         player.transform.localEulerAngles = new Vector3(0, sFollower.result.rotation.eulerAngles.y, 0);
-        player.TurnPlayer(true, player.playerData.grindTurnSharpness * Time.deltaTime);
+        player.GetMovementMethods().TurnPlayer(true, player.playerData.grindTurnSharpness * Time.deltaTime);
         
     }
 

@@ -7,7 +7,6 @@ using UnityEngine.PlayerLoop;
 public class FollowOriginPoint : MonoBehaviour
 {
     [SerializeField] private Transform originPoint;
-
     private void Update()
     {
         transform.position = originPoint.position;

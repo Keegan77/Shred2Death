@@ -53,7 +53,7 @@ public class PlayerDriftState : PlayerState
         }
         Drift();
         
-        player.DeAccelerate();
+        player.GetMovementMethods().DeAccelerate();
         //.Log(driftSpeedBoost);
         timer += Time.deltaTime;
     }

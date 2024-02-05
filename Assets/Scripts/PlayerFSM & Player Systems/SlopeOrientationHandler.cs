@@ -2,22 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlopeOrientationHandler
+public class SlopeOrientationHandler : MonoBehaviour
 {
-    private PlayerBase playerBase;
-    private PlayerData playerData;
-    private Transform playerModelTransform;
-    private Transform inputTurningTransform;
-    public SlopeOrientationHandler(PlayerBase playerBase, PlayerData playerData, Transform playerModelTransform,
-        Transform inputTurningTransform)
-    {
-        this.playerBase = playerBase;
-        this.playerData = playerData;
-        this.playerModelTransform = playerModelTransform;
-        this.inputTurningTransform = inputTurningTransform;
-    }
+    [SerializeField] private PlayerBase playerBase;
+    [SerializeField] private Transform playerModelTransform;
+    [SerializeField] private Transform inputTurningTransform;
+
+    #region Orientation Values
+    public float slopeOrientationSpeed;
+    public float slopeDownDetectionDistance;
+    public float slopeForwardDetectionDistance;
+    [Tooltip("The distance from the center of the player to the left and right raycast origins. These are used to detect the slope.")]
+    public float slopeRayOffsetFromZ;
+
+    [Tooltip("The height offset of the ground extension raycasts. These raycasts are used to detect if the player has fallen over, and will re-orient the player if the player has fallen over and they are about to hit the ground")]
+    public float extensionRayHeightOffset;
+
+    public float slopeRayOffsetFromX;
     
-    // Update is called once per frame
+
+    [Tooltip("Used when your detection raycasts indicate that you are about to hit the ground at full force on your face/side/back. This refers to the speed at which the player will re-orient to match the ground")]
+    public float emergencySlopeReOrientSpeed;
+    public float airReOrientSpeed;
+    
+    #endregion
     
     public void OrientToSlope()
     {
@@ -31,7 +39,7 @@ public class SlopeOrientationHandler
 
         // Lerp to the desired rotation
         playerBase.transform.rotation = Quaternion.Slerp(playerBase.transform.rotation, targetRotation,
-            Time.fixedDeltaTime * playerData.slopeOrientationSpeed);
+            Time.fixedDeltaTime * slopeOrientationSpeed);
     }
     
     public void OrientFromExtensions() // should refactor into a coroutine to do this, so we are locked into orienting
@@ -45,7 +53,7 @@ public class SlopeOrientationHandler
 
         // Lerp to the desired rotation
         playerBase.transform.rotation = Quaternion.Slerp(playerBase.transform.rotation, targetRotation,
-            Time.fixedDeltaTime * playerData.emergencySlopeReOrientSpeed);
+            Time.fixedDeltaTime * emergencySlopeReOrientSpeed);
     }
     /// <summary>
     /// Slowly re-orients the player mid-air to be upright. Meant to be used in FixedUpdate.
@@ -53,6 +61,6 @@ public class SlopeOrientationHandler
     public void ReOrient()
     {
         Quaternion targetRotation = Quaternion.FromToRotation(playerBase.transform.up, Vector3.up) * playerBase.transform.rotation;
-        playerBase.transform.rotation = Quaternion.Slerp(playerBase.transform.rotation, targetRotation, Time.fixedDeltaTime * playerData.airReOrientSpeed);
+        playerBase.transform.rotation = Quaternion.Slerp(playerBase.transform.rotation, targetRotation, Time.fixedDeltaTime * airReOrientSpeed);
     }
 }
