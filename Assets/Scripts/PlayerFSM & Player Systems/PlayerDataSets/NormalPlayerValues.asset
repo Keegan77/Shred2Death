@@ -12,34 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6105942e73b6623429710e49218567bb, type: 3}
   m_Name: NormalPlayerValues
   m_EditorClassIdentifier: 
-  baseMovementSpeed: 135
+  baseMovementSpeed: 120
   baseJumpForce: 15
-  baseTurnSharpness: 350
+  baseTurnSharpness: 400
   deAccelerationSpeed: 0.05
-  airForwardForce: 15
-  minGrindSpeed: 15
-  maxGrindSpeed: 25
-  grindSpeedAdditive: 10
+  airForwardForce: 18
+  baseGrindingSpeed: 32
   grindPositioningOffset: 3.5
-  grindTurnSharpness: 200
-  railSnapTime: 3
+  grindTurnSharpness: 0
   baseDriftForce: 100
   baseDriftTurnSharpness: 120
   driftRotationalOffset: 45
-  baseDriftBoost: 30
+  baseDriftBoost: 60
   driftBoostAdditive: 15
-  inputExtraDriftTurnSharpness: 25
+  inputExtraDriftTurnSharpness: 50
   playerModelRotationSpeed: 0.5
+  railSnapTime: 3
   lightDriftTime: 1
   driftPhaseTime: 2
-  slopeOrientationSpeed: 17
+  slopeOrientationSpeed: 15
   slopeDownDetectionDistance: 1.3
-  slopeForwardDetectionDistance: 3.58
-  slopeRayOffsetFromZ: 0.63
-  extensionRayHeightOffset: 1.46
-  slopeRayOffsetFromX: 0.36
+  slopeForwardDetectionDistance: 2.68
+  slopeRayOffsetFromMid: 0.8
   slopeRangeWherePlayerCantMove: {x: 80, y: 100}
   emergencySlopeReOrientSpeed: 15
   airReOrientSpeed: 2
   slopedUpSpeedMult: 2
-  slopedDownSpeedMult: 2
+  slopedDownSpeedMult: 1
