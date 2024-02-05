@@ -45,11 +45,14 @@ public class PlayerDriftState : PlayerState
 
         if (!player.CheckGround())
         {
-            player.ReOrient();
+            player.GetOrientationHandler().ReOrient();
         }
-        
+        else
+        {
+            player.GetOrientationHandler().OrientToSlope();
+        }
         Drift();
-        player.OrientToSlope();
+        
         player.DeAccelerate();
         //.Log(driftSpeedBoost);
         timer += Time.deltaTime;
@@ -151,7 +154,7 @@ public class PlayerDriftState : PlayerState
     private float CalculateTurnSharpness()
     {
         float currentInputDirection = InputRouting.Instance.GetMoveInput().x;
-        if (currentInputDirection == 0)
+        if (currentInputDirection < 0)
         {
             return 0;
         }

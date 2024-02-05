@@ -51,7 +51,7 @@ public class PlayerState
     {
         foreach (var pair in inputActions)
         {
-            Debug.Log("Subscribing to " + pair.Key);
+            //Debug.Log("Subscribing to " + pair.Key);
             if (pair.Value.onPerformed != null) pair.Key.performed += pair.Value.onPerformed;
             if (pair.Value.onCanceled != null)  pair.Key.canceled += pair.Value.onCanceled;
         }
@@ -61,7 +61,7 @@ public class PlayerState
     {
         foreach (var pair in inputActions)
         {
-            Debug.Log("Unsubscribing from " + pair.Key);
+            //Debug.Log("Unsubscribing from " + pair.Key);
             if (pair.Value.onPerformed != null) pair.Key.performed -= pair.Value.onPerformed;
             if (pair.Value.onCanceled != null) pair.Key.canceled -= pair.Value.onCanceled;
         }

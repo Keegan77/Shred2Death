@@ -23,7 +23,9 @@ public class PlayerHalfpipeState : PlayerState
         base.PhysicsUpdate();
         HalfPipeAirBehaviour();
         player.TurnPlayer();
-        player.OrientFromExtensions();
+        if (player.rb.velocity.y < 0 && player.CheckGroundExtensions()) 
+            player.GetOrientationHandler().OrientFromExtensions(); // the if statement prevents accidental landing
+                                                                     // rotation when the player is still in the air
     }
     /// <summary>
     /// Makes sure the player lands back on the half pipe. This is done by restricting the player's local Y velocity

@@ -42,8 +42,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3831898785959713912}
+  - component: {fileID: 2348469144125233650}
   - component: {fileID: 2616151468426186995}
   - component: {fileID: 3437983621280888445}
+  - component: {fileID: 1857440138616018068}
   - component: {fileID: 3448209998300594400}
   - component: {fileID: 3872104577493689534}
   m_Layer: 0
@@ -71,6 +73,28 @@ Transform:
   - {fileID: 570931816042545573}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &2348469144125233650
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021591513531018249}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.5
+  m_Speed: 10
+  m_Acceleration: 250
+  avoidancePriority: 50
+  m_AngularSpeed: 540
+  m_StoppingDistance: 0.1
+  m_AutoTraverseOffMeshLink: 0
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!114 &2616151468426186995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +122,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 2
   movementSpeed: 10
+--- !u!114 &1857440138616018068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021591513531018249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa136f9da25efc41bddc5b42decdeb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time_WaitForJump: 0.5
 --- !u!54 &3448209998300594400
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -121,7 +158,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -277,7 +314,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add5818732ff0cf41810fc38f0ed8053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activateState: {fileID: 8493642356577302058}
+  wanderSearchRadius: 7
+  wanderPlayerBias: 5
+  wanderSearchIterations: 1
+  wanderStayTimeMin: 1
+  wanderStayTimeMax: 5
 --- !u!114 &8493642356577302058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,7 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53d6e71eeb9960c44a02b11e795b4d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  returnState: {fileID: 9213977449886670521}
+  agentUpdateDistance: 10
 --- !u!114 &1962147261089565403
 MonoBehaviour:
   m_ObjectHideFlags: 0

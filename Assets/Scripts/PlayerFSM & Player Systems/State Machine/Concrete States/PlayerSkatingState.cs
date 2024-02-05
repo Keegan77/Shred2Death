@@ -29,16 +29,16 @@ public class PlayerSkatingState : PlayerState
         base.LogicUpdate();
         if (enteredHalfPipeSection)
         {
-            if (!player.CheckGround() && !InputRouting.Instance.GetBoostInput() && !player.GetOrientationWithDownward().IsInRangeOf(70, 110))
+            if (!player.CheckGround() && !InputRouting.Instance.GetBoostInput() && !player.GetOrientationWithDownward().IsInRangeOf(70, 110)) // if we are facing upward and not boosting and not on the ground, we go into halfpipe state
             {
                 stateMachine.SwitchState(player.halfPipeState);
             }
-            else if (!player.CheckGround())
+            else if (!player.CheckGround()) // if we are not facing upward, dont enter half pipe state, enter airborne
             {
                 stateMachine.SwitchState(player.airborneState);
             }
             
-        } else if (!player.CheckGround())
+        } else if (!player.CheckGround()) // if we haven't entered a half pipe section and we dont detect ground
         {
             stateMachine.SwitchState(player.airborneState);
         }
@@ -55,7 +55,7 @@ public class PlayerSkatingState : PlayerState
         player.CalculateTurnSharpness();
         player.SkateForward();
         player.DeAccelerate();
-        player.OrientToSlope();
+        if (player.CheckGround()) player.GetOrientationHandler().OrientToSlope();
         if (InputRouting.Instance.GetMoveInput().y != 0) player.TurnPlayer();
     }
     
