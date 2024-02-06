@@ -338,6 +338,17 @@ public partial class @Input: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""e01a32e3-c474-48b5-8750-7dc3d1341376"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""aaa9434b-5d09-43a4-b2ea-67bddc4d5593"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",

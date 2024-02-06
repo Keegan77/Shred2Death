@@ -8,6 +8,9 @@ public class PlayerData : ScriptableObject
 {
     [Header("Movement Values")]
     public float baseMovementSpeed;
+
+    public float baseBoostSpeed;
+    public float boostDuration;
     public float baseJumpForce;
     public float baseTurnSharpness;
     public float deAccelerationSpeed;
@@ -53,20 +56,15 @@ public class PlayerData : ScriptableObject
     
     
     [Header("Slope Orientation Settings")]
-    public float slopeOrientationSpeed;
-    public float slopeDownDetectionDistance;
-    public float slopeForwardDetectionDistance;
-    [Tooltip("The distance from the center of the player to the left and right raycast origins. These are used to detect the slope.")]
-    public float slopeRayOffsetFromMid;
+
     [Tooltip("X is min, Y is max. If the slope is within this range, the player will not be able to exert a forward force. Used for preventing the player from using forward force up slopes that are too steep")]
     public Vector2 slopeRangeWherePlayerCantMove;
-    [Tooltip("Used when your detection raycasts indicate that you are about to hit the ground at full force on your face/side/back. This refers to the speed at which the player will re-orient to match the ground")]
-    public float emergencySlopeReOrientSpeed;
-
-    public float airReOrientSpeed;
 
     public float slopedUpSpeedMult;
 
     public float slopedDownSpeedMult;
+
+    [Header("Camera settings")] public float defaultFOV;
+    public float maxFOV;
 
 }

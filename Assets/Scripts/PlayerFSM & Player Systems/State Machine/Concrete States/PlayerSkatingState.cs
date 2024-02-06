@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class PlayerSkatingState : PlayerState
 {
+    private PlayerMovementMethods movementMethods;
     public PlayerSkatingState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
-        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => player.OllieJump()});
+        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
+            { onPerformed = ctx => player.GetMovementMethods().OllieJump()});
+        
+        inputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
+        {
+            onPerformed = ctx => player.GetMovementMethods().StartBoost(),
+            onCanceled = ctx => player.GetMovementMethods().StopBoost()
+        });
     }
 
     private bool enteredHalfPipeSection;
@@ -16,6 +24,7 @@ public class PlayerSkatingState : PlayerState
         base.Enter();
         SubscribeInputs();
         enteredHalfPipeSection = false;
+        movementMethods = player.GetMovementMethods();
     }
     
     public override void Exit()
@@ -29,16 +38,16 @@ public class PlayerSkatingState : PlayerState
         base.LogicUpdate();
         if (enteredHalfPipeSection)
         {
-            if (!player.CheckGround() && !InputRouting.Instance.GetBoostInput() && !player.GetOrientationWithDownward().IsInRangeOf(70, 110))
+            if (!player.CheckGround() && !InputRouting.Instance.GetBoostInput() && !player.GetOrientationWithDownward().IsInRangeOf(70, 110)) // if we are facing upward and not boosting and not on the ground, we go into halfpipe state
             {
                 stateMachine.SwitchState(player.halfPipeState);
             }
-            else if (!player.CheckGround())
+            else if (!player.CheckGround()) // if we are not facing upward, dont enter half pipe state, enter airborne
             {
                 stateMachine.SwitchState(player.airborneState);
             }
             
-        } else if (!player.CheckGround())
+        } else if (!player.CheckGround()) // if we haven't entered a half pipe section and we dont detect ground
         {
             stateMachine.SwitchState(player.airborneState);
         }
@@ -52,11 +61,11 @@ public class PlayerSkatingState : PlayerState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        player.CalculateTurnSharpness();
-        player.SkateForward();
-        player.DeAccelerate();
-        player.OrientToSlope();
-        if (InputRouting.Instance.GetMoveInput().y != 0) player.TurnPlayer();
+        movementMethods.CalculateTurnSharpness();
+        movementMethods.SkateForward();
+        movementMethods.DeAccelerate();
+        if (player.CheckGround()) player.GetOrientationHandler().OrientToSlope();
+        if (InputRouting.Instance.GetMoveInput().y != 0) movementMethods.TurnPlayer();
     }
     
     public override void StateTriggerStay(Collider other)
