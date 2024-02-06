@@ -71,6 +71,7 @@ Transform:
   - {fileID: 1427602084787757092}
   - {fileID: 662209884883719928}
   - {fileID: 570931816042545573}
+  - {fileID: 3501331702261549531}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &2348469144125233650
@@ -185,6 +186,55 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!1 &6118274096222061324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3501331702261549531}
+  - component: {fileID: 8879304838989165630}
+  m_Layer: 0
+  m_Name: BulletInfo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3501331702261549531
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6118274096222061324}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3831898785959713912}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8879304838989165630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6118274096222061324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb2a132df19e1354494fad85d1fc8397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletObject: {fileID: 1648210184017437467, guid: 27431693b39e2d74f9e3d709c9248175, type: 3}
+  speed: 20
+  fireRate: 1
+  timeToLive: 5
+  deviation: 0.75
 --- !u!1 &7124167519604009635
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,7 +247,7 @@ GameObject:
   - component: {fileID: 2699640729928495247}
   - component: {fileID: 629647375895822366}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: MuzzlePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -280,6 +330,7 @@ GameObject:
   - component: {fileID: 9213977449886670521}
   - component: {fileID: 8493642356577302058}
   - component: {fileID: 1962147261089565403}
+  - component: {fileID: 1363938977652925935}
   m_Layer: 0
   m_Name: States
   m_TagString: Untagged
@@ -316,9 +367,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wanderSearchRadius: 7
   wanderPlayerBias: 5
-  wanderSearchIterations: 1
+  wanderSearchIterations: 5
   wanderStayTimeMin: 1
-  wanderStayTimeMax: 5
+  wanderStayTimeMax: 3
 --- !u!114 &8493642356577302058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,6 +383,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agentUpdateDistance: 10
+  chaseUpdateTimer: 3
+  bulletInfo: {fileID: 8879304838989165630}
+  bulletWaitMin: 1
+  bulletWaitMax: 5
 --- !u!114 &1962147261089565403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,6 +399,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4ced9b222392124fae13f319a9d2303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1363938977652925935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7785432053934259893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f5ca0eed51f0841a403e0429eb53d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletInfo: {fileID: 8879304838989165630}
 --- !u!1 &8998884110879878547
 GameObject:
   m_ObjectHideFlags: 0
