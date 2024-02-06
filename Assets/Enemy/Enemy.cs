@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
         agentManger = GetComponent<Enemy_NavManager> ();
 
         muzzlePoint = transform.Find ("Body/MuzzlePoint").gameObject;
-
+        Debug.Log(muzzlePoint.name);
         agentPath = new NavMeshPath ();
     }
 
@@ -59,7 +59,7 @@ public class Enemy : MonoBehaviour
         //rb.isKinematic = false;
         //rb.useGravity = true;
 
-        Debug.Log ("Checking agent settings");
+        //Debug.Log ("Checking agent settings");
         //Debug.Log (agent.agentTypeID);
         if(agentSettings != null)
         {

@@ -20,14 +20,14 @@ public class Enemy_BulletInfo : MonoBehaviour
     public void spawnBullet(GameObject muzzle)
     {
         Vector3 solvedPosition = Enemy_Bullet.LeadShot(Enemy.playerObject, muzzle, this);
-        Debug.Log(solvedPosition);
+        //Debug.Log(solvedPosition);
         if(solvedPosition == Vector3.zero)
         {
             Debug.Log ("Recognized bullet won't fire right");
             return;
         }
 
-        GameObject eb = Instantiate (bulletObject, transform.position, Quaternion.identity);
+        GameObject eb = Instantiate (bulletObject, muzzle.transform.position, Quaternion.identity);
 
         //Once the bullet is spawned,
         eb.transform.LookAt (solvedPosition);
@@ -48,7 +48,5 @@ public class Enemy_BulletInfo : MonoBehaviour
         //Debug.DrawLine (eb.transform.position + new Vector3 (0, 2, 0), eb.transform.forward * eb.GetComponent<Rigidbody> ().velocity.magnitude * 5 + new Vector3 (0, 2, 0) + eb.transform.position);
         #endregion
 
-
-        //Debug.Break ();
     }
 }

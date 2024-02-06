@@ -113,12 +113,12 @@ public class ES_Idle : Enemy_State
 
             wanderOffset = transform.position + (e.agentPath.corners[1] - transform.position);
 
-            Debug.Log (wanderOffset);
-            Debug.Log (wanderOffset.magnitude);
+            //Debug.Log (wanderOffset);
+            //Debug.Log (wanderOffset.magnitude);
             //If the corner is further than the bias shorten it down
             if (wanderOffset.magnitude > wanderPlayerBias)
             {
-                Debug.Log ("Adjusting wanderoffset");
+                //Debug.Log ("Adjusting wanderoffset");
                 wanderOffset = transform.position + (wanderOffset - transform.position).normalized * wanderPlayerBias;
             }
         }
@@ -145,7 +145,7 @@ public class ES_Idle : Enemy_State
         
         if (Physics.Raycast (transform.position, Vector3.up, out ceilingCheck, Enemy.agentSettings[e.agentIndex].maxJumpAcrossDistance, LayerMask.GetMask ("Ground")))
         {
-            Debug.Log ("Raycast hit something");
+            //Debug.Log ("Raycast hit something");
             //Debug.Log (ceilingCheck.point);
             //searchDistanceJump = ceilingCheck.point.y;
 
@@ -153,7 +153,7 @@ public class ES_Idle : Enemy_State
         }
         else
         {
-            Debug.Log ("Raycast did not hit something");
+            //Debug.Log ("Raycast did not hit something");
             //Debug.Log (ceilingCheck.point);
             //searchDistanceJump = transform.position.y + Enemy.agentSettings[e.agentIndex].maxJumpAcrossDistance;
 
@@ -175,17 +175,17 @@ public class ES_Idle : Enemy_State
 
             //pointSearchOrigin = new Vector3 (point.x, ceilingPoint.y, point.y);
 
-            Debug.Log ((point.y - transform.position.y) + searchDistanceDrop);
+            //Debug.Log ((point.y - transform.position.y) + searchDistanceDrop);
             RaycastHit groundHit;
             //From the point, 
             if (Physics.Raycast (point, Vector3.down, out groundHit, (point.y - transform.position.y) + searchDistanceDrop, LayerMask.GetMask ("Ground")))
             {
-                Debug.Log ("Raycastpoint found");
-                Debug.Log (groundHit.point);
-                Debug.DrawLine (point, new Vector3 (point.x, transform.position.y - searchDistanceDrop, point.z), Color.black);
+                //Debug.Log ("Raycastpoint found");
+                //Debug.Log (groundHit.point);
+                //Debug.DrawLine (point, new Vector3 (point.x, transform.position.y - searchDistanceDrop, point.z), Color.black);
 
 
-                Debug.Log ("Sampling point" + point);
+                //Debug.Log ("Sampling point" + point);
 
 
                 debugPoint = e.agentPath.corners[1];

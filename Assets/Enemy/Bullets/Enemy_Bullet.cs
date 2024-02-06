@@ -23,28 +23,36 @@ public class Enemy_Bullet : MonoBehaviour
     //TODO: The slope based off the player's velocity would be a good thing to look at for more accurate shots
     public static Vector3 LeadShot (GameObject p, GameObject e, Enemy_BulletInfo i)
     {
-        Rigidbody prb = p.transform.parent.GetComponent<Rigidbody> ();
+        //Get the main player object
+        GameObject p2 = p.transform.parent.gameObject;
+
+        Rigidbody prb = p2.GetComponent<Rigidbody> ();
         if (prb == null) return Vector3.zero;
 
-        if ( prb.velocity == Vector3.zero ) return prb.transform.position + UnityEngine.Random.insideUnitSphere * i.deviation; ;
+        PlayerBase pb = p2.GetComponent<PlayerBase> ();
+
+        float movement = pb.movement.turnSharpness * InputRouting.Instance.GetMoveInput ().x * Time.deltaTime;
+        //Debug.Log ($"movement: {movement} | Input: {InputRouting.Instance.GetMoveInput ().x} | Turnspeed: {pb.movement.turnSharpness}");
+
+        if ( prb.velocity == Vector3.zero ) return prb.transform.position + UnityEngine.Random.insideUnitSphere * i.deviation;
         //return prb.velocity * ((p.transform.position - e.transform.position).magnitude / speed);
 
         //Forums approach: Not mathmatecally accurate but it gets close
         //https://forum.unity.com/threads/leading-a-target.193445/
 
-        float distance = Vector3.Distance (e.transform.position, p.transform.position);
+        float distance = Vector3.Distance (e.transform.position, prb.transform.position);
         float travelTime = distance / i.speed;
 
 
-        Vector3 intersect = p.transform.position + prb.velocity.normalized * 5;
-        Vector3 intersect2 = p.transform.position + prb.velocity.normalized * 10;
+        Vector3 intersect =  pb.transform.position + prb.velocity.normalized * 5;
+        Vector3 intersect2 = pb.transform.position + prb.velocity.normalized * 10;
         
 
 
-        float tp1 = Vector3.Distance(p.transform.position, intersect) / prb.velocity.magnitude;
+        float tp1 = Vector3.Distance(pb.transform.position, intersect) / prb.velocity.magnitude;
         float te1 = Vector3.Distance (e.transform.position, intersect) / i.speed;
 
-        float tp2 = Vector3.Distance (p.transform.position, intersect2) / prb.velocity.magnitude;
+        float tp2 = Vector3.Distance (pb.transform.position, intersect2) / prb.velocity.magnitude;
         float te2 = Vector3.Distance (e.transform.position, intersect2) / i.speed;
 
         

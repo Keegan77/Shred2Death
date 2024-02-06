@@ -513,6 +513,50 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5149689507835263233
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7076783221152584416}
+  - component: {fileID: 2075838758362723699}
+  m_Layer: 0
+  m_Name: AgentObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7076783221152584416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5149689507835263233}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.84, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 748665993148016211}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2075838758362723699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5149689507835263233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb054ba2524518e4883dc8b944ca2bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8088672281678487563
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,7 +571,6 @@ GameObject:
   - component: {fileID: 6407103333427661897}
   - component: {fileID: 5634048925312985684}
   - component: {fileID: 2463772219495217795}
-  - component: {fileID: 5342338037351564538}
   - component: {fileID: 5428022183481655201}
   m_Layer: 0
   m_Name: PlayerContainer
@@ -550,6 +593,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3400321096179317703}
+  - {fileID: 7076783221152584416}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &7228581909557612171
@@ -603,22 +647,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac79b49f2d1297d4290c65141ec2caf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 7228581909557612171}
   skateboardCollider: {fileID: 3174234850440950114}
-  inputTurningTransform: {fileID: 3400321096179317703}
-  playerModelTransform: {fileID: 4350162463001390448}
   raycastPoint: {fileID: 2341217886238384527}
   extensionRaycastPoint: {fileID: 5776223806855296335}
   orientationHandler: {fileID: 5428022183481655201}
+  skateboardColliderCapsule: {fileID: 3174234850440950114}
+  rb: {fileID: 7228581909557612171}
+  inputTurningTransform: {fileID: 3400321096179317703}
+  playerModelTransform: {fileID: 4350162463001390448}
   playerData: {fileID: 11400000, guid: 1a3dc727a00a88b4dab330927467122e, type: 2}
-  forwardLeftRayOrigin: {x: 17.84, y: 2.4714413, z: 1.8885404}
-  forwardRightRayOrigin: {x: 17.119999, y: 2.4714413, z: 1.8885404}
-  backLeftRayOrigin: {x: 17.84, y: 2.4714413, z: 3.1485405}
-  backRightRayOrigin: {x: 17.119999, y: 2.4714413, z: 3.1485405}
-  forwardRayOrigin: {x: 17.48, y: 4.131441, z: 1.8885404}
-  backRayOrigin: {x: 17.48, y: 4.131441, z: 3.1485405}
-  leftRayOrigin: {x: 17.84, y: 4.131441, z: 2.5185404}
-  rightRayOrigin: {x: 17.119999, y: 4.131441, z: 2.5185404}
+  forwardLeftRayOrigin: {x: -0.36, y: -2.0095477, z: 0.7414597}
+  forwardRightRayOrigin: {x: 0.36, y: -2.0095477, z: 0.7414597}
+  backLeftRayOrigin: {x: -0.36, y: -2.0095477, z: -0.51854026}
+  backRightRayOrigin: {x: 0.36, y: -2.0095477, z: -0.51854026}
+  forwardRayOrigin: {x: 0, y: -0.3495477, z: 0.7414597}
+  backRayOrigin: {x: 0, y: -0.3495477, z: -0.51854026}
+  leftRayOrigin: {x: -0.36, y: -0.3495477, z: 0.11145973}
+  rightRayOrigin: {x: 0.36, y: -0.3495477, z: 0.11145973}
   grindRailFollower: {fileID: 5986969473009569870, guid: 58642cd707a8a1e449bef0d5c13f5759, type: 3}
 --- !u!114 &5634048925312985684
 MonoBehaviour:
@@ -646,18 +691,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7047733092946719887}
   player: {fileID: 6407103333427661897}
---- !u!114 &5342338037351564538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8088672281678487563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb054ba2524518e4883dc8b944ca2bae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5428022183481655201
 MonoBehaviour:
   m_ObjectHideFlags: 0
