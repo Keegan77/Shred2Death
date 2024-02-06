@@ -481,6 +481,50 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6227322504556993924
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8328666423966569265}
+  - component: {fileID: 9168494096504367910}
+  m_Layer: 0
+  m_Name: AgentOffset
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8328666423966569265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227322504556993924}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 748665993148016211}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9168494096504367910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227322504556993924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb054ba2524518e4883dc8b944ca2bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8088672281678487563
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +539,6 @@ GameObject:
   - component: {fileID: 6407103333427661897}
   - component: {fileID: 5634048925312985684}
   - component: {fileID: 2463772219495217795}
-  - component: {fileID: 5342338037351564538}
   m_Layer: 0
   m_Name: PlayerContainer
   m_TagString: Untagged
@@ -517,6 +560,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3400321096179317703}
+  - {fileID: 8328666423966569265}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &7228581909557612171
@@ -603,18 +647,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7047733092946719887}
   player: {fileID: 6407103333427661897}
---- !u!114 &5342338037351564538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8088672281678487563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb054ba2524518e4883dc8b944ca2bae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8803852019208925205
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ public class Enemy_Bullet : MonoBehaviour
     //TODO: The slope based off the player's velocity would be a good thing to look at for more accurate shots
     public static Vector3 LeadShot (GameObject p, GameObject e, Enemy_BulletInfo i)
     {
-        Rigidbody prb = p.GetComponent<Rigidbody> ();
+        Rigidbody prb = p.transform.parent.GetComponent<Rigidbody> ();
         if (prb == null) return Vector3.zero;
 
         if ( prb.velocity == Vector3.zero ) return prb.transform.position + UnityEngine.Random.insideUnitSphere * i.deviation; ;

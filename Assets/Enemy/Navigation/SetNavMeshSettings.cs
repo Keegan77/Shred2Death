@@ -23,7 +23,7 @@ public class SetNavMeshSettings : MonoBehaviour
         NavMeshSurface[] surfaces = GetComponents<NavMeshSurface>();
         arraySettings = new NavMeshBuildSettings[surfaces.Length];
 
-        Debug.Log ($"NavmeshSurfaces: {surfaces.Length}");
+        //Debug.Log ($"NavmeshSurfaces: {surfaces.Length}");
 
         for (int i = 0; i < surfaces.Length; i++)
         {

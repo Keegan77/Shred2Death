@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
     {
         stateMachine = GetComponent<Enemy_StateMachine> ();
         rb = GetComponent<Rigidbody>();
-        agent = GetComponent<NavMeshAgent> ();
+        agent = transform.Find("AgentObject").GetComponent<NavMeshAgent> ();
         agentManger = GetComponent<Enemy_NavManager> ();
 
         muzzlePoint = transform.Find ("Body/MuzzlePoint").gameObject;
@@ -59,18 +59,19 @@ public class Enemy : MonoBehaviour
         //rb.isKinematic = false;
         //rb.useGravity = true;
 
-        Debug.Log (agent.agentTypeID);
+        Debug.Log ("Checking agent settings");
+        //Debug.Log (agent.agentTypeID);
         if(agentSettings != null)
         {
             for (int i = 0; i < agentSettings.Length; i++)
             {
-                Debug.Log (agentSettings[i].agentTypeID);
+                //Debug.Log (agentSettings[i].agentTypeID);
                 if (agentSettings[i].agentTypeID == agent.agentTypeID)
                 {
-                    Debug.Log ("Agent Match found");
+                    //Debug.Log ("Agent Match found");
                     agentIndex = i;
 
-                    Debug.Log (agentSettings[agentIndex].agentClimb);
+                    //Debug.Log (agentSettings[agentIndex].agentClimb);
                     break;
                 }
             }
