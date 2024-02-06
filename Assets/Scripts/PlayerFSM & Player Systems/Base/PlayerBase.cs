@@ -7,44 +7,50 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
-    [Header("Component References")]
-    public Rigidbody rb;
-    [SerializeField] private Collider skateboardCollider;
-    public Transform inputTurningTransform, playerModelTransform; // this is public because we want access from our states
-    [SerializeField] private Transform raycastPoint;
-    [SerializeField] private Transform extensionRaycastPoint;
-    [SerializeField] private SlopeOrientationHandler orientationHandler;
-    [SerializeField] private CapsuleCollider skateboardColliderCapsule;
-    private SplineComputer currentSpline;
-    private double splineCompletionPercent;
-    private PlayerMovementMethods movementMethods;
-    
-    //Player Data
-    [Header("Player Data")] [Tooltip("Holds all of the player's base movement values.")]
-    public PlayerData playerData;
-    //Variables which hold calculated values based on their base constants.
+    #region Serialized Component References
+        [Header("Private Component References")]
+        [SerializeField] private Collider skateboardCollider;
+        [SerializeField] private Transform raycastPoint;
+        [SerializeField] private Transform extensionRaycastPoint;
+        [SerializeField] private SlopeOrientationHandler orientationHandler;
+        [SerializeField] private CapsuleCollider skateboardColliderCapsule;
 
-    
-    //raycast slope detection origin points
-    [HideInInspector] public Vector3 forwardLeftRayOrigin, forwardRightRayOrigin, backLeftRayOrigin, backRightRayOrigin;
-    [HideInInspector] public Vector3 forwardRayOrigin, backRayOrigin, leftRayOrigin, rightRayOrigin;
-    Vector3 backRayEndPoint, forwardRayEndPoint, leftRayEndPoint, rightRayEndPoint;
-    
-    //[HideInInspector] public RaycastHit leftSlopeHit, rightSlopeHit, forwardSlopeHit, backSlopeHit;
-    [HideInInspector] public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit;
-    
-    //state machine
-    public PlayerStateMachine stateMachine { get; private set; }
-    //concrete states
-    public PlayerSkatingState skatingState;
-    public PlayerAirborneState airborneState;
-    public PlayerHalfpipeState halfPipeState;
-    public PlayerGrindState grindState;
-    public PlayerDriftState driftState;
-    public GameObject grindRailFollower;
-    
-    float skateboardOriginalColliderRadius;
-    
+    #endregion
+
+    #region Public Component References
+        [Header("Public Component References")]
+        public Rigidbody rb;
+        public Transform inputTurningTransform, playerModelTransform; // this is public because we want access from our states
+        [Tooltip("Holds all of the player's base movement values.")]
+        public PlayerData playerData;
+        
+    #endregion
+
+    #region Private class fields
+        private SplineComputer currentSpline;
+        private double splineCompletionPercent;
+        private PlayerMovementMethods movementMethods;
+        public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit;
+        [HideInInspector] 
+        public Vector3 forwardLeftRayOrigin, forwardRightRayOrigin, backLeftRayOrigin, backRightRayOrigin;
+        [HideInInspector] 
+        public Vector3 forwardRayOrigin, backRayOrigin, leftRayOrigin, rightRayOrigin;
+        Vector3 backRayEndPoint, forwardRayEndPoint, leftRayEndPoint, rightRayEndPoint;
+        
+        float skateboardOriginalColliderRadius;
+    #endregion
+
+    #region State Factory
+        public PlayerStateMachine stateMachine { get; private set; }
+        //concrete states
+        public PlayerSkatingState skatingState;
+        public PlayerAirborneState airborneState;
+        public PlayerHalfpipeState halfPipeState;
+        public PlayerGrindState grindState;
+        public PlayerDriftState driftState;
+        public PlayerNosediveState nosediveState;
+        public GameObject grindRailFollower;
+    #endregion
 
 #region Unity Methods
     private void Awake()
@@ -100,7 +106,6 @@ public class PlayerBase : MonoBehaviour
     {
         return movementMethods;
     }
-
 
 #endregion
 
@@ -224,6 +229,7 @@ public class PlayerBase : MonoBehaviour
         halfPipeState = new PlayerHalfpipeState(this, stateMachine);
         grindState = new PlayerGrindState(this, stateMachine);
         driftState = new PlayerDriftState(this, stateMachine);
+        nosediveState = new PlayerNosediveState(this, stateMachine);
         stateMachine.Init(airborneState);
     }
     

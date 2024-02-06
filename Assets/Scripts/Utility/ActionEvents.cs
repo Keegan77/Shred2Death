@@ -2,7 +2,7 @@ using System;
 
 public static class ActionEvents
 {
-    public static Action OnPlayerStateSwitch;
+    public static Action OnBehaviourStateSwitch;
 
     #region Trick Events
     public static Action<Trick> OnTrickRequested;  // will be invoked when the player presses the trick input
