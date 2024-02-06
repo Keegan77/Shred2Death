@@ -29,7 +29,7 @@ public class PlayerBase : MonoBehaviour
     #region Private class fields
         private SplineComputer currentSpline;
         private double splineCompletionPercent;
-        private PlayerMovementMethods movementMethods;
+        public PlayerMovementMethods movement { get; private set; }
         public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit;
         [HideInInspector] 
         public Vector3 forwardLeftRayOrigin, forwardRightRayOrigin, backLeftRayOrigin, backRightRayOrigin;
@@ -57,7 +57,7 @@ public class PlayerBase : MonoBehaviour
     {
         StateMachineSetup();
         skateboardOriginalColliderRadius = skateboardColliderCapsule.radius;
-        movementMethods = new PlayerMovementMethods(this, rb, playerData, inputTurningTransform);
+        movement = new PlayerMovementMethods(this, rb, playerData, inputTurningTransform);
     }
     
     private void Update() => stateMachine.currentState.LogicUpdate();
@@ -104,7 +104,7 @@ public class PlayerBase : MonoBehaviour
 
     public PlayerMovementMethods GetMovementMethods()
     {
-        return movementMethods;
+        return movement;
     }
 
 #endregion
