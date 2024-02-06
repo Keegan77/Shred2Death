@@ -1,81 +1,71 @@
 using System;
+using System.Collections;
 using Dreamteck.Splines;
 using UnityEngine.InputSystem;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 public class PlayerBase : MonoBehaviour
 {
-    [Header("Component References")]
-    public Rigidbody rb;
-    [SerializeField] private Collider skateboardCollider;
-    public Transform inputTurningTransform, playerModelTransform;
-    [SerializeField] private Transform raycastPoint;
-    private SplineComputer currentSpline;
-    private double splineCompletionPercent;
-    
-    //Player Data
-    [Header("Player Data")] [Tooltip("Holds all of the player's base movement values.")]
-    public PlayerData playerData;
-    //Variables which hold calculated values based on their base constants.
-    private float movementSpeed;
-    private float turnSharpness;
-    
-    //raycast slope detection origin points
-    private Vector3 backRayOrigin, forwardRayOrigin, leftRayOrigin, rightRayOrigin;
-    
-    
-    //state machine
-    public PlayerStateMachine stateMachine { get; private set; }
-    //concrete states
-    public PlayerSkatingState skatingState;
-    public PlayerAirborneState airborneState;
-    public PlayerHalfpipeState halfPipeState;
-    public PlayerGrindState grindState;
-    public PlayerDriftState driftState;
-    public GameObject grindRailFollower;
-    
-    
-    float jumpInput;
+    #region Serialized Component References
+        [Header("Private Component References")]
+        [SerializeField] private Collider skateboardCollider;
+        [SerializeField] private Transform raycastPoint;
+        [SerializeField] private Transform extensionRaycastPoint;
+        [SerializeField] private SlopeOrientationHandler orientationHandler;
+        [SerializeField] private CapsuleCollider skateboardColliderCapsule;
 
-#region Unity Abstracted Methods
+    #endregion
+
+    #region Public Component References
+        [Header("Public Component References")]
+        public Rigidbody rb;
+        public Transform inputTurningTransform, playerModelTransform; // this is public because we want access from our states
+        [Tooltip("Holds all of the player's base movement values.")]
+        public PlayerData playerData;
+        
+    #endregion
+
+    #region Private class fields
+        private SplineComputer currentSpline;
+        private double splineCompletionPercent;
+        public PlayerMovementMethods movement { get; private set; }
+        public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit;
+        [HideInInspector] 
+        public Vector3 forwardLeftRayOrigin, forwardRightRayOrigin, backLeftRayOrigin, backRightRayOrigin;
+        [HideInInspector] 
+        public Vector3 forwardRayOrigin, backRayOrigin, leftRayOrigin, rightRayOrigin;
+        Vector3 backRayEndPoint, forwardRayEndPoint, leftRayEndPoint, rightRayEndPoint;
+        
+        float skateboardOriginalColliderRadius;
+    #endregion
+
+    #region State Factory
+        public PlayerStateMachine stateMachine { get; private set; }
+        //concrete states
+        public PlayerSkatingState skatingState;
+        public PlayerAirborneState airborneState;
+        public PlayerHalfpipeState halfPipeState;
+        public PlayerGrindState grindState;
+        public PlayerDriftState driftState;
+        public PlayerNosediveState nosediveState;
+        public GameObject grindRailFollower;
+    #endregion
+
+#region Unity Methods
     private void Awake()
     {
         StateMachineSetup();
+        skateboardOriginalColliderRadius = skateboardColliderCapsule.radius;
+        movement = new PlayerMovementMethods(this, rb, playerData, inputTurningTransform);
     }
     
-    private void Update()
-    {
-        stateMachine.currentState.LogicUpdate();
-        
-        //Debug.Log(stateMachine.currentState);
-    }
-    
-    private void FixedUpdate()
-    {
-        stateMachine.currentState.PhysicsUpdate();
-    }
-    
-    private void OnTriggerEnter(Collider other)
-    {
-        stateMachine.currentState.StateTriggerEnter(other);
-    }
-    
-    private void OnTriggerStay(Collider other)
-    {
-        stateMachine.currentState.StateTriggerStay(other);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        stateMachine.currentState.StateTriggerExit(other);
-    }
-
-    private void OnCollisionStay(Collision other)
-    {
-        stateMachine.currentState.StateCollisionEnter(other);
-    }
+    private void Update() => stateMachine.currentState.LogicUpdate();
+    private void FixedUpdate() => stateMachine.currentState.PhysicsUpdate();
+    private void OnTriggerEnter(Collider other) => stateMachine.currentState.StateTriggerEnter(other);
+    private void OnTriggerStay(Collider other) => stateMachine.currentState.StateTriggerStay(other);
+    private void OnTriggerExit(Collider other) => stateMachine.currentState.StateTriggerExit(other);
+    private void OnCollisionStay(Collision other) => stateMachine.currentState.StateCollisionEnter(other);
     private void OnDrawGizmos()
     {
         // Update the ray origin points
@@ -85,26 +75,21 @@ public class PlayerBase : MonoBehaviour
         Gizmos.color = Color.red;
 
         // Draw raycasts for CheckGround()
-        Gizmos.DrawLine(backRayOrigin, backRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
-        Gizmos.DrawLine(forwardRayOrigin, forwardRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
-        Gizmos.DrawLine(leftRayOrigin, leftRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
-        Gizmos.DrawLine(rightRayOrigin, rightRayOrigin - playerModelTransform.up * playerData.slopeDownDetectionDistance);
+        Gizmos.DrawLine(backLeftRayOrigin, backLeftRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
+        Gizmos.DrawLine(backRightRayOrigin, backRightRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
+        Gizmos.DrawLine(forwardLeftRayOrigin, forwardLeftRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
+        Gizmos.DrawLine(forwardRightRayOrigin, forwardRightRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
         
         Gizmos.color = Color.blue;
+        
 
-        // Calculates end points for the ground extension rays
-        Vector3 backRayEndPoint = backRayOrigin - inputTurningTransform.forward * playerData.slopeForwardDetectionDistance;
-        Vector3 forwardRayEndPoint = forwardRayOrigin + inputTurningTransform.forward * playerData.slopeForwardDetectionDistance;
-        Vector3 leftRayEndPoint = leftRayOrigin - inputTurningTransform.right * playerData.slopeForwardDetectionDistance;
-        Vector3 rightRayEndPoint = rightRayOrigin + inputTurningTransform.right * playerData.slopeForwardDetectionDistance;
-
-        // CheckGroundExtensions() rays
+        // CheckGroundExtensions() rays (only for visuals in scene. Not used in actual code)
         Gizmos.DrawLine(backRayOrigin, backRayEndPoint);
         Gizmos.DrawLine(forwardRayOrigin, forwardRayEndPoint);
         Gizmos.DrawLine(leftRayOrigin, leftRayEndPoint);
         Gizmos.DrawLine(rightRayOrigin, rightRayEndPoint);
 
-        // lines between the tips of each ground extension ray (makes a diamond around the player)
+        // lines between the tips of each ground extension ray (makes a diamond around the player, this is whats used for edge detection)
         Gizmos.color = Color.green;
         
         Gizmos.DrawLine(forwardRayEndPoint, rightRayEndPoint);
@@ -115,143 +100,16 @@ public class PlayerBase : MonoBehaviour
     
 #endregion
 
-#region Movement Methods
+#region Movement Class Getter
 
-    /// <summary>
-    /// Will exert a force forward if the player's slope isn't too steep. Meant to be used in FixedUpdate.
-    /// </summary>
-    public void SkateForward()
+    public PlayerMovementMethods GetMovementMethods()
     {
-        CalculateSpeedVector();
-        
-        Vector2 maxSlopeRange = new Vector2(playerData.slopeRangeWherePlayerCantMove.x + 90, playerData.slopeRangeWherePlayerCantMove.y + 90);
-        
-        // calculates the angle between the player's forward direction and the world's down direction
-        float angleWithDownward = GetOrientationWithDownward();
-
-        //Debug.Log(angleWithDownward);
-
-        bool isFacingUpward = angleWithDownward.IsInRangeOf(maxSlopeRange.x, maxSlopeRange.y);
-        
-        if (isFacingUpward) return;
-        
-        rb.AddForce(inputTurningTransform.forward * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0 ? InputRouting.Instance.GetMoveInput().y : 0)), ForceMode.Acceleration); // Only adds force if
-        // the player is not
-        // on a slope that is
-        // too steep.
+        return movement;
     }
-
-    public void OllieJump()
-    {
-        if (CheckGround())
-        {
-            rb.AddRelativeForce(transform.up * playerData.baseJumpForce, ForceMode.Impulse);
-        }
-    }
-    
-    /*private void JumpOffRail() // whole method is placeholder for testing
-    {
-        if (stateMachine.currentState != grindState) return;
-        var speed = GetComponent<SplineFollower>().followSpeed;
-        SetRBKinematic(false);
-        rb.AddForce(transform.forward * speed * 100); 
-        rb.AddForce(Vector3.up * 20);
-        stateMachine.SwitchState(airborneState);
-    }*/
-    
-    /// <summary>
-    /// Handles turning the player model with left and right input. Rotating the player works best for the movement we
-    /// are trying to achieve, as movement is based on the player's forward direction. Meant to be used in FixedUpdate.
-    /// </summary>
-    public void TurnPlayer(bool overrideTurnSharpness = false, float newTurnSharpness = 0) // Rotates the PLAYER MODEL TRANSFORM. We must work with 2 transforms to achieve the desired effect.
-    {
-        inputTurningTransform.Rotate(0,
-            overrideTurnSharpness ?
-                newTurnSharpness * InputRouting.Instance.GetMoveInput().x :
-                turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 
-            0, 
-            Space.Self);
-    }
-    
-    private void CalculateSpeedVector()
-    {
-        float offset = rb.velocity.y;
-        
-        if (rb.velocity.y > 0)
-        {
-            offset = -rb.velocity.y * playerData.slopedUpSpeedMult;
-        }
-        else if (rb.velocity.y < 0)
-        {
-            offset = rb.velocity.y / playerData.slopedDownSpeedMult;
-        }
-        // Get the rotation around the x-axis, ranging from -90 to 90
-        
-        movementSpeed = playerData.baseMovementSpeed + offset;
-        //Debug.Log(movementSpeed);
-    }
-
-    public void CalculateTurnSharpness()
-    {
-        if (rb.velocity.magnitude < 20) turnSharpness = playerData.baseTurnSharpness;
-        else turnSharpness = playerData.baseTurnSharpness / (rb.velocity.magnitude / 15);
-    }
-
-    private RaycastHit backDownwardSlopeHit, forwardDownwardSlopeHit, leftSlopeHit, rightSlopeHit, forwardSlopeHit, backwardSlopeHit;
-    public void OrientToSlope()
-    {
-        if (CheckGround())
-        {
-            Vector3 averageNormal = (backDownwardSlopeHit.normal + forwardDownwardSlopeHit.normal + leftSlopeHit.normal +
-                             rightSlopeHit.normal).normalized;
-
-            // stores perpendicular angle into targetRotation
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, averageNormal) * transform.rotation;
-
-            // Lerp to the desired rotation
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
-                Time.fixedDeltaTime * playerData.slopeOrientationSpeed);
-        }
-    }
-
-    public void OrientFromExtensions()
-    {
-        if (CheckGroundExtensions())
-        {
-            Debug.Log($"Forward slope hit normal: {forwardSlopeHit.normal}");
-            
-            Vector3 averageNormal = (forwardSlopeHit.normal).normalized;
-            
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
-
-            // Lerp to the desired rotation
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * playerData.emergencySlopeReOrientSpeed);
-        }
-    }
-
-    /// <summary>
-    /// Slowly re-orients the player mid-air to be upright. Meant to be used in FixedUpdate.
-    /// </summary>
-    public void ReOrient()
-    {
-        Quaternion targetRotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * playerData.airReOrientSpeed);
-    }
-    
-    /// <summary>
-    /// De-accelerates the player by a fixed value. As long as the de-acceleration value is less than the acceleration
-    /// value, the desired effect will work properly. Meant to be used in FixedUpdate.
-    /// </summary>
-    public void DeAccelerate() // Add Force feels too floaty, used on every frame to counteract the force.
-    {
-        rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, rb.velocity.y, 0), playerData.deAccelerationSpeed);
-    }
-
 
 #endregion
 
-
-#region Helper Methods, Getters, & Setters
+#region Grinding Methods
     public void SetCurrentSpline(SplineComputer spline, SplineSample splineHitPoint)
     {
         currentSpline = spline;
@@ -262,36 +120,53 @@ public class PlayerBase : MonoBehaviour
     {
         return currentSpline;
     }
-        
+            
     public double GetSplineCompletionPercent()
     {
         return splineCompletionPercent;
         //splineCompletionPercent = currentSpline.Project(transform.position).percent;
     }
 
+
+#endregion
+
+#region Helper Methods, Getters, & Setters
+
     public void SetRBKinematic(bool isKinematic)
     {
         rb.isKinematic = isKinematic;
     }
-    
-    /// <summary>
-    /// [DEPRECATED: USE LOCALEULERANGLES INSTEAD]
-    /// Translates eulerAngles from 0 - +360, to -180 - +180. Makes eulerAngles easier to work with, logically.
-    /// Rotations should never be applied with this method, as it will cause weirdness. This is simply for getting
-    /// eulerAngle values in a range that makes sense. 
-    /// </summary>
-    private float TranslateEulersToRange180(float eulerAngle)
-    {
-        return eulerAngle > 180 ? eulerAngle - 360 : eulerAngle;
-    }
 
+    /// <summary>
+    /// Updates every raycast origin point around the player whenever this is called.
+    /// This must be called before doing any raycasts.
+    /// </summary>
     private void UpdateRayOriginPoints()
     {
-        backRayOrigin = raycastPoint.position - playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
-        forwardRayOrigin = raycastPoint.position + playerModelTransform.forward * playerData.slopeRayOffsetFromMid;
+        Vector3 forwardMultByOffset = playerModelTransform.forward * orientationHandler.slopeRayOffsetFromZ;
+        Vector3 rightMultByOffset = playerModelTransform.right * orientationHandler.slopeRayOffsetFromX;
         
-        leftRayOrigin = raycastPoint.position - playerModelTransform.right * playerData.slopeRayOffsetFromMid;
-        rightRayOrigin = raycastPoint.position + playerModelTransform.right * playerData.slopeRayOffsetFromMid;
+        forwardLeftRayOrigin = raycastPoint.position + (forwardMultByOffset) - (rightMultByOffset);
+        forwardRightRayOrigin = raycastPoint.position + (forwardMultByOffset) + (rightMultByOffset);
+        
+        backLeftRayOrigin = raycastPoint.position - (forwardMultByOffset) - (rightMultByOffset);
+        backRightRayOrigin = raycastPoint.position - (forwardMultByOffset) + (rightMultByOffset);
+        
+
+        backRayOrigin = extensionRaycastPoint.position - forwardMultByOffset;
+        forwardRayOrigin = extensionRaycastPoint.position + forwardMultByOffset;
+        
+        leftRayOrigin = extensionRaycastPoint.position - rightMultByOffset;
+        rightRayOrigin = extensionRaycastPoint.position + rightMultByOffset;
+        
+        Vector3 forwardMultByDistance = inputTurningTransform.forward * orientationHandler.slopeForwardDetectionDistance;
+        Vector3 rightMultByDistance = inputTurningTransform.right * orientationHandler.slopeForwardDetectionDistance;
+
+        backRayEndPoint = backRayOrigin - forwardMultByDistance;
+        forwardRayEndPoint = forwardRayOrigin + forwardMultByDistance;
+        leftRayEndPoint = leftRayOrigin - rightMultByDistance;
+        rightRayEndPoint = rightRayOrigin + rightMultByDistance;
+        
     }
     
     public bool CheckGround()
@@ -300,18 +175,19 @@ public class PlayerBase : MonoBehaviour
         
         UpdateRayOriginPoints();
         
-        bool backDownRayHit = Physics.Raycast(backRayOrigin, -playerModelTransform.up, out backDownwardSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
-        bool forwardDownRayHit = Physics.Raycast(forwardRayOrigin, -playerModelTransform.up, out forwardDownwardSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
+        bool backLeftDownRayHit = Physics.Raycast(backLeftRayOrigin, -playerModelTransform.up, out backLeftSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
+        bool backRightDownRayHit = Physics.Raycast(backRightRayOrigin, -playerModelTransform.up, out backRightSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
         
-        bool leftDownRayHit = Physics.Raycast(leftRayOrigin, -playerModelTransform.up, out leftSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
-        bool rightDownRayHit = Physics.Raycast(rightRayOrigin, -playerModelTransform.up, out rightSlopeHit, playerData.slopeDownDetectionDistance, layerMask);
+        bool forwardLeftDownRayHit = Physics.Raycast(forwardLeftRayOrigin, -playerModelTransform.up, out forwardLeftSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
+        bool forwardRightDownRayHit = Physics.Raycast(forwardRightRayOrigin, -playerModelTransform.up, out forwardRightSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
 
-        return backDownRayHit || forwardDownRayHit || leftDownRayHit || rightDownRayHit;
+
+        return (forwardLeftDownRayHit && forwardRightDownRayHit) || (backLeftDownRayHit && backRightDownRayHit);
     }
 
     /// <summary>
-    /// This method is for checking a raycast forward from the skateboard, will be used for checking if the player
-    /// has fallen flat on their face.
+    /// This method is for checking a raycast forward from the skateboard, used for checking if the player
+    /// has fallen horizontally near the ground
     /// </summary>
     /// <returns>True if Raycast hits ground</returns>
     public bool CheckGroundExtensions()
@@ -320,19 +196,23 @@ public class PlayerBase : MonoBehaviour
         
         UpdateRayOriginPoints();
         
-        bool backRayHit = Physics.Raycast(backRayOrigin, -inputTurningTransform.forward, out backwardSlopeHit, playerData.slopeForwardDetectionDistance, layerMask);
-        bool forwardRayHit = Physics.Raycast(forwardRayOrigin, inputTurningTransform.forward, out forwardSlopeHit, playerData.slopeForwardDetectionDistance, layerMask);
         
-        bool leftRayHit = Physics.Raycast(leftRayOrigin, -inputTurningTransform.right, out leftSlopeHit, playerData.slopeForwardDetectionDistance, layerMask);
-        bool rightRayHit = Physics.Raycast(rightRayOrigin, inputTurningTransform.right, out rightSlopeHit, playerData.slopeForwardDetectionDistance, layerMask);
+        bool lineOneHit = Physics.Linecast(forwardRayOrigin, rightRayEndPoint, out RaycastHit hit, layerMask);
+        bool lineTwoHit = Physics.Linecast(rightRayOrigin, backRayEndPoint, out RaycastHit hit2, layerMask);
+        bool lineThreeHit = Physics.Linecast(backRayOrigin, leftRayEndPoint, out RaycastHit hit3, layerMask);
+        bool lineFourHit = Physics.Linecast(leftRayOrigin, forwardRayEndPoint, out RaycastHit hit4, layerMask);
         
-        
-        return forwardRayHit || backRayHit || leftRayHit || rightRayHit;
+        return lineOneHit || lineTwoHit || lineThreeHit || lineFourHit;
     }
 
     public float GetCurrentSpeed()
     {
         return rb.velocity.magnitude;
+    }
+    
+    public SlopeOrientationHandler GetOrientationHandler()
+    {
+        return orientationHandler;
     }
     
     public float GetOrientationWithDownward()
@@ -349,7 +229,30 @@ public class PlayerBase : MonoBehaviour
         halfPipeState = new PlayerHalfpipeState(this, stateMachine);
         grindState = new PlayerGrindState(this, stateMachine);
         driftState = new PlayerDriftState(this, stateMachine);
+        nosediveState = new PlayerNosediveState(this, stateMachine);
         stateMachine.Init(airborneState);
+    }
+    
+    public float GetOriginalColliderRadius()
+    {
+        return skateboardOriginalColliderRadius;
+    }
+    public IEnumerator ScaleCapsuleCollider(float newRadius)
+    {
+        float duration = .15f; // Duration for the scaling operation, adjust as needed
+        float elapsed = 0f;
+
+        float originalRadius = skateboardColliderCapsule.radius;
+
+        while (Mathf.Abs(skateboardColliderCapsule.radius - newRadius) > 0.01f)
+        {
+            elapsed += Time.deltaTime;
+            skateboardColliderCapsule.radius = Mathf.Lerp(originalRadius, newRadius, elapsed / duration);
+            yield return null;
+        }
+
+        // Ensure the final radius is exactly what's expected
+        skateboardColliderCapsule.radius = newRadius;
     }
     
 }

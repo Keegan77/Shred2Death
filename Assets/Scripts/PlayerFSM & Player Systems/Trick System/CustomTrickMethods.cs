@@ -9,6 +9,6 @@ public static class CustomTrickMethods
     internal static void PopShuvItCustomFunction(PlayerBase player)
     {
         Debug.Log("A pop shuv it has been completed! This is custom code which is running on this trick alone!");
-        player.OllieJump();
+        player.GetMovementMethods().OllieJump();
     }
 }
