@@ -8,6 +8,7 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
     
     public Input input { get; private set; }
     private Vector2 moveInput;
+    private Vector2 lookInput;
     private bool driftHeld;
     private bool boostHeld;
     private bool jumpHeld;
@@ -27,12 +28,19 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
     private void Update()
     {
         moveInput = input.Player.Move.ReadValue<Vector2>();
+        lookInput = input.Player.Look.ReadValue<Vector2>();
     }
 
     public Vector2 GetMoveInput()
     {
         return moveInput;
     }
+
+    public Vector2 GetLookInput()
+    {
+        return lookInput;
+    }
+    
     public bool GetDriftInput(bool alsoCheckForMoveInput = false)
     {
         if (alsoCheckForMoveInput)
