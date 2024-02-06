@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class WaveManager : MonoBehaviour
 {
@@ -88,7 +89,7 @@ public class WaveManager : MonoBehaviour
         //When each of those enemies spawn, have them move to enter the arena.
     IEnumerator playWave ()
     {
-        Debug.Log("Beginning wave" + currentWave + " With " + waves[currentWave].getEnemyCount() + " enmies");
+        Debug.Log("Beginning wave " + currentWave + " With " + waves[currentWave].getEnemyCount() + " enmies");
         remainingEnemies = waves[currentWave].getEnemyCount();
 
         foreach (Wave.Row row in waves[currentWave].getEnemies())
@@ -114,8 +115,11 @@ public class WaveManager : MonoBehaviour
 
             enterState.travelPoint = row.spawnPoint.transform.GetChild (0).gameObject;
 
+            //Hopefully the NavMeshAgent is loaded after instantiation
+            //e.GetComponent<Enemy>().agent = e.gameObject.GetComponent<NavMeshAgent> (); 
+
             e.GetComponent<Enemy_StateMachine> ().transitionState (enterState);
-            e.GetComponent<Enemy> ().setManager (this);
+            e.GetComponent<Enemy> ().SetManager (this);
 
             yield return new WaitForSeconds (row.interval);
         }
@@ -127,9 +131,8 @@ public class WaveManager : MonoBehaviour
             //if there is no next wave end the event
     public void removeEnemy ()
     {
-        Debug.Log ("Enemy removed. " + remainingEnemies + " remaining in wave " + currentWave);
-
         remainingEnemies--;
+        Debug.Log ("Enemy removed. " + remainingEnemies + " remaining in wave " + currentWave);
 
         //All enemies have been cleared
         if (remainingEnemies == 0)

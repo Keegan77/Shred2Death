@@ -6,6 +6,8 @@ public class PlayerGrindState : PlayerState
 {
     private GameObject followerObj;
     private bool lerping;
+    private float baseSpeed;
+    private float currentSpeed;
     public PlayerGrindState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => JumpOffRail()});
@@ -44,7 +46,7 @@ public class PlayerGrindState : PlayerState
 
         
         if (player.rb.velocity.magnitude < 15) sFollower.followSpeed = 15;
-        else sFollower.followSpeed = player.rb.velocity.magnitude;
+        SetBaseFollowSpeed();
 
         // calculates the dot product of the player's velocity and the spline sample forward to determine if the player is moving forward or backward
         float dotProduct = Vector3.Dot(playerForward, splineTangent);
@@ -77,6 +79,7 @@ public class PlayerGrindState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        ModifyFollowSpeed();
         if (lerping) return;
         
         player.transform.position = sFollower.result.position + new Vector3(0, player.playerData.grindPositioningOffset, 0);
@@ -102,6 +105,19 @@ public class PlayerGrindState : PlayerState
         }
 
         lerping = false;
+    }
+    
+    private void SetBaseFollowSpeed()
+    {
+        baseSpeed = Mathf.Clamp(player.rb.velocity.magnitude, player.playerData.minGrindSpeed, player.playerData.maxGrindSpeed);
+        currentSpeed = baseSpeed;
+        sFollower.followSpeed = currentSpeed;
+    }
+    
+    private void ModifyFollowSpeed()
+    {
+        currentSpeed = baseSpeed + (player.playerData.grindSpeedAdditive * InputRouting.Instance.GetMoveInput().y);
+        sFollower.followSpeed = currentSpeed;
     }
 
     
