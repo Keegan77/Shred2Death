@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
+[SelectionBase]
 [RequireComponent(typeof(Enemy_StateMachine))]
 public class Enemy : MonoBehaviour
 {
@@ -14,9 +15,6 @@ public class Enemy : MonoBehaviour
     [Header("Stats")]
     public int health;
     public float movementSpeed;
-
-    [Header ("Bullet")]
-    [SerializeField] GameObject bulletType;
 
     #endregion
 
@@ -35,6 +33,8 @@ public class Enemy : MonoBehaviour
 
     [NonSerialized] public Enemy_StateMachine stateMachine;
 
+    [NonSerialized] public GameObject muzzlePoint;
+
     [Header ("Components")]
     WaveManager waveManager; //Set by waveManager when the enemy object is instantiated
     
@@ -47,6 +47,8 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent> ();
         agentManger = GetComponent<Enemy_NavManager> ();
+
+        muzzlePoint = transform.Find ("Body/MuzzlePoint").gameObject;
 
         agentPath = new NavMeshPath ();
     }
@@ -93,34 +95,6 @@ public class Enemy : MonoBehaviour
         waveManager.removeEnemy ();
 
         Destroy (gameObject);
-    }
-
-
-    public void spawnBullet()
-    {
-        Rigidbody prb = playerObject.GetComponent<Rigidbody> ();
-
-        GameObject eb = Instantiate (bulletType, transform.position, Quaternion.identity);
-
-        Vector3 solvedPosition = eb.GetComponent<Enemy_Bullet>().LeadShot(playerObject, eb.gameObject);
-
-        eb.transform.LookAt (solvedPosition);
-        eb.SetActive (true);
-
-
-        Debug.DrawLine(playerObject.transform.position, solvedPosition);
-        Debug.DrawLine(playerObject.transform.position + new Vector3 (0, 1, 0), ((solvedPosition - playerObject.transform.position).normalized) * playerObject.GetComponent<Rigidbody>().velocity.magnitude + new Vector3 (0, 1, 0) + playerObject.transform.position);
-        Debug.DrawLine(playerObject.transform.position + new Vector3 (0, 2, 0), ((solvedPosition - playerObject.transform.position).normalized) * playerObject.GetComponent<Rigidbody>().velocity.magnitude * 5 + new Vector3 (0, 2, 0) + playerObject.transform.position);
-
-        Debug.DrawLine(eb.transform.position, solvedPosition);
-        Debug.DrawLine (eb.transform.position + new Vector3 (0, 1, 0), eb.transform.forward * eb.GetComponent<Rigidbody> ().velocity.magnitude + new Vector3 (0, 1, 0) + eb.transform.position);
-        Debug.DrawLine (eb.transform.position + new Vector3 (0, 2, 0), eb.transform.forward * eb.GetComponent<Rigidbody> ().velocity.magnitude * 5 + new Vector3 (0, 2, 0) + eb.transform.position);
-
-        Debug.Log (eb.transform.forward);
-
-        
-
-        Debug.Break ();
     }
 
     #endregion
