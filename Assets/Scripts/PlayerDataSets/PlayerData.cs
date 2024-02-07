@@ -19,7 +19,11 @@ public class PlayerData : ScriptableObject
     
     [Header("Airborne Values (Non-Half Pipe)")]
     public float airForwardForce;
-    
+
+    [Header("Nosedive Values")] 
+    public float noseDiveFallForce;
+
+    public float maxNoseDiveVelocity;
     
     
     [Header("Grinding Values")]
@@ -29,6 +33,7 @@ public class PlayerData : ScriptableObject
     public float grindPositioningOffset;
     public float grindTurnSharpness;
     public float railSnapTime;
+    public float railSnapDistance;
 
     
     

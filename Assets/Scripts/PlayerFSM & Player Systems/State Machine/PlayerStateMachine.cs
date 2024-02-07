@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerStateMachine
 {
     public PlayerState currentState;
-    
     public void Init(PlayerState startingState)
     {
         currentState = startingState;
@@ -16,7 +15,7 @@ public class PlayerStateMachine
     {
         currentState.Exit();
         currentState = newState;
-        ActionEvents.OnPlayerStateSwitch?.Invoke();
+        ActionEvents.OnBehaviourStateSwitch?.Invoke(); // invokes only on behaviour states & not ability states
         currentState.Enter();
     }
 }
