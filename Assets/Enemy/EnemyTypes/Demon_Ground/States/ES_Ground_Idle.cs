@@ -1,15 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
 
-//When not chasing the player,
-//pick random points to navigate to every so often.
-//The idea is to appear to wander aimlessly,
-//but in reality movement is biased towards the player.
-public class ES_Idle : Enemy_State
+public class ES_Ground_Idle : Enemy_State
 {
     [SerializeField] float wanderSearchRadius = 10;
     [SerializeField] float wanderPlayerBias = 5; //offset the search area towards the player
@@ -24,22 +18,14 @@ public class ES_Idle : Enemy_State
     Vector3 debugPointPlayer;
     Vector3 debugPointSearch;
     Vector3 debugPointGround;
+
+    #region STATE MACHINE
     public override void Enter ()
     {
-        //if(SetWanderPoint (out wanderResult))
-        //{
-        //    e.agent.SetDestination (wanderResult);
-        //}
-        //if (e.agent.CalculatePath (playerObject.transform.position, e.agentPath))
-        //{
-        //    Debug.Log ("Pathfinding via Calculatepath successful");
-        //}
-
-        if (SetWanderPoint())
+        if (SetWanderPoint ())
         {
-            e.agent.SetDestination(wanderResult);
+            e.agent.SetDestination (wanderResult);
         }
-
     }
 
     public override void Exit ()
@@ -55,7 +41,7 @@ public class ES_Idle : Enemy_State
 
         if (destinationOffset.magnitude < e.agent.stoppingDistance && !isWaiting)
         {
-            StartCoroutine (WanderTimer());
+            StartCoroutine (WanderTimer ());
         }
 
     }
@@ -63,7 +49,7 @@ public class ES_Idle : Enemy_State
     public override void machineUpdate ()
     {
         base.machineUpdate ();
-        Debug.DrawLine (debugPoint, debugPoint + new Vector3(0, 5, 0), Color.red);
+        Debug.DrawLine (debugPoint, debugPoint + new Vector3 (0, 5, 0), Color.red);
         Debug.DrawLine (debugPointCorner, debugPointCorner + new Vector3 (0, 5, 0), Color.green);
         Debug.DrawLine (debugPointPlayer, debugPointPlayer + new Vector3 (0, 5, 0), Color.blue);
 
@@ -73,9 +59,11 @@ public class ES_Idle : Enemy_State
 
     public override void onPlayerSensorActivated ()
     {
-        e.stateMachine.transitionState (GetComponent<ES_Chase>());
-        GetComponent<ES_Chase>().onPlayerSensorActivated ();
+        e.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
+        GetComponent<ES_Ground_Chase> ().onPlayerSensorActivated ();
     }
+
+    #endregion
 
     //calculates the path an enemy would take to reach the player,
     //and then uses the first point along that path as a direction for the wander bias.
@@ -87,8 +75,9 @@ public class ES_Idle : Enemy_State
 
         //Calculate a path to the player
         e.agent.CalculatePath (Enemy.playerObject.transform.position, e.agentPath);
+        Debug.Log (Enemy.playerObject.transform.position);
 
-        Debug.Log(e.agentPath.status);
+        Debug.Log (e.agentPath.status);
 
         //If the path is incomplete return a null path
         if (e.agentPath.status != NavMeshPathStatus.PathComplete)
@@ -133,7 +122,7 @@ public class ES_Idle : Enemy_State
 
         //The search are is defined by getting a point in a 2D circle around the player,
         //and then firing a raycast downwards towards the ground as a way to search for valid points
-        
+
 
         //If you hit the ceiling how much are you subtracting from the height of the downwards raycast
         //
@@ -142,7 +131,7 @@ public class ES_Idle : Enemy_State
         Vector3 ceilingPoint = Vector3.zero;
         //float searchDistanceJump = 0;
         float searchDistanceDrop = Enemy.agentSettings[e.agentIndex].ledgeDropHeight;
-        
+
         if (Physics.Raycast (transform.position, Vector3.up, out ceilingCheck, Enemy.agentSettings[e.agentIndex].maxJumpAcrossDistance, LayerMask.GetMask ("Ground")))
         {
             //Debug.Log ("Raycast hit something");
@@ -160,9 +149,9 @@ public class ES_Idle : Enemy_State
             ceilingPoint = transform.position + new Vector3 (0, Enemy.agentSettings[e.agentIndex].maxJumpAcrossDistance, 0);
         }
 
-        
 
-        
+
+
         //We have the wander offset now. Search this area for the first candidate point in that area.
         for (int i = 0; i < wanderSearchIterations; i++)
         {
@@ -212,7 +201,7 @@ public class ES_Idle : Enemy_State
             else
             {
                 Debug.Log ("Raycastpoint not found");
-                
+
             }
         }
 
@@ -224,13 +213,13 @@ public class ES_Idle : Enemy_State
     }
 
 
-    bool isWaiting = false;
-    IEnumerator WanderTimer ()
+    protected bool isWaiting = false;
+    protected IEnumerator WanderTimer ()
     {
         isWaiting = true;
-        yield return new WaitForSeconds (Random.Range(wanderStayTimeMin, wanderStayTimeMax));
+        yield return new WaitForSeconds (Random.Range (wanderStayTimeMin, wanderStayTimeMax));
 
-        if (SetWanderPoint())
+        if (SetWanderPoint ())
         {
             e.agent.SetDestination (wanderResult);
         }

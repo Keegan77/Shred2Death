@@ -9,17 +9,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Enemy_StateMachine))]
 public class Enemy : MonoBehaviour
 {
-
-    #region PAREMETERS
-
-    [Header("Stats")]
-    public int health;
-    public float movementSpeed;
-
-    #endregion
-
     #region SCRIPT VARIABLES
-
+    #region Game Objects
     public static GameObject playerObject;
 
     [NonSerialized] public Rigidbody rb;
@@ -34,6 +25,12 @@ public class Enemy : MonoBehaviour
     [NonSerialized] public Enemy_StateMachine stateMachine;
 
     [NonSerialized] public GameObject muzzlePoint;
+    #endregion
+
+    #region Stats and Trackers
+    [HideInInspector] public bool bulletReady = true;
+
+    #endregion
 
     [Header ("Components")]
     WaveManager waveManager; //Set by waveManager when the enemy object is instantiated

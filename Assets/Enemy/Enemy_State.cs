@@ -4,7 +4,10 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// States are the primary system to
+/// States are the behaviors of how an enemy moves around and shoots at the player.
+/// 
+/// There are a few basic states that derive off of this basic state,
+/// which classes outside of the enemy object may reference.
 /// </summary>
 public class Enemy_State : MonoBehaviour
 {

@@ -1,19 +1,15 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class ES_MoveTowardsPoint : Enemy_State
+public class ES_Ground_MoveTowardsPoint : Enemy_State
 {
-    [NonSerialized] public GameObject travelPoint;
-
+    
     public override void Enter ()
     {
-        e.agent.SetDestination (travelPoint.transform.position);
+        e.agent.SetDestination (e.stateMachine.travelPoint);
 
-        e.agent.CalculatePath (travelPoint.transform.position, e.agentPath);
-
+        e.agent.CalculatePath (e.stateMachine.travelPoint, e.agentPath);
     }
 
     public override void Exit ()
@@ -27,14 +23,13 @@ public class ES_MoveTowardsPoint : Enemy_State
 
         if (distanceToDestination.magnitude <= e.agent.stoppingDistance)
         {
-            e.stateMachine.transitionState (GetComponent<ES_Idle> ());
+            e.stateMachine.transitionState (GetComponent<ES_Ground_Idle> ());
         }
     }
 
     public override void onPlayerSensorActivated ()
     {
-        e.stateMachine.transitionState (GetComponent<ES_Chase> ());
-        GetComponent<ES_Chase> ().onPlayerSensorActivated ();
+        e.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
+        GetComponent<ES_Ground_Chase> ().onPlayerSensorActivated ();
     }
-
 }

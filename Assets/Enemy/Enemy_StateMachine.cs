@@ -9,15 +9,20 @@ using UnityEngine;
 /// </summary>
 public class Enemy_StateMachine : MonoBehaviour
 {
-    #region PARAMETERS
+    #region VARIABLES
     //[SerializeField] Enemy_State initialState;
 
-    #endregion
-
-    #region SCRIPT VARIABLES
     GameObject statesObject;
 
-    [SerializeField] Enemy_State currentState;
+    [Header("States")]
+    public Enemy_State stateCurrent;
+
+    public Enemy_State stateMTP;
+    public Enemy_State stateChase;
+    public Enemy_State stateIdle;
+
+    [Header ("Navigation")]
+    public Vector3 travelPoint;
     #endregion
 
 
@@ -25,32 +30,32 @@ public class Enemy_StateMachine : MonoBehaviour
     #region SCRIPT FUNCTIONS
     public void machineUpdate ()
     {
-        currentState.machineUpdate ();
+        stateCurrent.machineUpdate ();
     }
 
     public void machinePhysics ()
     {
-        currentState.machinePhysics ();
+        stateCurrent.machinePhysics ();
     }
 
     public void transitionState (Enemy_State s)
     {
-        Debug.Log ("Transitioning from " + currentState + " to " + s);
-        currentState.Exit ();
+        Debug.Log ("Transitioning from " + stateCurrent + " to " + s);
+        stateCurrent.Exit ();
 
-        currentState = s;
+        stateCurrent = s;
 
-        currentState.Enter ();
+        stateCurrent.Enter ();
     }
 
     public void sensorActivated ()
     {
-        currentState.onPlayerSensorActivated ();
+        stateCurrent.onPlayerSensorActivated ();
     }
 
     public void sensorDeactivated ()
     {
-        currentState.onPlayerSensorDeactivated ();
+        stateCurrent.onPlayerSensorDeactivated ();
     }
 
     #endregion

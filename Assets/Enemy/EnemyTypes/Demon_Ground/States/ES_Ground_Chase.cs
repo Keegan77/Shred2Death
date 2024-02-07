@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem.HID;
 
-public class ES_Chase : Enemy_State
+public class ES_Ground_Chase : Enemy_State
 {
-    [Header("Navigation")]
+    [Header ("Navigation")]
 
-    [Tooltip("How often does navigation update? Lower = more often")]
+    [Tooltip ("How often does navigation update? Lower = more often")]
     [SerializeField] float agentUpdateDistance = 4;
 
-    [Tooltip("How often will the agent check to see if it should enter turret mode?")]
+    [Tooltip ("How often will the agent check to see if it should enter turret mode?")]
     [SerializeField] float chaseUpdateTimer = 3;
     bool chaseKey = true;
 
@@ -52,24 +51,24 @@ public class ES_Chase : Enemy_State
         Vector3 playerDestinationOffset = Enemy.playerObject.transform.position - e.agent.destination;
 
 
-        if ( constantUpdate )
+        if (constantUpdate)
         {
             e.agent.SetDestination (Enemy.playerObject.transform.position);
 
             Debug.Log (e.agent.pathStatus);
         }
-        else if ( playerDestinationOffset.magnitude > agentUpdateDistance )
+        else if (playerDestinationOffset.magnitude > agentUpdateDistance)
         {
             e.agent.SetDestination (Enemy.playerObject.transform.position);
             Debug.Log ("Resetting Path");
         }
 
-        if ( chaseKey )
+        if (chaseKey)
         {
             StartCoroutine (chaseWait ());
         }
 
-        if(bulletKey )
+        if (bulletKey)
         {
             StartCoroutine (bulletWait ());
         }
@@ -93,7 +92,7 @@ public class ES_Chase : Enemy_State
         yield return new WaitForSeconds (chaseUpdateTimer);
 
         NavMeshHit hit;
-        if (!NavMesh.SamplePosition (Enemy.playerObject.transform.position, out hit, 2, NavMesh.AllAreas) )
+        if (!NavMesh.SamplePosition (Enemy.playerObject.transform.position, out hit, 2, NavMesh.AllAreas))
         {
             e.stateMachine.transitionState (GetComponent<ES_Turret> ());
         }

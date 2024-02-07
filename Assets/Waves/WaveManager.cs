@@ -111,14 +111,14 @@ public class WaveManager : MonoBehaviour
         {
             GameObject e = Instantiate (row.enemy, row.spawnPoint.transform.position, row.spawnPoint.transform.rotation, transform.Find ("Enemies"));
             
-            ES_MoveTowardsPoint enterState = e.transform.Find("States").GetComponent<ES_MoveTowardsPoint>();
+            Enemy_StateMachine enterState = e.GetComponent<Enemy_StateMachine>();
 
-            enterState.travelPoint = row.spawnPoint.transform.GetChild (0).gameObject;
+            enterState.travelPoint = row.spawnPoint.transform.GetChild (0).position;
 
             //Hopefully the NavMeshAgent is loaded after instantiation
             //e.GetComponent<Enemy>().agent = e.gameObject.GetComponent<NavMeshAgent> (); 
 
-            e.GetComponent<Enemy_StateMachine> ().transitionState (enterState);
+            e.GetComponent<Enemy_StateMachine> ().transitionState (enterState.stateMTP);
             e.GetComponent<Enemy> ().SetManager (this);
 
             yield return new WaitForSeconds (row.interval);

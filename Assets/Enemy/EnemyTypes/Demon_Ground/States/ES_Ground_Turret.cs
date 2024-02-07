@@ -7,36 +7,33 @@ using UnityEngine.AI;
 /// In this state an enemy will sit still and fire bullets towards the player
 /// using the stats provided by the selected BulletInfo
 /// </summary>
-public class ES_Turret : Enemy_State
+
+public class ES_Ground_Turret : Enemy_State
 {
     #region PARAMETERS
-    [SerializeField] Enemy_BulletInfo bulletInfo;
-
-    bool bulletReady = true;
+    [SerializeField] protected Enemy_BulletInfo bulletInfo;
     #endregion
-
 
     public override void Enter ()
     {
-        base.Enter ();
-        bulletReady = true;
+        e.bulletReady = true;
     }
 
     public override void machinePhysics ()
     {
-        if ( bulletReady )
+        if (e.bulletReady)
         {
-            StartCoroutine (fireBullet());
-        }       
+            StartCoroutine (fireBullet ());
+        }
     }
 
     IEnumerator fireBullet ()
     {
-        bulletReady = false;
+        e.bulletReady = false;
         yield return new WaitForSeconds (1 / bulletInfo.fireRate);
-        
+
         NavMeshHit hit;
-        if ( NavMesh.SamplePosition (Enemy.playerObject.transform.position, out hit, 2, NavMesh.AllAreas) )
+        if (NavMesh.SamplePosition (Enemy.playerObject.transform.position, out hit, 4, NavMesh.AllAreas))
         {
             e.stateMachine.transitionState (GetComponent<ES_Chase> ());
         }
@@ -45,6 +42,6 @@ public class ES_Turret : Enemy_State
             bulletInfo.spawnBullet (e.muzzlePoint);
         }
 
-        bulletReady = true;
+        e.bulletReady = true;
     }
 }
