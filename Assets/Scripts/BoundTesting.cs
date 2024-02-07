@@ -71,6 +71,7 @@ public class BoundTesting : MonoBehaviour
         extrudedMesh = new Mesh();
         extrudedMesh.name = "fucking awesome cool extruded mesh";
         extrudedMesh.vertices = GenerateExtrudedVertices();
+        extrudedMeshVerts = GenerateExtrudedVertices();
         extrudedMesh.triangles = GenerateExtrudedTris();
         extrudedMesh.RecalculateNormals();
         extrudedMesh.RecalculateBounds();
@@ -88,7 +89,7 @@ public class BoundTesting : MonoBehaviour
         
         for (int i = 0; i < extrudedVerts.Length; i++)
         {
-            extrudedVerts[i] = baseVerts[i] + new Vector3(0, 10, 0);
+            extrudedVerts[i] = baseVerts[i] + new Vector3(0, 1, 0);
         }
 
         foreach (var vert in baseVerts)
@@ -113,36 +114,30 @@ public class BoundTesting : MonoBehaviour
         extrudedMeshVerts = GenerateExtrudedVertices();
         List<int> triangles = new List<int>();
         int baseCount = extrudedMeshVerts.Length / 2; // Assuming the first half are base vertices and the second half are extruded vertices
-        // we always have the same amount of base vertices and extruded vertices, so this is fine
-
-        // Generate triangles for the top and bottom of the mesh
-        for (int i = 0; i < baseCount; i++)
-        {
-            int nextIndex = (i + 1) % baseCount;
-            triangles.Add(i);
-            triangles.Add(nextIndex);
-            triangles.Add(i + baseCount);
-
-            triangles.Add(nextIndex);
-            triangles.Add(nextIndex + baseCount);
-            triangles.Add(i + baseCount);
-        }
 
         // Generate triangles for the sides of the mesh
         for (int i = 0; i < baseCount; i++)
         {
-            int nextIndex = (i + 1) % baseCount;
+            int nextIndex = (i + 2) % baseCount;
+            int extrudedIndex = i + baseCount;
+            int extrudedNextIndex = nextIndex + baseCount;
+
+            // Triangle 1
             triangles.Add(i);
             triangles.Add(nextIndex);
-            triangles.Add(nextIndex + baseCount);
+            triangles.Add(extrudedNextIndex);
 
-            triangles.Add(i);
-            triangles.Add(nextIndex + baseCount);
-            triangles.Add(i + baseCount);
+            // Triangle 2
+            triangles.Add(nextIndex);
+            triangles.Add(extrudedIndex);
+            triangles.Add(extrudedNextIndex);
         }
 
         return triangles.ToArray();
     }
+    
+    
+    
     
     float GetSqrMagFromEdge(Vector3 vertex1, Vector3 vertex2, Vector3 point)
     {
@@ -166,12 +161,5 @@ public class BoundTesting : MonoBehaviour
                 Gizmos.DrawSphere(transform.TransformPoint(extrudedMeshVerts[i]), 1f);
             }
         }
-        /*for (int i = 0; i < verts.Length - 1; i++)
-        {
-            Gizmos.DrawSphere(transform.TransformPoint(verts[i]), 0.1f);
-            Vector3 currentVertex = transform.TransformPoint(verts[i]);
-            Vector3 nextVertex = transform.TransformPoint(verts[i + 1]);
-            Gizmos.DrawLine(currentVertex, nextVertex);
-        }*/
     }
 }
