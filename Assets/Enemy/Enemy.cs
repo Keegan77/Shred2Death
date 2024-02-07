@@ -14,9 +14,7 @@ public class Enemy : MonoBehaviour
     public static GameObject playerObject;
 
     [NonSerialized] public Rigidbody rb;
-    
-
-    
+   
 
     [NonSerialized] public Enemy_StateMachine stateMachine;
 

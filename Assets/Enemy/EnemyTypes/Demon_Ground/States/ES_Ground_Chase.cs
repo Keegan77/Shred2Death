@@ -55,7 +55,7 @@ public class ES_Ground_Chase : ES_DemonGround
         {
             e.agent.SetDestination (Enemy.playerObject.transform.position);
 
-            Debug.Log (e.agent.pathStatus);
+            //Debug.Log (e.agent.pathStatus);
         }
         else if (playerDestinationOffset.magnitude > agentUpdateDistance)
         {
