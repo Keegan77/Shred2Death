@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ES_Ground_MoveTowardsPoint : Enemy_State
+public class ES_Ground_MoveTowardsPoint : ES_DemonGround
 {
     
     public override void Enter ()

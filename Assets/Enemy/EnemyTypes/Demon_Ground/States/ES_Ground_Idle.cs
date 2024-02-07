@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ES_Ground_Idle : Enemy_State
+public class ES_Ground_Idle : ES_DemonGround
 {
     [SerializeField] float wanderSearchRadius = 10;
     [SerializeField] float wanderPlayerBias = 5; //offset the search area towards the player
@@ -130,9 +130,9 @@ public class ES_Ground_Idle : Enemy_State
         RaycastHit ceilingCheck;
         Vector3 ceilingPoint = Vector3.zero;
         //float searchDistanceJump = 0;
-        float searchDistanceDrop = Enemy.agentSettings[e.agentIndex].ledgeDropHeight;
+        float searchDistanceDrop = E_Demon_Ground.agentSettings[e.agentIndex].ledgeDropHeight;
 
-        if (Physics.Raycast (transform.position, Vector3.up, out ceilingCheck, Enemy.agentSettings[e.agentIndex].maxJumpAcrossDistance, LayerMask.GetMask ("Ground")))
+        if (Physics.Raycast (transform.position, Vector3.up, out ceilingCheck, E_Demon_Ground.agentSettings[e.agentIndex].maxJumpAcrossDistance, LayerMask.GetMask ("Ground")))
         {
             //Debug.Log ("Raycast hit something");
             //Debug.Log (ceilingCheck.point);
@@ -146,7 +146,7 @@ public class ES_Ground_Idle : Enemy_State
             //Debug.Log (ceilingCheck.point);
             //searchDistanceJump = transform.position.y + Enemy.agentSettings[e.agentIndex].maxJumpAcrossDistance;
 
-            ceilingPoint = transform.position + new Vector3 (0, Enemy.agentSettings[e.agentIndex].maxJumpAcrossDistance, 0);
+            ceilingPoint = transform.position + new Vector3 (0, E_Demon_Ground.agentSettings[e.agentIndex].maxJumpAcrossDistance, 0);
         }
 
 

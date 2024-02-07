@@ -30,6 +30,6 @@ public class SetNavMeshSettings : MonoBehaviour
             arraySettings[i] = surfaces[i].GetBuildSettings();
         }
 
-        Enemy.agentSettings = arraySettings;
+        E_Demon_Ground.agentSettings = arraySettings;
     }
 }

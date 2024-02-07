@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ES_Ground_Chase : Enemy_State
+public class ES_Ground_Chase : ES_DemonGround
 {
     [Header ("Navigation")]
 
@@ -94,7 +94,7 @@ public class ES_Ground_Chase : Enemy_State
         NavMeshHit hit;
         if (!NavMesh.SamplePosition (Enemy.playerObject.transform.position, out hit, 2, NavMesh.AllAreas))
         {
-            e.stateMachine.transitionState (GetComponent<ES_Turret> ());
+            e.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
         }
 
         chaseKey = true;

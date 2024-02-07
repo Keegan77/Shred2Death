@@ -8,7 +8,7 @@ using UnityEngine.AI;
 /// using the stats provided by the selected BulletInfo
 /// </summary>
 
-public class ES_Ground_Turret : Enemy_State
+public class ES_Ground_Turret : ES_DemonGround
 {
     #region PARAMETERS
     [SerializeField] protected Enemy_BulletInfo bulletInfo;
@@ -35,7 +35,7 @@ public class ES_Ground_Turret : Enemy_State
         NavMeshHit hit;
         if (NavMesh.SamplePosition (Enemy.playerObject.transform.position, out hit, 4, NavMesh.AllAreas))
         {
-            e.stateMachine.transitionState (GetComponent<ES_Chase> ());
+            e.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
         }
         else
         {

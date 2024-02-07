@@ -15,13 +15,8 @@ public class Enemy_State : MonoBehaviour
 
     //States will control movement directly.
     //Rigidbody will be set in the start function
-    protected Enemy e;
 
     #region STATE MACHINE
-    private void Awake ()
-    {
-        e = transform.parent.GetComponent<Enemy>();
-    }
 
     public virtual void Enter ()
     {
@@ -53,13 +48,6 @@ public class Enemy_State : MonoBehaviour
 
     }
 
-    #endregion
-
-    #region NAVIGATION
-    public void EndPath ()
-    {
-        e.agentPath.ClearCorners ();
-    }
     #endregion
 
     #region COROUTINES

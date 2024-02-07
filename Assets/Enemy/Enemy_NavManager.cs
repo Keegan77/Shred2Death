@@ -24,7 +24,7 @@ public class Enemy_NavManager : MonoBehaviour
 
     private void Awake ()
     {
-        agent = transform.Find("AgentObject").GetComponent<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
 
         agent.autoTraverseOffMeshLink = autoTraverseOffMeshLink;
         agent.updatePosition = updatePosition;

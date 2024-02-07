@@ -14,13 +14,9 @@ public class Enemy : MonoBehaviour
     public static GameObject playerObject;
 
     [NonSerialized] public Rigidbody rb;
-    [NonSerialized] public NavMeshAgent agent; //NavMeshAgent refuses to load in time and now I have to serialize it. Hate.
-    [NonSerialized] public Enemy_NavManager agentManger;
-    [NonSerialized] public NavMeshPath agentPath;
+    
 
-    //agentSettings will be set by the navmesh present in the level.
-    [NonSerialized] public static NavMeshBuildSettings[] agentSettings;
-    [NonSerialized] public int agentIndex = 0;
+    
 
     [NonSerialized] public Enemy_StateMachine stateMachine;
 
@@ -40,43 +36,22 @@ public class Enemy : MonoBehaviour
     #region SETUP
     void Awake ()
     {
+        EnemyGetComponentReferences();
+    }
+
+    protected virtual void EnemyGetComponentReferences ()
+    {
         stateMachine = GetComponent<Enemy_StateMachine> ();
-        rb = GetComponent<Rigidbody>();
-        agent = transform.Find("AgentObject").GetComponent<NavMeshAgent> ();
-        agentManger = GetComponent<Enemy_NavManager> ();
+        rb = GetComponent<Rigidbody> ();
 
         muzzlePoint = transform.Find ("Body/MuzzlePoint").gameObject;
-        Debug.Log(muzzlePoint.name);
-        agentPath = new NavMeshPath ();
+        Debug.Log (muzzlePoint.name);
     }
 
     //After it's spawned, the static variable for agentSettings should exist.
     private void Start ()
     {
-        //rb.isKinematic = false;
-        //rb.useGravity = true;
-
-        //Debug.Log ("Checking agent settings");
-        //Debug.Log (agent.agentTypeID);
-        if(agentSettings != null)
-        {
-            for (int i = 0; i < agentSettings.Length; i++)
-            {
-                //Debug.Log (agentSettings[i].agentTypeID);
-                if (agentSettings[i].agentTypeID == agent.agentTypeID)
-                {
-                    //Debug.Log ("Agent Match found");
-                    agentIndex = i;
-
-                    //Debug.Log (agentSettings[agentIndex].agentClimb);
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Debug.LogError ("No Agent Settings");
-        }
+        
     }
 
     public void SetManager (WaveManager w)
