@@ -10,7 +10,7 @@ public class PlayerMovementMethods
     private PlayerBase player;
     private Transform inputTurningTransform;
     private float movementSpeed;
-    private float turnSharpness;
+    public float turnSharpness { get; private set; }
     private float boostTimer;
 
     private float baseSpeed;

@@ -8,13 +8,17 @@ public class PlayerAirborneState : PlayerState
 {
     public PlayerAirborneState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
-        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => CheckForSpline()});
+        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
+            { onPerformed = ctx => CheckForSpline()});
         
         inputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
         {
             onPerformed = ctx => player.GetMovementMethods().StartBoost(),
             onCanceled = ctx => player.GetMovementMethods().StopBoost()
         });
+        
+        inputActions.Add(InputRouting.Instance.input.Player.Nosedive, new InputActionEvents 
+            { onPerformed = ctx => stateMachine.SwitchState(player.nosediveState) });
     }
     
     public override void Enter()
@@ -32,8 +36,6 @@ public class PlayerAirborneState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-
-        
         if (player.CheckGround())
         {
             stateMachine.SwitchState(player.skatingState);
@@ -83,28 +85,11 @@ public class PlayerAirborneState : PlayerState
             SplineComputer hitSpline = hit.collider.GetComponent<SplineComputer>();
             SplineSample hitPoint = hitSpline.Project(player.transform.position);
             //Debug.Log(Vector3.Distance(player.transform.position, hitPoint.position));
-            if (Vector3.Distance(player.transform.position, hitPoint.position) < 4f)
+            if (Vector3.Distance(player.transform.position, hitPoint.position) < player.playerData.railSnapDistance)
             {
                 player.SetCurrentSpline(hitSpline, hitPoint);
                 stateMachine.SwitchState(player.grindState);
             }
         }
     }
-    
-    /*
-    public override void StateCollisionEnter(Collision other)
-    {
-        base.StateCollisionEnter(other);
-        if (other.gameObject.TryGetComponent<SplineComputer>(out SplineComputer hitSpline) && player.rb.velocity.y < 0)
-        {
-            // Project the player's position onto the spline
-            SplineSample hitPoint = hitSpline.Project(player.transform.position);
-            Debug.Log("Player position: " + player.transform.position);
-            Debug.Log("Hit point: " + hitPoint.position);
-            Debug.Log("Hit point percent: " + hitPoint.percent);
-            player.SetCurrentSpline(hitSpline, hitPoint);
-            stateMachine.SwitchState(player.grindState);
-            
-        }
-    }*/
 }
