@@ -85,7 +85,7 @@ public class PlayerAirborneState : PlayerState
             SplineComputer hitSpline = hit.collider.GetComponent<SplineComputer>();
             SplineSample hitPoint = hitSpline.Project(player.transform.position);
             //Debug.Log(Vector3.Distance(player.transform.position, hitPoint.position));
-            if (Vector3.Distance(player.transform.position, hitPoint.position) < 4f)
+            if (Vector3.Distance(player.transform.position, hitPoint.position) < player.playerData.railSnapDistance)
             {
                 player.SetCurrentSpline(hitSpline, hitPoint);
                 stateMachine.SwitchState(player.grindState);

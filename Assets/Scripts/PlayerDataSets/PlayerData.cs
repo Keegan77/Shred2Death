@@ -33,6 +33,7 @@ public class PlayerData : ScriptableObject
     public float grindPositioningOffset;
     public float grindTurnSharpness;
     public float railSnapTime;
+    public float railSnapDistance;
 
     
     
