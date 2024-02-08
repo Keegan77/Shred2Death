@@ -37,6 +37,9 @@ public class Enemy : MonoBehaviour
         EnemyGetComponentReferences();
     }
 
+    /// <summary>
+    /// Gets the basic components of the enemy class to reduce boilerplate code. Future iterations of enemies should extend this function as well to provide for the next inherited enemy type.
+    /// </summary>
     protected virtual void EnemyGetComponentReferences ()
     {
         stateMachine = GetComponent<Enemy_StateMachine> ();

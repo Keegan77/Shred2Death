@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+//After going through and doing validaiton scripting, ArenaComplete might not need to exist
 public class WaveManager : MonoBehaviour
 {
     #region PARAMETERS
@@ -29,7 +31,7 @@ public class WaveManager : MonoBehaviour
 
     #region SCRIPT VARIABLES
 
-    bool areaEnabled = false;
+    bool areaEnabled = true;
     bool areaComplete = false;
 
     int currentWave = 0;
@@ -41,18 +43,66 @@ public class WaveManager : MonoBehaviour
     #region SETUP
     private void Start ()
     {
-        //Run a check to see if any of the waves are wrong (0 enemies, or no prefab)
+        //If the wavemanager is set up incorrectly, disable it.
+        if (!ValidateArena())
+        {
+            Debug.LogWarning($"Arena {gameObject} has been disabled due to incomplete settings");
 
+            areaEnabled = false;
+        }
+        
+    }
+
+    //Algorithm for checking through the arena for invalid settings
+    bool ValidateArena()
+    {
+        bool isValid = true;
+        //Run a check to see if any of the waves are wrong (0 enemies, or no prefab)
+        if (waves.Length == 0)
+        {
+            Debug.LogError($"No Waves set on {gameObject.name}");
+            isValid = false;
+        }
+        else
+        {
+            for (int w = 0; w < waves.Length; w++)
+            {
+                if (waves[w].getEnemies().Length == 0)
+                {
+                    Debug.LogError($"Arena {gameObject.name} Wave {w} on {gameObject.name} is empty");
+                    isValid = false;
+                }
+                else
+                {
+                    for (int e = 0; e < waves[w].getEnemies().Length; e++)
+                    {
+                        if (waves[w].getEnemies()[e].enemy == null)
+                        {
+                            Debug.LogError($"Arena {gameObject.name} Wave {w} Group {e} has no enemy set");
+                            isValid = false;
+                        }
+
+                        if (waves[w].getEnemies()[e].spawnPoint == null)
+                        {
+                            Debug.LogError($"Arena {gameObject.name} Wave {w} Group {e} has no spawn point set");
+                            isValid = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return isValid;
     }
 
     #endregion
 
     private void OnTriggerEnter (Collider other)
     {
-        if (other.CompareTag("Player") && areaComplete == false && areaEnabled == false)
+        if (other.CompareTag("Player") && areaComplete == false && areaEnabled)
         {
             Debug.Log ("Player has entered the arena");
-            areaEnabled = true;
+            areaEnabled = false;
 
             StartCoroutine (beginEncounter ());
         }

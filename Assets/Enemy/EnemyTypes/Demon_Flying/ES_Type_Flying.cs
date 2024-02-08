@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ES_Type_Flying : MonoBehaviour
+public class ES_Type_Flying : Enemy_State
 {
     Enemy_Flying e;
 
@@ -15,4 +15,6 @@ public class ES_Type_Flying : MonoBehaviour
     {
         e = transform.parent.GetComponent<Enemy_Flying>();
     }
+
+
 }
