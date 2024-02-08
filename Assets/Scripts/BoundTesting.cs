@@ -49,7 +49,7 @@ public class BoundTesting : MonoBehaviour
 
     private float GetTopVerticeHeight(Vector3[] vertList)
     {
-        float topVerticeHeight = 0;
+        float topVerticeHeight = -Mathf.Infinity;
         foreach (var vert in vertList)
         {
             if (vert.y > topVerticeHeight)
@@ -80,12 +80,10 @@ public class BoundTesting : MonoBehaviour
 
     private void GenerateExtrudedMesh()
     {
-        GameObject childObject = new GameObject();
-        //childObject.transform.position = transform.position;
-        //childObject.transform.rotation = transform.rotation;
-        //childObject.transform.localScale = transform.localScale;
-        //childObject.transform.parent = transform;
-        MeshRenderer meshRenderer = childObject.AddComponent<MeshRenderer>();
+        GameObject extrudedMeshObj = new GameObject();
+        extrudedMeshObj.name = "Extruded Mesh";
+
+        MeshRenderer meshRenderer = extrudedMeshObj.AddComponent<MeshRenderer>();
         meshRenderer.material = new Material(Shader.Find("Standard"));
         
         extrudedMesh = new Mesh();
@@ -98,16 +96,18 @@ public class BoundTesting : MonoBehaviour
         normals = extrudedMesh.normals;
         extrudedMesh.RecalculateBounds();
         
-        extrudedMeshFilter = childObject.AddComponent<MeshFilter>();
+        extrudedMeshFilter = extrudedMeshObj.AddComponent<MeshFilter>();
         extrudedMeshFilter.mesh = extrudedMesh;
         
-        childObject.AddComponent<MeshCollider>();
+        extrudedMeshObj.AddComponent<MeshCollider>();
     }
 
     private Vector3[] GenerateExtrudedVertices(Vector3[] baseVerts)
     {
         List<Vector3> allVertices = new List<Vector3>();
         Vector3[] extrudedVerts = new Vector3[baseVerts.Length];
+        
+        //baseVerts = SortVerticesClockwise(baseVerts);
         
         for (int i = 0; i < extrudedVerts.Length; i++)
         {
@@ -139,22 +139,175 @@ public class BoundTesting : MonoBehaviour
         // Generate triangles for the sides of the mesh
         for (int i = 0; i < baseCount; i++)
         {
-            int nextIndex = (i + 2) % baseCount;
+            int indexUpOne = (i + 1) < baseCount ? (i + 1) : i;
+            int indexUpTwo = (i + 2) < baseCount ? (i + 2) : i;
+            int indexUpThree = (i + 3) < baseCount ? (i + 3) : i;
+            
+            int extrudedIndex = i + baseCount;
+            
+            int extrudedUpOneIndex = indexUpOne + baseCount;
+            int extrudedUpTwoIndex = indexUpTwo + baseCount;
+            int extrudedUpThreeIndex = indexUpThree + baseCount;
+
+            // front face
+            triangles.Add(indexUpTwo);
+            triangles.Add(extrudedIndex);
+            triangles.Add(i);
+            
+            triangles.Add(indexUpTwo);
+            triangles.Add(extrudedUpTwoIndex);
+            triangles.Add(extrudedIndex);
+
+            /*if (i == (baseCount / 2) - 1)
+            {
+                triangles.Add(extrudedUpOneIndex);
+                triangles.Add(indexUpTwo);
+                triangles.Add(indexUpOne);
+
+                triangles.Add(indexUpTwo);
+                triangles.Add(extrudedUpOneIndex);
+                triangles.Add(extrudedUpTwoIndex);
+            
+                triangles.Add(i);
+                triangles.Add(indexUpThree);
+                triangles.Add(extrudedUpThreeIndex);
+
+                triangles.Add(extrudedUpThreeIndex);
+                triangles.Add(extrudedIndex);
+                triangles.Add(i);
+            }*/
+            
+            // back face
+            /*triangles.Add(indexUpOne);
+            triangles.Add(extrudedUpOneIndex);
+            triangles.Add(indexUpThree);*/
+            
+            /*triangles.Add(indexUpThree);
+            triangles.Add(extrudedUpOneIndex);
+            triangles.Add(indexUpOne);*/
+            
+            
+            //fill in holes
+            /*triangles.Add(extrudedUpOneIndex);
+            triangles.Add(indexUpTwo);
+            triangles.Add(indexUpOne);
+            
+            triangles.Add(indexUpTwo);
+            triangles.Add(extrudedUpOneIndex);
+            triangles.Add(extrudedUpTwoIndex);*/
+            
+            /*triangles.Add(i);
+            triangles.Add(indexUpThree);
+            triangles.Add(extrudedUpThreeIndex);
+            
+            triangles.Add(extrudedUpThreeIndex);
+            triangles.Add(extrudedIndex);
+            triangles.Add(i);
+            
+            triangles.Add(extrudedIndex);
+            triangles.Add(indexUpOne);
+            triangles.Add(i);
+            
+            triangles.Add(indexUpOne);
+            triangles.Add(extrudedIndex);
+            triangles.Add(extrudedUpOneIndex);*/
+
+        }
+
+        return triangles.ToArray();
+    }
+    
+    /*private int[] GenerateExtrudedTris()
+    {
+        List<int> triangles = new List<int>();
+        int baseCount = extrudedMesh.vertices.Length / 2; // Assuming the first half are base vertices and the second half are extruded vertices
+
+        // Generate triangles for the sides of the mesh
+        for (int i = 0; i < baseCount; i++)
+        {
+            int indexUpOne = (i + 1) % baseCount;
+            int indexUpTwo = (i + 2) % baseCount;
+            int indexUpThree = (i + 3) % baseCount;
+            
+            int extrudedIndex = i + baseCount;
+            
+            int extrudedUpOneIndex = indexUpOne + baseCount;
+            int extrudedUpTwoIndex = indexUpTwo + baseCount;
+            int extrudedUpThreeIndex = indexUpThree + baseCount;
+
+            // back face
+            triangles.Add(i);
+            triangles.Add(indexUpThree);
+            triangles.Add(extrudedUpThreeIndex);
+            
+            triangles.Add(indexUpThree);
+            triangles.Add(extrudedIndex);
+            triangles.Add(extrudedUpThreeIndex);
+
+            // front face
+            triangles.Add(indexUpOne);
+            triangles.Add(indexUpTwo);
+            triangles.Add(extrudedUpTwoIndex);
+            
+            triangles.Add(indexUpTwo);
+            triangles.Add(extrudedUpOneIndex);
+            triangles.Add(extrudedUpTwoIndex);
+            
+        }
+
+        return triangles.ToArray();
+    }*/
+    
+    /*private int[] GenerateExtrudedTris()
+    {
+        List<int> triangles = new List<int>();
+        int baseCount = extrudedMesh.vertices.Length / 2; // Assuming the first half are base vertices and the second half are extruded vertices
+
+        // Generate triangles for the sides of the mesh
+        for (int i = 0; i < baseCount; i++)
+        {
+            int nextIndex = (i + 1) % baseCount;
+            int nextNextIndex = (i + 2) % baseCount;
             int extrudedIndex = i + baseCount;
             int extrudedNextIndex = nextIndex + baseCount;
 
             // Triangle 1
+
+            
             triangles.Add(i);
-            triangles.Add(nextIndex);
-            triangles.Add(extrudedNextIndex);
+            triangles.Add(nextNextIndex);
+            triangles.Add(extrudedIndex);
 
             // Triangle 2
             triangles.Add(nextIndex);
-            triangles.Add(extrudedIndex);
             triangles.Add(extrudedNextIndex);
+            triangles.Add(extrudedIndex);
+            
+
         }
 
         return triangles.ToArray();
+    }*/
+    
+    private Vector3[] SortVerticesClockwise(Vector3[] vertices)
+    {
+        // Calculate the centroid of the vertices
+        Vector3 centroid = Vector3.zero;
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            centroid += vertices[i];
+        }
+        centroid /= vertices.Length;
+
+        // Sort the vertices based on their angle relative to the centroid
+        Array.Sort(vertices, (a, b) =>
+        {
+            float angleA = Mathf.Atan2(a.z - centroid.z, a.x - centroid.x);
+            float angleB = Mathf.Atan2(b.z - centroid.z, b.x - centroid.x);
+            return angleA.CompareTo(angleB);
+        });
+
+        return vertices;
     }
     
     float GetSqrMagFromEdge(Vector3 vertex1, Vector3 vertex2, Vector3 point)
