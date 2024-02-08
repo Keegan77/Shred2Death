@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.Serialization;
 
 public class BoundTesting : MonoBehaviour
@@ -14,7 +15,7 @@ public class BoundTesting : MonoBehaviour
     public Vector3[] vertexGroups;
     public List<Vector3>[] vertList;
     public Vector3[] verts;
-    public Vector3[] topVerts;
+    public Vector3[] topVerts = null;
     public Vector3[] normals;
     private float topYVerticeHeight;
     Vector2 heightConsiderationThreshold; // should be equal to the top vertice height + and minus a certain amount, which we can define
@@ -28,6 +29,9 @@ public class BoundTesting : MonoBehaviour
         collider = GetComponent<MeshCollider>();
         topYVerticeHeight = GetTopVerticeHeight(verts);
         topVerts = GetAllTopVertices(verts, new Vector2(topYVerticeHeight - 0.2f, topYVerticeHeight + 0.2f));
+        
+        VertexContainer.Instance.objectVerticeMap.Add(gameObject, topVerts.ToList());
+        
         Debug.Log($"top vertice height: {topYVerticeHeight} ");
         //GenerateExtrudedMesh();
         //mesh.triangles = collider.GetComponent<MeshCollider>().sharedMesh.triangles;
@@ -116,10 +120,7 @@ public class BoundTesting : MonoBehaviour
 
         foreach (var vert in baseVerts)
         {
-            if (!allVertices.Contains(vert))
-            {
-                allVertices.Add(vert);
-            }
+            allVertices.Add(vert);
         }
         foreach (var vert in extrudedVerts)
         {
@@ -146,13 +147,13 @@ public class BoundTesting : MonoBehaviour
     
     private void OnDrawGizmos()
     {
-        if (topVerts != null)
+        /*if (topVerts != null)
         {
             for (int i = 0; i < topVerts.Length; i++)
             {
                 Gizmos.DrawSphere(topVerts[i], 1f);
                 //Gizmos.DrawLine(extrudedMesh.vertices[i], extrudedMesh.vertices[i] + normals[i]);
             }
-        }
+        }*/
     }
 }

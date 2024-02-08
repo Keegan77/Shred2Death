@@ -7,12 +7,16 @@ public class PlayerHalfpipeState : PlayerState
     public PlayerHalfpipeState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
     }
+
+    private GameObject closestHalfPipe;
     
     public override void Enter()
     {
         base.Enter();
         //player.StartCoroutine(player.ScaleCapsuleCollider(0.25f)); //EXPERIMENTAL - scales the player's collider to fit the half pipe
         player.GetMovementMethods().StopBoost();
+        closestHalfPipe = GetClosestHalfPipe();
+        Debug.Log($"Closest half pipe: {closestHalfPipe.name}");
     }
 
     public override void Exit()
@@ -30,7 +34,27 @@ public class PlayerHalfpipeState : PlayerState
             stateMachine.SwitchState(player.skatingState);
         }
     }
-    
+
+    private GameObject GetClosestHalfPipe()
+    {
+        GameObject closestHalfPipe;
+        
+        var enumerator = VertexContainer.Instance.objectVerticeMap.Keys.GetEnumerator();
+        enumerator.MoveNext();
+        closestHalfPipe = enumerator.Current;
+        
+        foreach (var halfPipe in VertexContainer.Instance.objectVerticeMap.Keys)
+        {
+            if (Vector3.Distance(player.transform.position, halfPipe.transform.position) <
+                Vector3.Distance(player.transform.position, closestHalfPipe.transform.position))
+            {
+                closestHalfPipe = halfPipe;
+            }
+        }
+
+        return closestHalfPipe;
+    }
+
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
