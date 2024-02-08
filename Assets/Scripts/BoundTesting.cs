@@ -7,21 +7,20 @@ using UnityEngine.Serialization;
 public class BoundTesting : MonoBehaviour
 {
     private Collider collider;
-    [SerializeField] private MeshFilter meshFilter;
-    [SerializeField] private GameObject childObject;
-    protected MeshFilter extrudedMeshFilter;
+    private MeshFilter originalMeshFilter;
+    private MeshFilter extrudedMeshFilter;
     private Mesh extrudedMesh;
 
 
     public Vector3[] verts;
     public Vector3[] topVerts;
-    public Vector3[] extrudedMeshVerts;
     private float topYVerticeHeight;
     Vector2 heightConsiderationThreshold; // should be equal to the top vertice height + and minus a certain amount, which we can define
     
     private void Start()
     {
-        verts = meshFilter.sharedMesh.vertices;
+        originalMeshFilter = GetComponent<MeshFilter>();
+        verts = originalMeshFilter.sharedMesh.vertices;
         collider = GetComponent<MeshCollider>();
         topYVerticeHeight = GetTopVerticeHeight();
         topVerts = GetAllTopVertices(verts, new Vector2(topYVerticeHeight - 0.1f, topYVerticeHeight + 0.1f));
@@ -68,16 +67,25 @@ public class BoundTesting : MonoBehaviour
 
     private void GenerateExtrudedMesh()
     {
+        GameObject childObject = new GameObject();
+        childObject.transform.position = transform.position;
+        childObject.transform.rotation = transform.rotation;
+        childObject.transform.localScale = transform.localScale;
+        childObject.transform.parent = transform;
+        MeshRenderer meshRenderer = childObject.AddComponent<MeshRenderer>();
+        meshRenderer.material = new Material(Shader.Find("Standard"));
+        
         extrudedMesh = new Mesh();
         extrudedMesh.name = "fucking awesome cool extruded mesh";
         extrudedMesh.vertices = GenerateExtrudedVertices();
-        extrudedMeshVerts = GenerateExtrudedVertices();
         extrudedMesh.triangles = GenerateExtrudedTris();
         extrudedMesh.RecalculateNormals();
         extrudedMesh.RecalculateBounds();
         
         extrudedMeshFilter = childObject.AddComponent<MeshFilter>();
         extrudedMeshFilter.mesh = extrudedMesh;
+        
+        childObject.AddComponent<MeshCollider>();
     }
 
     private Vector3[] GenerateExtrudedVertices()
@@ -89,7 +97,7 @@ public class BoundTesting : MonoBehaviour
         
         for (int i = 0; i < extrudedVerts.Length; i++)
         {
-            extrudedVerts[i] = baseVerts[i] + new Vector3(0, 1, 0);
+            extrudedVerts[i] = baseVerts[i] + new Vector3(0, 30, 0);
         }
 
         foreach (var vert in baseVerts)
@@ -105,15 +113,14 @@ public class BoundTesting : MonoBehaviour
             {
                 allVertices.Add(vert);
             }
-        }
+        } // we use two foreach loops here so points get added to the array in the correct order for triangle generation
         return allVertices.ToArray();
     }
 
     private int[] GenerateExtrudedTris()
     {
-        extrudedMeshVerts = GenerateExtrudedVertices();
         List<int> triangles = new List<int>();
-        int baseCount = extrudedMeshVerts.Length / 2; // Assuming the first half are base vertices and the second half are extruded vertices
+        int baseCount = extrudedMesh.vertices.Length / 2; // Assuming the first half are base vertices and the second half are extruded vertices
 
         // Generate triangles for the sides of the mesh
         for (int i = 0; i < baseCount; i++)
@@ -136,9 +143,6 @@ public class BoundTesting : MonoBehaviour
         return triangles.ToArray();
     }
     
-    
-    
-    
     float GetSqrMagFromEdge(Vector3 vertex1, Vector3 vertex2, Vector3 point)
     {
         float n = Vector3.Cross(point - vertex1, point - vertex2).sqrMagnitude;
@@ -150,15 +154,13 @@ public class BoundTesting : MonoBehaviour
         return Vector3.Project(point - vertex1, vertex2 - vertex1) + vertex1;
     }
     
-    
-
     private void OnDrawGizmos()
     {
-        if (extrudedMeshVerts != null)
+        if (extrudedMesh != null)
         {
-            for (int i = 0; i < extrudedMeshVerts.Length; i++)
+            for (int i = 0; i < extrudedMesh.vertices.Length; i++)
             {
-                Gizmos.DrawSphere(transform.TransformPoint(extrudedMeshVerts[i]), 1f);
+                Gizmos.DrawSphere(transform.TransformPoint(extrudedMesh.vertices[i]), 1f);
             }
         }
     }
