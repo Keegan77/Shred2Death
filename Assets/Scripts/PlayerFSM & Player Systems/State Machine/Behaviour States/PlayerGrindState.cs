@@ -50,21 +50,25 @@ public class PlayerGrindState : PlayerState
 
         // calculates the dot product of the player's velocity and the spline sample forward to determine if the player is moving forward or backward
         float dotProduct = Vector3.Dot(playerForward, splineTangent);
+        Debug.Log($"Dot Product: {dotProduct}");
 
         // Set the SplineFollower to move forward or backward based on the dot product
         
+
+        
+        sFollower.SetPercent(player.GetSplineCompletionPercent());
+        
         if (dotProduct > 0) // if the product is positive, that means we are moving in the direction of the spline
         {
-            sFollower.followSpeed = Mathf.Abs(sFollower.followSpeed);
             sFollower.direction = Spline.Direction.Forward;
+            sFollower.followSpeed = Mathf.Abs(sFollower.followSpeed);
         }
         else
         {
-            sFollower.followSpeed = -Mathf.Abs(sFollower.followSpeed);
             sFollower.direction = Spline.Direction.Backward;
+            sFollower.followSpeed = -Mathf.Abs(sFollower.followSpeed);
+            
         }
-        
-        sFollower.SetPercent(player.GetSplineCompletionPercent());
     }
 
     private void JumpOffRail()
@@ -79,8 +83,8 @@ public class PlayerGrindState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        ModifyFollowSpeed();
         if (lerping) return;
+        ModifyFollowSpeed();
         
         player.transform.position = sFollower.result.position + new Vector3(0, player.playerData.grindPositioningOffset, 0);
         player.transform.localEulerAngles = new Vector3(0, sFollower.result.rotation.eulerAngles.y, 0);
@@ -117,7 +121,7 @@ public class PlayerGrindState : PlayerState
     private void ModifyFollowSpeed()
     {
         currentSpeed = baseSpeed + (player.playerData.grindSpeedAdditive * InputRouting.Instance.GetMoveInput().y);
-        sFollower.followSpeed = currentSpeed;
+        sFollower.followSpeed = currentSpeed * (sFollower.direction == Spline.Direction.Forward ? 1 : -1);
     }
 
     
