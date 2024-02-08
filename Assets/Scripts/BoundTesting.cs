@@ -14,6 +14,7 @@ public class BoundTesting : MonoBehaviour
 
     public Vector3[] verts;
     public Vector3[] topVerts;
+    public Vector3[] normals;
     private float topYVerticeHeight;
     Vector2 heightConsiderationThreshold; // should be equal to the top vertice height + and minus a certain amount, which we can define
     
@@ -21,9 +22,11 @@ public class BoundTesting : MonoBehaviour
     {
         originalMeshFilter = GetComponent<MeshFilter>();
         verts = originalMeshFilter.sharedMesh.vertices;
+        verts = ConvertVertsToWorldSpace(verts);
+        
         collider = GetComponent<MeshCollider>();
-        topYVerticeHeight = GetTopVerticeHeight();
-        topVerts = GetAllTopVertices(verts, new Vector2(topYVerticeHeight - 0.1f, topYVerticeHeight + 0.1f));
+        topYVerticeHeight = GetTopVerticeHeight(verts);
+        topVerts = GetAllTopVertices(verts, new Vector2(topYVerticeHeight - 0.2f, topYVerticeHeight + 0.2f));
         Debug.Log($"top vertice height: {topYVerticeHeight} ");
         GenerateExtrudedMesh();
         //mesh.triangles = collider.GetComponent<MeshCollider>().sharedMesh.triangles;
@@ -33,11 +36,21 @@ public class BoundTesting : MonoBehaviour
     {
         //Debug.Log(collider.bounds);
     }
+    
+    private Vector3[] ConvertVertsToWorldSpace(Vector3[] verts)
+    {
+        Vector3[] worldSpaceVerts = new Vector3[verts.Length];
+        for (int i = 0; i < verts.Length; i++)
+        {
+            worldSpaceVerts[i] = transform.TransformPoint(verts[i]);
+        }
+        return worldSpaceVerts;
+    }
 
-    private float GetTopVerticeHeight()
+    private float GetTopVerticeHeight(Vector3[] vertList)
     {
         float topVerticeHeight = 0;
-        foreach (var vert in verts)
+        foreach (var vert in vertList)
         {
             if (vert.y > topVerticeHeight)
             {
@@ -68,18 +81,21 @@ public class BoundTesting : MonoBehaviour
     private void GenerateExtrudedMesh()
     {
         GameObject childObject = new GameObject();
-        childObject.transform.position = transform.position;
-        childObject.transform.rotation = transform.rotation;
-        childObject.transform.localScale = transform.localScale;
-        childObject.transform.parent = transform;
+        //childObject.transform.position = transform.position;
+        //childObject.transform.rotation = transform.rotation;
+        //childObject.transform.localScale = transform.localScale;
+        //childObject.transform.parent = transform;
         MeshRenderer meshRenderer = childObject.AddComponent<MeshRenderer>();
         meshRenderer.material = new Material(Shader.Find("Standard"));
         
         extrudedMesh = new Mesh();
         extrudedMesh.name = "fucking awesome cool extruded mesh";
-        extrudedMesh.vertices = GenerateExtrudedVertices();
+        
+        extrudedMesh.vertices = GenerateExtrudedVertices(topVerts);
         extrudedMesh.triangles = GenerateExtrudedTris();
+        
         extrudedMesh.RecalculateNormals();
+        normals = extrudedMesh.normals;
         extrudedMesh.RecalculateBounds();
         
         extrudedMeshFilter = childObject.AddComponent<MeshFilter>();
@@ -88,11 +104,9 @@ public class BoundTesting : MonoBehaviour
         childObject.AddComponent<MeshCollider>();
     }
 
-    private Vector3[] GenerateExtrudedVertices()
+    private Vector3[] GenerateExtrudedVertices(Vector3[] baseVerts)
     {
         List<Vector3> allVertices = new List<Vector3>();
-        Vector3[] baseVerts;
-        baseVerts = topVerts;
         Vector3[] extrudedVerts = new Vector3[baseVerts.Length];
         
         for (int i = 0; i < extrudedVerts.Length; i++)
@@ -160,7 +174,8 @@ public class BoundTesting : MonoBehaviour
         {
             for (int i = 0; i < extrudedMesh.vertices.Length; i++)
             {
-                Gizmos.DrawSphere(transform.TransformPoint(extrudedMesh.vertices[i]), 1f);
+                Gizmos.DrawSphere(extrudedMesh.vertices[i], 1f);
+                Gizmos.DrawLine(extrudedMesh.vertices[i], extrudedMesh.vertices[i] + normals[i]);
             }
         }
     }
