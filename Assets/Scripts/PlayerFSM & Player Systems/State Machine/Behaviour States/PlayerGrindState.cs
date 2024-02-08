@@ -33,10 +33,17 @@ public class PlayerGrindState : PlayerState
     
     private void SetUpSplineFollower()
     {
+        bool isClosed = false;
         followerObj = GameObject.Instantiate(player.grindRailFollower);
         sFollower = followerObj.GetComponent<SplineFollower>();
         sFollower.spline = player.GetCurrentSpline();
         sFollower.enabled = true;
+        if (sFollower.spline.isClosed)
+        {
+            sFollower.wrapMode = SplineFollower.Wrap.Loop;
+            isClosed = true;
+        }
+        else sFollower.wrapMode = SplineFollower.Wrap.Default;
         
         Vector3 playerForward = player.inputTurningTransform.forward;
         
@@ -69,8 +76,19 @@ public class PlayerGrindState : PlayerState
             sFollower.followSpeed = -Mathf.Abs(sFollower.followSpeed);
             
         }
+
+        if (!isClosed)
+        {
+            player.StartCoroutine(JumpOffEndOfRail());
+        }
     }
 
+    private IEnumerator JumpOffEndOfRail()
+    {
+        yield return new WaitUntil(() => sFollower.result.percent == 1 || sFollower.result.percent == 0);
+        JumpOffRail();
+    }
+    
     private void JumpOffRail()
     {
         player.SetRBKinematic(false);
@@ -123,11 +141,5 @@ public class PlayerGrindState : PlayerState
         currentSpeed = baseSpeed + (player.playerData.grindSpeedAdditive * InputRouting.Instance.GetMoveInput().y);
         sFollower.followSpeed = currentSpeed * (sFollower.direction == Spline.Direction.Forward ? 1 : -1);
     }
-
     
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
-        // Calculate the new position
-    }
 }
