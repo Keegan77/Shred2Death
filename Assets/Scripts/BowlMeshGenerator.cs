@@ -113,7 +113,8 @@ public class BowlMeshGenerator : MonoBehaviour
         extrudedMeshFilter = extrudedMeshObj.AddComponent<MeshFilter>();
         extrudedMeshFilter.mesh = extrudedMesh;
         
-        extrudedMeshObj.AddComponent<MeshCollider>();
+        MeshCollider coll = extrudedMeshObj.AddComponent<MeshCollider>();
+        coll.enabled = false;
     }
 
     private Vector3[] GenerateExtrudedVertices(Vector3[] baseVerts)
