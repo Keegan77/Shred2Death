@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MeshContainerSingleton : MonoBehaviour
 {
@@ -19,5 +20,12 @@ public class MeshContainerSingleton : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        //SceneManager.sceneLoaded += ClearList;
+    }
+
+    private void ClearList(Scene scene, LoadSceneMode mode)
+    {
+        extrusionMeshObjects.Clear();
     }
 }
