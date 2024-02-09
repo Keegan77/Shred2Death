@@ -9,12 +9,12 @@ public class RotateWithMouse : MonoBehaviour
 
     private void Update()
     {
-        // Get the mouse delta
-        Vector2 mouseDelta = Mouse.current.delta.ReadValue();
+        // Get the input delta
+        Vector2 lookDelta = InputRouting.Instance.GetLookInput();
 
-        // Apply the mouse delta to the rotation
-        rotation.y += mouseDelta.x * rotationSpeed * Time.deltaTime;
-        rotation.x -= mouseDelta.y * rotationSpeed * Time.deltaTime;
+        // Apply the input delta to the rotation
+        rotation.y += lookDelta.x * rotationSpeed * Time.deltaTime;
+        rotation.x -= lookDelta.y * rotationSpeed * Time.deltaTime;
         rotation.x = Mathf.Clamp(rotation.x, -90f, 90f); // Limit the vertical rotation
 
         // Apply the rotation to the origin transform

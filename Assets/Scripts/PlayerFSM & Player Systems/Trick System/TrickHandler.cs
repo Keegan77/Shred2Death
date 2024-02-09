@@ -79,12 +79,12 @@ public class TrickHandler : MonoBehaviour
     
     private void OnEnable()
     {
-        ActionEvents.OnPlayerStateSwitch += UpdateTrickList;
+        ActionEvents.OnBehaviourStateSwitch += UpdateTrickList;
     }
 
     private void OnDisable()
     {
-        ActionEvents.OnPlayerStateSwitch -= UpdateTrickList;
+        ActionEvents.OnBehaviourStateSwitch -= UpdateTrickList;
         DeleteTrickInputs();
     }
 }

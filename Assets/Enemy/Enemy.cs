@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
+[SelectionBase]
 [RequireComponent(typeof(Enemy_StateMachine))]
 public class Enemy : MonoBehaviour
 {
@@ -18,18 +19,23 @@ public class Enemy : MonoBehaviour
     #endregion
 
     #region SCRIPT VARIABLES
-    [Header("Components")]
+
+    public static GameObject playerObject;
+
     [NonSerialized] public Rigidbody rb;
     [NonSerialized] public NavMeshAgent agent; //NavMeshAgent refuses to load in time and now I have to serialize it. Hate.
     [NonSerialized] public Enemy_NavManager agentManger;
     [NonSerialized] public NavMeshPath agentPath;
 
-    //agentSettings will be set by 
+    //agentSettings will be set by the navmesh present in the level.
     [NonSerialized] public static NavMeshBuildSettings[] agentSettings;
     [NonSerialized] public int agentIndex = 0;
 
     [NonSerialized] public Enemy_StateMachine stateMachine;
 
+    [NonSerialized] public GameObject muzzlePoint;
+
+    [Header ("Components")]
     WaveManager waveManager; //Set by waveManager when the enemy object is instantiated
     
     #endregion
@@ -42,6 +48,8 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent> ();
         agentManger = GetComponent<Enemy_NavManager> ();
 
+        muzzlePoint = transform.Find ("Body/MuzzlePoint").gameObject;
+
         agentPath = new NavMeshPath ();
     }
 
@@ -52,19 +60,25 @@ public class Enemy : MonoBehaviour
         //rb.useGravity = true;
 
         Debug.Log (agent.agentTypeID);
-        for (int i = 0; i < agentSettings.Length; i++)
+        if(agentSettings != null)
         {
-            Debug.Log (agentSettings[i].agentTypeID);
-            if (agentSettings[i].agentTypeID == agent.agentTypeID)
+            for (int i = 0; i < agentSettings.Length; i++)
             {
-                Debug.Log ("Agent Match found");
-                agentIndex = i;
+                Debug.Log (agentSettings[i].agentTypeID);
+                if (agentSettings[i].agentTypeID == agent.agentTypeID)
+                {
+                    Debug.Log ("Agent Match found");
+                    agentIndex = i;
 
-                Debug.Log (agentSettings[agentIndex].agentClimb);
-                break;
+                    Debug.Log (agentSettings[agentIndex].agentClimb);
+                    break;
+                }
             }
         }
-
+        else
+        {
+            Debug.LogError ("No Agent Settings");
+        }
     }
 
     public void SetManager (WaveManager w)
