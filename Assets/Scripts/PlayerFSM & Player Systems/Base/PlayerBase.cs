@@ -60,7 +60,10 @@ public class PlayerBase : MonoBehaviour
         movement = new PlayerMovementMethods(this, rb, playerData, inputTurningTransform);
     }
     
-    private void Update() => stateMachine.currentState.LogicUpdate();
+    private void Update()
+    {
+        stateMachine.currentState.LogicUpdate();
+    } 
     private void FixedUpdate() => stateMachine.currentState.PhysicsUpdate();
     private void OnTriggerEnter(Collider other) => stateMachine.currentState.StateTriggerEnter(other);
     private void OnTriggerStay(Collider other) => stateMachine.currentState.StateTriggerStay(other);
@@ -169,18 +172,24 @@ public class PlayerBase : MonoBehaviour
         
     }
     
-    public bool CheckGround()
+    public bool CheckGround(string layerName = "Ground")
     {
-        var layerMask = (1 << LayerMask.NameToLayer("Ground"));
-        
+        /*var groundLayerMask = (1 << LayerMask.NameToLayer("Ground"));
+        var combinedLayerMask = groundLayerMask;
+        if (checkGroundAndBowlMesh)
+        {
+            var bowlMeshLayerMask = (1 << LayerMask.NameToLayer("BowlMesh"));
+            combinedLayerMask = groundLayerMask | bowlMeshLayerMask;
+        }*/
+
+        var layerMask = (1 << LayerMask.NameToLayer(layerName));
         UpdateRayOriginPoints();
-        
+
         bool backLeftDownRayHit = Physics.Raycast(backLeftRayOrigin, -playerModelTransform.up, out backLeftSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
         bool backRightDownRayHit = Physics.Raycast(backRightRayOrigin, -playerModelTransform.up, out backRightSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
-        
+
         bool forwardLeftDownRayHit = Physics.Raycast(forwardLeftRayOrigin, -playerModelTransform.up, out forwardLeftSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
         bool forwardRightDownRayHit = Physics.Raycast(forwardRightRayOrigin, -playerModelTransform.up, out forwardRightSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
-
 
         return (forwardLeftDownRayHit && forwardRightDownRayHit) || (backLeftDownRayHit && backRightDownRayHit);
     }
