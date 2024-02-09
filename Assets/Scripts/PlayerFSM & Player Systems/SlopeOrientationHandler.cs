@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Dreamteck.Splines.Primitives;
 using UnityEngine;
 
 public class SlopeOrientationHandler : MonoBehaviour
@@ -9,7 +11,9 @@ public class SlopeOrientationHandler : MonoBehaviour
     [SerializeField] private Transform inputTurningTransform;
 
     #region Orientation Values
-    public float slopeOrientationSpeed;
+
+    [SerializeField] private float baseSlopeOrientationSpeed;
+    float slopeOrientationSpeed;
     public float slopeDownDetectionDistance;
     public float slopeForwardDetectionDistance;
     [Tooltip("The distance from the center of the player to the left and right raycast origins. These are used to detect the slope.")]
@@ -26,7 +30,23 @@ public class SlopeOrientationHandler : MonoBehaviour
     public float airReOrientSpeed;
     
     #endregion
-    
+
+
+    private void Start()
+    {
+        slopeOrientationSpeed = baseSlopeOrientationSpeed;
+    }
+
+    public void SetOrientationSpeed(float speed)
+    {
+        slopeOrientationSpeed = speed;
+    }
+
+    public void ResetOrientationSpeed()
+    {
+        slopeOrientationSpeed = baseSlopeOrientationSpeed;
+    }
+
     public void OrientToSlope()
     {
         Vector3 averageNormal = (playerBase.forwardLeftSlopeHit.normal + playerBase.forwardRightSlopeHit.normal + 

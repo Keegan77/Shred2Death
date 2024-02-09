@@ -14,6 +14,8 @@ public class PlayerHalfpipeState : PlayerState
     {
         base.Enter();
 
+        player.GetOrientationHandler().SetOrientationSpeed(10f);
+        
         foreach (var extrusionMesh in MeshContainerSingleton.Instance.extrusionMeshObjects)
         {
             extrusionMesh.GetComponent<MeshCollider>().enabled = true;
@@ -27,6 +29,7 @@ public class PlayerHalfpipeState : PlayerState
     public override void Exit()
     {
         base.Exit();
+        player.GetOrientationHandler().ResetOrientationSpeed();
         foreach (var extrusionMesh in MeshContainerSingleton.Instance.extrusionMeshObjects)
         {
             extrusionMesh.GetComponent<MeshCollider>().enabled = false;
