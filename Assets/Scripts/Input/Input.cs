@@ -80,6 +80,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Nosedive"",
+                    ""type"": ""Button"",
+                    ""id"": ""4d0a3478-a9c9-40da-9a00-cf3b421cf506"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -366,6 +375,28 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Boost"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e640ea1-d228-495b-abf8-eb87e00c035e"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Nosedive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""68d3d649-4922-4cc3-984e-19aeb0f93bac"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Nosedive"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1107,6 +1138,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Drift = m_Player.FindAction("Drift", throwIfNotFound: true);
         m_Player_Boost = m_Player.FindAction("Boost", throwIfNotFound: true);
+        m_Player_Nosedive = m_Player.FindAction("Nosedive", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1195,6 +1227,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Drift;
     private readonly InputAction m_Player_Boost;
+    private readonly InputAction m_Player_Nosedive;
     public struct PlayerActions
     {
         private @Input m_Wrapper;
@@ -1205,6 +1238,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Drift => m_Wrapper.m_Player_Drift;
         public InputAction @Boost => m_Wrapper.m_Player_Boost;
+        public InputAction @Nosedive => m_Wrapper.m_Player_Nosedive;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1232,6 +1266,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Boost.started += instance.OnBoost;
             @Boost.performed += instance.OnBoost;
             @Boost.canceled += instance.OnBoost;
+            @Nosedive.started += instance.OnNosedive;
+            @Nosedive.performed += instance.OnNosedive;
+            @Nosedive.canceled += instance.OnNosedive;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1254,6 +1291,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Boost.started -= instance.OnBoost;
             @Boost.performed -= instance.OnBoost;
             @Boost.canceled -= instance.OnBoost;
+            @Nosedive.started -= instance.OnNosedive;
+            @Nosedive.performed -= instance.OnNosedive;
+            @Nosedive.canceled -= instance.OnNosedive;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1536,6 +1576,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnDrift(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
+        void OnNosedive(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
