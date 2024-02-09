@@ -12,22 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6105942e73b6623429710e49218567bb, type: 3}
   m_Name: NormalPlayerValues
   m_EditorClassIdentifier: 
-  baseMovementSpeed: 120
-  baseBoostSpeed: 200
+  baseMovementSpeed: 200
+  baseBoostSpeed: 250
   boostDuration: 5
-  baseJumpForce: 15
+  baseJumpForce: 20
   baseTurnSharpness: 300
   deAccelerationSpeed: 0.05
   airForwardForce: 12
-  noseDiveFallForce: 30
-  maxNoseDiveVelocity: 70
-  minGrindSpeed: 15
-  maxGrindSpeed: 25
-  grindSpeedAdditive: 10
+  noseDiveFallForce: 100
+  maxNoseDiveVelocity: 350
+  minGrindSpeed: 60
+  maxGrindSpeed: 120
+  grindSpeedAdditive: 15
   grindPositioningOffset: 3.5
   grindTurnSharpness: 200
-  railSnapTime: 3
-  railSnapDistance: 4
+  railSnapTime: 20
+  railSnapDistance: 6
   baseDriftForce: 100
   baseDriftTurnSharpness: 120
   driftRotationalOffset: 45
