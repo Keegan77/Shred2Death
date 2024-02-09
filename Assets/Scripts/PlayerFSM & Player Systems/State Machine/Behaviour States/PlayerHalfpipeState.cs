@@ -45,6 +45,12 @@ public class PlayerHalfpipeState : PlayerState
         {
             stateMachine.SwitchState(player.skatingState);
         }
+
+        if (InputRouting.Instance.GetBoostInput())
+        {
+            player.movement.StartBoost();
+            stateMachine.SwitchState(player.airborneState);
+        }
     }
 
     public override void PhysicsUpdate()
