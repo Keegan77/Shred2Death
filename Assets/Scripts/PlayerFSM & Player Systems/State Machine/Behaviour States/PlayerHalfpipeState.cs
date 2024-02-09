@@ -7,17 +7,30 @@ public class PlayerHalfpipeState : PlayerState
     public PlayerHalfpipeState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
     }
+
+    private GameObject closestHalfPipe;
     
     public override void Enter()
     {
         base.Enter();
+
+        foreach (var extrusionMesh in MeshContainerSingleton.Instance.extrusionMeshObjects)
+        {
+            extrusionMesh.GetComponent<MeshCollider>().enabled = true;
+        }
+        
         //player.StartCoroutine(player.ScaleCapsuleCollider(0.25f)); //EXPERIMENTAL - scales the player's collider to fit the half pipe
         player.GetMovementMethods().StopBoost();
+        //closestHalfPipe = GetClosestHalfPipe();
     }
 
     public override void Exit()
     {
         base.Exit();
+        foreach (var extrusionMesh in MeshContainerSingleton.Instance.extrusionMeshObjects)
+        {
+            extrusionMesh.GetComponent<MeshCollider>().enabled = false;
+        }
         //player.StartCoroutine(player.ScaleCapsuleCollider(player.GetOriginalColliderRadius()));
     }
     
@@ -25,12 +38,12 @@ public class PlayerHalfpipeState : PlayerState
     {
         base.LogicUpdate();
         
-        if (player.CheckGround())
+        if (player.CheckGround() && player.rb.velocity.y < 0) // if we detect the ground layer and are going downward
         {
             stateMachine.SwitchState(player.skatingState);
         }
     }
-    
+
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
@@ -40,13 +53,11 @@ public class PlayerHalfpipeState : PlayerState
             player.GetOrientationHandler().OrientFromExtensions(); // the if statement prevents accidental landing
                                                                      // rotation when the player is still in the air
     }
-    /// <summary>
-    /// Makes sure the player lands back on the half pipe. This is done by restricting the player's local Y velocity
-    /// to 0, the player is sideways when doing a half pipe launch, so this will make sure the player ends up back
-    /// on the half pipe slope. Should be ran every frame in FixedUpdate.
-    /// </summary>
-    public void HalfPipeAirBehaviour() 
+
+    public void HalfPipeAirBehaviour()
     {
+        player.CheckGround("BowlMesh");
+        player.GetOrientationHandler().OrientToSlope();
         player.rb.SetLocalAxisVelocity(Vector3.up, 0);
     }
     
