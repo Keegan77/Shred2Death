@@ -10,10 +10,12 @@ using UnityEngine.Serialization;
 public class BowlMeshGenerator : MonoBehaviour
 {
     private Collider collider;
-    [SerializeField] float splineDetectionThreshold;
+    [SerializeField]
+    [Range(0.05f, 1.0f)] float splineDetectionThreshold;
     private MeshFilter originalMeshFilter;
     private MeshFilter extrudedMeshFilter;
     private Mesh extrudedMesh;
+
     [SerializeField] private float extrusionHeight;
 
     [SerializeField] private bool closedLoop;

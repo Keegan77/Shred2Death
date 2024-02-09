@@ -58,20 +58,20 @@ public class PlayerHalfpipeState : PlayerState
     {
         player.CheckGround("BowlMesh");
         player.GetOrientationHandler().OrientToSlope();
-        player.rb.SetLocalAxisVelocity(Vector3.up, 0);
+        //player.rb.SetLocalAxisVelocity(Vector3.up, 0);
     }
     
     public override void StateTriggerExit(Collider other)
     {
         base.StateTriggerExit(other);
-        Debug.Log("Exited half pipe volume");
+        /*Debug.Log("Exited half pipe volume");
         if (other.CompareTag("Ramp90"))
         {
             if (player.CheckGround()) stateMachine.SwitchState(player.skatingState);
             
             else stateMachine.SwitchState(player.airborneState);
             
-        }
+        }*/
     }
     
     
