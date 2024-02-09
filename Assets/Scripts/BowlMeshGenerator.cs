@@ -11,7 +11,7 @@ public class BowlMeshGenerator : MonoBehaviour
 {
     private Collider collider;
     [SerializeField]
-    [Range(0.05f, 1.0f)] float splineDetectionThreshold;
+    float splineDetectionThreshold;
     private MeshFilter originalMeshFilter;
     private MeshFilter extrudedMeshFilter;
     private Mesh extrudedMesh;
@@ -34,7 +34,7 @@ public class BowlMeshGenerator : MonoBehaviour
         
         collider = GetComponent<MeshCollider>();
 
-        topVerts = GetAllTopVertices(verts, 1);
+        topVerts = GetAllTopVertices(verts, splineDetectionThreshold);
         
         GenerateExtrudedMesh();
     }
@@ -114,6 +114,9 @@ public class BowlMeshGenerator : MonoBehaviour
         extrudedMeshFilter.mesh = extrudedMesh;
         
         MeshCollider coll = extrudedMeshObj.AddComponent<MeshCollider>();
+        //find disable friction physics material in project and assign
+        //coll.material = 
+        coll.material = Resources.Load<PhysicMaterial>("Disable Friction");
         coll.enabled = false;
     }
 

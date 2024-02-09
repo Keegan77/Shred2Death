@@ -19,9 +19,6 @@ public class SlopeOrientationHandler : MonoBehaviour
     [Tooltip("The distance from the center of the player to the left and right raycast origins. These are used to detect the slope.")]
     public float slopeRayOffsetFromZ;
 
-    [Tooltip("The height offset of the ground extension raycasts. These raycasts are used to detect if the player has fallen over, and will re-orient the player if the player has fallen over and they are about to hit the ground")]
-    public float extensionRayHeightOffset;
-
     public float slopeRayOffsetFromX;
     
 
