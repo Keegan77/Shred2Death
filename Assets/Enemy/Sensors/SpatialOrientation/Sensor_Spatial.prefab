@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4618903819389880391, guid: 33e91343e63ede94e81a7a07471847d0, type: 3}
       propertyPath: m_Name
-      value: SpatialOrientation
+      value: Sensor_Spatial
       objectReference: {fileID: 0}
     - target: {fileID: 5820594988099237576, guid: 33e91343e63ede94e81a7a07471847d0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -85,4 +85,5 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   target: {fileID: 0}
-  resolution: 4
+  netResolution: 3
+  sensorLength: 1

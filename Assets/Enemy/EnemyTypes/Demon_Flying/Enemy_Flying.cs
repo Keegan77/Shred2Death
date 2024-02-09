@@ -18,6 +18,5 @@ public class Enemy_Flying : Enemy
         base.EnemyGetComponentReferences();
 
         sensorSpatial = transform.Find("Sensors/SpatialOrientation").GetComponent<Sensor_Spatial>();
-        sensorSpatial.target = playerObject;
     }
 }

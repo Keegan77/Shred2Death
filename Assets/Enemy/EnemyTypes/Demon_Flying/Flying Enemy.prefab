@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpatialOrientation
       objectReference: {fileID: 0}
+    - target: {fileID: 3800663406841670714, guid: f846c7032fb264641bbf8a15aeeea356, type: 3}
+      propertyPath: maskRaycast.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -152,6 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletReady: 1
+  sensorSpatial: {fileID: 0}
 --- !u!4 &8338723963739974838 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 662209884883719928, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
