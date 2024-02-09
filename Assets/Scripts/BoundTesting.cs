@@ -3,43 +3,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Dreamteck.Splines;
+using UnityEditor;
 using UnityEngine.Serialization;
 
 public class BoundTesting : MonoBehaviour
 {
     private Collider collider;
+    [SerializeField] float splineDetectionThreshold;
     private MeshFilter originalMeshFilter;
     private MeshFilter extrudedMeshFilter;
     private Mesh extrudedMesh;
 
-    public Vector3[] vertexGroups;
-    public List<Vector3>[] vertList;
+    [SerializeField] private bool closedLoop;
+    
     public Vector3[] verts;
     public Vector3[] topVerts = null;
-    public Vector3[] normals;
-    private float topYVerticeHeight;
     Vector2 heightConsiderationThreshold; // should be equal to the top vertice height + and minus a certain amount, which we can define
+    [SerializeField] SplineComputer vertSpline;
     
     private void Start()
     {
         originalMeshFilter = GetComponent<MeshFilter>();
+        
         verts = originalMeshFilter.sharedMesh.vertices;
         verts = ConvertVertsToWorldSpace(verts);
         
         collider = GetComponent<MeshCollider>();
-        topYVerticeHeight = GetTopVerticeHeight(verts);
-        topVerts = GetAllTopVertices(verts, new Vector2(topYVerticeHeight - 0.2f, topYVerticeHeight + 0.2f));
+
+        topVerts = GetAllTopVertices(verts, 1);
         
-        VertexContainer.Instance.objectVerticeMap.Add(gameObject, topVerts.ToList());
+        GenerateExtrudedMesh();
         
-        Debug.Log($"top vertice height: {topYVerticeHeight} ");
+        //VertexContainer.Instance.objectVerticeMap.Add(gameObject, topVerts.ToList());
+        
+
         //GenerateExtrudedMesh();
         //mesh.triangles = collider.GetComponent<MeshCollider>().sharedMesh.triangles;
-    }
-
-    private void Update()
-    {
-        //Debug.Log(collider.bounds);
     }
     
     private Vector3[] ConvertVertsToWorldSpace(Vector3[] verts)
@@ -52,34 +52,44 @@ public class BoundTesting : MonoBehaviour
         return worldSpaceVerts;
     }
 
-    private float GetTopVerticeHeight(Vector3[] vertList)
+    private Vector3[] GetAllTopVertices(Vector3[] vertList, float proximityThreshold)
     {
-        float topVerticeHeight = -Mathf.Infinity;
-        foreach (var vert in vertList)
-        {
-            if (vert.y > topVerticeHeight)
-            {
-                topVerticeHeight = vert.y;
-            }
-        }
-        return topVerticeHeight;
-    }
-
-    private Vector3[] GetAllTopVertices(Vector3[] vertList, Vector2 heightConsiderationThreshold)
-    {
+        Dictionary<Vector3, Double> vertSampleMap = new Dictionary<Vector3, Double>();
         List<Vector3> topVertices = new List<Vector3>();
 
         for (int i = 0; i < vertList.Length; i++)
         {
-            if (vertList[i].y.IsInRangeOf(heightConsiderationThreshold.x, heightConsiderationThreshold.y))
+            // Project the vertex onto the spline
+            SplineSample result = vertSpline.Project(vertList[i]);
+
+            // Calculate the distance between the vertex and the closest point on the spline
+            float distance = Vector3.Distance(vertList[i], result.position);
+
+            // If the distance is within the proximity threshold, add the vertex to the list
+            if (distance <= proximityThreshold)
             {
                 if (!topVertices.Contains(vertList[i]))
                 {
                     topVertices.Add(vertList[i]);
                     Debug.Log(i);
+                    vertSampleMap.Add(vertList[i], result.percent);
                 }
             }
         }
+
+        double threshold = .05f;
+        List<Vector3> keys = new List<Vector3>(vertSampleMap.Keys);
+        foreach (var key in keys)
+        {
+            if (vertSampleMap[key] >= 1 - threshold)
+            {
+                vertSampleMap[key] = 0;
+            } else if (vertSampleMap[key] <= 0 + threshold)
+            {
+                vertSampleMap[key] = 1;
+            }
+        }
+        topVertices = topVertices.OrderBy(v => vertSampleMap[v]).ToList();
         return topVertices.ToArray();
     }
 
@@ -95,9 +105,11 @@ public class BoundTesting : MonoBehaviour
         extrudedMesh.name = "fucking awesome cool extruded mesh";
         
         extrudedMesh.vertices = GenerateExtrudedVertices(topVerts);
+
+        extrudedMesh.triangles = GenerateExtrudedTris();
         
         extrudedMesh.RecalculateNormals();
-        normals = extrudedMesh.normals;
+
         extrudedMesh.RecalculateBounds();
         
         extrudedMeshFilter = extrudedMeshObj.AddComponent<MeshFilter>();
@@ -129,31 +141,72 @@ public class BoundTesting : MonoBehaviour
                 allVertices.Add(vert);
             }
         } // we use two foreach loops here so points get added to the array in the correct order for triangle generation
+        
         return allVertices.ToArray();
     }
     
+     private int[] GenerateExtrudedTris()
+    {
+        List<int> triangles = new List<int>();
+        int baseCount = extrudedMesh.vertices.Length / 2; // Assuming the first half are base vertices and the second half are extruded vertices
 
-    
-    float GetSqrMagFromEdge(Vector3 vertex1, Vector3 vertex2, Vector3 point)
-    {
-        float n = Vector3.Cross(point - vertex1, point - vertex2).sqrMagnitude;
-        return n / (vertex1 - vertex2).sqrMagnitude;
+        // Generate triangles for the sides of the mesh
+        for (int i = 0; i < baseCount; i++)
+        {
+            int indexUpOne = (i + 1) % baseCount;
+            int extrudedIndex = i + baseCount;
+
+            if (!closedLoop)
+            {
+                if (i == baseCount - 1)
+                {
+                    continue;
+                }
+            }
+            
+
+            GenerateTriangle(i, 
+                             extrudedIndex,
+                             indexUpOne,
+                             triangles);
+            
+            GenerateTriangle(extrudedIndex,
+                             indexUpOne + baseCount,
+                             indexUpOne,
+                             triangles);
+            
+            GenerateTriangle(indexUpOne, 
+                extrudedIndex,
+                i,
+                triangles);
+            
+            GenerateTriangle(indexUpOne,
+                indexUpOne + baseCount,
+                extrudedIndex,
+                triangles);
+
+
+        }
+
+        return triangles.ToArray();
     }
-    
-    private Vector3 ClosestPointOnEdge(Vector3 vertex1, Vector3 vertex2, Vector3 point)
+
+    private void GenerateTriangle(int vertIndex1, int vertIndex2, int vertIndex3, List<int> listToAddTo)
     {
-        return Vector3.Project(point - vertex1, vertex2 - vertex1) + vertex1;
+        listToAddTo.Add(vertIndex1);
+        listToAddTo.Add(vertIndex2);
+        listToAddTo.Add(vertIndex3);
     }
     
     private void OnDrawGizmos()
     {
-        /*if (topVerts != null)
+        if (extrudedMesh != null)
         {
-            for (int i = 0; i < topVerts.Length; i++)
+            for (int i = 0; i < extrudedMesh.vertices.Length; i++)
             {
-                Gizmos.DrawSphere(topVerts[i], 1f);
+                Gizmos.DrawSphere(extrudedMesh.vertices[i], 1f);
                 //Gizmos.DrawLine(extrudedMesh.vertices[i], extrudedMesh.vertices[i] + normals[i]);
             }
-        }*/
+        }
     }
 }
