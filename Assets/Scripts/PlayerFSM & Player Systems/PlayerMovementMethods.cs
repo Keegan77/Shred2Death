@@ -27,6 +27,7 @@ public class PlayerMovementMethods
     /// <summary>
     /// Will exert a force forward if the player's slope isn't too steep. Meant to be used in FixedUpdate.
     /// </summary>
+    
     public void SkateForward()
     {
         CalculateCurrentSpeed();
@@ -42,9 +43,30 @@ public class PlayerMovementMethods
         
         if (isFacingUpward) return;
         
-        rb.AddForce(inputTurningTransform.forward * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0 ? 
-            InputRouting.Instance.GetMoveInput().y : 0)), ForceMode.Acceleration); 
+        /*rb.AddForce(inputTurningTransform.forward * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0 ? 
+            InputRouting.Instance.GetMoveInput().y : 0)), ForceMode.Acceleration); */
         // Only adds force if the player is not on a slope that is too steep.
+        
+        // Use targetRotation to get the forward direction after rotation in local space
+        /*Quaternion rotationDifference = player.GetOrientationHandler().targetRotation;
+
+        // Use rotationDifference to get the forward direction after rotation in local space
+        Vector3 forwardAfterRotation = rotationDifference * inputTurningTransform.right;*/
+        
+        Quaternion localTargetRotation = Quaternion.Inverse(player.transform.rotation) * player.GetOrientationHandler().targetRotation;
+        // we inverse the player's rotation to get the rotation difference between the player's current rotation and the target rotation
+        
+        
+        // Use localTargetRotation to get the local rotation and use forward to set the direction
+        Vector3 forwardAfterRotation = localTargetRotation * inputTurningTransform.forward;
+        Debug.DrawRay(player.transform.position, forwardAfterRotation, Color.magenta);
+        
+        
+        // Apply force in the direction of forwardAfterRotation
+        rb.AddForce(forwardAfterRotation * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0 ? 
+            InputRouting.Instance.GetMoveInput().y : 0)), ForceMode.Acceleration);
+        
+        
     }
 
     public void OllieJump()
@@ -102,6 +124,10 @@ public class PlayerMovementMethods
     {
         rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, rb.velocity.y, 0), playerData.deAccelerationSpeed);
     }
+    
+    
+    
+    
     
     private Coroutine boostTimerCoroutine;
     private Coroutine rechargeBoostCoroutine;

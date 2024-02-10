@@ -52,7 +52,7 @@ public class PlayerBase : MonoBehaviour
         public GameObject grindRailFollower;
     #endregion
 
-#region Unity Methods
+    #region Unity Methods
     private void Awake()
     {
         StateMachineSetup();
@@ -63,7 +63,9 @@ public class PlayerBase : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.LogicUpdate();
+        
     } 
+    
     private void FixedUpdate() => stateMachine.currentState.PhysicsUpdate();
     private void OnTriggerEnter(Collider other) => stateMachine.currentState.StateTriggerEnter(other);
     private void OnTriggerStay(Collider other) => stateMachine.currentState.StateTriggerStay(other);
@@ -103,7 +105,7 @@ public class PlayerBase : MonoBehaviour
     
 #endregion
 
-#region Movement Class Getter
+    #region Movement Class Getter
 
     public PlayerMovementMethods GetMovementMethods()
     {
@@ -112,7 +114,7 @@ public class PlayerBase : MonoBehaviour
 
 #endregion
 
-#region Grinding Methods
+    #region Grinding Methods
     public void SetCurrentSpline(SplineComputer spline, SplineSample splineHitPoint)
     {
         currentSpline = spline;
@@ -133,7 +135,7 @@ public class PlayerBase : MonoBehaviour
 
 #endregion
 
-#region Helper Methods, Getters, & Setters
+    #region Helper Methods, Getters, & Setters
 
     public void SetRBKinematic(bool isKinematic)
     {

@@ -60,7 +60,7 @@ Transform:
   m_GameObject: {fileID: 552310481997884324}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.34, z: 0}
+  m_LocalPosition: {x: 0, y: -2.24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -548,7 +548,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3400321096179317703}
   m_Father: {fileID: 0}
@@ -613,14 +613,14 @@ MonoBehaviour:
   inputTurningTransform: {fileID: 3400321096179317703}
   playerModelTransform: {fileID: 4350162463001390448}
   playerData: {fileID: 11400000, guid: 1a3dc727a00a88b4dab330927467122e, type: 2}
-  forwardLeftRayOrigin: {x: 72.87347, y: -31.144032, z: -845.2215}
-  forwardRightRayOrigin: {x: 72.153465, y: -31.144032, z: -845.2215}
-  backLeftRayOrigin: {x: 72.87347, y: -31.144032, z: -843.9615}
-  backRightRayOrigin: {x: 72.153465, y: -31.144032, z: -843.9615}
-  forwardRayOrigin: {x: 72.513466, y: -29.484035, z: -845.2215}
-  backRayOrigin: {x: 72.513466, y: -29.484035, z: -843.9615}
-  leftRayOrigin: {x: 72.87347, y: -29.484035, z: -844.5915}
-  rightRayOrigin: {x: 72.153465, y: -29.484035, z: -844.5915}
+  forwardLeftRayOrigin: {x: 20.837046, y: 21.850452, z: 14.025351}
+  forwardRightRayOrigin: {x: 20.907454, y: 21.850452, z: 14.7218}
+  backLeftRayOrigin: {x: 22.070757, y: 21.850452, z: 13.900629}
+  backRightRayOrigin: {x: 22.141165, y: 21.850452, z: 14.597078}
+  forwardRayOrigin: {x: 20.87225, y: 21.610453, z: 14.373575}
+  backRayOrigin: {x: 22.10596, y: 21.610453, z: 14.248854}
+  leftRayOrigin: {x: 21.453901, y: 21.610453, z: 13.96299}
+  rightRayOrigin: {x: 21.52431, y: 21.610453, z: 14.659439}
   grindRailFollower: {fileID: 5986969473009569870, guid: 58642cd707a8a1e449bef0d5c13f5759, type: 3}
 --- !u!114 &5634048925312985684
 MonoBehaviour:
@@ -676,12 +676,13 @@ MonoBehaviour:
   playerModelTransform: {fileID: 4350162463001390448}
   inputTurningTransform: {fileID: 3400321096179317703}
   baseSlopeOrientationSpeed: 17
-  slopeDownDetectionDistance: 1.3
+  slopeDownDetectionDistance: 2
   slopeForwardDetectionDistance: 3.5
-  slopeRayOffsetFromZ: 0.63
-  slopeRayOffsetFromX: 0.36
+  slopeRayOffsetFromZ: 0.62
+  slopeRayOffsetFromX: 0.35
   emergencySlopeReOrientSpeed: 15
   airReOrientSpeed: 3
+  targetRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &4168594707267378382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,8 +802,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9035350387127212903}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.6000004, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

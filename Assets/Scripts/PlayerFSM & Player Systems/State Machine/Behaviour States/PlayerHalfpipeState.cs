@@ -67,7 +67,7 @@ public class PlayerHalfpipeState : PlayerState
     {
         player.CheckGround("BowlMesh");
         player.GetOrientationHandler().OrientToSlope();
-        //player.rb.SetLocalAxisVelocity(Vector3.up, 0);
+        //if (player.rb.GetLocalVelocity().y > 0) player.rb.SetLocalAxisVelocity(Vector3.up, 0);
     }
     
     public override void StateTriggerExit(Collider other)

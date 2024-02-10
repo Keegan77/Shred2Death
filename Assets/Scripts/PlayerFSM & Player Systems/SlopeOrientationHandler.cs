@@ -25,6 +25,8 @@ public class SlopeOrientationHandler : MonoBehaviour
     [Tooltip("Used when your detection raycasts indicate that you are about to hit the ground at full force on your face/side/back. This refers to the speed at which the player will re-orient to match the ground")]
     public float emergencySlopeReOrientSpeed;
     public float airReOrientSpeed;
+
+    public Quaternion targetRotation;
     
     #endregion
 
@@ -51,7 +53,7 @@ public class SlopeOrientationHandler : MonoBehaviour
                                  playerBase.backRightSlopeHit.normal).normalized;
 
         // stores perpendicular angle into targetRotation
-        Quaternion targetRotation = Quaternion.FromToRotation(playerBase.transform.up, averageNormal) 
+        targetRotation = Quaternion.FromToRotation(playerBase.transform.up, averageNormal) 
                                     * playerBase.transform.rotation;
 
         // Lerp to the desired rotation
