@@ -109,7 +109,7 @@ public class PlayerDriftState : PlayerState
     public void Drift()
     {
         DriftTurnPlayer();
-        if (player.CheckGround()) DriftForce();
+        DriftForce();
     }
     
     public override void Exit()

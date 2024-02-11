@@ -41,7 +41,7 @@ public class PlayerHalfpipeState : PlayerState
     {
         base.LogicUpdate();
         
-        if (player.CheckGround() && player.rb.velocity.y < 0) // if we detect the ground layer and are going downward
+        if (player.CheckGround() && player.rb.velocity.y <= 0) // if we detect the ground layer and are going downward
         {
             stateMachine.SwitchState(player.skatingState);
         }
@@ -61,6 +61,11 @@ public class PlayerHalfpipeState : PlayerState
         if (player.rb.velocity.y < 0 && player.CheckGroundExtensions()) 
             player.GetOrientationHandler().OrientFromExtensions(); // the if statement prevents accidental landing
                                                                      // rotation when the player is still in the air
+        if (player.rb.velocity.y > 0 && player.CheckGround())
+        {
+             player.movement.SkateForward();
+        }
+                                                                     
     }
 
     public void HalfPipeAirBehaviour()

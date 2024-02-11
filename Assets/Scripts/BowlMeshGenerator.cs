@@ -155,18 +155,18 @@ public class BowlMeshGenerator : MonoBehaviour
         // Generate triangles for the sides of the mesh
         for (int i = 0; i < baseCount; i++)
         {
-            int indexUpOne = (i + 1) % baseCount;
-            int extrudedIndex = i + baseCount;
+            int indexUpOne = (i + 1) % baseCount; // Wraps around to the first vertex if we're at the last vertex
+            int extrudedIndex = i + baseCount; // The index of the corresponding extruded vertex
 
             if (!closedLoop)
             {
                 if (i == baseCount - 1)
                 {
-                    continue;
+                    continue; //leaves the loop before the last triangle generation as to not generate from the last
+                              //vertex to the first vertex
                 }
             }
             
-
             GenerateTriangle(i, 
                              extrudedIndex,
                              indexUpOne,
@@ -178,14 +178,14 @@ public class BowlMeshGenerator : MonoBehaviour
                              triangles);
             
             GenerateTriangle(indexUpOne, 
-                extrudedIndex,
-                i,
-                triangles);
+                             extrudedIndex,
+                             i,
+                             triangles);
             
             GenerateTriangle(indexUpOne,
-                indexUpOne + baseCount,
-                extrudedIndex,
-                triangles);
+                             indexUpOne + baseCount,
+                             extrudedIndex,
+                             triangles);
 
 
         }
