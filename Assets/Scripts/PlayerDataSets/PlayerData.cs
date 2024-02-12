@@ -22,8 +22,8 @@ public class PlayerData : ScriptableObject
 
     [Header("Nosedive Values")] 
     public float noseDiveFallForce;
-
     public float maxNoseDiveVelocity;
+    public float noseDiveRotationSpeed;
     
     
     [Header("Grinding Values")]

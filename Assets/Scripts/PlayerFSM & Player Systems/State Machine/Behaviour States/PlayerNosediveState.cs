@@ -31,28 +31,26 @@ public class PlayerNosediveState : PlayerState
     {
         base.PhysicsUpdate();
         player.rb.AddForce(Vector3.down * player.playerData.noseDiveFallForce, ForceMode.Acceleration);
-        if (player.rb.velocity.y < -player.playerData.maxNoseDiveVelocity)
+        if (player.rb.velocity.y < -Mathf.Abs(player.playerData.maxNoseDiveVelocity))
         {
-            player.rb.velocity = new Vector3(player.rb.velocity.x, -player.playerData.maxNoseDiveVelocity, player.rb.velocity.z);
+            player.rb.velocity = new Vector3(player.rb.velocity.x, -Mathf.Abs(player.playerData.maxNoseDiveVelocity),
+                                            player.rb.velocity.z);
         }
         RotateDownward();
         if (player.CheckGroundExtensions())
         {
             player.GetOrientationHandler().OrientFromExtensions();
         }
-
-        //player.transform.rotation = Quaternion.LookRotation(player.inputTurningTransform.forward, player.inputTurningTransform.forward);
     }
 
     private void RotateDownward()
     {
-        float speed = 2;
         
         Quaternion startRotation = player.transform.rotation;
         Quaternion targetRot = Quaternion.FromToRotation(player.inputTurningTransform.forward, Vector3.down) *
                                player.transform.rotation;
 
-        player.transform.rotation = Quaternion.Lerp(startRotation, targetRot, Time.deltaTime * speed);
+        player.transform.rotation = Quaternion.Lerp(startRotation, targetRot, Time.deltaTime * player.playerData.noseDiveRotationSpeed);
     }
 
     public override void Exit()

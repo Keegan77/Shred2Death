@@ -43,15 +43,6 @@ public class PlayerMovementMethods
         
         if (isFacingUpward) return;
         
-        /*rb.AddForce(inputTurningTransform.forward * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0 ? 
-            InputRouting.Instance.GetMoveInput().y : 0)), ForceMode.Acceleration); */
-        // Only adds force if the player is not on a slope that is too steep.
-        
-        // Use targetRotation to get the forward direction after rotation in local space
-        /*Quaternion rotationDifference = player.GetOrientationHandler().targetRotation;
-
-        // Use rotationDifference to get the forward direction after rotation in local space
-        Vector3 forwardAfterRotation = rotationDifference * inputTurningTransform.right;*/
         
         Quaternion localTargetRotation = Quaternion.Inverse(player.transform.rotation) * player.GetOrientationHandler().targetRotation;
         // we inverse the player's rotation to get the rotation difference between the player's current rotation and the target rotation
@@ -80,7 +71,7 @@ public class PlayerMovementMethods
     /// </summary>
     public void TurnPlayer(bool overrideTurnSharpness = false, float newTurnSharpness = 0) // Rotates the input turning transform
     {
-        inputTurningTransform.Rotate(0,
+        player.transform.Rotate(0,
             overrideTurnSharpness ?
                 newTurnSharpness * InputRouting.Instance.GetMoveInput().x :
                 turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 

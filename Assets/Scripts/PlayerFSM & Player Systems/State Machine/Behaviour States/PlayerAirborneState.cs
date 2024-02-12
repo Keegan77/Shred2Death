@@ -46,11 +46,25 @@ public class PlayerAirborneState : PlayerState
     {
         base.PhysicsUpdate();
         
+        TiltPlayerWithVelocity();
+        
         player.GetOrientationHandler().ReOrient();
         player.GetMovementMethods().TurnPlayer();
         AddAirForce();
         
     }
+
+    private void TiltPlayerWithVelocity()
+    {
+        float yVelocity = -player.rb.velocity.y;
+        float tiltAngle = Mathf.Clamp(yVelocity, -35, 35);
+
+        // Create a Quaternion for the tilt rotation.
+        Quaternion tiltRotation = Quaternion.Euler(tiltAngle, player.transform.eulerAngles.y, player.transform.eulerAngles.z);
+        
+        player.transform.rotation = Quaternion.Lerp(player.transform.rotation, tiltRotation, Time.deltaTime * 5);
+    }
+
 
     private void AddAirForce()
     {
