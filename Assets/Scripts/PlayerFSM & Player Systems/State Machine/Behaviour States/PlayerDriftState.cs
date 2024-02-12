@@ -117,7 +117,7 @@ public class PlayerDriftState : PlayerState
         base.Exit();
         player.StartCoroutine(DriftRotationY(player.playerModelTransform, 0, 
             player.playerData.playerModelRotationSpeed));
-        player.StartCoroutine(DriftRotationY(player.inputTurningTransform, player.inputTurningTransform.localEulerAngles.y + rotationAmount * driftDirection,
+        player.StartCoroutine(DriftRotationY(player.transform, player.transform.localEulerAngles.y + rotationAmount * driftDirection,
             player.playerData.playerModelRotationSpeed, true));
         
     }
@@ -168,7 +168,7 @@ public class PlayerDriftState : PlayerState
     
     private void DriftTurnPlayer()
     {
-        player.inputTurningTransform.Rotate(0, (player.playerData.baseDriftTurnSharpness + CalculateTurnSharpness()) * driftDirection * Time.fixedDeltaTime, 0, Space.Self);
+        player.transform.Rotate(0, (player.playerData.baseDriftTurnSharpness + CalculateTurnSharpness()) * driftDirection * Time.fixedDeltaTime, 0, Space.Self);
     }
     
     private void DriftForce()

@@ -57,7 +57,7 @@ public class PlayerAirborneState : PlayerState
     private void TiltPlayerWithVelocity()
     {
         float yVelocity = -player.rb.velocity.y;
-        float tiltAngle = Mathf.Clamp(yVelocity, -35, 35);
+        float tiltAngle = Mathf.Clamp(yVelocity, -player.playerData.airTiltRange, player.playerData.airTiltRange);
 
         // Create a Quaternion for the tilt rotation.
         Quaternion tiltRotation = Quaternion.Euler(tiltAngle, player.transform.eulerAngles.y, player.transform.eulerAngles.z);

@@ -6,6 +6,8 @@ public class PlayerHalfpipeState : PlayerState
 {
     public PlayerHalfpipeState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
+        inputActions.Add(InputRouting.Instance.input.Player.Nosedive, new InputActionEvents 
+            { onPerformed = ctx => stateMachine.SwitchState(player.nosediveState) });
     }
 
     private GameObject closestHalfPipe;
@@ -13,7 +15,8 @@ public class PlayerHalfpipeState : PlayerState
     public override void Enter()
     {
         base.Enter();
-
+        SubscribeInputs();
+        
         player.GetOrientationHandler().SetOrientationSpeed(10f);
         
         foreach (var extrusionMesh in MeshContainerSingleton.Instance.extrusionMeshObjects)
@@ -29,6 +32,7 @@ public class PlayerHalfpipeState : PlayerState
     public override void Exit()
     {
         base.Exit();
+        UnsubscribeInputs();
         player.GetOrientationHandler().ResetOrientationSpeed();
         foreach (var extrusionMesh in MeshContainerSingleton.Instance.extrusionMeshObjects)
         {
