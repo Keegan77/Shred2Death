@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6105942e73b6623429710e49218567bb, type: 3}
   m_Name: NormalPlayerValues
   m_EditorClassIdentifier: 
-  baseMovementSpeed: 100
-  baseBoostSpeed: 150
+  baseMovementSpeed: 150
+  baseBoostSpeed: 200
   boostDuration: 5
-  baseJumpForce: 20
-  baseTurnSharpness: 300
+  baseJumpForce: 15
+  baseTurnSharpness: 200
   deAccelerationSpeed: 0.05
   airForwardForce: 10
   airTiltRange: 45
@@ -31,11 +31,11 @@ MonoBehaviour:
   railSnapTime: 20
   railSnapDistance: 6
   baseDriftForce: 120
-  baseDriftTurnSharpness: 120
-  driftRotationalOffset: 45
-  baseDriftBoost: 100
+  baseDriftTurnSharpness: 100
+  driftRotationalOffset: 1
+  baseDriftBoost: 50
   driftBoostAdditive: 15
-  inputExtraDriftTurnSharpness: 25
+  inputExtraDriftTurnSharpness: 0
   playerModelRotationSpeed: 0.5
   lightDriftTime: 1
   driftPhaseTime: 2
