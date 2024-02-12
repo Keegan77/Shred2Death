@@ -9,7 +9,7 @@ public class PlayerAirborneState : PlayerState
     public PlayerAirborneState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
-            { onPerformed = ctx => CheckForSpline()});
+            { onPerformed = ctx => player.CheckAndSetSpline()});
         
         inputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
         {
@@ -87,23 +87,5 @@ public class PlayerAirborneState : PlayerState
         
     }
     
-    private void CheckForSpline()
-    {
-        float radius = 10f;
-        
-        RaycastHit[] hits = Physics.SphereCastAll(player.transform.position, radius, player.transform.forward, 0, 1 << LayerMask.NameToLayer("Spline"));
-        
-        
-        foreach (RaycastHit hit in hits)
-        {
-            SplineComputer hitSpline = hit.collider.GetComponent<SplineComputer>();
-            SplineSample hitPoint = hitSpline.Project(player.transform.position);
-            //Debug.Log(Vector3.Distance(player.transform.position, hitPoint.position));
-            if (Vector3.Distance(player.transform.position, hitPoint.position) < player.playerData.railSnapDistance)
-            {
-                player.SetCurrentSpline(hitSpline, hitPoint);
-                stateMachine.SwitchState(player.grindState);
-            }
-        }
-    }
+
 }

@@ -8,6 +8,9 @@ public class PlayerHalfpipeState : PlayerState
     {
         inputActions.Add(InputRouting.Instance.input.Player.Nosedive, new InputActionEvents 
             { onPerformed = ctx => stateMachine.SwitchState(player.nosediveState) });
+        
+        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
+            { onPerformed = ctx => player.CheckAndSetSpline()});
     }
 
     private GameObject closestHalfPipe;

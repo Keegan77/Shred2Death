@@ -131,6 +131,24 @@ public class PlayerBase : MonoBehaviour
         return splineCompletionPercent;
         //splineCompletionPercent = currentSpline.Project(transform.position).percent;
     }
+    
+    public void CheckAndSetSpline()
+    {
+        float radius = 10f;
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, radius, transform.forward, 0, 1 << LayerMask.NameToLayer("Spline"));
+        
+        foreach (RaycastHit hit in hits)
+        {
+            SplineComputer hitSpline = hit.collider.GetComponent<SplineComputer>();
+            SplineSample hitPoint = hitSpline.Project(transform.position);
+            //Debug.Log(Vector3.Distance(player.transform.position, hitPoint.position));
+            if (Vector3.Distance(transform.position, hitPoint.position) < playerData.railSnapDistance)
+            {
+                SetCurrentSpline(hitSpline, hitPoint);
+                stateMachine.SwitchState(grindState);
+            }
+        }
+    }
 
 
 #endregion
