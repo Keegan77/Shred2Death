@@ -52,7 +52,7 @@ public class PlayerBase : MonoBehaviour
         public GameObject grindRailFollower;
     #endregion
 
-#region Unity Methods
+    #region Unity Methods
     private void Awake()
     {
         StateMachineSetup();
@@ -63,7 +63,9 @@ public class PlayerBase : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.LogicUpdate();
+        Debug.Log(stateMachine.currentState);
     } 
+    
     private void FixedUpdate() => stateMachine.currentState.PhysicsUpdate();
     private void OnTriggerEnter(Collider other) => stateMachine.currentState.StateTriggerEnter(other);
     private void OnTriggerStay(Collider other) => stateMachine.currentState.StateTriggerStay(other);
@@ -103,7 +105,7 @@ public class PlayerBase : MonoBehaviour
     
 #endregion
 
-#region Movement Class Getter
+    #region Movement Class Getter
 
     public PlayerMovementMethods GetMovementMethods()
     {
@@ -112,7 +114,7 @@ public class PlayerBase : MonoBehaviour
 
 #endregion
 
-#region Grinding Methods
+    #region Grinding Methods
     public void SetCurrentSpline(SplineComputer spline, SplineSample splineHitPoint)
     {
         currentSpline = spline;
@@ -129,11 +131,29 @@ public class PlayerBase : MonoBehaviour
         return splineCompletionPercent;
         //splineCompletionPercent = currentSpline.Project(transform.position).percent;
     }
+    
+    public void CheckAndSetSpline()
+    {
+        float radius = 10f;
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, radius, transform.forward, 0, 1 << LayerMask.NameToLayer("Spline"));
+        
+        foreach (RaycastHit hit in hits)
+        {
+            SplineComputer hitSpline = hit.collider.GetComponent<SplineComputer>();
+            SplineSample hitPoint = hitSpline.Project(transform.position);
+            //Debug.Log(Vector3.Distance(player.transform.position, hitPoint.position));
+            if (Vector3.Distance(transform.position, hitPoint.position) < playerData.railSnapDistance)
+            {
+                SetCurrentSpline(hitSpline, hitPoint);
+                stateMachine.SwitchState(grindState);
+            }
+        }
+    }
 
 
 #endregion
 
-#region Helper Methods, Getters, & Setters
+    #region Helper Methods, Getters, & Setters
 
     public void SetRBKinematic(bool isKinematic)
     {

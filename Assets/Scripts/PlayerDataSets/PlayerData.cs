@@ -20,10 +20,12 @@ public class PlayerData : ScriptableObject
     [Header("Airborne Values (Non-Half Pipe)")]
     public float airForwardForce;
 
+    public float airTiltRange;
+
     [Header("Nosedive Values")] 
     public float noseDiveFallForce;
-
     public float maxNoseDiveVelocity;
+    public float noseDiveRotationSpeed;
     
     
     [Header("Grinding Values")]
