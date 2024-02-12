@@ -63,7 +63,6 @@ public class PlayerBase : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.LogicUpdate();
-        Debug.Log(stateMachine.currentState);
     } 
     
     private void FixedUpdate() => stateMachine.currentState.PhysicsUpdate();

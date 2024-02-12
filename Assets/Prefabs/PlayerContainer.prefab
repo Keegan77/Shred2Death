@@ -529,7 +529,6 @@ GameObject:
   - component: {fileID: 2463772219495217795}
   - component: {fileID: 5342338037351564538}
   - component: {fileID: 5428022183481655201}
-  - component: {fileID: 4168594707267378382}
   m_Layer: 12
   m_Name: PlayerContainer
   m_TagString: Untagged
@@ -613,14 +612,14 @@ MonoBehaviour:
   inputTurningTransform: {fileID: 3400321096179317703}
   playerModelTransform: {fileID: 4350162463001390448}
   playerData: {fileID: 11400000, guid: 1a3dc727a00a88b4dab330927467122e, type: 2}
-  forwardLeftRayOrigin: {x: 20.837046, y: 21.850452, z: 14.025351}
-  forwardRightRayOrigin: {x: 20.907454, y: 21.850452, z: 14.7218}
-  backLeftRayOrigin: {x: 22.070757, y: 21.850452, z: 13.900629}
-  backRightRayOrigin: {x: 22.141165, y: 21.850452, z: 14.597078}
-  forwardRayOrigin: {x: 20.87225, y: 21.610453, z: 14.373575}
-  backRayOrigin: {x: 22.10596, y: 21.610453, z: 14.248854}
-  leftRayOrigin: {x: 21.453901, y: 21.610453, z: 13.96299}
-  rightRayOrigin: {x: 21.52431, y: 21.610453, z: 14.659439}
+  forwardLeftRayOrigin: {x: 18.7, y: 2.7804527, z: -0.73145974}
+  forwardRightRayOrigin: {x: 18, y: 2.7804527, z: -0.73145974}
+  backLeftRayOrigin: {x: 18.7, y: 2.7804527, z: 0.5085403}
+  backRightRayOrigin: {x: 18, y: 2.7804527, z: 0.5085403}
+  forwardRayOrigin: {x: 18.35, y: 2.5404527, z: -0.73145974}
+  backRayOrigin: {x: 18.35, y: 2.5404527, z: 0.5085403}
+  leftRayOrigin: {x: 18.7, y: 2.5404527, z: -0.11145973}
+  rightRayOrigin: {x: 18, y: 2.5404527, z: -0.11145973}
   grindRailFollower: {fileID: 5986969473009569870, guid: 58642cd707a8a1e449bef0d5c13f5759, type: 3}
 --- !u!114 &5634048925312985684
 MonoBehaviour:
@@ -683,18 +682,6 @@ MonoBehaviour:
   emergencySlopeReOrientSpeed: 15
   airReOrientSpeed: 3
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &4168594707267378382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8088672281678487563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac2981b54f4d19c42b53d253de9a17bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8803852019208925205
 GameObject:
   m_ObjectHideFlags: 0
