@@ -32,7 +32,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.9000001, z: -18.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6150537939015392023}
   m_Father: {fileID: 5942974417331888238}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &3057807456574206290
@@ -106,8 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a739c9dae807a54782575aca90b8ff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 2
-  zRotationAmount: 5
+  rotationSpeed: 4
+  zRotationAmount: 2
 --- !u!114 &5795756707956651083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,6 +123,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   FOVChangeSpeed: 5
+--- !u!1 &534874434515455789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6150537939015392023}
+  m_Layer: 0
+  m_Name: CrosshairPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6150537939015392023
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534874434515455789}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 20.95}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7262173033700358466}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1844866722960177176
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa14d01e800f6004ebad33d0428c87aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 20
+  rotationSpeed: 100
 --- !u!1 &3837065458842811337
 GameObject:
   m_ObjectHideFlags: 0
