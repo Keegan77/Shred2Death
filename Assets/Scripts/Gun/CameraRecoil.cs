@@ -11,7 +11,6 @@ public class CameraRecoil : MonoBehaviour
     
     private void Update()
     {
-
         targetRotation  =  Vector3.Lerp(targetRotation, Vector3.zero, 
             gunScript.GetCurrentGunData().returnSpeed * Time.deltaTime);
         

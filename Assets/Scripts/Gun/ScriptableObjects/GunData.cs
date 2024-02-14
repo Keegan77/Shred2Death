@@ -16,6 +16,7 @@ public class GunData : ScriptableObject
     public float maxDistance;
     public bool automatic;
     [Tooltip("In seconds, the amount of time the bullet takes to get to it's end destination.")]
+    [Range(0.0001f, .5f)]
     public float bulletLerpTime;
     [Tooltip("Amount of bullets that will be fired per mouse click")]
     public int bulletsInOneShot;
