@@ -13,6 +13,8 @@ public class GunData : ScriptableObject
     public float damage;
     public float maxDistance;
     public bool automatic;
+    [Tooltip("In seconds, the amount of time the bullet takes to get to it's end destination.")]
+    public float bulletLerpTime;
     [Tooltip("Amount of bullets that will be fired per mouse click")]
     public int bulletsInOneShot;
 
@@ -40,4 +42,8 @@ public class GunData : ScriptableObject
   
 
     [HideInInspector] public float currentAmmo;
+
+    [Tooltip("Setting this to true will alternate the firing of the gun between the player model's " +
+             "left and right hand. Useful for duelies.")]
+    [SerializeField] public bool alternateFire;
 }

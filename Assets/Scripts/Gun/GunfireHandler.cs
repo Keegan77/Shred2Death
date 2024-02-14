@@ -19,14 +19,20 @@ public class GunfireHandler : MonoBehaviour
     [SerializeField] private TrailRenderer bulletTrail;
 
     [SerializeField] private Transform gunTip;
+    
+    [SerializeField] private Transform alternateGunTip;
 
+    private Transform currentGunTip;
 
     private void Start()
     {
+        currentGunTip = gunTip;
+        bulletTrail.time = currentGun.bulletLerpTime;
         if (!currentGun.automatic)
         {
             SetButtonListeners(); // if gun isn't auto then we just set gunfire to our button down input
         }
+        
     }
 
     private bool CanShoot() =>
@@ -74,14 +80,14 @@ public class GunfireHandler : MonoBehaviour
             Vector3 direction = GetDirection(); 
             if (Physics.Raycast(castPoint.position, direction, out hit, currentGun.maxDistance)) //if we hit an object with our bullet
             {
-                trail = Instantiate(bulletTrail, gunTip.position, Quaternion.identity); //start a bullet trail effect
+                trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity); //start a bullet trail effect
 
                 StartCoroutine(SpawnBullet(trail, hit.point, hit)); //spawn our bullet
             }
             else // if we shoot, but we don't hit anything (if we shoot into the air at no objects, 
                  //we still want to show our bullet trail)
             {
-                trail = Instantiate(bulletTrail, gunTip.position, Quaternion.identity);
+                trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity);
 
                 StartCoroutine(SpawnBullet(trail, castPoint.position + direction * (currentGun.maxDistance / 2), hit)); // sets the point of where our raycast would have ended up if it hit anything (point in the air)
                                    
@@ -92,15 +98,21 @@ public class GunfireHandler : MonoBehaviour
 
         //currentGun.currentAmmo--;
         timeSinceLastShot = 0;
+        
+        if (currentGun.alternateFire)
+        {
+            currentGunTip = currentGunTip == gunTip ? alternateGunTip : gunTip;
+        }
             
     }
     private IEnumerator SpawnBullet(TrailRenderer trail, Vector3 hitPos, RaycastHit hit)
     {
         float time = 0;
-        Vector3 startPosition = trail.transform.position;
+        Transform _gunTip = currentGunTip; // cache the value of the gun tip
 
         while (time < 1)
         {
+            Vector3 startPosition = _gunTip.position;
             trail.transform.position = Vector3.Lerp(startPosition, hitPos, time);
             time += Time.deltaTime / trail.time;
             yield return null;
