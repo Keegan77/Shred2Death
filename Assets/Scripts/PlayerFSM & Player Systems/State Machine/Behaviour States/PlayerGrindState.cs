@@ -8,6 +8,7 @@ public class PlayerGrindState : PlayerState
     private bool lerping;
     private float baseSpeed;
     private float currentSpeed;
+    private Quaternion jumpedOnOrientation;
     public PlayerGrindState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => JumpOffRail()});
@@ -20,6 +21,8 @@ public class PlayerGrindState : PlayerState
         lerping = true;
         SubscribeInputs();
         SetUpSplineFollower();
+        
+        jumpedOnOrientation = Quaternion.Euler(0, player.transform.rotation.eulerAngles.y - sFollower.result.rotation.eulerAngles.y, 0);
         player.StartCoroutine(LerpToFollower(player.playerData.railSnapTime));
         player.SetRBKinematic(true);
         
@@ -27,7 +30,6 @@ public class PlayerGrindState : PlayerState
     public override void Exit()
     {
         UnsubscribeInputs();
-        GameObject.Destroy(followerObj);
         
     }
     
@@ -46,7 +48,7 @@ public class PlayerGrindState : PlayerState
         }
         else sFollower.wrapMode = SplineFollower.Wrap.Default;
         
-        Vector3 playerForward = player.transform.forward;
+        Vector3 playerForward = player.inputTurningTransform.forward;
         
         SplineSample sample = sFollower.spline.Project(player.transform.position);
         
@@ -92,40 +94,28 @@ public class PlayerGrindState : PlayerState
     
     private void JumpOffRail()
     {
+        GameObject.Destroy(followerObj);
+        player.transform.rotation = player.inputTurningTransform.rotation;
+        player.inputTurningTransform.rotation = player.transform.rotation;
         player.SetRBKinematic(false);
-        //player.inputTurningTransform.rotation = player.transform.rotation;
         player.rb.AddForce(player.transform.up * player.playerData.baseJumpForce, ForceMode.Impulse);
-        player.rb.AddForce(player.transform.forward * player.playerData.baseJumpForce, ForceMode.Impulse);
+        player.rb.AddForce(player.inputTurningTransform.forward * player.playerData.baseJumpForce, ForceMode.Impulse);
+        
+        
         //player.OllieJump();
         stateMachine.SwitchState(player.airborneState);
     }
+    
     public override void LogicUpdate()
     {
         base.LogicUpdate();
         if (lerping) return;
         ModifyFollowSpeed();
-
+        
         player.transform.position = sFollower.result.position + new Vector3(0, player.playerData.grindPositioningOffset, 0);
-
-        // Calculate the difference in rotation
-        float rotationDifference = sFollower.result.rotation.eulerAngles.y - player.transform.rotation.eulerAngles.y;
-
-        // Get the rotation from the player's input
-        float playerInputRotation = player.playerData.grindTurnSharpness * InputRouting.Instance.GetMoveInput().x * Time.deltaTime;
-
-        // Only rotate the player based on the player's input when the player is moving
-        if (playerInputRotation != 0)
-        {
-            player.GetMovementMethods().TurnPlayer(true, playerInputRotation);
-        }
-        else
-        {
-            // Calculate the target rotation
-            Quaternion targetRotation = Quaternion.Euler(0, player.transform.eulerAngles.y + rotationDifference, 0);
-
-            // Interpolate the player's rotation towards the target rotation over time
-            player.transform.rotation = Quaternion.Lerp(player.transform.rotation, targetRotation, Time.deltaTime * 30);
-        }
+        player.transform.rotation = Quaternion.Euler(0, sFollower.result.rotation.eulerAngles.y + jumpedOnOrientation.eulerAngles.y, 0);
+        player.GetMovementMethods().TurnPlayer(true, player.playerData.grindTurnSharpness * Time.deltaTime);
+        
     }
 
     private IEnumerator LerpToFollower(float seconds)
@@ -138,7 +128,7 @@ public class PlayerGrindState : PlayerState
         {
             t = Mathf.MoveTowards(t, 1, Time.deltaTime * seconds);
             Vector3 endPos = sFollower.result.position + new Vector3(0, player.playerData.grindPositioningOffset, 0);
-            Quaternion endRot = new Quaternion(0, sFollower.result.rotation.y, 0, sFollower.result.rotation.w);
+            Quaternion endRot = Quaternion.Euler(0, sFollower.result.rotation.eulerAngles.y + jumpedOnOrientation.eulerAngles.y, 0);
             player.transform.position = Vector3.Lerp(startPos, endPos, t);
             player.transform.rotation = Quaternion.Lerp(startRot, endRot, t);
             yield return null;
