@@ -16,11 +16,11 @@ public class Sensor_Spatial : Sensor
 
     [Range(2, 5)]
     [Tooltip("How many points for each face will this sensor be made with?")]
-    [SerializeField] int netResolution = 3;
+    [SerializeField] int sensorResolution = 3;
 
     [Range(1, 10)] //10 is way overkill but eh
     [Tooltip("How far will the sensors look for obstacles?")]
-    [SerializeField] float sensorLength = 1;
+    public float sensorLength = 1;
 
     [Header("Output")]
     public Vector3 pingResult = Vector3.zero;
@@ -40,7 +40,7 @@ public class Sensor_Spatial : Sensor
     /// </summary>
     private void constructSensors()
     {
-        for (int b = 0; b < netResolution; b++) // For each band
+        for (int b = 0; b < sensorResolution; b++) // For each band
         {
             //Instantiate(new GameObject($"SensorBlock_{b}"), transform);
             GameObject o = new GameObject($"SensorBlock_{b}");
@@ -48,20 +48,20 @@ public class Sensor_Spatial : Sensor
             o.transform.position = transform.position;
             o.transform.parent = transform;
 
-            for (int r = 0; r < netResolution; r++) //for each row
+            for (int r = 0; r < sensorResolution; r++) //for each row
             {
-                for (int c = 0; c < netResolution; c++) //for each column
+                for (int c = 0; c < sensorResolution; c++) //for each column
                 {
                     //If this position is on the outside of the net, spawn the sensor
-                    if ((r == 0 || r == netResolution - 1) || (c == 0 || c == netResolution - 1) || (b == 0 || b == netResolution - 1))
+                    if ((r == 0 || r == sensorResolution - 1) || (c == 0 || c == sensorResolution - 1) || (b == 0 || b == sensorResolution - 1))
                     {
-                        float offset = (float)netResolution / (2 * netResolution);
+                        float offset = (float)sensorResolution / (2 * sensorResolution);
 
                         Vector3 sensorPosition = new Vector3
                             (
-                            (float) netResolution / 2 - c - offset,
-                            (float) netResolution / 2 - r - offset,
-                            (float) netResolution / 2 - b - offset
+                            (float) sensorResolution / 2 - c - offset,
+                            (float) sensorResolution / 2 - r - offset,
+                            (float) sensorResolution / 2 - b - offset
                             );
 
                         GameObject sensor = new GameObject($"Sensor {b}_{r}_{c}", typeof(Sensor_Raycast));
@@ -70,6 +70,7 @@ public class Sensor_Spatial : Sensor
 
                         sensor.transform.parent = o.transform;
                         sensor.transform.localPosition = sensorPosition;
+                        
                     }
                 }
             }
@@ -82,42 +83,46 @@ public class Sensor_Spatial : Sensor
     /// Pinging a spatial sensor will have it go through its raycast blocks.
     /// It will update a Vector3 value that will point away from all sensors that were tripped by something.
     /// </summary>
-    /// <returns>False, spatial sensors are passive</returns>
+    /// <returns>True if any one of the sensors have been tripped</returns>
     public override bool Ping()
     {
-        pingResult = Vector3.zero;
-
-        foreach (Transform block in transform)
-        {
-            Debug.Log(block.name);
-            foreach (Sensor_Raycast sense in block.GetComponentsInChildren<Sensor_Raycast>())
-            {
-                if (sense.Ping())
-                {
-                    pingResult -= sense.transform.position - transform.position;
-                }
-
-                Debug.DrawLine(
-                    sense.transform.position, 
-                    (sense.transform.position - transform.position).normalized * sense.raycastLength + sense.transform.position, 
-                    sense.colorResult
-                    );
-
-                
-            }
-        }
-        return false;
+        return updateSpatialSensor (true) == Vector3.zero ? false : true;
     }
 
     public void buttonPing()
     {
         Ping();
-        Debug.DrawLine(transform.position, transform.position + pingResult.normalized * sensorLength, Color.yellow);
         Debug.Break();
     }
 
-    //bool checkSensorBlock()
-    //{
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="useFull"></param>
+    /// <returns>The avoidance value of the sensor after updating it</returns>
+    public Vector3 updateSpatialSensor (bool useFull = false)
+    {
+        pingResult = Vector3.zero;
 
-    //}
+        for (int b = 0; b < (useFull ? sensorResolution : Mathf.Ceil ((float)sensorResolution / 2)); b++)
+        {
+            //Debug.Log (transform.GetChild(b).name);
+            foreach (Sensor_Raycast sense in transform.GetChild(b).GetComponentsInChildren<Sensor_Raycast> ())
+            {
+                //Debug.Log (sense.name);
+                if (sense.Ping ())
+                {
+                    pingResult -= sense.transform.position - transform.position;
+                }
+
+            }
+        }
+
+
+        Debug.DrawLine (transform.position, transform.position + pingResult.normalized * sensorLength, Color.yellow);
+
+        return pingResult;
+    }
+
+
 }

@@ -17,12 +17,13 @@ public class Enemy_StateMachine : MonoBehaviour
     [Header("States")]
     public Enemy_State stateCurrent;
 
-    public Enemy_State stateMTP;
-    public Enemy_State stateChase;
-    public Enemy_State stateIdle;
+    [Tooltip("What state does this enemy enter when they spawn in? Usually set to a move_to_point script")]
+    public Enemy_State stateEntry;
 
     [Header ("Navigation")]
     public Vector3 travelPoint;
+    public GameObject travelTarget;
+
     #endregion
 
 

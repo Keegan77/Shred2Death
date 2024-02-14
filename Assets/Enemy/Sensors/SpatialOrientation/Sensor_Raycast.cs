@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 using UnityEngine.Events;
@@ -26,14 +27,20 @@ public class Sensor_Raycast : Sensor
             (
                 transform.position,
                 transform.position - transform.parent.position,
-                out hit, 
-                raycastLength
+                out hit,
+                raycastLength,
+                maskRaycast
             );
 
 
         colorResult = pingResult ? Color.red : Color.white;
 
-        Debug.Log(hit.point);
+        Debug.DrawLine (
+                    transform.position,
+                    (transform.position - transform.parent.position) * raycastLength + transform.parent.position,
+                    colorResult
+                    );
+
         return pingResult;
     }
 

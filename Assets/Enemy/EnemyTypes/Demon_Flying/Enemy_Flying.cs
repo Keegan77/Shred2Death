@@ -6,6 +6,15 @@ public class Enemy_Flying : Enemy
 {
     [HideInInspector] public Sensor_Spatial s_Spatial;
 
+    [Header ("Movement")]
+    public float movementSpeed = 1.0f;
+    public float movementSpeedShift = 1.0f;
+
+    public float movementStoppingDistance = 1.0f;
+
+    [Tooltip("How many degrees per second does the enemy turn?")]
+    public float movementTurnSpeed= 1f;
+
     private void Awake()
     {
         EnemyGetComponentReferences();

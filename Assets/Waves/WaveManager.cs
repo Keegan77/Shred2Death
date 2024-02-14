@@ -15,10 +15,12 @@ public class WaveManager : MonoBehaviour
     //A list of things that can happen when the encounter starts.
     //It's most commonly going to be closing the gates,
     //but we can leave the door open for other things to happen.
+    [Tooltip("When the arena is activated by entering it, which events happen? (Attach to WaveManager as components from Assets/Waves/Wave Events)")]
     [SerializeField]
     Wave_Event[] openingEvents;
 
     //As with the opening events, these are things that happen when the arena is completed.
+    [Tooltip ("When all waves in this arena have been cleared, which events happen? (Attach to WaveManager as components from Assets/Waves/Wave Events)")]
     [SerializeField]
     Wave_Event[] closingEvents;
 
@@ -163,12 +165,13 @@ public class WaveManager : MonoBehaviour
             
             Enemy_StateMachine esm = e.GetComponent<Enemy_StateMachine>();
 
+            esm.travelTarget = row.spawnPoint.transform.GetChild (0).gameObject;
             esm.travelPoint = row.spawnPoint.transform.GetChild (0).position;
 
             //Hopefully the NavMeshAgent is loaded after instantiation
             //e.GetComponent<Enemy>().agent = e.gameObject.GetComponent<NavMeshAgent> (); 
 
-            e.GetComponent<Enemy_StateMachine> ().transitionState (esm.stateMTP);
+            esm.transitionState (esm.stateEntry);
             e.GetComponent<Enemy> ().SetManager (this);
 
             yield return new WaitForSeconds (row.interval);

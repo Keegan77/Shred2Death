@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sensor_KillOnTouch : MonoBehaviour
+public class Sensor_KillOnTouch : Sensor
 {
     private void OnTriggerEnter (Collider other)
     {
