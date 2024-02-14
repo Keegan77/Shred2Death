@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 public class GunfireHandler : MonoBehaviour
 {
-    private GunData currentGun;
+    [SerializeField] private GunData currentGun;
 
     private float timeSinceLastShot;
 
@@ -16,15 +19,43 @@ public class GunfireHandler : MonoBehaviour
     [SerializeField] private TrailRenderer bulletTrail;
 
     [SerializeField] private Transform gunTip;
-    
-    
+
+
+    private void Start()
+    {
+        if (!currentGun.automatic)
+        {
+            SetButtonListeners(); // if gun isn't auto then we just set gunfire to our button down input
+        }
+    }
+
     private bool CanShoot() =>
         timeSinceLastShot > currentGun.timeBetweenShots; // if we're done firing the last shot
-    
-    
+
+    private void Update()
+    {
+        timeSinceLastShot += Time.deltaTime;
+
+        if (currentGun.automatic && CanShoot() && InputRouting.Instance.GetFireHeld())
+        {
+            Fire();
+        } // if the gun is automatic, and we can shoot, and we're holding the fire button, then fire
+    }
+
     private void SetButtonListeners()
     {
-        InputRouting.Instance.input.Player.Fire.performed += ctx => Fire();
+        InputRouting.Instance.input.Player.Fire.performed += ctx =>
+        {
+            if (CanShoot())
+            {
+                Fire();
+            }
+        };
+    }
+    
+    private void OnDisable()
+    {
+        DisableButtonListeners();
     }
     
     private void DisableButtonListeners()
@@ -34,7 +65,6 @@ public class GunfireHandler : MonoBehaviour
 
     private void Fire()
     {
-        
         RaycastHit hit; //instantiate our raycast ref
         TrailRenderer trail; // instantiate our gun trail
         //recoilScript.FireRecoil(); // camera recoil
@@ -60,7 +90,7 @@ public class GunfireHandler : MonoBehaviour
 
         //Debug.Log(hit.point);
 
-        currentGun.currentAmmo--;
+        //currentGun.currentAmmo--;
         timeSinceLastShot = 0;
             
     }
@@ -108,9 +138,5 @@ public class GunfireHandler : MonoBehaviour
         direction.Normalize();
         return direction;
     }
-
-    private void OnDisable()
-    {
-        
-    }
+    
 }
