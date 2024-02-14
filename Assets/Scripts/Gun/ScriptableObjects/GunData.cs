@@ -8,6 +8,8 @@ public class GunData : ScriptableObject
     [Header("Info")]
     public new string name;
 
+    [Tooltip("Will be used for the gun model pertaining to each gun.")]
+    public GameObject gunPrefab;
 
     [Header("Shooting")]
     public float damage;
@@ -28,7 +30,9 @@ public class GunData : ScriptableObject
     public float recoilX;
     public float recoilY;
     public float recoilZ;
+    [Tooltip("Speed of the recoil snapback")]
     public float snappiness;
+    [Tooltip("Speed of the recoil return to 0, 0, 0.")]
     public float returnSpeed;
 
     [Header("Spread")]
@@ -41,7 +45,7 @@ public class GunData : ScriptableObject
     public float readyUpTime;
   
 
-    [HideInInspector] public float currentAmmo;
+    [HideInInspector] public float currentAmmo; //stored on a per-gun basis to keep the value between gun switches
 
     [Tooltip("Setting this to true will alternate the firing of the gun between the player model's " +
              "left and right hand. Useful for duelies.")]

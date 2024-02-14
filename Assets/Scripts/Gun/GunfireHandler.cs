@@ -13,6 +13,8 @@ public class GunfireHandler : MonoBehaviour
     private float timeSinceLastShot;
 
     private bool reloading;
+    
+    [SerializeField] private CameraRecoil recoilScript;
 
     [SerializeField] private Transform castPoint;
     
@@ -108,7 +110,8 @@ public class GunfireHandler : MonoBehaviour
     private IEnumerator SpawnBullet(TrailRenderer trail, Vector3 hitPos, RaycastHit hit)
     {
         float time = 0;
-        Transform _gunTip = currentGunTip; // cache the value of the gun tip
+        Transform _gunTip = currentGunTip; // caches the value of the gun tip so coroutines can exist simultaneously
+        recoilScript.FireRecoil(); 
 
         while (time < 1)
         {
@@ -149,6 +152,11 @@ public class GunfireHandler : MonoBehaviour
                                  Random.Range(-currentGun.spreadZ, currentGun.spreadZ));
         direction.Normalize();
         return direction;
+    }
+
+    public GunData GetCurrentGunData()
+    {
+        return currentGun;
     }
     
 }
