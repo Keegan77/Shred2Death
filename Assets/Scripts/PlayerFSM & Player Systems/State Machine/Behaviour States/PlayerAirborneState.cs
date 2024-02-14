@@ -9,7 +9,7 @@ public class PlayerAirborneState : PlayerState
     public PlayerAirborneState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
-            { onPerformed = ctx => CheckForSpline()});
+            { onPerformed = ctx => player.CheckAndSetSpline()});
         
         inputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
         {
@@ -46,11 +46,25 @@ public class PlayerAirborneState : PlayerState
     {
         base.PhysicsUpdate();
         
+        TiltPlayerWithVelocity();
+        
         player.GetOrientationHandler().ReOrient();
         player.GetMovementMethods().TurnPlayer();
         AddAirForce();
         
     }
+
+    private void TiltPlayerWithVelocity()
+    {
+        float yVelocity = -player.rb.velocity.y;
+        float tiltAngle = Mathf.Clamp(yVelocity, -player.playerData.airTiltRange, player.playerData.airTiltRange);
+
+        // Create a Quaternion for the tilt rotation.
+        Quaternion tiltRotation = Quaternion.Euler(tiltAngle, player.transform.eulerAngles.y, player.transform.eulerAngles.z);
+        
+        player.transform.rotation = Quaternion.Lerp(player.transform.rotation, tiltRotation, Time.deltaTime * 5);
+    }
+
 
     private void AddAirForce()
     {
@@ -73,23 +87,5 @@ public class PlayerAirborneState : PlayerState
         
     }
     
-    private void CheckForSpline()
-    {
-        float radius = 10f;
-        
-        RaycastHit[] hits = Physics.SphereCastAll(player.transform.position, radius, player.transform.forward, 0, 1 << LayerMask.NameToLayer("Spline"));
-        
-        
-        foreach (RaycastHit hit in hits)
-        {
-            SplineComputer hitSpline = hit.collider.GetComponent<SplineComputer>();
-            SplineSample hitPoint = hitSpline.Project(player.transform.position);
-            //Debug.Log(Vector3.Distance(player.transform.position, hitPoint.position));
-            if (Vector3.Distance(player.transform.position, hitPoint.position) < player.playerData.railSnapDistance)
-            {
-                player.SetCurrentSpline(hitSpline, hitPoint);
-                stateMachine.SwitchState(player.grindState);
-            }
-        }
-    }
+
 }
