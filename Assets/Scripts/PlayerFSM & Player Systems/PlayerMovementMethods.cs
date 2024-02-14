@@ -71,9 +71,10 @@ public class PlayerMovementMethods
     /// </summary>
     public void TurnPlayer(bool overrideTurnSharpness = false, float newTurnSharpness = 0) // Rotates the input turning transform
     {
+        Debug.Log(newTurnSharpness);
         player.transform.Rotate(0,
             overrideTurnSharpness ?
-                newTurnSharpness * InputRouting.Instance.GetMoveInput().x :
+                newTurnSharpness :
                 turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 
             0, 
             Space.Self);

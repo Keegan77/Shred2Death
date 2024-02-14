@@ -25,7 +25,6 @@ public class GunData : ScriptableObject
     [Header("Reloading")]
     public int magCapacity;
     public float timeBetweenShots;
-    public float reloadTime;
 
     [Header("Recoil")]
     public float recoilX;

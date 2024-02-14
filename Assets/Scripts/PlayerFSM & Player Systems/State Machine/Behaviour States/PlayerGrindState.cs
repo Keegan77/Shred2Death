@@ -28,6 +28,7 @@ public class PlayerGrindState : PlayerState
     {
         UnsubscribeInputs();
         GameObject.Destroy(followerObj);
+        
     }
     
     
@@ -45,7 +46,7 @@ public class PlayerGrindState : PlayerState
         }
         else sFollower.wrapMode = SplineFollower.Wrap.Default;
         
-        Vector3 playerForward = player.inputTurningTransform.forward;
+        Vector3 playerForward = player.transform.forward;
         
         SplineSample sample = sFollower.spline.Project(player.transform.position);
         
@@ -92,22 +93,39 @@ public class PlayerGrindState : PlayerState
     private void JumpOffRail()
     {
         player.SetRBKinematic(false);
+        //player.inputTurningTransform.rotation = player.transform.rotation;
         player.rb.AddForce(player.transform.up * player.playerData.baseJumpForce, ForceMode.Impulse);
-        player.rb.AddForce(player.inputTurningTransform.forward * player.playerData.baseJumpForce, ForceMode.Impulse);
+        player.rb.AddForce(player.transform.forward * player.playerData.baseJumpForce, ForceMode.Impulse);
         //player.OllieJump();
         stateMachine.SwitchState(player.airborneState);
     }
-    
     public override void LogicUpdate()
     {
         base.LogicUpdate();
         if (lerping) return;
         ModifyFollowSpeed();
-        
+
         player.transform.position = sFollower.result.position + new Vector3(0, player.playerData.grindPositioningOffset, 0);
-        player.transform.localEulerAngles = new Vector3(0, sFollower.result.rotation.eulerAngles.y, 0);
-        player.GetMovementMethods().TurnPlayer(true, player.playerData.grindTurnSharpness * Time.deltaTime);
-        
+
+        // Calculate the difference in rotation
+        float rotationDifference = sFollower.result.rotation.eulerAngles.y - player.transform.rotation.eulerAngles.y;
+
+        // Get the rotation from the player's input
+        float playerInputRotation = player.playerData.grindTurnSharpness * InputRouting.Instance.GetMoveInput().x * Time.deltaTime;
+
+        // Only rotate the player based on the player's input when the player is moving
+        if (playerInputRotation != 0)
+        {
+            player.GetMovementMethods().TurnPlayer(true, playerInputRotation);
+        }
+        else
+        {
+            // Calculate the target rotation
+            Quaternion targetRotation = Quaternion.Euler(0, player.transform.eulerAngles.y + rotationDifference, 0);
+
+            // Interpolate the player's rotation towards the target rotation over time
+            player.transform.rotation = Quaternion.Lerp(player.transform.rotation, targetRotation, Time.deltaTime * 30);
+        }
     }
 
     private IEnumerator LerpToFollower(float seconds)

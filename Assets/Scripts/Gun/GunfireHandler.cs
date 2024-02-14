@@ -62,22 +62,14 @@ public class GunfireHandler : MonoBehaviour
             Fire();
         } // if the gun is automatic, and we can shoot, and we're holding the fire button, then fire
         
-        Debug.Log(currentGun.currentAmmo);
     }
-
-
 
     private void Fire()
     {
         RaycastHit hit; //instantiate our raycast ref
         TrailRenderer trail; // instantiate our gun trail
-
-        if (reloading) return;
-        if (currentGun.currentAmmo <= 0)
-        {
-            StartCoroutine(ReloadGun());
-            return;
-        }
+        
+        if (currentGun.currentAmmo <= 0) return;
         
         recoilScript.FireRecoil(); 
         
@@ -144,18 +136,9 @@ public class GunfireHandler : MonoBehaviour
             }
             
         }*/
-
-        
         
     }
-
-    private IEnumerator ReloadGun()
-    {
-        reloading = true;
-        yield return new WaitForSeconds(currentGun.reloadTime);
-        currentGun.currentAmmo = currentGun.magCapacity;
-        reloading = false;
-    }
+    
     
     private Vector3 GetDirection()
     {
@@ -196,25 +179,13 @@ public class GunfireHandler : MonoBehaviour
     }
     private void OnEnable()
     {
-        InputRouting.Instance.input.Player.Reload.performed += ctx =>
-        {
-            if (currentGun.currentAmmo < currentGun.magCapacity && !reloading)
-            {
-                StartCoroutine(ReloadGun());
-            }
-        };
+        
     }
 
     private void OnDisable()
     {
         if (buttonSet) DisableFireButtonListeners();
-        InputRouting.Instance.input.Player.Reload.performed -= ctx =>
-        {
-            if (currentGun.currentAmmo < currentGun.magCapacity && !reloading)
-            {
-                StartCoroutine(ReloadGun());
-            }
-        };
+
     }
 #endregion
 }
