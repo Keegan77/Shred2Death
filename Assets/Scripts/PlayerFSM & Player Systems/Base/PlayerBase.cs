@@ -193,13 +193,6 @@ public class PlayerBase : MonoBehaviour
     
     public bool CheckGround(string layerName = "Ground")
     {
-        /*var groundLayerMask = (1 << LayerMask.NameToLayer("Ground"));
-        var combinedLayerMask = groundLayerMask;
-        if (checkGroundAndBowlMesh)
-        {
-            var bowlMeshLayerMask = (1 << LayerMask.NameToLayer("BowlMesh"));
-            combinedLayerMask = groundLayerMask | bowlMeshLayerMask;
-        }*/
 
         var layerMask = (1 << LayerMask.NameToLayer(layerName));
         UpdateRayOriginPoints();
