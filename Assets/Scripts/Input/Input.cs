@@ -89,6 +89,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""e355c289-7bf8-45d8-a09f-2d3f579c617e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -397,6 +406,17 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Nosedive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c9f0ddf8-62db-4b31-bf68-1af53f8011dc"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1139,6 +1159,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_Player_Drift = m_Player.FindAction("Drift", throwIfNotFound: true);
         m_Player_Boost = m_Player.FindAction("Boost", throwIfNotFound: true);
         m_Player_Nosedive = m_Player.FindAction("Nosedive", throwIfNotFound: true);
+        m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1228,6 +1249,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Drift;
     private readonly InputAction m_Player_Boost;
     private readonly InputAction m_Player_Nosedive;
+    private readonly InputAction m_Player_Reload;
     public struct PlayerActions
     {
         private @Input m_Wrapper;
@@ -1239,6 +1261,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         public InputAction @Drift => m_Wrapper.m_Player_Drift;
         public InputAction @Boost => m_Wrapper.m_Player_Boost;
         public InputAction @Nosedive => m_Wrapper.m_Player_Nosedive;
+        public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1269,6 +1292,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Nosedive.started += instance.OnNosedive;
             @Nosedive.performed += instance.OnNosedive;
             @Nosedive.canceled += instance.OnNosedive;
+            @Reload.started += instance.OnReload;
+            @Reload.performed += instance.OnReload;
+            @Reload.canceled += instance.OnReload;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1294,6 +1320,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Nosedive.started -= instance.OnNosedive;
             @Nosedive.performed -= instance.OnNosedive;
             @Nosedive.canceled -= instance.OnNosedive;
+            @Reload.started -= instance.OnReload;
+            @Reload.performed -= instance.OnReload;
+            @Reload.canceled -= instance.OnReload;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1577,6 +1606,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnDrift(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
         void OnNosedive(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

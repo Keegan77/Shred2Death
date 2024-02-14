@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GunfireHandler : MonoBehaviour
 {
@@ -10,9 +11,106 @@ public class GunfireHandler : MonoBehaviour
 
     private bool reloading;
 
-    private Transform castPoint;
+    [SerializeField] private Transform castPoint;
+    
+    [SerializeField] private TrailRenderer bulletTrail;
+
+    [SerializeField] private Transform gunTip;
+    
     
     private bool CanShoot() =>
-        !reloading && timeSinceLastShot > currentGun.timeBetweenShots; // if we're done firing the last shot
+        timeSinceLastShot > currentGun.timeBetweenShots; // if we're done firing the last shot
+    
+    
+    private void SetButtonListeners()
+    {
+        InputRouting.Instance.input.Player.Fire.performed += ctx => Fire();
+    }
+    
+    private void DisableButtonListeners()
+    {
+        InputRouting.Instance.input.Player.Fire.performed -= ctx => Fire();
+    }
 
+    private void Fire()
+    {
+        
+        RaycastHit hit; //instantiate our raycast ref
+        TrailRenderer trail; // instantiate our gun trail
+        //recoilScript.FireRecoil(); // camera recoil
+        //gunObjRecoil.FireGunRecoil(); // gun recoil
+        for (int i = 0; i < currentGun.bulletsInOneShot; i++) 
+        {
+            Vector3 direction = GetDirection(); 
+            if (Physics.Raycast(castPoint.position, direction, out hit, currentGun.maxDistance)) //if we hit an object with our bullet
+            {
+                trail = Instantiate(bulletTrail, gunTip.position, Quaternion.identity); //start a bullet trail effect
+
+                StartCoroutine(SpawnBullet(trail, hit.point, hit)); //spawn our bullet
+            }
+            else // if we shoot, but we don't hit anything (if we shoot into the air at no objects, 
+                 //we still want to show our bullet trail)
+            {
+                trail = Instantiate(bulletTrail, gunTip.position, Quaternion.identity);
+
+                StartCoroutine(SpawnBullet(trail, castPoint.position + direction * (currentGun.maxDistance / 2), hit)); // sets the point of where our raycast would have ended up if it hit anything (point in the air)
+                                   
+            }
+        }
+
+        //Debug.Log(hit.point);
+
+        currentGun.currentAmmo--;
+        timeSinceLastShot = 0;
+            
+    }
+    private IEnumerator SpawnBullet(TrailRenderer trail, Vector3 hitPos, RaycastHit hit)
+    {
+        float time = 0;
+        Vector3 startPosition = trail.transform.position;
+
+        while (time < 1)
+        {
+            trail.transform.position = Vector3.Lerp(startPosition, hitPos, time);
+            time += Time.deltaTime / trail.time;
+            yield return null;
+        }
+        trail.transform.position = hitPos;
+        
+        Destroy(trail.gameObject, trail.time);
+        
+        /*IDamageable damageable = hit.transform.GetComponent<IDamageable>();
+        if (damageable != null)
+        {
+            damageable.TakeDamage(currentGun.damage);
+            StartCoroutine(PlayParticles(gunshotSparksEnemy, hitPos, gunshotSparks.transform.rotation));
+        }
+        else if (currentGun != guns[1])
+        {
+            if (playSparks)
+            {
+                StartCoroutine(PlayParticles(gunshotSparks, hitPos, gunshotSparks.transform.rotation));
+            }
+            
+        }*/
+
+        
+        
+    }
+    
+    private Vector3 GetDirection()
+    {
+        Vector3 direction = castPoint.forward;
+
+        direction += new Vector3(Random.Range(-currentGun.spreadX, currentGun.spreadX),
+                                 Random.Range(-currentGun.spreadY, currentGun.spreadY),
+                                 Random.Range(-currentGun.spreadZ, currentGun.spreadZ));
+        direction.Normalize();
+        return direction;
+    }
+
+    private void OnDisable()
+    {
+        
+    }
 }
