@@ -13,6 +13,8 @@ public class GunfireHandler : MonoBehaviour
     private float timeSinceLastShot;
 
     private bool reloading;
+
+    private bool buttonSet; // true if we've set a button listener (we have a non-automatic weapon)
     
     [SerializeField] private CameraRecoil recoilScript;
 
@@ -28,17 +30,28 @@ public class GunfireHandler : MonoBehaviour
 
     private void Start()
     {
+        SetUpGun();
+        currentGun.currentAmmo = currentGun.magCapacity;
+    }
+
+    private void SetUpGun() // called on start and on gun switch
+    {
+        if (buttonSet)
+        {
+            DisableFireButtonListeners();
+        }
         currentGunTip = gunTip;
         bulletTrail.time = currentGun.bulletLerpTime;
         if (!currentGun.automatic)
         {
-            SetButtonListeners(); // if gun isn't auto then we just set gunfire to our button down input
+            SetFireButtonListener(); // if gun isn't auto then we just set gunfire to our button down input
+            buttonSet = true;
         }
-        
     }
 
     private bool CanShoot() =>
-        timeSinceLastShot > currentGun.timeBetweenShots; // if we're done firing the last shot
+        timeSinceLastShot > currentGun.timeBetweenShots && !reloading; // we don't check ammo here because it's checked
+                                                                       // in the fire method   
 
     private void Update()
     {
@@ -48,35 +61,18 @@ public class GunfireHandler : MonoBehaviour
         {
             Fire();
         } // if the gun is automatic, and we can shoot, and we're holding the fire button, then fire
-    }
-
-    private void SetButtonListeners()
-    {
-        InputRouting.Instance.input.Player.Fire.performed += ctx =>
-        {
-            if (CanShoot())
-            {
-                Fire();
-            }
-        };
-    }
-    
-    private void OnDisable()
-    {
-        DisableButtonListeners();
-    }
-    
-    private void DisableButtonListeners()
-    {
-        InputRouting.Instance.input.Player.Fire.performed -= ctx => Fire();
+        
     }
 
     private void Fire()
     {
         RaycastHit hit; //instantiate our raycast ref
         TrailRenderer trail; // instantiate our gun trail
-        //recoilScript.FireRecoil(); // camera recoil
-        //gunObjRecoil.FireGunRecoil(); // gun recoil
+        
+        if (currentGun.currentAmmo <= 0) return;
+        
+        recoilScript.FireRecoil(); 
+        
         for (int i = 0; i < currentGun.bulletsInOneShot; i++) 
         {
             Vector3 direction = GetDirection(); 
@@ -95,6 +91,8 @@ public class GunfireHandler : MonoBehaviour
                                    
             }
         }
+        currentGun.currentAmmo--;
+        
 
         //Debug.Log(hit.point);
 
@@ -111,7 +109,7 @@ public class GunfireHandler : MonoBehaviour
     {
         float time = 0;
         Transform _gunTip = currentGunTip; // caches the value of the gun tip so coroutines can exist simultaneously
-        recoilScript.FireRecoil(); 
+        
 
         while (time < 1)
         {
@@ -138,10 +136,9 @@ public class GunfireHandler : MonoBehaviour
             }
             
         }*/
-
-        
         
     }
+    
     
     private Vector3 GetDirection()
     {
@@ -158,5 +155,37 @@ public class GunfireHandler : MonoBehaviour
     {
         return currentGun;
     }
-    
+
+#region Input
+    private void SetFireButtonListener()
+    {
+        InputRouting.Instance.input.Player.Fire.performed += ctx =>
+        {
+            if (CanShoot())
+            {
+                Fire();
+            }
+        };
+    }
+    private void DisableFireButtonListeners()
+    {
+        InputRouting.Instance.input.Player.Fire.performed -= ctx =>
+        {
+            if (CanShoot())
+            {
+                Fire();
+            }
+        };
+    }
+    private void OnEnable()
+    {
+        
+    }
+
+    private void OnDisable()
+    {
+        if (buttonSet) DisableFireButtonListeners();
+
+    }
+#endregion
 }
