@@ -63,6 +63,7 @@ public class PlayerBase : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.LogicUpdate();
+        //Debug.Log(GetOrientationWithDownward() - 90);
     } 
     
     private void FixedUpdate() => stateMachine.currentState.PhysicsUpdate();
@@ -238,7 +239,7 @@ public class PlayerBase : MonoBehaviour
     
     public float GetOrientationWithDownward()
     {
-        return Vector3.Angle(inputTurningTransform.forward, Vector3.down);
+        return Vector3.Angle(transform.forward, Vector3.down);
     }
     #endregion
     

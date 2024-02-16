@@ -26,14 +26,16 @@ public class GunData : ScriptableObject
     public int magCapacity;
     public float timeBetweenShots;
 
-    [Header("Recoil")]
-    public float recoilX;
-    public float recoilY;
-    public float recoilZ;
-    [Tooltip("Speed of the recoil snapback")]
-    public float snappiness;
-    [Tooltip("Speed of the recoil return to 0, 0, 0.")]
-    public float returnSpeed;
+    [Header("Camera Recoil")]
+    public float camRecoilX;
+    public float camRecoilY;
+    public float camRecoilZ;
+    
+    [Header("Gun Recoil")]
+    public float gunRecoilX;
+    public float gunRecoilY;
+    public float gunRecoilZ;
+    
 
     [Header("Spread")]
     public float spreadX;

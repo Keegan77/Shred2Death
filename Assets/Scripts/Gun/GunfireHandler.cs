@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class GunfireHandler : MonoBehaviour
@@ -16,7 +17,7 @@ public class GunfireHandler : MonoBehaviour
 
     private bool buttonSet; // true if we've set a button listener (we have a non-automatic weapon)
     
-    [SerializeField] private CameraRecoil recoilScript;
+    [SerializeField] private Recoil cameraRecoil, gunRecoil;
 
     [SerializeField] private Transform castPoint;
     
@@ -71,7 +72,8 @@ public class GunfireHandler : MonoBehaviour
         
         if (currentGun.currentAmmo <= 0) return;
         
-        recoilScript.FireRecoil(); 
+        cameraRecoil.FireRecoil(currentGun.camRecoilX, currentGun.camRecoilY, currentGun.camRecoilZ); // apply recoil
+        gunRecoil.FireRecoil(currentGun.gunRecoilX, currentGun.gunRecoilY, currentGun.gunRecoilZ);
         
         for (int i = 0; i < currentGun.bulletsInOneShot; i++) 
         {
