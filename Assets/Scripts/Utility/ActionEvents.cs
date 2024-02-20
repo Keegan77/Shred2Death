@@ -10,6 +10,12 @@ public static class ActionEvents
     public static Action<Trick> OnTrickCompletion; // invoked on trick animation completion
     
     #endregion
+
+    #region Enemy Events
+    public static Action OnEnemyKilled; //eventually should be populated with enemy data like how tricks are
+                                        //this data should include the enemy's style value increase
+                                        //& multiplier increase
+    #endregion
     
     
     
