@@ -1562,6 +1562,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7751106018797882641}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8088672281678487563, guid: 23fa8192aca50e64b930a00e7909db1c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5985808403650646725}
     - targetCorrespondingSourceObject: {fileID: 278236417563036640, guid: 23fa8192aca50e64b930a00e7909db1c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7168649514303105001}
@@ -1592,7 +1595,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6407103333427661897, guid: 23fa8192aca50e64b930a00e7909db1c, type: 3}
   m_PrefabInstance: {fileID: 5964758044820372937}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2488150023411686850}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac79b49f2d1297d4290c65141ec2caf2, type: 3}
@@ -1664,6 +1667,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8282581056548777821, guid: 23fa8192aca50e64b930a00e7909db1c, type: 3}
   m_PrefabInstance: {fileID: 5964758044820372937}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2488150023411686850 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8088672281678487563, guid: 23fa8192aca50e64b930a00e7909db1c, type: 3}
+  m_PrefabInstance: {fileID: 5964758044820372937}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5985808403650646725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2488150023411686850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96fdd7bcfbaeb0e47b0cfc4c79ebd760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMultiplier: 4
+  multiplierDropTime: 5
+  maxStyleLevel: 5
+  styleLevelThreshold: 100
+  comboDropTime: 8
 --- !u!4 &2559867497269209250 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8160920805138978155, guid: 23fa8192aca50e64b930a00e7909db1c, type: 3}

@@ -36,36 +36,35 @@ public class TrickComboHandler : MonoBehaviour
 
     private void Update()
     {
-        timeSinceLastTrick += Time.deltaTime;
-        timeSinceMultiplierIncrease += Time.deltaTime;
+        if (currentStylePoints > 0)
+            timeSinceLastTrick += Time.deltaTime;
+        
+        if (currentMultiplier > 1)
+            timeSinceMultiplierIncrease += Time.deltaTime;
         
         if (timeSinceLastTrick > comboDropTime)
         {
             currentStylePoints = 0;
             currentStyleLevel = 0;
             timeSinceLastTrick = 0;
-            Debug.Log("Combo Dropped. setting style points and style level to 0");
         }
         
         if (timeSinceMultiplierIncrease > multiplierDropTime)
         {
             timeSinceMultiplierIncrease = 0;
             currentMultiplier = 1;
-            Debug.Log("Multiplier Dropped. Resetting multiplier to 1");
         }
     }
 
     private void IncrementStylePoints(Trick trick)
     {
+        if (currentStyleLevel >= maxStyleLevel) return;
         currentStylePoints += trick.stylePoints * currentMultiplier;
-        Debug.Log($"Style Points: {currentStylePoints}");
         timeSinceLastTrick = 0;
         
         if (currentStylePoints > styleLevelThreshold)
         {
             currentStyleLevel++;
-            Debug.Log($"Style Level Up, new style level: {currentStyleLevel}");
-            
             
             currentStylePoints = 0;
         }
@@ -80,6 +79,34 @@ public class TrickComboHandler : MonoBehaviour
         timeSinceMultiplierIncrease = 0;
     }
 
+    #region Getters
+
+    public float GetStylePoints()
+    {
+        return currentStylePoints;
+    }
+    
+    public float GetStyleLevel()
+    {
+        return currentStyleLevel;
+    }
+    
+    public float GetMultiplier()
+    {
+        return currentMultiplier;
+    }
+    
+    public float GetTimeSinceLastTrick()
+    {
+        return timeSinceLastTrick;
+    }
+    
+    public float GetTimeSinceMultiplierIncrease()
+    {
+        return timeSinceMultiplierIncrease;
+    }
+
+    #endregion
     #region Trick Event Subscriptions
     private void OnEnable()
     {
