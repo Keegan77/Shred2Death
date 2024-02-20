@@ -13,22 +13,23 @@ MonoBehaviour:
   m_Name: TestGun
   m_EditorClassIdentifier: 
   name: Gun-inator 5000
+  gunPrefab: {fileID: 0}
   damage: 10
   maxDistance: 100
-  automatic: 1
+  automatic: 0
   bulletLerpTime: 0.1
-  bulletsInOneShot: 1
-  magCapacity: 100
-  timeBetweenShots: 0.05
-  reloadTime: 2
-  recoilX: 0.5
-  recoilY: 0.5
-  recoilZ: 0.5
-  snappiness: 5
-  returnSpeed: 10
-  spreadX: 0.01
-  spreadY: 0.01
-  spreadZ: 0.01
+  bulletsInOneShot: 12
+  magCapacity: 10
+  timeBetweenShots: 0.1
+  camRecoilX: 0.5
+  camRecoilY: 0.5
+  camRecoilZ: 0.5
+  gunRecoilX: 100
+  gunRecoilY: 50
+  gunRecoilZ: 50
+  spreadX: 0.1
+  spreadY: 0.1
+  spreadZ: 0.1
   readyUpTime: 0
-  currentAmmo: 0
-  alternateFire: 1
+  currentAmmo: 10
+  alternateFire: 0

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class GunfireHandler : MonoBehaviour
@@ -13,8 +14,10 @@ public class GunfireHandler : MonoBehaviour
     private float timeSinceLastShot;
 
     private bool reloading;
+
+    private bool buttonSet; // true if we've set a button listener (we have a non-automatic weapon)
     
-    [SerializeField] private CameraRecoil recoilScript;
+    [SerializeField] private Recoil cameraRecoil, gunRecoil;
 
     [SerializeField] private Transform castPoint;
     
@@ -28,55 +31,52 @@ public class GunfireHandler : MonoBehaviour
 
     private void Start()
     {
+        SetUpGun();
+        currentGun.currentAmmo = currentGun.magCapacity;
+    }
+
+    private void SetUpGun() // called on start and on gun switch
+    {
+        if (buttonSet)
+        {
+            DisableFireButtonListeners();
+        }
         currentGunTip = gunTip;
         bulletTrail.time = currentGun.bulletLerpTime;
         if (!currentGun.automatic)
         {
-            SetButtonListeners(); // if gun isn't auto then we just set gunfire to our button down input
+            SetFireButtonListener(); // if gun isn't auto then we just set gunfire to our button down input
+            buttonSet = true;
         }
-        
     }
 
     private bool CanShoot() =>
-        timeSinceLastShot > currentGun.timeBetweenShots; // if we're done firing the last shot
+        timeSinceLastShot > currentGun.timeBetweenShots && !reloading; // we don't check ammo here because it's checked
+                                                                       // in the fire method   
 
     private void Update()
     {
+        Debug.Log(currentGun.currentAmmo);
+        
         timeSinceLastShot += Time.deltaTime;
 
         if (currentGun.automatic && CanShoot() && InputRouting.Instance.GetFireHeld())
         {
             Fire();
         } // if the gun is automatic, and we can shoot, and we're holding the fire button, then fire
-    }
-
-    private void SetButtonListeners()
-    {
-        InputRouting.Instance.input.Player.Fire.performed += ctx =>
-        {
-            if (CanShoot())
-            {
-                Fire();
-            }
-        };
-    }
-    
-    private void OnDisable()
-    {
-        DisableButtonListeners();
-    }
-    
-    private void DisableButtonListeners()
-    {
-        InputRouting.Instance.input.Player.Fire.performed -= ctx => Fire();
+        
     }
 
     private void Fire()
     {
         RaycastHit hit; //instantiate our raycast ref
         TrailRenderer trail; // instantiate our gun trail
-        //recoilScript.FireRecoil(); // camera recoil
-        //gunObjRecoil.FireGunRecoil(); // gun recoil
+        
+        if (currentGun.currentAmmo <= 0) return;
+        
+        cameraRecoil.FireRecoil(currentGun.camRecoilX, currentGun.camRecoilY, currentGun.camRecoilZ); // apply recoil
+        gunRecoil.FireRecoil(currentGun.gunRecoilX, currentGun.gunRecoilY, currentGun.gunRecoilZ);
+        
         for (int i = 0; i < currentGun.bulletsInOneShot; i++) 
         {
             Vector3 direction = GetDirection(); 
@@ -84,17 +84,18 @@ public class GunfireHandler : MonoBehaviour
             {
                 trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity); //start a bullet trail effect
 
-                StartCoroutine(SpawnBullet(trail, hit.point, hit)); //spawn our bullet
+                StartCoroutine(SpawnBullet(trail, hit.point, currentGunTip.position, hit)); //spawn our bullet
             }
             else // if we shoot, but we don't hit anything (if we shoot into the air at no objects, 
                  //we still want to show our bullet trail)
             {
                 trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity);
 
-                StartCoroutine(SpawnBullet(trail, castPoint.position + direction * (currentGun.maxDistance / 2), hit)); // sets the point of where our raycast would have ended up if it hit anything (point in the air)
+                StartCoroutine(SpawnBullet(trail, castPoint.position + direction * (currentGun.maxDistance / 2), currentGunTip.position, hit)); // sets the point of where our raycast would have ended up if it hit anything (point in the air)
                                    
             }
         }
+        currentGun.currentAmmo--;
 
         //Debug.Log(hit.point);
 
@@ -107,15 +108,14 @@ public class GunfireHandler : MonoBehaviour
         }
             
     }
-    private IEnumerator SpawnBullet(TrailRenderer trail, Vector3 hitPos, RaycastHit hit)
+    private IEnumerator SpawnBullet(TrailRenderer trail, Vector3 hitPos, Vector3 gunTip, RaycastHit hit)
     {
-        float time = 0;
-        Transform _gunTip = currentGunTip; // caches the value of the gun tip so coroutines can exist simultaneously
-        recoilScript.FireRecoil(); 
+        float time = 0; // caches the value of the gun tip so coroutines can exist simultaneously
+        
 
         while (time < 1)
         {
-            Vector3 startPosition = _gunTip.position;
+            Vector3 startPosition = gunTip;
             trail.transform.position = Vector3.Lerp(startPosition, hitPos, time);
             time += Time.deltaTime / trail.time;
             yield return null;
@@ -138,10 +138,9 @@ public class GunfireHandler : MonoBehaviour
             }
             
         }*/
-
-        
         
     }
+    
     
     private Vector3 GetDirection()
     {
@@ -158,5 +157,45 @@ public class GunfireHandler : MonoBehaviour
     {
         return currentGun;
     }
-    
+
+#region Input
+    private void SetFireButtonListener()
+    {
+        InputRouting.Instance.input.Player.Fire.performed += ctx =>
+        {
+            if (CanShoot())
+            {
+                Fire();
+            }
+        };
+    }
+    private void DisableFireButtonListeners()
+    {
+        InputRouting.Instance.input.Player.Fire.performed -= ctx =>
+        {
+            if (CanShoot())
+            {
+                Fire();
+            }
+        };
+    }
+
+    private void IncreaseAmmo(Trick trick)
+    {
+        currentGun.currentAmmo += trick.ammoBonus;
+        if (currentGun.currentAmmo > currentGun.magCapacity) currentGun.currentAmmo = currentGun.magCapacity;
+        Debug.Log(currentGun.currentAmmo);
+    }
+
+    private void OnEnable()
+    {
+        ActionEvents.OnTrickCompletion += IncreaseAmmo;
+    }
+
+    private void OnDisable()
+    {
+        if (buttonSet) DisableFireButtonListeners();
+        ActionEvents.OnTrickCompletion -= IncreaseAmmo;
+    }
+#endregion
 }
