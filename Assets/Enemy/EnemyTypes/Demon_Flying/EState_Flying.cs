@@ -24,8 +24,6 @@ public class EState_Flying : Enemy_State
     /// <returns>True if the enemy is close enough to a stopping point based on Flying Enemy stopping distance</returns>
     bool isAtPoint (GameObject p)
     {
-        Debug.Log ("Did this even run?");
-        Debug.Log (Vector3.Distance (transform.position, e.stateMachine.travelTarget.transform.position));
         return Vector3.Distance (transform.position, p.transform.position) <= e.movementStoppingDistance;
     }
 
@@ -38,8 +36,10 @@ public class EState_Flying : Enemy_State
     {
         e.stateMachine.travelPoint = p.transform.position;
 
-        Debug.Log ($"{gameObject.name} Moving to Object {p.name}", p);
+        //Debug.Log ($"{gameObject.name} Moving to Object {p.name}", p);
 
+
+        RaycastHit hit;
         while (!isAtPoint (p))
         {
 
@@ -63,9 +63,11 @@ public class EState_Flying : Enemy_State
 
             //Check to see if the path to the destination is blocked.
             //If it is, move in that direction but with obstacle avoidance.
-            if ( Physics.Raycast (
+            if ( Physics.SphereCast (
                     transform.position,
+                    1,
                     e.stateMachine.travelPoint - transform.position,
+                    out hit,
                     e.s_Spatial.sensorLength,
                     e.s_Spatial.maskRaycast
                     )

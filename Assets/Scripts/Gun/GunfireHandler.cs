@@ -56,7 +56,7 @@ public class GunfireHandler : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(currentGun.currentAmmo);
+        //Debug.Log(currentGun.currentAmmo);
         
         timeSinceLastShot += Time.deltaTime;
 
