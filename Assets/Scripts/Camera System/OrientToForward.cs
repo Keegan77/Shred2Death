@@ -19,7 +19,7 @@ public class OrientToForward : MonoBehaviour
     void LateUpdate()
     {
         // Calculate the target rotation
-        float combinedYRotation = mainRotationTransform.localEulerAngles.y + additionalRotationTransform.localEulerAngles.y;
+        float combinedYRotation = mainRotationTransform.eulerAngles.y + additionalRotationTransform.localEulerAngles.y;
         
         targetRotation = Quaternion.Euler(0, combinedYRotation, 0);
 

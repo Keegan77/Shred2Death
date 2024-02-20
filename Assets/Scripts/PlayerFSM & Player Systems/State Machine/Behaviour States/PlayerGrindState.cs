@@ -8,6 +8,7 @@ public class PlayerGrindState : PlayerState
     private bool lerping;
     private float baseSpeed;
     private float currentSpeed;
+    private Quaternion jumpedOnOrientation;
     public PlayerGrindState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => JumpOffRail()});
@@ -20,6 +21,8 @@ public class PlayerGrindState : PlayerState
         lerping = true;
         SubscribeInputs();
         SetUpSplineFollower();
+        
+        jumpedOnOrientation = Quaternion.Euler(0, player.transform.rotation.eulerAngles.y - sFollower.result.rotation.eulerAngles.y, 0);
         player.StartCoroutine(LerpToFollower(player.playerData.railSnapTime));
         player.SetRBKinematic(true);
         
@@ -27,16 +30,23 @@ public class PlayerGrindState : PlayerState
     public override void Exit()
     {
         UnsubscribeInputs();
-        GameObject.Destroy(followerObj);
+        
     }
     
     
     private void SetUpSplineFollower()
     {
+        bool isClosed = false;
         followerObj = GameObject.Instantiate(player.grindRailFollower);
         sFollower = followerObj.GetComponent<SplineFollower>();
         sFollower.spline = player.GetCurrentSpline();
         sFollower.enabled = true;
+        if (sFollower.spline.isClosed)
+        {
+            sFollower.wrapMode = SplineFollower.Wrap.Loop;
+            isClosed = true;
+        }
+        else sFollower.wrapMode = SplineFollower.Wrap.Default;
         
         Vector3 playerForward = player.inputTurningTransform.forward;
         
@@ -50,28 +60,48 @@ public class PlayerGrindState : PlayerState
 
         // calculates the dot product of the player's velocity and the spline sample forward to determine if the player is moving forward or backward
         float dotProduct = Vector3.Dot(playerForward, splineTangent);
+        Debug.Log($"Dot Product: {dotProduct}");
 
         // Set the SplineFollower to move forward or backward based on the dot product
         
+
+        
+        sFollower.SetPercent(player.GetSplineCompletionPercent());
+        
         if (dotProduct > 0) // if the product is positive, that means we are moving in the direction of the spline
         {
-            sFollower.followSpeed = Mathf.Abs(sFollower.followSpeed);
             sFollower.direction = Spline.Direction.Forward;
+            sFollower.followSpeed = Mathf.Abs(sFollower.followSpeed);
         }
         else
         {
-            sFollower.followSpeed = -Mathf.Abs(sFollower.followSpeed);
             sFollower.direction = Spline.Direction.Backward;
+            sFollower.followSpeed = -Mathf.Abs(sFollower.followSpeed);
+            
         }
-        
-        sFollower.SetPercent(player.GetSplineCompletionPercent());
+
+        if (!isClosed)
+        {
+            player.StartCoroutine(JumpOffEndOfRail());
+        }
     }
 
+    private IEnumerator JumpOffEndOfRail()
+    {
+        yield return new WaitUntil(() => sFollower.result.percent == 1 || sFollower.result.percent == 0);
+        JumpOffRail();
+    }
+    
     private void JumpOffRail()
     {
+        GameObject.Destroy(followerObj);
+        player.transform.rotation = player.inputTurningTransform.rotation;
+        player.inputTurningTransform.rotation = player.transform.rotation;
         player.SetRBKinematic(false);
         player.rb.AddForce(player.transform.up * player.playerData.baseJumpForce, ForceMode.Impulse);
         player.rb.AddForce(player.inputTurningTransform.forward * player.playerData.baseJumpForce, ForceMode.Impulse);
+        
+        
         //player.OllieJump();
         stateMachine.SwitchState(player.airborneState);
     }
@@ -79,11 +109,11 @@ public class PlayerGrindState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        ModifyFollowSpeed();
         if (lerping) return;
+        ModifyFollowSpeed();
         
         player.transform.position = sFollower.result.position + new Vector3(0, player.playerData.grindPositioningOffset, 0);
-        player.transform.localEulerAngles = new Vector3(0, sFollower.result.rotation.eulerAngles.y, 0);
+        player.transform.rotation = Quaternion.Euler(0, sFollower.result.rotation.eulerAngles.y + jumpedOnOrientation.eulerAngles.y, 0);
         player.GetMovementMethods().TurnPlayer(true, player.playerData.grindTurnSharpness * Time.deltaTime);
         
     }
@@ -98,7 +128,7 @@ public class PlayerGrindState : PlayerState
         {
             t = Mathf.MoveTowards(t, 1, Time.deltaTime * seconds);
             Vector3 endPos = sFollower.result.position + new Vector3(0, player.playerData.grindPositioningOffset, 0);
-            Quaternion endRot = new Quaternion(0, sFollower.result.rotation.y, 0, sFollower.result.rotation.w);
+            Quaternion endRot = Quaternion.Euler(0, sFollower.result.rotation.eulerAngles.y + jumpedOnOrientation.eulerAngles.y, 0);
             player.transform.position = Vector3.Lerp(startPos, endPos, t);
             player.transform.rotation = Quaternion.Lerp(startRot, endRot, t);
             yield return null;
@@ -117,13 +147,7 @@ public class PlayerGrindState : PlayerState
     private void ModifyFollowSpeed()
     {
         currentSpeed = baseSpeed + (player.playerData.grindSpeedAdditive * InputRouting.Instance.GetMoveInput().y);
-        sFollower.followSpeed = currentSpeed;
+        sFollower.followSpeed = currentSpeed * (sFollower.direction == Spline.Direction.Forward ? 1 : -1);
     }
-
     
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
-        // Calculate the new position
-    }
 }
