@@ -23,13 +23,14 @@ public class UpperBodyLookTarget : MonoBehaviour
         //transform.position = currentTarget.position;
         LerpToTargetPosition();
         
-        if (Mathf.Abs(player.GetOrientationWithDownward() - 90) > 30)
+        // if slope orientation looking upward or downward
+        if (Mathf.Abs(player.GetOrientationWithDownward() - 90) > 30) 
         {
-            currentTarget = playerForwardPoint;
+            currentTarget = playerForwardPoint; // player looks forward
         }
         else
         {
-            currentTarget = cameraForwardPoint;
+            currentTarget = cameraForwardPoint; //player looks towards crosshair
         }
         
     }

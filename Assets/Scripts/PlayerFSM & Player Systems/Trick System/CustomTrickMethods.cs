@@ -11,4 +11,9 @@ public static class CustomTrickMethods
         Debug.Log("A pop shuv it has been completed! This is custom code which is running on this trick alone!");
         player.GetMovementMethods().OllieJump();
     }
+
+    internal static void OllieFunc(PlayerBase player)
+    {
+        player.GetMovementMethods().OllieJump();
+    }
 }

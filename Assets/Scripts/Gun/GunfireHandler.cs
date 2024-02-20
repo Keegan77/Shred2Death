@@ -56,6 +56,8 @@ public class GunfireHandler : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(currentGun.currentAmmo);
+        
         timeSinceLastShot += Time.deltaTime;
 
         if (currentGun.automatic && CanShoot() && InputRouting.Instance.GetFireHeld())
@@ -94,7 +96,6 @@ public class GunfireHandler : MonoBehaviour
             }
         }
         currentGun.currentAmmo--;
-        
 
         //Debug.Log(hit.point);
 
@@ -178,15 +179,23 @@ public class GunfireHandler : MonoBehaviour
             }
         };
     }
+
+    private void IncreaseAmmo(Trick trick)
+    {
+        currentGun.currentAmmo += trick.ammoBonus;
+        if (currentGun.currentAmmo > currentGun.magCapacity) currentGun.currentAmmo = currentGun.magCapacity;
+        Debug.Log(currentGun.currentAmmo);
+    }
+
     private void OnEnable()
     {
-        
+        ActionEvents.OnTrickCompletion += IncreaseAmmo;
     }
 
     private void OnDisable()
     {
         if (buttonSet) DisableFireButtonListeners();
-
+        ActionEvents.OnTrickCompletion -= IncreaseAmmo;
     }
 #endregion
 }

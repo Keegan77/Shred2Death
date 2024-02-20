@@ -1020,6 +1020,17 @@ public partial class @Input: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""4a554d32-af4c-4e81-8503-347015534b7e"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""JumpButtonTrick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""7d66e059-6b51-4bdf-b90d-5105b5002bcf"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
