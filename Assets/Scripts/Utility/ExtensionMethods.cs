@@ -9,13 +9,9 @@ public static class ExtensionMethods
         return value >= min && value <= max;
     }
     
-    public static void SetLocalVelocity(this Rigidbody rb, Vector3 velocity)
+    public static Vector3 GetLocalVelocity(this Rigidbody rb)
     {
-        Vector3 localVelocity = rb.transform.InverseTransformDirection(rb.velocity);
-        
-        localVelocity = velocity;
-        
-        rb.velocity = rb.transform.TransformDirection(localVelocity);
+        return rb.transform.InverseTransformDirection(rb.velocity);
     }
     
     public static void SetLocalAxisVelocity(this Rigidbody rb, Vector3 axis, float velocity)

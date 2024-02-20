@@ -6,6 +6,11 @@ public class PlayerHalfpipeState : PlayerState
 {
     public PlayerHalfpipeState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
+        inputActions.Add(InputRouting.Instance.input.Player.Nosedive, new InputActionEvents 
+            { onPerformed = ctx => stateMachine.SwitchState(player.nosediveState) });
+        
+        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
+            { onPerformed = ctx => player.CheckAndSetSpline()});
     }
 
     private GameObject closestHalfPipe;
@@ -13,7 +18,10 @@ public class PlayerHalfpipeState : PlayerState
     public override void Enter()
     {
         base.Enter();
-
+        SubscribeInputs();
+        
+        player.GetOrientationHandler().SetOrientationSpeed(10f);
+        
         foreach (var extrusionMesh in MeshContainerSingleton.Instance.extrusionMeshObjects)
         {
             extrusionMesh.GetComponent<MeshCollider>().enabled = true;
@@ -27,6 +35,8 @@ public class PlayerHalfpipeState : PlayerState
     public override void Exit()
     {
         base.Exit();
+        UnsubscribeInputs();
+        player.GetOrientationHandler().ResetOrientationSpeed();
         foreach (var extrusionMesh in MeshContainerSingleton.Instance.extrusionMeshObjects)
         {
             extrusionMesh.GetComponent<MeshCollider>().enabled = false;
@@ -38,9 +48,15 @@ public class PlayerHalfpipeState : PlayerState
     {
         base.LogicUpdate();
         
-        if (player.CheckGround() && player.rb.velocity.y < 0) // if we detect the ground layer and are going downward
+        if (player.CheckGround() && player.rb.velocity.y <= 0) // if we detect the ground layer and are going downward
         {
             stateMachine.SwitchState(player.skatingState);
+        }
+
+        if (InputRouting.Instance.GetBoostInput())
+        {
+            player.movement.StartBoost();
+            stateMachine.SwitchState(player.airborneState);
         }
     }
 
@@ -52,13 +68,18 @@ public class PlayerHalfpipeState : PlayerState
         if (player.rb.velocity.y < 0 && player.CheckGroundExtensions()) 
             player.GetOrientationHandler().OrientFromExtensions(); // the if statement prevents accidental landing
                                                                      // rotation when the player is still in the air
+        if (player.rb.velocity.y > 0 && player.CheckGround())
+        {
+             player.movement.SkateForward();
+        }
+                                                                     
     }
 
     public void HalfPipeAirBehaviour()
     {
         player.CheckGround("BowlMesh");
         player.GetOrientationHandler().OrientToSlope();
-        //player.rb.SetLocalAxisVelocity(Vector3.up, 0);
+        //if (player.rb.GetLocalVelocity().y > 0) player.rb.SetLocalAxisVelocity(Vector3.up, 0);
     }
     
     public override void StateTriggerExit(Collider other)

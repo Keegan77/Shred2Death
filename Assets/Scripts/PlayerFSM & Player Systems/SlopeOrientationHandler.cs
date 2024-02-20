@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Dreamteck.Splines.Primitives;
 using UnityEngine;
 
 public class SlopeOrientationHandler : MonoBehaviour
@@ -9,14 +11,13 @@ public class SlopeOrientationHandler : MonoBehaviour
     [SerializeField] private Transform inputTurningTransform;
 
     #region Orientation Values
-    public float slopeOrientationSpeed;
+
+    [SerializeField] private float baseSlopeOrientationSpeed;
+    float slopeOrientationSpeed;
     public float slopeDownDetectionDistance;
     public float slopeForwardDetectionDistance;
     [Tooltip("The distance from the center of the player to the left and right raycast origins. These are used to detect the slope.")]
     public float slopeRayOffsetFromZ;
-
-    [Tooltip("The height offset of the ground extension raycasts. These raycasts are used to detect if the player has fallen over, and will re-orient the player if the player has fallen over and they are about to hit the ground")]
-    public float extensionRayHeightOffset;
 
     public float slopeRayOffsetFromX;
     
@@ -24,9 +25,27 @@ public class SlopeOrientationHandler : MonoBehaviour
     [Tooltip("Used when your detection raycasts indicate that you are about to hit the ground at full force on your face/side/back. This refers to the speed at which the player will re-orient to match the ground")]
     public float emergencySlopeReOrientSpeed;
     public float airReOrientSpeed;
+
+    public Quaternion targetRotation;
     
     #endregion
-    
+
+
+    private void Start()
+    {
+        slopeOrientationSpeed = baseSlopeOrientationSpeed;
+    }
+
+    public void SetOrientationSpeed(float speed)
+    {
+        slopeOrientationSpeed = speed;
+    }
+
+    public void ResetOrientationSpeed()
+    {
+        slopeOrientationSpeed = baseSlopeOrientationSpeed;
+    }
+
     public void OrientToSlope()
     {
         Vector3 averageNormal = (playerBase.forwardLeftSlopeHit.normal + playerBase.forwardRightSlopeHit.normal + 
@@ -34,7 +53,7 @@ public class SlopeOrientationHandler : MonoBehaviour
                                  playerBase.backRightSlopeHit.normal).normalized;
 
         // stores perpendicular angle into targetRotation
-        Quaternion targetRotation = Quaternion.FromToRotation(playerBase.transform.up, averageNormal) 
+        targetRotation = Quaternion.FromToRotation(playerBase.transform.up, averageNormal) 
                                     * playerBase.transform.rotation;
 
         // Lerp to the desired rotation

@@ -21,7 +21,7 @@ public class MeshContainerSingleton : MonoBehaviour
             Destroy(gameObject);
         }
         
-        SceneManager.sceneLoaded += ClearList;
+        //SceneManager.sceneLoaded += ClearList;
     }
 
     private void ClearList(Scene scene, LoadSceneMode mode)

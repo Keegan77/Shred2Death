@@ -17,19 +17,19 @@ public static class TrickMaps
     
     #region Trick Creation
     //Skating Tricks
-    static Trick Ollie        = new Trick("Ollie", 80, jumpTrick);
-    static Trick Kickflip     = new Trick("Ollie", 80, DPadRIGHT);
-    static Trick PopShuvIt    = new Trick("Ollie", 80, DPadLEFT, CustomTrickMethods.PopShuvItCustomFunction);
+    static Trick Ollie        = new Trick("Ollie", 80, 1, jumpTrick, CustomTrickMethods.OllieFunc); //less ammo bc it's the basic trick & you're always jumping around
+    static Trick Kickflip     = new Trick("Ollie", 80, 6,DPadRIGHT);
+    static Trick PopShuvIt    = new Trick("Ollie", 80, 5,DPadLEFT, CustomTrickMethods.PopShuvItCustomFunction);
     
     //Grind Tricks
-    static Trick FiftyFifty   = new Trick("Ollie", 120, DPadRIGHT);
-    static Trick FiveO        = new Trick("Ollie", 120, DPadLEFT);
-    static Trick BoardSlide   = new Trick("Ollie", 120, LBumperTrick);
+    static Trick FiftyFifty   = new Trick("Ollie", 120, 5,DPadRIGHT);
+    static Trick FiveO        = new Trick("Ollie", 120, 5,DPadLEFT);
+    static Trick BoardSlide   = new Trick("Ollie", 120, 5,LBumperTrick);
     
     //Air Tricks
-    static Trick Backflip     = new Trick("Ollie", 150, DPadDOWN);
-    static Trick NoseGrab     = new Trick("Ollie", 150, DPadUP);
-    static Trick OneEighty    = new Trick("Ollie", 150, RBumperTrick);
+    static Trick Backflip     = new Trick("Ollie", 150, 5,DPadDOWN);
+    static Trick NoseGrab     = new Trick("Ollie", 150, 5,DPadUP);
+    static Trick OneEighty    = new Trick("Ollie", 150, 5,RBumperTrick);
     #endregion // these tricks are just for testing, they will be replaced with real tricks later
     
     
@@ -47,15 +47,18 @@ public class Trick
 {
     public string animTriggerName { get; }
     public float score { get; }
+    
+    public float ammoBonus { get; }
     public InputAction trickAction { get; }
     
     public CustomTrickMethods.TrickMethod customMethod { get; }
 
-    public Trick(string animTriggerName, float score, InputAction trickAction, CustomTrickMethods.TrickMethod customMethod = null)
+    public Trick(string animTriggerName, float score, int ammoBonus, InputAction trickAction, CustomTrickMethods.TrickMethod customMethod = null)
     {
         this.animTriggerName = animTriggerName;
         this.score = score;
         this.trickAction = trickAction;
         this.customMethod = customMethod;
+        this.ammoBonus = ammoBonus;
     }
 }
