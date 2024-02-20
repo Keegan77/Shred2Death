@@ -53,7 +53,7 @@ public class Trick
     
     public CustomTrickMethods.TrickMethod customMethod { get; }
 
-    public Trick(string animTriggerName, float score, float ammoBonus, InputAction trickAction, CustomTrickMethods.TrickMethod customMethod = null)
+    public Trick(string animTriggerName, float score, int ammoBonus, InputAction trickAction, CustomTrickMethods.TrickMethod customMethod = null)
     {
         this.animTriggerName = animTriggerName;
         this.score = score;
