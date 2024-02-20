@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ES_Flying_EnterArena : EState_Flying
 {
     public override void Enter ()
     {
-        StartCoroutine (MoveToObject (e.stateMachine.travelTarget));
+        //StartCoroutine (MoveToObject (e.stateMachine.travelTarget.transform.parent.gameObject));
+        StartCoroutine(EnterArena ());
     }
 
     public void testAvoidancePath ()
@@ -32,5 +34,17 @@ public class ES_Flying_EnterArena : EState_Flying
 
         Debug.DrawLine (transform.position, transform.position + movementAvoidance, Color.green);
 
+    }
+
+    IEnumerator EnterArena ()
+    {
+        Debug.Log ("Entering Arena");
+
+        for (int i = 0 ; i < e.stateMachine.travelTarget.transform.childCount; i++)
+        {
+            yield return MoveToObject (e.stateMachine.travelTarget.transform.GetChild (i).gameObject);
+        }
+
+        yield return MoveToObject (e.stateMachine.travelTarget);
     }
 }

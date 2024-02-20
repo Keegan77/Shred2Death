@@ -11,7 +11,6 @@ using UnityEngine.Events;
 public class Sensor_Spatial : Sensor
 {
     [Header("Spatial Sensor")]
-
     public LayerMask maskRaycast;
 
     [Range(2, 5)]
@@ -21,6 +20,10 @@ public class Sensor_Spatial : Sensor
     [Range(1, 10)] //10 is way overkill but eh
     [Tooltip("How far will the sensors look for obstacles?")]
     public float sensorLength = 1;
+
+    [Range  (1, 10)]
+    [Tooltip("How hard do the sensors push away from obstacles they run into?")]
+    public float sensorStrength = 1;
 
     [Header("Output")]
     public Vector3 pingResult = Vector3.zero;
@@ -96,9 +99,9 @@ public class Sensor_Spatial : Sensor
     }
 
     /// <summary>
-    /// 
+    /// Sends out teh 
     /// </summary>
-    /// <param name="useFull"></param>
+    /// <param name="useFull">If true, use the back half of the array in the calculation</param>
     /// <returns>The avoidance value of the sensor after updating it</returns>
     public Vector3 updateSpatialSensor (bool useFull = false)
     {
@@ -112,7 +115,8 @@ public class Sensor_Spatial : Sensor
                 //Debug.Log (sense.name);
                 if (sense.Ping ())
                 {
-                    pingResult -= sense.transform.position - transform.position;
+                    //pingResult -= sense.transform.position - transform.position;
+                    pingResult -= (sense.hit.point - transform.position) / sensorLength * sensorStrength;
                 }
 
             }

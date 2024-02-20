@@ -23,10 +23,11 @@ public class Sensor_Raycast : Sensor
     /// <returns>True if the raycast collides with something</returns>
     public override bool Ping()
     {
-        bool pingResult = Physics.Raycast
+        bool pingResult = Physics.SphereCast
             (
                 transform.position,
-                transform.position - transform.parent.position,
+                1,
+                (transform.position - transform.parent.position),
                 out hit,
                 raycastLength,
                 maskRaycast
@@ -37,7 +38,7 @@ public class Sensor_Raycast : Sensor
 
         Debug.DrawLine (
                     transform.position,
-                    (transform.position - transform.parent.position) * raycastLength + transform.parent.position,
+                    (transform.position - transform.parent.position).normalized * raycastLength + transform.parent.position,
                     colorResult
                     );
 

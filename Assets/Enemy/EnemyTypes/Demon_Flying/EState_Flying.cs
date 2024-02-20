@@ -7,6 +7,7 @@ public class EState_Flying : Enemy_State
     protected Enemy_Flying e;
 
     protected Vector3 movementAvoidance = Vector3.zero;
+    protected Vector3 movementDirection = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -21,9 +22,11 @@ public class EState_Flying : Enemy_State
     /// Used by MoveToPoint to determine if the destination has been reached.
     /// </summary>
     /// <returns>True if the enemy is close enough to a stopping point based on Flying Enemy stopping distance</returns>
-    bool isAtPoint ()
+    bool isAtPoint (GameObject p)
     {
-        return Vector3.Distance (transform.position, e.stateMachine.travelPoint) <= e.s_Spatial.sensorLength;
+        Debug.Log ("Did this even run?");
+        Debug.Log (Vector3.Distance (transform.position, e.stateMachine.travelTarget.transform.position));
+        return Vector3.Distance (transform.position, p.transform.position) <= e.movementStoppingDistance;
     }
 
     /// <summary>
@@ -35,8 +38,11 @@ public class EState_Flying : Enemy_State
     {
         e.stateMachine.travelPoint = p.transform.position;
 
-        while (!isAtPoint ())
+        Debug.Log ($"{gameObject.name} Moving to Object {p.name}", p);
+
+        while (!isAtPoint (p))
         {
+
             //transform.parent.LookAt(e.stateMachine.travelPoint);
             transform.parent.LookAt(new Vector3(e.stateMachine.travelPoint.x, transform.position.y, e.stateMachine.travelPoint.z));
 
@@ -46,7 +52,14 @@ public class EState_Flying : Enemy_State
                     e.movementSpeedShift * Time.deltaTime
                     );
 
-            e.rb.velocity = ((e.stateMachine.travelPoint - transform.position).normalized + movementAvoidance) * e.movementSpeed;
+            movementDirection = Vector3.MoveTowards 
+                (
+                movementDirection,
+                (p.transform.position - transform.position).normalized,
+                e.movementSpeedShift * Time.deltaTime
+                );
+
+            e.rb.velocity = (movementDirection.normalized + movementAvoidance) * e.movementSpeed;
 
             //Check to see if the path to the destination is blocked.
             //If it is, move in that direction but with obstacle avoidance.
@@ -70,8 +83,17 @@ public class EState_Flying : Enemy_State
             yield return null;
         }
 
-        Debug.Log ("Point has been reached");
-        onPointReached ();
+        Debug.Log ("Arrived at point", gameObject);
+    }
+
+    protected IEnumerator MoveThroughPath (GameObject [] points)
+    {
+        foreach (GameObject g in points)
+        {
+            yield return MoveToObject (g);
+        }
+
+        Debug.Log ("Path complete", gameObject);
     }
 
     protected virtual void onPointReached ()
