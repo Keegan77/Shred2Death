@@ -82,14 +82,14 @@ public class GunfireHandler : MonoBehaviour
             {
                 trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity); //start a bullet trail effect
 
-                StartCoroutine(SpawnBullet(trail, hit.point, hit)); //spawn our bullet
+                StartCoroutine(SpawnBullet(trail, hit.point, currentGunTip.position, hit)); //spawn our bullet
             }
             else // if we shoot, but we don't hit anything (if we shoot into the air at no objects, 
                  //we still want to show our bullet trail)
             {
                 trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity);
 
-                StartCoroutine(SpawnBullet(trail, castPoint.position + direction * (currentGun.maxDistance / 2), hit)); // sets the point of where our raycast would have ended up if it hit anything (point in the air)
+                StartCoroutine(SpawnBullet(trail, castPoint.position + direction * (currentGun.maxDistance / 2), currentGunTip.position, hit)); // sets the point of where our raycast would have ended up if it hit anything (point in the air)
                                    
             }
         }
@@ -107,15 +107,14 @@ public class GunfireHandler : MonoBehaviour
         }
             
     }
-    private IEnumerator SpawnBullet(TrailRenderer trail, Vector3 hitPos, RaycastHit hit)
+    private IEnumerator SpawnBullet(TrailRenderer trail, Vector3 hitPos, Vector3 gunTip, RaycastHit hit)
     {
-        float time = 0;
-        Transform _gunTip = currentGunTip; // caches the value of the gun tip so coroutines can exist simultaneously
+        float time = 0; // caches the value of the gun tip so coroutines can exist simultaneously
         
 
         while (time < 1)
         {
-            Vector3 startPosition = _gunTip.position;
+            Vector3 startPosition = gunTip;
             trail.transform.position = Vector3.Lerp(startPosition, hitPos, time);
             time += Time.deltaTime / trail.time;
             yield return null;
