@@ -9,7 +9,6 @@ public class PlayerBase : MonoBehaviour
 {
     #region Serialized Component References
         [Header("Private Component References")]
-        [SerializeField] private Collider skateboardCollider;
         [SerializeField] private Transform raycastPoint;
         [SerializeField] private Transform extensionRaycastPoint;
         [SerializeField] private SlopeOrientationHandler orientationHandler;

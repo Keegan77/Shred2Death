@@ -184,7 +184,6 @@ public class GunfireHandler : MonoBehaviour
     {
         currentGun.currentAmmo += trick.ammoBonus;
         if (currentGun.currentAmmo > currentGun.magCapacity) currentGun.currentAmmo = currentGun.magCapacity;
-        Debug.Log(currentGun.currentAmmo);
     }
 
     private void OnEnable()
