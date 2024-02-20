@@ -69,6 +69,7 @@ public class TrickComboHandler : MonoBehaviour
             currentStylePoints = 0;
         }
     }
+    
 
     private void IncrementMultiplier(Trick trick)
     {
@@ -119,4 +120,6 @@ public class TrickComboHandler : MonoBehaviour
         ActionEvents.OnTrickCompletion -= IncrementStylePoints;
     }
     #endregion
+    //TODO: make increment multiplier & increment style points take a float value instead of a trick reference
+    //TODO: make the more general above methods subscribe to AddStylePoints as well as ontrickcompletion 
 }

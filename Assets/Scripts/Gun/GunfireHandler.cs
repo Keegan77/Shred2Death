@@ -94,10 +94,7 @@ public class GunfireHandler : MonoBehaviour
             }
         }
         currentGun.currentAmmo--;
-
-        //Debug.Log(hit.point);
-
-        //currentGun.currentAmmo--;
+        
         timeSinceLastShot = 0;
         
         if (currentGun.alternateFire)
@@ -108,9 +105,7 @@ public class GunfireHandler : MonoBehaviour
     }
     private IEnumerator SpawnBullet(TrailRenderer trail, Vector3 hitPos, Vector3 gunTip, RaycastHit hit)
     {
-        float time = 0; // caches the value of the gun tip so coroutines can exist simultaneously
-        
-
+        float time = 0; 
         while (time < 1)
         {
             Vector3 startPosition = gunTip;

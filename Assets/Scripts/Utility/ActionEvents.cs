@@ -11,6 +11,7 @@ public static class ActionEvents
     
     #endregion
 
+    public static Action<float> AddToStylePoints; //invoke when we want to add to style points without tricking
     #region Enemy Events
     public static Action OnEnemyKilled; //eventually should be populated with enemy data like how tricks are
                                         //this data should include the enemy's style value increase
