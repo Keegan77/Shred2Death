@@ -178,11 +178,6 @@ public class GunfireHandler : MonoBehaviour
             }
         };
     }
-    private void OnEnable()
-    {
-        
-    }
-
     private void OnDisable()
     {
         if (buttonSet) DisableFireButtonListeners();

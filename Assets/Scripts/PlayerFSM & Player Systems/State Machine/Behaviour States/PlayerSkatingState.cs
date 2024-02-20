@@ -7,9 +7,6 @@ public class PlayerSkatingState : PlayerState
     private PlayerMovementMethods movementMethods;
     public PlayerSkatingState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
-        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
-            { onPerformed = ctx => player.GetMovementMethods().OllieJump()});
-        
         inputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
         {
             onPerformed = ctx => player.GetMovementMethods().StartBoost(),
