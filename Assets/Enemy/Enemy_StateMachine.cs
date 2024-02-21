@@ -49,12 +49,12 @@ public class Enemy_StateMachine : MonoBehaviour
         stateCurrent.Enter ();
     }
 
-    public void sensorActivated ()
+    public void OnSensorActivated ()
     {
         stateCurrent.onPlayerSensorActivated ();
     }
 
-    public void sensorDeactivated ()
+    public void OnSensorDeactivated ()
     {
         stateCurrent.onPlayerSensorDeactivated ();
     }

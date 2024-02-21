@@ -85,6 +85,7 @@ public class EState_Flying : Enemy_State
             yield return null;
         }
 
+        onPointReached ();
         Debug.Log ("Arrived at point", gameObject);
     }
 
@@ -95,10 +96,16 @@ public class EState_Flying : Enemy_State
             yield return MoveToObject (g);
         }
 
+        onPathComplete ();
         Debug.Log ("Path complete", gameObject);
     }
 
     protected virtual void onPointReached ()
+    {
+
+    }
+
+    protected virtual void onPathComplete ()
     {
 
     }

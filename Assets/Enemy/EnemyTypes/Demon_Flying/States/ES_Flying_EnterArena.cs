@@ -40,11 +40,17 @@ public class ES_Flying_EnterArena : EState_Flying
     {
         Debug.Log ("Entering Arena");
 
-        for (int i = 0 ; i < e.stateMachine.travelTarget.transform.childCount; i++)
+        for (int i = 0 ; i < e.stateMachine.travelTarget.transform.parent.GetChild(1).childCount; i++)
         {
-            yield return MoveToObject (e.stateMachine.travelTarget.transform.GetChild (i).gameObject);
+            yield return MoveToObject (e.stateMachine.travelTarget.transform.parent.GetChild(1).GetChild (i).gameObject);
         }
 
         yield return MoveToObject (e.stateMachine.travelTarget);
+    }
+
+    public override void onPlayerSensorActivated ()
+    {
+        base.onPlayerSensorActivated ();
+        e.stateMachine.transitionState (GetComponent<ES_Flying_Chase> ());
     }
 }
