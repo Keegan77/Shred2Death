@@ -25,15 +25,6 @@ public class ES_Flying_EnterArena : EState_Flying
     public override void machineUpdate ()
     {
         base.machineUpdate ();
-
-        Debug.DrawLine (
-            transform.position,
-            transform.position + (e.stateMachine.travelPoint - transform.position).normalized * e.s_Spatial.sensorLength,
-            Physics.Raycast (transform.position, e.stateMachine.travelPoint - transform.position, e.s_Spatial.sensorLength, e.s_Spatial.maskRaycast) ? Color.red : Color.white
-            );
-
-        Debug.DrawLine (transform.position, transform.position + movementAvoidance, Color.green);
-
     }
 
     IEnumerator EnterArena ()

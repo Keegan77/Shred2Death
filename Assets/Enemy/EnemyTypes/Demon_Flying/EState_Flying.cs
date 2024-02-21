@@ -34,17 +34,13 @@ public class EState_Flying : Enemy_State
     /// <returns></returns>
     protected IEnumerator MoveToObject (GameObject p)
     {
-        e.stateMachine.travelPoint = p.transform.position;
-
-        //Debug.Log ($"{gameObject.name} Moving to Object {p.name}", p);
-
-
         RaycastHit hit;
         while (!isAtPoint (p))
         {
+            e.stateMachine.travelPoint = p.transform.position;
 
             //transform.parent.LookAt(e.stateMachine.travelPoint);
-            transform.parent.LookAt(new Vector3(e.stateMachine.travelPoint.x, transform.position.y, e.stateMachine.travelPoint.z));
+            transform.parent.LookAt(new Vector3(p.transform.position.x, transform.position.y, p.transform.position.z));
 
             movementAvoidance = Vector3.MoveTowards (
                     movementAvoidance,
@@ -66,7 +62,7 @@ public class EState_Flying : Enemy_State
             if ( Physics.SphereCast (
                     transform.position,
                     1,
-                    e.stateMachine.travelPoint - transform.position,
+                    p.transform.position - transform.position,
                     out hit,
                     e.s_Spatial.sensorLength,
                     e.s_Spatial.maskRaycast
@@ -79,6 +75,14 @@ public class EState_Flying : Enemy_State
             {
                 e.s_Spatial.pingResult = Vector3.zero;
             }
+
+            Debug.DrawLine (
+            transform.position,
+            transform.position + (e.stateMachine.travelPoint - transform.position).normalized * e.s_Spatial.sensorLength,
+            Physics.Raycast (transform.position, e.stateMachine.travelPoint - transform.position, e.s_Spatial.sensorLength, e.s_Spatial.maskRaycast) ? Color.red : Color.white
+            );
+
+            Debug.DrawLine (transform.position, transform.position + movementAvoidance, Color.green);
 
 
 

@@ -14,6 +14,7 @@ public class Debug_PlayerDummyMovement : MonoBehaviour
 {
     public float movementSpeed = 1;
     public float cameraSensitivity = 1;
+    public bool useCamera = true;
     private bool cameraKey = true;
     private bool cameraKeyPrev = false;
 
@@ -62,9 +63,13 @@ public class Debug_PlayerDummyMovement : MonoBehaviour
 
     private void Start ()
     {
-        cameraObject.transform.SetParent (cameraAnchor.transform, false);
-        cameraObject.transform.position = cameraAnchor.transform.position;
-        cameraObject.transform.rotation = cameraAnchor.transform.rotation;
+        if (useCamera)
+        {
+            cameraObject.transform.SetParent (cameraAnchor.transform, false);
+            cameraObject.transform.position = cameraAnchor.transform.position;
+            cameraObject.transform.rotation = cameraAnchor.transform.rotation;
+        }
+        
     }
 
     // Update is called once per frame

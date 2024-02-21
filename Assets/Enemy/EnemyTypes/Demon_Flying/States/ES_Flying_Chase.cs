@@ -13,6 +13,10 @@ public class ES_Flying_Chase : EState_Flying
         StartCoroutine (MoveToObject (Enemy.playerObject));
     }
 
+    public override void machinePhysics ()
+    {
+        base.machinePhysics ();
+    }
     protected override void onPointReached ()
     {
         base.onPointReached ();
