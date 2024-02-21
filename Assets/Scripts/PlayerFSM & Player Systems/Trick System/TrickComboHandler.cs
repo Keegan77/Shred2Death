@@ -73,8 +73,6 @@ public class TrickComboHandler : MonoBehaviour
 
     private void IncrementMultiplier(Trick trick)
     {
-        Debug.Log($"Multiplier increased by {trick.multiplierIncrease}");
-        Debug.Log($"Current Multiplier: {currentMultiplier}");
         currentMultiplier += trick.multiplierIncrease;
         if (currentMultiplier > maxMultiplier) currentMultiplier = maxMultiplier;
         timeSinceMultiplierIncrease = 0;

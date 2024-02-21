@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerSkatingState : PlayerState
 {
     private PlayerMovementMethods movementMethods;
+    private BowlMeshGenerator test;
     public PlayerSkatingState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
         inputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
@@ -12,6 +13,18 @@ public class PlayerSkatingState : PlayerState
             onPerformed = ctx => player.GetMovementMethods().StartBoost(),
             onCanceled = ctx => player.GetMovementMethods().StopBoost()
         });
+        
+        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents
+        {
+            onPerformed = ctx =>
+            {
+                test = BowlFinder.GetNearestBowlToObject(player.gameObject);
+                var verts = BowlFinder.GetClosestTwoVertsToPlayer(test, player.gameObject);
+                var epic = BowlFinder.ClosestPointBetweenVertsToPlayer(player.transform.position, verts[0], verts[1]);
+            },
+            
+        });
+        
     }
 
     private bool enteredHalfPipeSection;
