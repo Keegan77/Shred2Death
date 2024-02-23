@@ -107,6 +107,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TimeShiftDebug"",
+                    ""type"": ""Button"",
+                    ""id"": ""fae0d14a-8abc-4010-80e8-594567532f48"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -448,6 +457,17 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""DropIn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17843bb6-4e34-4ccf-80e2-dcc863846271"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TimeShiftDebug"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1203,6 +1223,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_Player_Nosedive = m_Player.FindAction("Nosedive", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_DropIn = m_Player.FindAction("DropIn", throwIfNotFound: true);
+        m_Player_TimeShiftDebug = m_Player.FindAction("TimeShiftDebug", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1294,6 +1315,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Nosedive;
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_DropIn;
+    private readonly InputAction m_Player_TimeShiftDebug;
     public struct PlayerActions
     {
         private @Input m_Wrapper;
@@ -1307,6 +1329,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         public InputAction @Nosedive => m_Wrapper.m_Player_Nosedive;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputAction @DropIn => m_Wrapper.m_Player_DropIn;
+        public InputAction @TimeShiftDebug => m_Wrapper.m_Player_TimeShiftDebug;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1343,6 +1366,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @DropIn.started += instance.OnDropIn;
             @DropIn.performed += instance.OnDropIn;
             @DropIn.canceled += instance.OnDropIn;
+            @TimeShiftDebug.started += instance.OnTimeShiftDebug;
+            @TimeShiftDebug.performed += instance.OnTimeShiftDebug;
+            @TimeShiftDebug.canceled += instance.OnTimeShiftDebug;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1374,6 +1400,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @DropIn.started -= instance.OnDropIn;
             @DropIn.performed -= instance.OnDropIn;
             @DropIn.canceled -= instance.OnDropIn;
+            @TimeShiftDebug.started -= instance.OnTimeShiftDebug;
+            @TimeShiftDebug.performed -= instance.OnTimeShiftDebug;
+            @TimeShiftDebug.canceled -= instance.OnTimeShiftDebug;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1659,6 +1688,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnNosedive(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnDropIn(InputAction.CallbackContext context);
+        void OnTimeShiftDebug(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
