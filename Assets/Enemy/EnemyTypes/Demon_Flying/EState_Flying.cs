@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EState_Flying : Enemy_State
 {
-    protected Enemy_Flying e;
+    protected Enemy_Flying eFly;
 
     protected Vector3 movementAvoidance = Vector3.zero;
     protected Vector3 movementDirection = Vector3.zero;
@@ -15,7 +15,7 @@ public class EState_Flying : Enemy_State
     }
     private void Awake ()
     {
-        e = transform.parent.GetComponent<Enemy_Flying>();
+        eFly = transform.parent.GetComponent<Enemy_Flying>();
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ public class EState_Flying : Enemy_State
     /// <returns>True if the enemy is close enough to a stopping point based on Flying Enemy stopping distance</returns>
     bool isAtPoint (GameObject p)
     {
-        return Vector3.Distance (transform.position, p.transform.position) <= e.movementStoppingDistance;
+        return Vector3.Distance (transform.position, p.transform.position) <= eFly.movementStoppingDistance;
     }
 
     /// <summary>
@@ -37,25 +37,25 @@ public class EState_Flying : Enemy_State
         RaycastHit hit;
         while (!isAtPoint (p))
         {
-            e.stateMachine.travelPoint = p.transform.position;
+            eFly.stateMachine.travelPoint = p.transform.position;
 
             //transform.parent.LookAt(e.stateMachine.travelPoint);
             transform.parent.LookAt(new Vector3(p.transform.position.x, transform.position.y, p.transform.position.z));
 
             movementAvoidance = Vector3.MoveTowards (
                     movementAvoidance,
-                    e.s_Spatial.pingResult.normalized,
-                    e.movementSpeedShift * Time.deltaTime
+                    eFly.s_Spatial.pingResult.normalized,
+                    eFly.movementSpeedShift * Time.deltaTime
                     );
 
             movementDirection = Vector3.MoveTowards 
                 (
                 movementDirection,
                 (p.transform.position - transform.position).normalized,
-                e.movementSpeedShift * Time.deltaTime
+                eFly.movementSpeedShift * Time.deltaTime
                 );
 
-            e.rb.velocity = (movementDirection.normalized + movementAvoidance) * e.movementSpeed;
+            eFly.rb.velocity = (movementDirection.normalized + movementAvoidance) * eFly.movementSpeed;
 
             //Check to see if the path to the destination is blocked.
             //If it is, move in that direction but with obstacle avoidance.
@@ -64,22 +64,22 @@ public class EState_Flying : Enemy_State
                     1,
                     p.transform.position - transform.position,
                     out hit,
-                    e.s_Spatial.sensorLength,
-                    e.s_Spatial.maskRaycast
+                    eFly.s_Spatial.sensorLength,
+                    eFly.s_Spatial.maskRaycast
                     )
                 )
             {
-                e.s_Spatial.updateSpatialSensor ();
+                eFly.s_Spatial.updateSpatialSensor ();
             }
             else
             {
-                e.s_Spatial.pingResult = Vector3.zero;
+                eFly.s_Spatial.pingResult = Vector3.zero;
             }
 
             Debug.DrawLine (
             transform.position,
-            transform.position + (e.stateMachine.travelPoint - transform.position).normalized * e.s_Spatial.sensorLength,
-            Physics.Raycast (transform.position, e.stateMachine.travelPoint - transform.position, e.s_Spatial.sensorLength, e.s_Spatial.maskRaycast) ? Color.red : Color.white
+            transform.position + (eFly.stateMachine.travelPoint - transform.position).normalized * eFly.s_Spatial.sensorLength,
+            Physics.Raycast (transform.position, eFly.stateMachine.travelPoint - transform.position, eFly.s_Spatial.sensorLength, eFly.s_Spatial.maskRaycast) ? Color.red : Color.white
             );
 
             Debug.DrawLine (transform.position, transform.position + movementAvoidance, Color.green);

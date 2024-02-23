@@ -41,7 +41,7 @@ public class ES_Ground_Turret : ES_DemonGround
         }
         else
         {
-            bulletInfo.spawnBullet (Enemy.playerObject.transform.position, e.muzzlePoint);
+            bulletInfo.spawnBullet (Enemy.playerObject.transform.position, e.muzzleObject);
         }
 
         bulletReady = true;

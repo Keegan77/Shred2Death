@@ -11,12 +11,18 @@ using UnityEngine.AI;
 /// </summary>
 public class Enemy_State : MonoBehaviour
 {
-    //public static GameObject playerObject;
+    //public static GameObject playerObject
+    protected Enemy e;
 
     //States will control movement directly.
     //Rigidbody will be set in the start function
 
     #region STATE MACHINE
+
+    private void Awake ()
+    {
+        e = transform.parent.GetComponent<Enemy>();
+    }
 
     public virtual void Enter ()
     {

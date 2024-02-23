@@ -222,32 +222,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7785432053934259893, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7875483031005237658}
-    - targetCorrespondingSourceObject: {fileID: 6118274096222061324, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7120531029836025339}
   m_SourcePrefab: {fileID: 100100000, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
---- !u!1 &73078083205237851 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6118274096222061324, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
-  m_PrefabInstance: {fileID: 6191281801883471703}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7120531029836025339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 73078083205237851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb2a132df19e1354494fad85d1fc8397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletObject: {fileID: 1648210184017437467, guid: 27431693b39e2d74f9e3d709c9248175, type: 3}
-  speed: 15
-  fireRate: 1
-  timeToLive: 5
-  deviation: 0.75
 --- !u!1 &4170527639866061282 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7785432053934259893, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
@@ -267,7 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agentUpdateDistance: 10
   chaseUpdateTimer: 3
-  bulletInfo: {fileID: 7120531029836025339}
+  bulletInfo: {fileID: 0}
   bulletWaitMin: 1
   bulletWaitMax: 5
 --- !u!114 &9122969815520002774
@@ -311,7 +286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b62b5ba38d3a742b25da7c82079c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletInfo: {fileID: 7120531029836025339}
+  bulletInfo: {fileID: 0}
 --- !u!1 &5324938368301081438 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2021591513531018249, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
@@ -329,7 +304,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0101480cbfa1b9a45bc3edc8d8c2b0b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletReady: 1
 --- !u!114 &2644739336677671387
 MonoBehaviour:
   m_ObjectHideFlags: 0

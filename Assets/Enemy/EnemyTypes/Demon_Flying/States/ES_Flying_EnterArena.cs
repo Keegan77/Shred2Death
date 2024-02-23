@@ -15,8 +15,8 @@ public class ES_Flying_EnterArena : EState_Flying
     {
         Debug.DrawLine(
             transform.position, 
-            e.stateMachine.travelPoint,
-            Physics.Raycast(transform.position, e.stateMachine.travelPoint - transform.position, e.s_Spatial.maskRaycast) ? Color.red : Color.white
+            eFly.stateMachine.travelPoint,
+            Physics.Raycast(transform.position, eFly.stateMachine.travelPoint - transform.position, eFly.s_Spatial.maskRaycast) ? Color.red : Color.white
             );
 
         Debug.Break ();
@@ -31,17 +31,17 @@ public class ES_Flying_EnterArena : EState_Flying
     {
         Debug.Log ("Entering Arena");
 
-        for (int i = 0 ; i < e.stateMachine.travelTarget.transform.parent.GetChild(1).childCount; i++)
+        for (int i = 0 ; i < eFly.stateMachine.travelTarget.transform.parent.GetChild(1).childCount; i++)
         {
-            yield return MoveToObject (e.stateMachine.travelTarget.transform.parent.GetChild(1).GetChild (i).gameObject);
+            yield return MoveToObject (eFly.stateMachine.travelTarget.transform.parent.GetChild(1).GetChild (i).gameObject);
         }
 
-        yield return MoveToObject (e.stateMachine.travelTarget);
+        yield return MoveToObject (eFly.stateMachine.travelTarget);
     }
 
     public override void onPlayerSensorActivated ()
     {
         base.onPlayerSensorActivated ();
-        e.stateMachine.transitionState (GetComponent<ES_Flying_Chase> ());
+        eFly.stateMachine.transitionState (GetComponent<ES_Flying_Chase> ());
     }
 }

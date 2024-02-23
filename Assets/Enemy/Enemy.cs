@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
 
     [NonSerialized] public Enemy_StateMachine stateMachine;
 
-    [NonSerialized] public GameObject muzzlePoint;
+    [NonSerialized] public GameObject muzzleObject;
     #endregion
 
 
@@ -41,8 +41,8 @@ public class Enemy : MonoBehaviour
         stateMachine = GetComponent<Enemy_StateMachine> ();
         rb = GetComponent<Rigidbody> ();
 
-        muzzlePoint = transform.Find ("Body/MuzzlePoint").gameObject;
-        Debug.Log (muzzlePoint.name);
+        muzzleObject = transform.Find ("Body/MuzzlePoint").gameObject;
+        Debug.Log (muzzleObject.name);
     }
 
     //After it's spawned, the static variable for agentSettings should exist.

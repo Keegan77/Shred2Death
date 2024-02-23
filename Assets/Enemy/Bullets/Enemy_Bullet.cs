@@ -57,21 +57,19 @@ public abstract class Enemy_Bullet : MonoBehaviour
     /// <param name="target">GameObject to fire the bullet at</param>
     /// <param name="muzzle">GameObject the bullet spawns at</param>
     /// <returns> The point in space of which the function thinks it should shoot to hit the player</returns>
-    public static Vector3 LeadShot (GameObject target, GameObject muzzle, GameObject bulletObject, bool attemptLead = true)
+    public static Vector3 LeadShot (GameObject target, GameObject muzzle, GameObject bulletObject)
     {
-        if ( !attemptLead ) return target.transform.position;
-
         Enemy_Bullet bullet = bulletObject.GetComponent<Enemy_Bullet>();
 
         //Get the main player object
-        GameObject p2 = target.transform.parent.gameObject;
+        GameObject p2 = target.transform.gameObject;
 
         Rigidbody prb = p2.GetComponent<Rigidbody> ();
         if ( prb == null ) return Vector3.zero;
 
-        PlayerBase pb = p2.GetComponent<PlayerBase> ();
+        //PlayerBase pb = p2.GetComponent<PlayerBase> ();
 
-        float movement = pb.movement.turnSharpness * InputRouting.Instance.GetMoveInput ().x * Time.deltaTime;
+        //float movement = pb.movement.turnSharpness * InputRouting.Instance.GetMoveInput ().x * Time.deltaTime;
         //Debug.Log ($"movement: {movement} | Input: {InputRouting.Instance.GetMoveInput ().x} | Turnspeed: {pb.movement.turnSharpness}");
 
         if ( prb.velocity == Vector3.zero ) return prb.transform.position + UnityEngine.Random.insideUnitSphere * bullet.deviation;
@@ -84,15 +82,15 @@ public abstract class Enemy_Bullet : MonoBehaviour
         float travelTime = distance / bullet.speed;
 
 
-        Vector3 intersect = pb.transform.position + prb.velocity.normalized * 5;
-        Vector3 intersect2 = pb.transform.position + prb.velocity.normalized * 10;
+        Vector3 intersect = p2.transform.position + prb.velocity.normalized * 5;
+        Vector3 intersect2 = p2.transform.position + prb.velocity.normalized * 10;
 
 
 
-        float tp1 = Vector3.Distance (pb.transform.position, intersect) / prb.velocity.magnitude;
+        float tp1 = Vector3.Distance (p2.transform.position, intersect) / prb.velocity.magnitude;
         float te1 = Vector3.Distance (muzzle.transform.position, intersect) / bullet.speed;
 
-        float tp2 = Vector3.Distance (pb.transform.position, intersect2) / prb.velocity.magnitude;
+        float tp2 = Vector3.Distance (p2.transform.position, intersect2) / prb.velocity.magnitude;
         float te2 = Vector3.Distance (muzzle.transform.position, intersect2) / bullet.speed;
 
 

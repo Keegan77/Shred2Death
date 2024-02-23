@@ -12,12 +12,12 @@ using UnityEngine;
 [Serializable]
 public abstract class Enemy_BulletPattern : MonoBehaviour
 {
-    bool bulletReady = false;
-
+    protected bool bulletReady = false;
+    
     [Header("Basic Info")]
     public GameObject bulletObject;
 
-    protected abstract IEnumerator playShot ();
+    public abstract IEnumerator PlayShot (Vector3 target, GameObject muzzle);
 
 
 
