@@ -11,17 +11,19 @@ using UnityEngine.AI;
 public class ES_Ground_Turret : ES_DemonGround
 {
     #region PARAMETERS
-    [SerializeField] protected Enemy_BulletInfo bulletInfo;
+    [SerializeField] protected Enemy_BulletPattern bulletInfo;
     #endregion
+
+    bool bulletReady = false;
 
     public override void Enter ()
     {
-        e.bulletReady = true;
+        bulletReady = true;
     }
 
     public override void machinePhysics ()
     {
-        if (e.bulletReady)
+        if (bulletReady)
         {
             StartCoroutine (fireBullet ());
         }
@@ -29,8 +31,8 @@ public class ES_Ground_Turret : ES_DemonGround
 
     IEnumerator fireBullet ()
     {
-        e.bulletReady = false;
-        yield return new WaitForSeconds (1 / bulletInfo.fireRate);
+        bulletReady = false;
+        yield return new WaitForSeconds (1); //deal with fire rate later
 
         NavMeshHit hit;
         if (NavMesh.SamplePosition (Enemy.playerObject.transform.position, out hit, 4, NavMesh.AllAreas))
@@ -39,9 +41,9 @@ public class ES_Ground_Turret : ES_DemonGround
         }
         else
         {
-            bulletInfo.spawnBullet (e.muzzlePoint);
+            bulletInfo.spawnBullet (Enemy.playerObject.transform.position, e.muzzlePoint);
         }
 
-        e.bulletReady = true;
+        bulletReady = true;
     }
 }

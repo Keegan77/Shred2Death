@@ -19,7 +19,7 @@ public class ES_Ground_Chase : ES_DemonGround
 
 
     [Header ("Projectile")]
-    [SerializeField] Enemy_BulletInfo bulletInfo;
+    [SerializeField] Enemy_BulletPattern bulletInfo;
     [SerializeField] float bulletWaitMin = 1;
     [SerializeField] float bulletWaitMax = 5;
 
@@ -80,7 +80,7 @@ public class ES_Ground_Chase : ES_DemonGround
 
         yield return new WaitForSeconds (UnityEngine.Random.Range (bulletWaitMin, bulletWaitMax));
 
-        bulletInfo.spawnBullet (e.muzzlePoint);
+        bulletInfo.spawnBullet (Enemy.playerObject.transform.position, e.muzzlePoint);
 
         bulletKey = true;
     }

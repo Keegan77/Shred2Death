@@ -21,10 +21,6 @@ public class Enemy : MonoBehaviour
     [NonSerialized] public GameObject muzzlePoint;
     #endregion
 
-    #region Stats and Trackers
-    [HideInInspector] public bool bulletReady = true;
-
-    #endregion
 
     [Header ("Components")]
     WaveManager waveManager; //Set by waveManager when the enemy object is instantiated
@@ -69,6 +65,11 @@ public class Enemy : MonoBehaviour
         waveManager.removeEnemy ();
 
         Destroy (gameObject);
+    }
+
+    public static void spawnObject ()
+    {
+        Instantiate (new GameObject ("Statically Spawned"));
     }
 
     #endregion
