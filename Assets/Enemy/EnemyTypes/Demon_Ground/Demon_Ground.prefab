@@ -96,6 +96,10 @@ PrefabInstance:
       propertyPath: OnDeactivate.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 629647375895822366, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a3f911c8f1e516478c00ea03274e18d, type: 2}
     - target: {fileID: 2021591513531018249, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_Name
       value: Demon_Ground
@@ -196,6 +200,10 @@ PrefabInstance:
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 5624878413730442360, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 652107f36a28e44479c0b827dee5852a, type: 2}
     m_RemovedComponents:
     - {fileID: 3437983621280888445, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
     m_RemovedGameObjects: []
@@ -242,7 +250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agentUpdateDistance: 10
   chaseUpdateTimer: 3
-  bulletInfo: {fileID: 0}
+  bulletInfo: {fileID: 5653537672990207873}
   bulletWaitMin: 1
   bulletWaitMax: 5
 --- !u!114 &9122969815520002774
@@ -286,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b62b5ba38d3a742b25da7c82079c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletInfo: {fileID: 0}
+  bulletInfo: {fileID: 5653537672990207873}
 --- !u!1 &5324938368301081438 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2021591513531018249, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
@@ -343,6 +351,17 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5653537672990207873 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1990238580269932758, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+  m_PrefabInstance: {fileID: 6191281801883471703}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19db10fa85935ad4f9309669ab81cf46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7930438919017360526 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4315941386561823705, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
