@@ -9,8 +9,8 @@ public class PlayerBase : MonoBehaviour
 {
     #region Serialized Component References
         [Header("Private Component References")]
-        [SerializeField] private Collider skateboardCollider;
         [SerializeField] private Transform raycastPoint;
+        [SerializeField] private Transform checkForBowlRaycastPoint;
         [SerializeField] private Transform extensionRaycastPoint;
         [SerializeField] private SlopeOrientationHandler orientationHandler;
         [SerializeField] private CapsuleCollider skateboardColliderCapsule;
@@ -49,6 +49,7 @@ public class PlayerBase : MonoBehaviour
         public PlayerGrindState grindState;
         public PlayerDriftState driftState;
         public PlayerNosediveState nosediveState;
+        public PlayerDropinState dropinState;
         public GameObject grindRailFollower;
     #endregion
 
@@ -101,6 +102,18 @@ public class PlayerBase : MonoBehaviour
         Gizmos.DrawLine(rightRayEndPoint, backRayEndPoint);
         Gizmos.DrawLine(backRayEndPoint, leftRayEndPoint);
         Gizmos.DrawLine(leftRayEndPoint, forwardRayEndPoint);
+        
+        Gizmos.color = Color.yellow;
+        RaycastHit hit = RaycastFromBowlCheckPoint();
+        
+        if (hit.collider != null)
+        {
+            Gizmos.DrawLine(checkForBowlRaycastPoint.position, hit.point);
+        }
+        else
+        {
+            Gizmos.DrawLine(checkForBowlRaycastPoint.position, checkForBowlRaycastPoint.position - transform.forward * 10f);
+        }
     }
     
 #endregion
@@ -158,6 +171,12 @@ public class PlayerBase : MonoBehaviour
     public void SetRBKinematic(bool isKinematic)
     {
         rb.isKinematic = isKinematic;
+    }
+
+    public RaycastHit RaycastFromBowlCheckPoint()
+    {
+        Physics.Raycast(checkForBowlRaycastPoint.position, -transform.forward, out RaycastHit hit, 10f);
+        return hit;
     }
 
     /// <summary>
@@ -252,6 +271,7 @@ public class PlayerBase : MonoBehaviour
         grindState = new PlayerGrindState(this, stateMachine);
         driftState = new PlayerDriftState(this, stateMachine);
         nosediveState = new PlayerNosediveState(this, stateMachine);
+        dropinState = new PlayerDropinState(this, stateMachine);
         stateMachine.Init(airborneState);
     }
     

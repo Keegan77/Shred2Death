@@ -120,6 +120,8 @@ public class PlayerDriftState : PlayerState
         player.StartCoroutine(DriftRotationY(player.transform, player.transform.localEulerAngles.y + rotationAmount * driftDirection,
             player.playerData.playerModelRotationSpeed, true));
         
+        ActionEvents.AddToStylePoints?.Invoke(player.playerData.driftStylePoints);
+        
     }
     
     /// <summary>

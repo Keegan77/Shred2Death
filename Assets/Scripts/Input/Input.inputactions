@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DropIn",
+                    "type": "Button",
+                    "id": "c2afbd8c-467b-403b-9e67-1a57af59f8ca",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -346,7 +355,7 @@
                 {
                     "name": "",
                     "id": "aaa9434b-5d09-43a4-b2ea-67bddc4d5593",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/leftStickPress",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -395,6 +404,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c87e2d8b-10f7-4400-89da-fd13b210ed71",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DropIn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "70f1e750-8f7e-47f8-bdd7-fc99c3108c43",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DropIn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
