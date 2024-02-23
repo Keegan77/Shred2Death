@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 [SelectionBase]
 [RequireComponent(typeof(Enemy_StateMachine))]
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
     #region SCRIPT VARIABLES
     #region Game Objects
@@ -60,16 +60,16 @@ public class Enemy : MonoBehaviour
 
     #region SCRIPT FUNCTIONS
 
-    public void takeDamage ()
+    public static void spawnObject ()
+    {
+        Instantiate (new GameObject ("Statically Spawned"));
+    }
+
+    public void TakeDamage (float damage)
     {
         waveManager.removeEnemy ();
 
         Destroy (gameObject);
-    }
-
-    public static void spawnObject ()
-    {
-        Instantiate (new GameObject ("Statically Spawned"));
     }
 
     #endregion
@@ -91,6 +91,5 @@ public class Enemy : MonoBehaviour
         }
 
     }
-
     #endregion
 }
