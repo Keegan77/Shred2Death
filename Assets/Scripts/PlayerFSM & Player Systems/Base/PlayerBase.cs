@@ -4,7 +4,7 @@ using Dreamteck.Splines;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
-
+[SelectionBase]
 public class PlayerBase : MonoBehaviour
 {
     #region Serialized Component References

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OrientToForward : MonoBehaviour
+public class OrientCamera : MonoBehaviour
 {
     [SerializeField] private Transform mainRotationTransform;
     [SerializeField] private Transform additionalRotationTransform;
@@ -18,6 +18,11 @@ public class OrientToForward : MonoBehaviour
 
     void LateUpdate()
     {
+
+    }
+
+    void OrientToForward()
+    {
         // Calculate the target rotation
         float combinedYRotation = mainRotationTransform.eulerAngles.y + additionalRotationTransform.localEulerAngles.y;
         
@@ -25,6 +30,11 @@ public class OrientToForward : MonoBehaviour
 
         // Slerp from the current rotation to the target rotation
         transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, slerpSpeed * Time.deltaTime);
+    }
+
+    void OrientToDownward()
+    {
+        targetRotation = Quaternion.Euler(0, 0, 0);
     }
 }
 
