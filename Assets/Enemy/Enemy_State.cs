@@ -4,17 +4,21 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// States are the primary system to
+/// States are the behaviors of how an enemy moves around and shoots at the player.
+/// 
+/// There are a few basic states that derive off of this basic state,
+/// which classes outside of the enemy object may reference.
 /// </summary>
 public class Enemy_State : MonoBehaviour
 {
-    //public static GameObject playerObject;
+    //public static GameObject playerObject
+    protected Enemy e;
 
     //States will control movement directly.
     //Rigidbody will be set in the start function
-    protected Enemy e;
 
     #region STATE MACHINE
+
     private void Awake ()
     {
         e = transform.parent.GetComponent<Enemy>();
@@ -50,13 +54,6 @@ public class Enemy_State : MonoBehaviour
 
     }
 
-    #endregion
-
-    #region NAVIGATION
-    public void EndPath ()
-    {
-        e.agentPath.ClearCorners ();
-    }
     #endregion
 
     #region COROUTINES

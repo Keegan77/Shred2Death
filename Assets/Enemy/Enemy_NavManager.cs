@@ -9,6 +9,12 @@ public class Enemy_NavManager : MonoBehaviour
     #region PARAMETERS
     [Header ("Movement")]
     public float time_WaitForJump = 0;
+
+    [Header ("AgentSettings")]
+    public bool autoTraverseOffMeshLink = false;
+    public bool updatePosition = true;
+    public bool updateRotate = true;
+    public bool updateUpAxis = true;
     #endregion
 
     #region SCRIPT VARIABLES
@@ -20,17 +26,17 @@ public class Enemy_NavManager : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
-        agent.autoTraverseOffMeshLink = false;
-        agent.updatePosition = true;
-        agent.updateRotation = true;
-        agent.updateUpAxis = true ;
+        agent.autoTraverseOffMeshLink = autoTraverseOffMeshLink;
+        agent.updatePosition = updatePosition;
+        agent.updateRotation = updateRotate;
+        agent.updateUpAxis = updateUpAxis;
     }
 
     private void FixedUpdate ()
     {
         if (agent.isOnOffMeshLink)
         {
-            Debug.Log ("Agent is on the link");
+            //Debug.Log ("Agent is on the link");
             NavMovement_Jump ();
         }
     }

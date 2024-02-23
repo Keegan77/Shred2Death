@@ -10,7 +10,9 @@ public class Wave
     {
         public GameObject enemy;
         public GameObject spawnPoint;
+        [Range(1, 100)]
         public int count = 1;
+        [Range(1, 10)]
         public float interval = 1.0f;
         public float spawnDelay = 0.0f;
     }
