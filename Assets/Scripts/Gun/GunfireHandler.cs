@@ -117,20 +117,11 @@ public class GunfireHandler : MonoBehaviour
         
         Destroy(trail.gameObject, trail.time);
         
-        /*IDamageable damageable = hit.transform.GetComponent<IDamageable>();
+        IDamageable damageable = hit.transform.GetComponent<IDamageable>();
         if (damageable != null)
         {
             damageable.TakeDamage(currentGun.damage);
-            StartCoroutine(PlayParticles(gunshotSparksEnemy, hitPos, gunshotSparks.transform.rotation));
         }
-        else if (currentGun != guns[1])
-        {
-            if (playSparks)
-            {
-                StartCoroutine(PlayParticles(gunshotSparks, hitPos, gunshotSparks.transform.rotation));
-            }
-            
-        }*/
         
     }
     
