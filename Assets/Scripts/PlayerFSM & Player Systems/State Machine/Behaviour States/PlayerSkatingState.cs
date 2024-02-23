@@ -14,15 +14,17 @@ public class PlayerSkatingState : PlayerState
             onCanceled = ctx => player.GetMovementMethods().StopBoost()
         });
         
-        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents
+        inputActions.Add(InputRouting.Instance.input.Player.DropIn, new InputActionEvents
         {
             onPerformed = ctx =>
             {
-                test = BowlFinder.GetNearestBowlToObject(player.gameObject);
-                var verts = BowlFinder.GetClosestTwoVertsToPlayer(test, player.gameObject);
-                var epic = BowlFinder.ClosestPointBetweenVertsToPlayer(player.transform.position, verts[0], verts[1]);
+                if (player.RaycastFromBowlCheckPoint().collider != null)
+                {
+                    player.dropinState.SetBowlSurfaceHit(player.RaycastFromBowlCheckPoint());
+                    stateMachine.SwitchState(player.dropinState);
+                }
             },
-            
+            onCanceled = ctx => player.GetMovementMethods().StopBoost()
         });
         
     }

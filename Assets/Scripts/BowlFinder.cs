@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class BowlFinder
+public static class BowlFinder //todo: script is deprecated, but im keeping it in the project cause the code is actually pretty neat
 {
     public static BowlMeshGenerator GetNearestBowlToObject(GameObject obj)
     {
@@ -67,4 +67,7 @@ public static class BowlFinder
     }
     
     // iterate through the nearest bowl's vertices and find the two closest to the player
+    
+    
+    
 }
