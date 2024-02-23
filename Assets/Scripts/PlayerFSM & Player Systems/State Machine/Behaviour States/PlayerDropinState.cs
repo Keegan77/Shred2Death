@@ -31,12 +31,12 @@ public class PlayerDropinState : PlayerState
 
         // Lerp to the desired rotation
         player.rb.AddRelativeForce(player.transform.up * player.playerData.baseJumpForce, ForceMode.Impulse);
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.1f);
 
         // First while loop for controlling the rotation
         while (t < 1)
         {
-            t += Time.deltaTime;
+            t += Time.deltaTime * 3;
             player.transform.rotation = Quaternion.Slerp(player.transform.rotation, targetRotation, t);
             yield return null;
         }
@@ -44,24 +44,11 @@ public class PlayerDropinState : PlayerState
         // Reset t for the position lerp
         t = 0;
 
-        // Second while loop for controlling the position
-        /*while (t < 1)
-        {
-            Vector3 startPos = player.transform.position;
-            Vector3 endPos = new Vector3(bowlSurfaceHit.point.x, player.transform.position.y, bowlSurfaceHit.point.z);
-            t += Time.deltaTime;
+        player.transform.position = new Vector3(bowlSurfaceHit.point.x, player.transform.position.y, bowlSurfaceHit.point.z);
 
-            // Perform the lerp operation only on the X and Z coordinates
-            player.transform.position = new Vector3(
-                Mathf.Lerp(startPos.x, endPos.x, t),
-                player.transform.position.y,
-                Mathf.Lerp(startPos.z, endPos.z, t)
-            );
 
-            yield return null;
-        }*/
-
-        stateMachine.SwitchState(player.halfPipeState);
+        stateMachine.SwitchState(player.skatingState);
+        Debug.Log("State switched");
     }
         
         
