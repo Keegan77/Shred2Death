@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 [SelectionBase]
 [RequireComponent(typeof(Enemy_StateMachine))]
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
     #region SCRIPT VARIABLES
     #region Game Objects
@@ -42,7 +42,6 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody> ();
 
         muzzleObject = transform.Find ("Body/MuzzlePoint").gameObject;
-        Debug.Log (muzzleObject.name);
     }
 
     //After it's spawned, the static variable for agentSettings should exist.
@@ -60,16 +59,17 @@ public class Enemy : MonoBehaviour
 
     #region SCRIPT FUNCTIONS
 
-    public void takeDamage ()
-    {
-        waveManager.removeEnemy ();
-
-        Destroy (gameObject);
-    }
-
     public static void spawnObject ()
     {
         Instantiate (new GameObject ("Statically Spawned"));
+    }
+
+    public void TakeDamage (float damage)
+    {
+        Debug.Log ("ENEMY HIT");
+        waveManager.removeEnemy ();
+
+        Destroy (gameObject);
     }
 
     #endregion
@@ -91,6 +91,5 @@ public class Enemy : MonoBehaviour
         }
 
     }
-
     #endregion
 }
