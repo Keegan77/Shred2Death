@@ -20,6 +20,7 @@ public class CameraADSController : MonoBehaviour
         InputRouting.Instance.input.Player.AimDownSights.started += ctx =>
         {
             StartCoroutine(ADS(originPoint, ADSPoint));
+            if (player.stateMachine.currentState.GetType() == typeof(PlayerSkatingState)) return;
             BulletTimeManager.Instance.StartCoroutine(BulletTimeManager.Instance.ChangeBulletTime(.2f, .2f));
         };
         InputRouting.Instance.input.Player.AimDownSights.canceled += ctx =>
