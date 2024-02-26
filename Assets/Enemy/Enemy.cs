@@ -76,6 +76,9 @@ public class Enemy : MonoBehaviour, IDamageable
         {
             isDead = true;
 
+            rb.detectCollisions = false;
+            GetComponent<CapsuleCollider> ().enabled = false;
+
             DissolvingController d = transform.Find("Body").GetComponent<DissolvingController>();
 
             d.StartCoroutine (d.Dissolve ());
