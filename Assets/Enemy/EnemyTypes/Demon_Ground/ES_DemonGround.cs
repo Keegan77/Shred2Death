@@ -13,7 +13,7 @@ public class ES_DemonGround : Enemy_State
     }
     #endregion
 
-        #region NAVIGATION
+    #region NAVIGATION
     public void EndPath ()
     {
         eGround.agentPath.ClearCorners ();

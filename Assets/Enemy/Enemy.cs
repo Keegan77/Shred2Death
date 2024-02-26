@@ -67,7 +67,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public void TakeDamage (float damage)
     {
         Debug.Log ("ENEMY HIT");
-        waveManager.removeEnemy ();
+        //waveManager.removeEnemy ();
 
         Destroy (gameObject);
     }
