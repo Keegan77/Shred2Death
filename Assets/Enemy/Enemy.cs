@@ -21,6 +21,10 @@ public class Enemy : MonoBehaviour, IDamageable
     [NonSerialized] public GameObject muzzleObject;
     #endregion
 
+    #region Enemy Stats
+    public int health;
+    bool isDead = false;
+    #endregion
 
     [Header ("Components")]
     WaveManager waveManager; //Set by waveManager when the enemy object is instantiated
@@ -65,10 +69,24 @@ public class Enemy : MonoBehaviour, IDamageable
     }
 
     public void TakeDamage (float damage)
-    {
-        Debug.Log ("ENEMY HIT");
-        //waveManager.removeEnemy ();
+    {        
+        health -= Mathf.FloorToInt(damage);
 
+        if (health <= 0 && !isDead) 
+        {
+            isDead = true;
+
+            DissolvingController d = transform.Find("Body").GetComponent<DissolvingController>();
+
+            d.StartCoroutine (d.Dissolve ());
+        }
+    }
+
+    public void DeathFinished ()
+    {
+        Debug.Log ("Enemy Dead");
+
+        waveManager.removeEnemy ();
         Destroy (gameObject);
     }
 
