@@ -59,6 +59,7 @@ public class Debug_PlayerDummyMovement : MonoBehaviour
         cameraPivot = transform.Find ("CameraPivot").gameObject;
         cameraAnchor = transform.Find ("CameraPivot/CameraAnchor").gameObject;
 
+        rotationTrack = transform.rotation.eulerAngles;
     }
 
     private void Start ()
