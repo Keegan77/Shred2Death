@@ -47,7 +47,7 @@ public class RotateWithMouse : MonoBehaviour
         resetting = true;
         while (t < 1)
         {
-            t += Time.deltaTime * resetRotationSpeed;
+            t += Time.unscaledDeltaTime * resetRotationSpeed;
             transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(eulers), t);
             yield return null;
         }
