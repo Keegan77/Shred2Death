@@ -23,13 +23,13 @@ public class SetNavMeshSettings : MonoBehaviour
         NavMeshSurface[] surfaces = GetComponents<NavMeshSurface>();
         arraySettings = new NavMeshBuildSettings[surfaces.Length];
 
-        Debug.Log ($"NavmeshSurfaces: {surfaces.Length}");
+        //Debug.Log ($"NavmeshSurfaces: {surfaces.Length}");
 
         for (int i = 0; i < surfaces.Length; i++)
         {
             arraySettings[i] = surfaces[i].GetBuildSettings();
         }
 
-        Enemy.agentSettings = arraySettings;
+        E_Demon_Ground.agentSettings = arraySettings;
     }
 }

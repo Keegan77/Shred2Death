@@ -522,15 +522,16 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 238206992865955086}
-  m_Layer: 12
-  m_Name: GunTipPos
+  - component: {fileID: 7076783221152584416}
+  - component: {fileID: 2999107964183392415}
+  m_Layer: 0
+  m_Name: AgentObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &238206992865955086
+--- !u!4 &7076783221152584416
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -538,13 +539,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3719414041969072742}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.639, y: -0.069, z: 0.857}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4015286600101175464}
+  m_Father: {fileID: 748665993148016211}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2999107964183392415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3719414041969072742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb054ba2524518e4883dc8b944ca2bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7011572599941974387
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,7 +603,6 @@ GameObject:
   - component: {fileID: 6407103333427661897}
   - component: {fileID: 5634048925312985684}
   - component: {fileID: 2463772219495217795}
-  - component: {fileID: 5342338037351564538}
   - component: {fileID: 5428022183481655201}
   m_Layer: 12
   m_Name: PlayerContainer
@@ -613,6 +625,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3400321096179317703}
+  - {fileID: 7076783221152584416}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &7228581909557612171
@@ -675,14 +688,14 @@ MonoBehaviour:
   inputTurningTransform: {fileID: 3400321096179317703}
   playerModelTransform: {fileID: 4350162463001390448}
   playerData: {fileID: 11400000, guid: 1a3dc727a00a88b4dab330927467122e, type: 2}
-  forwardLeftRayOrigin: {x: 18.7, y: 2.7804527, z: -0.73145974}
-  forwardRightRayOrigin: {x: 18, y: 2.7804527, z: -0.73145974}
-  backLeftRayOrigin: {x: 18.7, y: 2.7804527, z: 0.5085403}
-  backRightRayOrigin: {x: 18, y: 2.7804527, z: 0.5085403}
-  forwardRayOrigin: {x: 18.35, y: 2.5404527, z: -0.73145974}
-  backRayOrigin: {x: 18.35, y: 2.5404527, z: 0.5085403}
-  leftRayOrigin: {x: 18.7, y: 2.5404527, z: -0.11145973}
-  rightRayOrigin: {x: 18, y: 2.5404527, z: -0.11145973}
+  forwardLeftRayOrigin: {x: -0.35, y: 0.5904527, z: 0.73145974}
+  forwardRightRayOrigin: {x: 0.35, y: 0.5904527, z: 0.73145974}
+  backLeftRayOrigin: {x: -0.35, y: 0.5904527, z: -0.5085403}
+  backRightRayOrigin: {x: 0.35, y: 0.5904527, z: -0.5085403}
+  forwardRayOrigin: {x: 0, y: 0.35045266, z: 0.73145974}
+  backRayOrigin: {x: 0, y: 0.35045266, z: -0.5085403}
+  leftRayOrigin: {x: -0.35, y: 0.35045266, z: 0.11145973}
+  rightRayOrigin: {x: 0.35, y: 0.35045266, z: 0.11145973}
   grindRailFollower: {fileID: 5986969473009569870, guid: 58642cd707a8a1e449bef0d5c13f5759, type: 3}
 --- !u!114 &5634048925312985684
 MonoBehaviour:
@@ -710,18 +723,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7047733092946719887}
   player: {fileID: 6407103333427661897}
---- !u!114 &5342338037351564538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8088672281678487563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb054ba2524518e4883dc8b944ca2bae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5428022183481655201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -775,7 +776,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 238206992865955086}
   - {fileID: 3490697486500738034}
   m_Father: {fileID: 4350162463001390448}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -792,9 +792,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGun: {fileID: 11400000, guid: 91155d11e41746a408f53bf8a0562906, type: 2}
+  cameraRecoil: {fileID: 0}
+  gunRecoil: {fileID: 0}
   castPoint: {fileID: 0}
   bulletTrail: {fileID: 7813219577322349254, guid: 79f84f138d92c5940a31ad9ce67d67e7, type: 3}
-  gunTip: {fileID: 238206992865955086}
+  gunTip: {fileID: 0}
   alternateGunTip: {fileID: 3490697486500738034}
 --- !u!1 &8803852019208925205
 GameObject:

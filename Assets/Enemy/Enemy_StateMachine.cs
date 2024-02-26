@@ -9,15 +9,21 @@ using UnityEngine;
 /// </summary>
 public class Enemy_StateMachine : MonoBehaviour
 {
-    #region PARAMETERS
+    #region VARIABLES
     //[SerializeField] Enemy_State initialState;
 
-    #endregion
-
-    #region SCRIPT VARIABLES
     GameObject statesObject;
 
-    [SerializeField] Enemy_State currentState;
+    [Header("States")]
+    public Enemy_State stateCurrent;
+
+    [Tooltip("What state does this enemy enter when they spawn in? Usually set to a move_to_point script")]
+    public Enemy_State stateEntry;
+
+    [Header ("Navigation")]
+    public Vector3 travelPoint;
+    public GameObject travelTarget;
+
     #endregion
 
 
@@ -25,32 +31,32 @@ public class Enemy_StateMachine : MonoBehaviour
     #region SCRIPT FUNCTIONS
     public void machineUpdate ()
     {
-        currentState.machineUpdate ();
+        stateCurrent.machineUpdate ();
     }
 
     public void machinePhysics ()
     {
-        currentState.machinePhysics ();
+        stateCurrent.machinePhysics ();
     }
 
     public void transitionState (Enemy_State s)
     {
-        Debug.Log ("Transitioning from " + currentState + " to " + s);
-        currentState.Exit ();
+        Debug.Log ("Transitioning from " + stateCurrent + " to " + s);
+        stateCurrent.Exit ();
 
-        currentState = s;
+        stateCurrent = s;
 
-        currentState.Enter ();
+        stateCurrent.Enter ();
     }
 
-    public void sensorActivated ()
+    public void OnSensorActivated ()
     {
-        currentState.onPlayerSensorActivated ();
+        stateCurrent.onPlayerSensorActivated ();
     }
 
-    public void sensorDeactivated ()
+    public void OnSensorDeactivated ()
     {
-        currentState.onPlayerSensorDeactivated ();
+        stateCurrent.onPlayerSensorDeactivated ();
     }
 
     #endregion
