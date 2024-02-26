@@ -103,6 +103,7 @@ public class GunfireHandler : MonoBehaviour
         }
             
     }
+    // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator SpawnBullet(TrailRenderer trail, Vector3 hitPos, Vector3 gunTip, RaycastHit hit)
     {
         float time = 0; 
@@ -117,11 +118,11 @@ public class GunfireHandler : MonoBehaviour
         
         Destroy(trail.gameObject, trail.time);
         
-        /*IDamageable damageable = hit.transform.GetComponent<IDamageable>();
+        IDamageable damageable = hit.transform?.GetComponent<IDamageable>();
         if (damageable != null)
         {
             damageable.TakeDamage(currentGun.damage);
-        }*/
+        }
         
     }
     
