@@ -21,7 +21,7 @@ public class BowlMeshGenerator : MonoBehaviour
     [SerializeField] private bool closedLoop;
     
     private Vector3[] verts;
-    private Vector3[] topVerts = null;
+    public Vector3[] topVerts = null;
     private Vector2 heightConsiderationThreshold; 
     [SerializeField] SplineComputer vertSpline;
     

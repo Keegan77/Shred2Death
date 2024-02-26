@@ -10,6 +10,8 @@ public class MeshContainerSingleton : MonoBehaviour
     //make a dictionary of lists, where the key is the collider and the value is the list of vertices
     
     public List<GameObject> extrusionMeshObjects;
+
+    public List<Vector3> vertsToIterate;
     private void Awake()
     {
         if (Instance == null)
@@ -28,4 +30,8 @@ public class MeshContainerSingleton : MonoBehaviour
     {
         extrusionMeshObjects.Clear();
     }
+
+
+    
+
 }
