@@ -25,7 +25,7 @@ public class ES_Ground_Chase : ES_DemonGround
 
     public override void Enter ()
     {
-        e.agent.SetDestination (Enemy.playerObject.transform.position);
+        eGround.agent.SetDestination (Enemy.playerObject.transform.position);
 
         bulletKey = true;
         chaseKey = true;
@@ -48,18 +48,18 @@ public class ES_Ground_Chase : ES_DemonGround
     bool constantUpdate = false;
     public override void machinePhysics ()
     {
-        Vector3 playerDestinationOffset = Enemy.playerObject.transform.position - e.agent.destination;
+        Vector3 playerDestinationOffset = Enemy.playerObject.transform.position - eGround.agent.destination;
 
 
         if (constantUpdate)
         {
-            e.agent.SetDestination (Enemy.playerObject.transform.position);
+            eGround.agent.SetDestination (Enemy.playerObject.transform.position);
 
             //Debug.Log (e.agent.pathStatus);
         }
         else if (playerDestinationOffset.magnitude > agentUpdateDistance)
         {
-            e.agent.SetDestination (Enemy.playerObject.transform.position);
+            eGround.agent.SetDestination (Enemy.playerObject.transform.position);
             Debug.Log ("Resetting Path");
         }
 
@@ -80,7 +80,7 @@ public class ES_Ground_Chase : ES_DemonGround
 
         yield return new WaitForSeconds (UnityEngine.Random.Range (bulletWaitMin, bulletWaitMax));
 
-        bulletInfo.spawnBullet (Enemy.playerObject.transform.position, e.muzzleObject);
+        bulletInfo.spawnBullet (Enemy.playerObject.transform.position, eGround.muzzleObject);
 
         bulletKey = true;
     }
@@ -94,7 +94,7 @@ public class ES_Ground_Chase : ES_DemonGround
         NavMeshHit hit;
         if (!NavMesh.SamplePosition (Enemy.playerObject.transform.position, out hit, 2, NavMesh.AllAreas))
         {
-            e.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
+            eGround.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
         }
 
         chaseKey = true;

@@ -7,29 +7,29 @@ public class ES_Ground_MoveTowardsPoint : ES_DemonGround
     
     public override void Enter ()
     {
-        e.agent.SetDestination (e.stateMachine.travelPoint);
+        eGround.agent.SetDestination (eGround.stateMachine.travelPoint);
 
-        e.agent.CalculatePath (e.stateMachine.travelPoint, e.agentPath);
+        eGround.agent.CalculatePath (eGround.stateMachine.travelPoint, eGround.agentPath);
     }
 
     public override void Exit ()
     {
-        e.agent.ResetPath ();
+        eGround.agent.ResetPath ();
     }
 
     public override void machinePhysics ()
     {
-        Vector3 distanceToDestination = e.agent.destination - transform.position;
+        Vector3 distanceToDestination = eGround.agent.destination - transform.position;
 
-        if (distanceToDestination.magnitude <= e.agent.stoppingDistance)
+        if (distanceToDestination.magnitude <= eGround.agent.stoppingDistance)
         {
-            e.stateMachine.transitionState (GetComponent<ES_Ground_Idle> ());
+            eGround.stateMachine.transitionState (GetComponent<ES_Ground_Idle> ());
         }
     }
 
     public override void onPlayerSensorActivated ()
     {
-        e.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
+        eGround.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
         GetComponent<ES_Ground_Chase> ().onPlayerSensorActivated ();
     }
 }

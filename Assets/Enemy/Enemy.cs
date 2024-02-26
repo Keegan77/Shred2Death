@@ -42,7 +42,6 @@ public class Enemy : MonoBehaviour, IDamageable
         rb = GetComponent<Rigidbody> ();
 
         muzzleObject = transform.Find ("Body/MuzzlePoint").gameObject;
-        Debug.Log (muzzleObject.name);
     }
 
     //After it's spawned, the static variable for agentSettings should exist.

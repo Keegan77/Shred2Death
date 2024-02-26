@@ -24,22 +24,22 @@ public class ES_Ground_Idle : ES_DemonGround
     {
         if (SetWanderPoint ())
         {
-            e.agent.SetDestination (wanderResult);
+            eGround.agent.SetDestination (wanderResult);
         }
     }
 
     public override void Exit ()
     {
-        e.agent.ResetPath ();
+        eGround.agent.ResetPath ();
     }
 
     //If enemy reaches their wandering destination and isn't already waiting,
     //Start the WanderTimer
     public override void machinePhysics ()
     {
-        Vector3 destinationOffset = e.agent.destination - transform.position;
+        Vector3 destinationOffset = eGround.agent.destination - transform.position;
 
-        if (destinationOffset.magnitude < e.agent.stoppingDistance && !isWaiting)
+        if (destinationOffset.magnitude < eGround.agent.stoppingDistance && !isWaiting)
         {
             StartCoroutine (WanderTimer ());
         }
@@ -59,7 +59,7 @@ public class ES_Ground_Idle : ES_DemonGround
 
     public override void onPlayerSensorActivated ()
     {
-        e.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
+        eGround.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
         GetComponent<ES_Ground_Chase> ().onPlayerSensorActivated ();
     }
 
@@ -74,13 +74,13 @@ public class ES_Ground_Idle : ES_DemonGround
         Vector3 wanderOffset = Vector3.zero;
 
         //Calculate a path to the player
-        e.agent.CalculatePath (Enemy.playerObject.transform.position, e.agentPath);
+        eGround.agent.CalculatePath (Enemy.playerObject.transform.position, eGround.agentPath);
         Debug.Log (Enemy.playerObject.transform.position);
 
-        Debug.Log (e.agentPath.status);
+        Debug.Log (eGround.agentPath.status);
 
         //If the path is incomplete return a null path
-        if (e.agentPath.status != NavMeshPathStatus.PathComplete)
+        if (eGround.agentPath.status != NavMeshPathStatus.PathComplete)
         {
             Debug.Log ($"{gameObject.name}: Wander could not find path to player");
 
@@ -88,19 +88,19 @@ public class ES_Ground_Idle : ES_DemonGround
             return false;
         }
 
-        Debug.Log ($"Wander Path Size: {e.agentPath.corners.Length}");
+        Debug.Log ($"Wander Path Size: {eGround.agentPath.corners.Length}");
 
-        foreach (Vector3 i in e.agentPath.corners)
+        foreach (Vector3 i in eGround.agentPath.corners)
         {
             Debug.Log ("Enemypath point " + i);
             Debug.DrawLine (i, i + new Vector3 (0, 1, 0), Color.red);
         }
 
         //Get the offset of the path with a restriciton of the wander bias
-        if (e.agentPath.corners.Length > 0)
+        if (eGround.agentPath.corners.Length > 0)
         {
 
-            wanderOffset = transform.position + (e.agentPath.corners[1] - transform.position);
+            wanderOffset = transform.position + (eGround.agentPath.corners[1] - transform.position);
 
             //Debug.Log (wanderOffset);
             //Debug.Log (wanderOffset.magnitude);
@@ -130,9 +130,9 @@ public class ES_Ground_Idle : ES_DemonGround
         RaycastHit ceilingCheck;
         Vector3 ceilingPoint = Vector3.zero;
         //float searchDistanceJump = 0;
-        float searchDistanceDrop = E_Demon_Ground.agentSettings[e.agentIndex].ledgeDropHeight;
+        float searchDistanceDrop = E_Demon_Ground.agentSettings[eGround.agentIndex].ledgeDropHeight;
 
-        if (Physics.Raycast (transform.position, Vector3.up, out ceilingCheck, E_Demon_Ground.agentSettings[e.agentIndex].maxJumpAcrossDistance, LayerMask.GetMask ("Ground")))
+        if (Physics.Raycast (transform.position, Vector3.up, out ceilingCheck, E_Demon_Ground.agentSettings[eGround.agentIndex].maxJumpAcrossDistance, LayerMask.GetMask ("Ground")))
         {
             //Debug.Log ("Raycast hit something");
             //Debug.Log (ceilingCheck.point);
@@ -146,7 +146,7 @@ public class ES_Ground_Idle : ES_DemonGround
             //Debug.Log (ceilingCheck.point);
             //searchDistanceJump = transform.position.y + Enemy.agentSettings[e.agentIndex].maxJumpAcrossDistance;
 
-            ceilingPoint = transform.position + new Vector3 (0, E_Demon_Ground.agentSettings[e.agentIndex].maxJumpAcrossDistance, 0);
+            ceilingPoint = transform.position + new Vector3 (0, E_Demon_Ground.agentSettings[eGround.agentIndex].maxJumpAcrossDistance, 0);
         }
 
 
@@ -177,7 +177,7 @@ public class ES_Ground_Idle : ES_DemonGround
                 //Debug.Log ("Sampling point" + point);
 
 
-                debugPoint = e.agentPath.corners[1];
+                debugPoint = eGround.agentPath.corners[1];
                 debugPointCorner = wanderOffset;
                 debugPointPlayer = transform.position;
                 debugPointGround = groundHit.point;
@@ -221,7 +221,7 @@ public class ES_Ground_Idle : ES_DemonGround
 
         if (SetWanderPoint ())
         {
-            e.agent.SetDestination (wanderResult);
+            eGround.agent.SetDestination (wanderResult);
         }
 
         isWaiting = false;
