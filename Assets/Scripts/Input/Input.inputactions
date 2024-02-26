@@ -85,6 +85,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TimeShiftDebug",
+                    "type": "Button",
+                    "id": "fae0d14a-8abc-4010-80e8-594567532f48",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Aim Down Sights",
+                    "type": "Button",
+                    "id": "48f165a1-ca84-46bc-b503-3129439b25f5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -426,6 +444,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "DropIn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "17843bb6-4e34-4ccf-80e2-dcc863846271",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TimeShiftDebug",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c24a0bb-5c0f-4a36-8cae-8c8f909a6a34",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim Down Sights",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7934e003-3fa2-406c-a54e-a41bea972b6a",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim Down Sights",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

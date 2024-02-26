@@ -117,11 +117,11 @@ public class GunfireHandler : MonoBehaviour
         
         Destroy(trail.gameObject, trail.time);
         
-        IDamageable damageable = hit.transform.GetComponent<IDamageable>();
+        /*IDamageable damageable = hit.transform.GetComponent<IDamageable>();
         if (damageable != null)
         {
             damageable.TakeDamage(currentGun.damage);
-        }
+        }*/
         
     }
     
