@@ -42,11 +42,11 @@ public class Gizmo_SpawnPath : MonoBehaviour
         if ( enabled )
         {
             //Draw line from spawn point to entry point
-            Gizmos.DrawLine (transform.position, transform.GetChild (0).position);
+            Gizmos.DrawLine (transform.GetChild (0).position, transform.GetChild(2).position);
 
 
             //Draw line from spawn point to first child of the path
-            Gizmos.DrawLine (transform.position, transform.GetChild (1).GetChild (0).position);
+            Gizmos.DrawLine (transform.GetChild(0).position, transform.GetChild (1).GetChild (0).position);
 
             //Draw lines along the path of nodes
             for ( int i = 0 ; i < transform.GetChild (1).childCount - 1 ; i++ )
@@ -55,7 +55,7 @@ public class Gizmo_SpawnPath : MonoBehaviour
             }
 
             //Draw line from last child of path to end point
-            Gizmos.DrawLine (transform.GetChild (1).GetChild (transform.GetChild (1).childCount - 1).position, transform.GetChild (0).position);
+            Gizmos.DrawLine (transform.GetChild (1).GetChild (transform.GetChild (1).childCount - 1).position, transform.GetChild (2).position);
         }
 
     }

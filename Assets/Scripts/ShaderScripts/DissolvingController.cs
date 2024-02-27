@@ -2,20 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using UnityEngine.Events;
+
 public class DissolvingController : MonoBehaviour
 {
-    public Animator animator;
-    public SkinnedMeshRenderer skinnedMeshRenderer;
-    public VisualEffect VFXGraph;
-    public float dissolveRate = 0.02f;
-    public float refreshRate = 0.05f;
-    public float dieDelay = 0.2f;
-    
-    public bool deadlydeath;
+    Animator animator;
+    SkinnedMeshRenderer skinnedMeshRenderer;
+    VisualEffect VFXGraph;
+
+    public UnityEvent OnDissolved;
+
+    [Tooltip ("How long before the enemy starts dissolving?")]
+    public float dieDelay = 0.5f;
+    [Tooltip("How long does it take for the enemy to dissolve?")]
+    public float disolveTime = 2f;
 
     private Material[] dissolveMaterials;
-    void Start()
+    void Awake()
     {
+        animator = GetComponent<Animator>();
+        skinnedMeshRenderer = transform.Find("MESH_Demon").GetComponent<SkinnedMeshRenderer>();
+        VFXGraph = transform.Find("ParticlesToAnimatedCharacter").GetComponent<VisualEffect>();
+
         if(VFXGraph != null)
         {
             VFXGraph.Stop();
@@ -32,43 +40,50 @@ public class DissolvingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (deadlydeath == true)
-        {
-            StartCoroutine(Dissolve());
-        }
     }
 
-    IEnumerator Dissolve()
+    public void DEBUG_TestDeath ()
     {
-        if (animator != null)
-        {
-            animator.SetBool("fuckingdies", true);
-        }
-        yield return new WaitForSeconds(dieDelay);
+        StartCoroutine (Dissolve ());
+    }
 
-        if (VFXGraph != null)
+    public IEnumerator Dissolve()
+    {
+        //Check to see if the required components are present.
+        //If they are not, skip the dissolve step
+        if (VFXGraph != null && animator != null)
         {
+            animator.SetBool ("fuckingdies", true);
+
             VFXGraph.gameObject.SetActive(true);
             VFXGraph.Play();
         }
-        
-        float counter = 0;
+        else 
+        { 
+            Debug.LogError ("Dissolve Components Missing"); 
+            OnDissolved.Invoke ();  
+            StopCoroutine (Dissolve()); 
+        }
+
+        yield return new WaitForSeconds (dieDelay);
 
         if (dissolveMaterials.Length > 0)
         {
+            float counter = 0;
+
             while(dissolveMaterials[0].GetFloat("_DissolveAmount") < 1)
             {
-                counter += dissolveRate;
-
                 for(int i=0; i<dissolveMaterials.Length; i++)
                 {
                     dissolveMaterials[i].SetFloat("_DissolveAmount", counter);
                 }
-         
-                yield return new WaitForSeconds (refreshRate);
+
+
+                counter = Mathf.MoveTowards(counter, 1, 1 / disolveTime * Time.deltaTime);
+                yield return null;
             }
         }
 
-        Destroy(gameObject);
+        OnDissolved.Invoke();
     }
 }
