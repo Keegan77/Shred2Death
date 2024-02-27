@@ -25,6 +25,7 @@ public class ES_Ground_Chase : ES_DemonGround
 
     public override void Enter ()
     {
+        base.Enter ();
         eGround.agent.SetDestination (Enemy.playerObject.transform.position);
 
         bulletKey = true;

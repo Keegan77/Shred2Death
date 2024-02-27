@@ -18,7 +18,10 @@ public class ES_Ground_Turret : ES_DemonGround
 
     public override void Enter ()
     {
+        base.Enter ();
         bulletReady = true;
+
+        eGround.agent.SetDestination (transform.position);
     }
 
     public override void machinePhysics ()

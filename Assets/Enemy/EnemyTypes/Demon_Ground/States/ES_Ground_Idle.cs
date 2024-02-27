@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public class ES_Ground_Idle : ES_DemonGround
 {
+    [SerializeField] string animationWalk = "";
+
+    [Header("Wander Paramaters")]
     [SerializeField] float wanderSearchRadius = 10;
     [SerializeField] float wanderPlayerBias = 5; //offset the search area towards the player
     [SerializeField] float wanderSearchIterations = 25;
@@ -22,9 +25,15 @@ public class ES_Ground_Idle : ES_DemonGround
     #region STATE MACHINE
     public override void Enter ()
     {
+        base.Enter ();
         if (SetWanderPoint ())
         {
             eGround.agent.SetDestination (wanderResult);
+            eGround.animator.Play (animationWalk);
+        }
+        else
+        {
+            StartCoroutine (WanderTimer ());
         }
     }
 
@@ -39,9 +48,13 @@ public class ES_Ground_Idle : ES_DemonGround
     {
         Vector3 destinationOffset = eGround.agent.destination - transform.position;
 
-        if (destinationOffset.magnitude < eGround.agent.stoppingDistance && !isWaiting)
+        if ( destinationOffset.magnitude < eGround.agent.stoppingDistance && !isWaiting )
         {
             StartCoroutine (WanderTimer ());
+        }
+        else
+        {
+            Debug.Log ("Not picking a new destination");
         }
 
     }
@@ -125,7 +138,6 @@ public class ES_Ground_Idle : ES_DemonGround
 
 
         //If you hit the ceiling how much are you subtracting from the height of the downwards raycast
-        //
 
         RaycastHit ceilingCheck;
         Vector3 ceilingPoint = Vector3.zero;
@@ -216,12 +228,16 @@ public class ES_Ground_Idle : ES_DemonGround
     protected bool isWaiting = false;
     protected IEnumerator WanderTimer ()
     {
+        eGround.animator.Play (animationEnter);
+
+        Debug.Log ("Wander timer enabled");
         isWaiting = true;
         yield return new WaitForSeconds (Random.Range (wanderStayTimeMin, wanderStayTimeMax));
 
         if (SetWanderPoint ())
         {
             eGround.agent.SetDestination (wanderResult);
+            eGround.animator.Play (animationWalk);
         }
 
         isWaiting = false;

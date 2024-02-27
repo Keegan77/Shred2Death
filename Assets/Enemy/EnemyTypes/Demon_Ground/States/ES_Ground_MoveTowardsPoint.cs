@@ -7,6 +7,8 @@ public class ES_Ground_MoveTowardsPoint : ES_DemonGround
     
     public override void Enter ()
     {
+        base.Enter ();
+
         eGround.agent.SetDestination (eGround.stateMachine.travelPoint);
 
         eGround.agent.CalculatePath (eGround.stateMachine.travelPoint, eGround.agentPath);
