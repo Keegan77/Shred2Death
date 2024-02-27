@@ -11,6 +11,9 @@ public class GunData : ScriptableObject
     [Tooltip("Will be used for the gun model pertaining to each gun.")]
     public GameObject gunPrefab;
 
+    public Transform gunTip;
+    public Transform alternateGunTip;
+
     [Header("Shooting")]
     public float damage;
     public float maxDistance;
