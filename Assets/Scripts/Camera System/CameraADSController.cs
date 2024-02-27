@@ -8,7 +8,7 @@ public class CameraADSController : MonoBehaviour
     [SerializeField] private Transform originPoint;
     [SerializeField] private Transform ADSPoint;
     [SerializeField] AnimationCurve ADSAnimationCurve;
-    private bool ADSEnabled;
+    public bool ADSEnabled { get; private set; }
     private bool queueStopADS;
 
     [SerializeField]
