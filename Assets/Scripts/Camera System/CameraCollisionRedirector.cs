@@ -18,6 +18,7 @@ public class CameraCollisionRedirector : MonoBehaviour
     {
         cameraDistanceFromOrbital = Vector3.Distance(orbitalPoint.position, transform.position);
         adsDistanceFromOrbital    = Vector3.Distance(orbitalPoint.position, ADSPoint.position);
+        
         currentCamDistance = cameraDistanceFromOrbital;
         layerToIgnore = LayerMask.NameToLayer("Player");
         layerMask = ~(1 << layerToIgnore);
