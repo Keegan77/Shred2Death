@@ -34,6 +34,7 @@ public class CameraADSController : MonoBehaviour
     {
         if (ADSEnabled) yield break;
         ADSEnabled = true;
+        queueStopADS = false;
         float t = 0;
         
         while (t < 1)
