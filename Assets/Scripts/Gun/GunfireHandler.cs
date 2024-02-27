@@ -27,6 +27,10 @@ public class GunfireHandler : MonoBehaviour
     
     [SerializeField] private Transform alternateGunTip;
 
+    [SerializeField] private Transform[] dualieGunTips;
+    [SerializeField] private Recoil[] dualieGunRecoilScripts;
+    private Recoil currentGunRecoilScript;
+
     private Transform currentGunTip;
 
     private void Start()
@@ -41,7 +45,8 @@ public class GunfireHandler : MonoBehaviour
         {
             DisableFireButtonListeners();
         }
-        currentGunTip = gunTip;
+        currentGunTip = dualieGunTips[0];
+        currentGunRecoilScript = dualieGunRecoilScripts[0];
         bulletTrail.time = currentGun.bulletLerpTime;
         if (!currentGun.automatic)
         {
@@ -73,7 +78,7 @@ public class GunfireHandler : MonoBehaviour
         if (currentGun.currentAmmo <= 0) return;
         
         cameraRecoil.FireRecoil(currentGun.camRecoilX, currentGun.camRecoilY, currentGun.camRecoilZ); // apply recoil
-        gunRecoil.FireRecoil(currentGun.gunRecoilX, currentGun.gunRecoilY, currentGun.gunRecoilZ);
+        currentGunRecoilScript.FireRecoil(currentGun.gunRecoilX, currentGun.gunRecoilY, currentGun.gunRecoilZ);
         
         for (int i = 0; i < currentGun.bulletsInOneShot; i++) 
         {
@@ -99,8 +104,11 @@ public class GunfireHandler : MonoBehaviour
         
         if (currentGun.alternateFire)
         {
-            currentGunTip = currentGunTip == gunTip ? alternateGunTip : gunTip;
+            currentGunTip = currentGunTip == dualieGunTips[0] ? dualieGunTips[1] : dualieGunTips[0];
+            currentGunRecoilScript = currentGunRecoilScript == dualieGunRecoilScripts[0] ? dualieGunRecoilScripts[1] : dualieGunRecoilScripts[0];
         }
+        
+        
             
     }
     // ReSharper disable Unity.PerformanceAnalysis

@@ -50,6 +50,7 @@ public class SavePositionAndGunData : MonoBehaviour
             foreach (var swivel in gunSwivels)
             {
                 dataStore.gunSwivelPositions.Add(swivel.localPosition);
+                dataStore.gunSwivelEulerRotations.Add(swivel.localEulerAngles);
             }
             // Your code here
         }
@@ -72,6 +73,7 @@ public class SavePositionAndGunData : MonoBehaviour
         for (int i = 0; i < gunSwivels.Length; i++)
         {
             gunSwivels[i].localPosition = dataStore.gunSwivelPositions[i];
+            gunSwivels[i].localEulerAngles = dataStore.gunSwivelEulerRotations[i];
         }  
     }
 

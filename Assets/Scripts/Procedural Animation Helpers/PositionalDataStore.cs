@@ -16,5 +16,6 @@ public class PositionalDataStore : ScriptableObject
     [HideInInspector] public List<Vector3> gunLocalPositions;
     [HideInInspector] public List<Vector3> gunLocalEulerRotations;
     [HideInInspector] public List<Vector3> gunSwivelPositions;
+    [HideInInspector] public List<Vector3> gunSwivelEulerRotations;
 
 }
