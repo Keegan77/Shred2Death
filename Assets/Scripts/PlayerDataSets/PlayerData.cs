@@ -83,5 +83,8 @@ public class PlayerData : ScriptableObject
 
     [Header("Camera settings")] public float defaultFOV;
     public float maxFOV;
+    
+    [Header("State Exit Style Points")]
+    public float driftStylePoints;
 
 }

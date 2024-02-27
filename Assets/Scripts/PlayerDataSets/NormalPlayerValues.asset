@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: NormalPlayerValues
   m_EditorClassIdentifier: 
   baseMovementSpeed: 150
-  baseBoostSpeed: 200
+  baseBoostSpeed: 250
   boostDuration: 1
-  baseJumpForce: 20
+  baseJumpForce: 25
   baseTurnSharpness: 250
   deAccelerationSpeed: 0.05
   airForwardForce: 10
@@ -39,8 +39,9 @@ MonoBehaviour:
   playerModelRotationSpeed: 0.5
   lightDriftTime: 0.5
   driftPhaseTime: 2
-  slopeRangeWherePlayerCantMove: {x: 80, y: 100}
+  slopeRangeWherePlayerCantMove: {x: 80, y: 360}
   slopedUpSpeedMult: 1
   slopedDownSpeedMult: 0.5
   defaultFOV: 40
   maxFOV: 120
+  driftStylePoints: 20
