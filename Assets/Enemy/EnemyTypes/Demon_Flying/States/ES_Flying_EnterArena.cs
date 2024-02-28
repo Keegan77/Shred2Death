@@ -31,12 +31,14 @@ public class ES_Flying_EnterArena : EState_Flying
     {
         Debug.Log ("Entering Arena");
 
-        for (int i = 0 ; i < eFly.stateMachine.travelTarget.transform.parent.GetChild(1).childCount; i++)
+        yield return MoveToObject(eFly.stateMachine.travelTarget.transform.GetChild(0).gameObject);
+
+        for (int i = 0 ; i < eFly.stateMachine.travelTarget.transform.GetChild(1).childCount; i++)
         {
-            yield return MoveToObject (eFly.stateMachine.travelTarget.transform.parent.GetChild(1).GetChild (i).gameObject);
+            yield return MoveToObject (eFly.stateMachine.travelTarget.transform.GetChild(1).GetChild (i).gameObject);
         }
 
-        yield return MoveToObject (eFly.stateMachine.travelTarget);
+        yield return MoveToObject (eFly.stateMachine.travelTarget.transform.GetChild(2).gameObject);
     }
 
     public override void onPlayerSensorActivated ()

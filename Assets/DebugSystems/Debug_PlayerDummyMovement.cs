@@ -83,7 +83,7 @@ public class Debug_PlayerDummyMovement : MonoBehaviour
         //If the player has clicked
         if (clicked && !cameraKeyPrev ) 
         {
-            Debug.Log ("Mouse clicked");
+            //Debug.Log ("Mouse clicked");
 
             //Unparent the camera from the anchor
             if (cameraKey)

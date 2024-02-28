@@ -13,12 +13,14 @@ public class Enemy : MonoBehaviour, IDamageable
     #region Game Objects
     public static GameObject playerObject;
 
-    [NonSerialized] public Rigidbody rb;
+    [HideInInspector] public Rigidbody rb;
    
 
-    [NonSerialized] public Enemy_StateMachine stateMachine;
+    [HideInInspector] public Enemy_StateMachine stateMachine;
 
-    [NonSerialized] public GameObject muzzleObject;
+    [HideInInspector] public GameObject muzzleObject;
+
+    [HideInInspector] public Animator animator;
     #endregion
 
     #region Enemy Stats
@@ -75,6 +77,9 @@ public class Enemy : MonoBehaviour, IDamageable
         if (health <= 0 && !isDead) 
         {
             isDead = true;
+
+            rb.detectCollisions = false;
+            GetComponent<CapsuleCollider> ().enabled = false;
 
             DissolvingController d = transform.Find("Body").GetComponent<DissolvingController>();
 

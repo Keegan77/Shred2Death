@@ -47,6 +47,7 @@ public class E_Demon_Ground : Enemy
     private void Awake ()
     {
         EnemyGetComponentReferences ();
+        animator = transform.Find("Body").GetComponent<Animator>();
     }
 
     protected override void EnemyGetComponentReferences ()
