@@ -46,12 +46,26 @@ public class Enemy_State : MonoBehaviour
 
     }
 
+
+    #endregion
+
+    #region Listeners
     public virtual void onPlayerSensorActivated ()
     {
 
     }
 
     public virtual void onPlayerSensorDeactivated ()
+    {
+
+    }
+
+    public virtual void OnBullet ()
+    {
+
+    }
+
+    public virtual void OnAnimationFinished ()
     {
 
     }

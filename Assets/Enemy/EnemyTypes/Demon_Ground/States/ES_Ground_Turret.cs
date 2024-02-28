@@ -11,46 +11,62 @@ using UnityEngine.AI;
 public class ES_Ground_Turret : ES_DemonGround
 {
     #region PARAMETERS
+    const string animationIdle = "IDLE";
+
+    [Header ("Turret")]
+    [SerializeField] protected float bulletWaitTimeMin = 0f;
+    [SerializeField] protected float bulletWaitTimeMax = 1f;
     [SerializeField] protected Enemy_BulletPattern bulletInfo;
     #endregion
 
-    bool bulletReady = false;
+    #region SCRIPT VARIABLES
+    bool animationPlaying = false;
+    #endregion
 
     public override void Enter ()
     {
         base.Enter ();
-        bulletReady = true;
 
-        eg.agent.SetDestination (transform.position);
         eg.agent.isStopped = true;
+    }
 
-        eg.animator.Play ("FIREBALL");
+    public override void Exit ()
+    {
+        base.Exit ();
+        eg.agent.isStopped = false;
     }
 
     public override void machinePhysics ()
     {
-        if (bulletReady)
+        if (bulletInfo.bulletReady && !animationPlaying)
         {
-            StartCoroutine (fireBullet ());
+            FireBullet ();
         }
     }
 
-    IEnumerator fireBullet ()
+    void FireBullet ()
     {
-        bulletReady = false;
-        yield return new WaitForSeconds (1); //deal with fire rate later
+        animationPlaying = true;
+        eg.animator.Play (animationEnter);
 
         NavMeshHit hit;
         if (NavMesh.SamplePosition (Enemy.playerObject.transform.position, out hit, 4, NavMesh.AllAreas))
         {
             eg.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
         }
-        else
-        {
-            bulletInfo.spawnBullet (Enemy.playerObject.transform.position, eg.muzzleObject);
-        }
+    }
 
-        bulletReady = true;
+    public override void OnBullet ()
+    {
+        //bulletInfo.spawnBullet (Enemy.playerObject.transform.position, eg.muzzleObject);
+        bulletInfo.StartCoroutine (bulletInfo.PlayShot (Enemy.playerObject.transform.position, eg.muzzleObject));
+    }
+
+    public override void OnAnimationFinished ()
+    {
+        Debug.Log ("Fireball Animation Finished");
+        animationPlaying = false;
+        eg.animator.Play (animationIdle);
     }
 
     protected override void OnDestinationReached ()

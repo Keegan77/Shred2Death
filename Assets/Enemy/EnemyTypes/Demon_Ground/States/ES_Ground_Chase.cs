@@ -110,4 +110,14 @@ public class ES_Ground_Chase : ES_DemonGround
     {
         throw new System.NotImplementedException ();
     }
+
+    public override void OnBullet ()
+    {
+        base.OnBullet ();
+    }
+
+    public override void OnAnimationFinished ()
+    {
+        base.OnAnimationFinished ();
+    }
 }

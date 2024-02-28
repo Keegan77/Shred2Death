@@ -131,6 +131,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0a3f911c8f1e516478c00ea03274e18d, type: 2}
+    - target: {fileID: 1990238580269932758, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+      propertyPath: cooldown
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1990238580269932758, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+      propertyPath: cooldownMin
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2021591513531018249, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_Name
       value: Demon_Ground
@@ -354,6 +362,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationEnter: FIREBALL
+  bulletWaitTimeMin: 0
+  bulletWaitTimeMax: 1
   bulletInfo: {fileID: 5653537672990207873}
 --- !u!1 &5324938368301081438 stripped
 GameObject:
@@ -1274,6 +1284,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8484125c616d47f40beb293076386866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  event_OnAnimationFinished:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8189151714653380516}
+        m_TargetAssemblyTypeName: Enemy_StateMachine, Assembly-CSharp
+        m_MethodName: OnAnimationFinished
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  event_OnBullet:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8189151714653380516}
+        m_TargetAssemblyTypeName: Enemy_StateMachine, Assembly-CSharp
+        m_MethodName: OnBullet
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &2933471114754438161 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6394708052233975798, guid: 0e8004b24d195c04aac7727ee10e6024, type: 3}

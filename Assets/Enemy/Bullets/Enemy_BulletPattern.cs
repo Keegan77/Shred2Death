@@ -12,7 +12,7 @@ using UnityEngine;
 [Serializable]
 public abstract class Enemy_BulletPattern : MonoBehaviour
 {
-    protected bool bulletReady = false;
+    public bool bulletReady { get; protected set; } = false;
     
     [Header("Basic Info")]
     public GameObject bulletObject;
