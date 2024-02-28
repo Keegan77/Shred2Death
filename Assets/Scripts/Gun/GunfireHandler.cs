@@ -10,8 +10,10 @@ using Random = UnityEngine.Random;
 public class GunfireHandler : MonoBehaviour
 {
     private float timeSinceLastShot;
-    [SerializeField] private GunData currentGun;
-    [SerializeField] private SceneDataForGun currentGunSceneData;
+    [SerializeField] private GunData startingGun; 
+    private GunData currentGun;
+    [SerializeField] private SceneDataForGun startingGunSceneData;
+    private SceneDataForGun currentGunSceneData;
 
     private bool buttonSet; // true if we've set a button listener (we have a non-automatic weapon)
 
@@ -29,6 +31,8 @@ public class GunfireHandler : MonoBehaviour
 
     private void Awake()
     {
+        currentGun = startingGun;
+        currentGunSceneData = startingGunSceneData;
         currentGunTips = currentGunSceneData.GetGunTips();
         currentGunRecoilScripts = currentGunSceneData.GetRecoilObjects();
         

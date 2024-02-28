@@ -98,9 +98,26 @@ public class GunSwitcher : MonoBehaviour
 
     private void SetModels(GameObject[] models, bool activeStatus)
     {
+
         foreach (var model in models)
         {
             model.SetActive(activeStatus);
+            if (activeStatus == true) StartCoroutine(ScaleUpFromZero(model, .2f));
+        }
+    }
+    
+    private IEnumerator ScaleUpFromZero(GameObject model, float lerpTime)
+    {
+        float timeElapsed = 0;
+        Vector3 startScale = Vector3.zero;
+        Vector3 endScale = model.transform.localScale;
+        AnimationCurve curve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+        
+        while (timeElapsed < lerpTime)
+        {
+            timeElapsed += Time.deltaTime;
+            model.transform.localScale = Vector3.Lerp(startScale, endScale, curve.Evaluate(timeElapsed / lerpTime));
+            yield return null;
         }
     }
     
