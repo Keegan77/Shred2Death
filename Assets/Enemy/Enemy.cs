@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour, IDamageable
 {
     #region SCRIPT VARIABLES
     #region Game Objects
-    public static GameObject playerObject;
+    public static SetPlayerReference playerReference;
 
     [HideInInspector] public Rigidbody rb;
    

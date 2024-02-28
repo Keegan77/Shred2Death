@@ -70,8 +70,8 @@ public class ES_Ground_Idle : ES_DemonGround
         Vector3 wanderOffset = Vector3.zero;
 
         //Calculate a path to the player
-        eg.agent.CalculatePath (Enemy.playerObject.transform.position, eg.agentPath);
-        Debug.Log (Enemy.playerObject.transform.position);
+        eg.agent.CalculatePath (Enemy.playerReference.transform.position, eg.agentPath);
+        Debug.Log (Enemy.playerReference.transform.position);
 
         Debug.Log (eg.agentPath.status);
 

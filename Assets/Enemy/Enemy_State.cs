@@ -14,6 +14,9 @@ public class Enemy_State : MonoBehaviour
     //public static GameObject playerObject
     protected Enemy e;
 
+    //Is the enemy currently playing an animation?
+    protected bool isAnimationPlaying = false;
+
     [Header("Animation")]
     [SerializeField] protected string animationEnter = "";
 
@@ -49,7 +52,7 @@ public class Enemy_State : MonoBehaviour
 
     #endregion
 
-    #region Listeners
+    #region EVENT RECEPTORS
     public virtual void onPlayerSensorActivated ()
     {
 
@@ -67,7 +70,7 @@ public class Enemy_State : MonoBehaviour
 
     public virtual void OnAnimationFinished ()
     {
-
+        isAnimationPlaying = false;
     }
 
     #endregion

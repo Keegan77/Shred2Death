@@ -139,6 +139,10 @@ PrefabInstance:
       propertyPath: cooldownMin
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1990238580269932758, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+      propertyPath: attackAnimation
+      value: FIREBALL
+      objectReference: {fileID: 0}
     - target: {fileID: 2021591513531018249, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_Name
       value: Demon_Ground
@@ -315,8 +319,8 @@ MonoBehaviour:
   agentUpdateDistance: 10
   chaseUpdateTimer: 3
   bulletInfo: {fileID: 5653537672990207873}
-  bulletWaitMin: 1
-  bulletWaitMax: 5
+  bulletWaitMin: 5
+  bulletWaitMax: 8
 --- !u!114 &9122969815520002774
 MonoBehaviour:
   m_ObjectHideFlags: 0

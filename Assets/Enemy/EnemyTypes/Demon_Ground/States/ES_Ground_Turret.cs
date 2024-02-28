@@ -19,9 +19,6 @@ public class ES_Ground_Turret : ES_DemonGround
     [SerializeField] protected Enemy_BulletPattern bulletInfo;
     #endregion
 
-    #region SCRIPT VARIABLES
-    bool animationPlaying = false;
-    #endregion
 
     public override void Enter ()
     {
@@ -38,7 +35,7 @@ public class ES_Ground_Turret : ES_DemonGround
 
     public override void machinePhysics ()
     {
-        if (bulletInfo.bulletReady && !animationPlaying)
+        if (bulletInfo.bulletReady && !isAnimationPlaying)
         {
             FireBullet ();
         }
@@ -46,26 +43,27 @@ public class ES_Ground_Turret : ES_DemonGround
 
     void FireBullet ()
     {
-        animationPlaying = true;
-        eg.animator.Play (animationEnter);
-
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition (Enemy.playerObject.transform.position, out hit, 4, NavMesh.AllAreas))
+        if (Enemy.playerReference.isOnNavMesh)
         {
             eg.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
+        }
+        else
+        {
+            isAnimationPlaying = true;
+            eg.animator.Play (bulletInfo.attackAnimation);
         }
     }
 
     public override void OnBullet ()
     {
         //bulletInfo.spawnBullet (Enemy.playerObject.transform.position, eg.muzzleObject);
-        bulletInfo.StartCoroutine (bulletInfo.PlayShot (Enemy.playerObject.transform.position, eg.muzzleObject));
+        bulletInfo.StartCoroutine (bulletInfo.PlayShot (Enemy.playerReference.transform.position, eg.muzzleObject));
     }
 
     public override void OnAnimationFinished ()
     {
         Debug.Log ("Fireball Animation Finished");
-        animationPlaying = false;
+        isAnimationPlaying = false;
         eg.animator.Play (animationIdle);
     }
 

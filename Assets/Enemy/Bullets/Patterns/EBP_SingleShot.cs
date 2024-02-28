@@ -14,7 +14,6 @@ public class EBP_SingleShot : Enemy_BulletPattern
 
         spawnBullet (target, muzzle);
 
-
         yield return new WaitForSeconds (Random.Range(cooldownMin, cooldownMax));
         bulletReady = true;
     }
