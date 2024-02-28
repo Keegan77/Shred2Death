@@ -24,7 +24,7 @@ public class UpperBodyLookTarget : MonoBehaviour
         LerpToTargetPosition();
         
         // if slope orientation looking upward or downward
-        if (Mathf.Abs(player.GetOrientationWithDownward() - 90) > 30) 
+        if (Mathf.Abs(player.GetOrientationWithDownward() - 90) > 30 && player.stateMachine.currentState != player.halfPipeState) 
         {
             currentTarget = playerForwardPoint; // player looks forward
         }

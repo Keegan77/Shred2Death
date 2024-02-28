@@ -22,7 +22,7 @@ public class TrickHandler : MonoBehaviour
         //PrintCurrentTrickNames();
     }
 
-    private void UpdateTrickList()
+    private void UpdateTrickList(Type stateType)
     {
         DeleteTrickInputs(); // Unsubscribes from old trick inputs before setting new ones
         if (TrickMaps.StateMap.ContainsKey(player.stateMachine.currentState.GetType()))

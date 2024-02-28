@@ -81,8 +81,10 @@ public class PlayerData : ScriptableObject
     [Tooltip("The lower this value is set, the more speed the player will have down slopes.")]
     public float slopedDownSpeedMult;
 
-    [Header("Camera settings")] public float defaultFOV;
+    [Header("Camera settings")] public float minFOV;
     public float maxFOV;
+    [Tooltip("Aim down sights speed")]
+    public float adsSpeed;
     
     [Header("State Exit Style Points")]
     public float driftStylePoints;
