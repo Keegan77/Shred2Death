@@ -21,7 +21,10 @@ public class ES_Ground_Turret : ES_DemonGround
         base.Enter ();
         bulletReady = true;
 
-        eGround.agent.SetDestination (transform.position);
+        eg.agent.SetDestination (transform.position);
+        eg.agent.isStopped = true;
+
+        eg.animator.Play ("FIREBALL");
     }
 
     public override void machinePhysics ()
@@ -40,13 +43,23 @@ public class ES_Ground_Turret : ES_DemonGround
         NavMeshHit hit;
         if (NavMesh.SamplePosition (Enemy.playerObject.transform.position, out hit, 4, NavMesh.AllAreas))
         {
-            eGround.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
+            eg.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
         }
         else
         {
-            bulletInfo.spawnBullet (Enemy.playerObject.transform.position, eGround.muzzleObject);
+            bulletInfo.spawnBullet (Enemy.playerObject.transform.position, eg.muzzleObject);
         }
 
         bulletReady = true;
+    }
+
+    protected override void OnDestinationReached ()
+    {
+        
+    }
+
+    protected override void OnDestinationFailed ()
+    {
+        throw new System.NotImplementedException ();
     }
 }
