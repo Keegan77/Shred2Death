@@ -25,7 +25,9 @@ public static class ActionEvents
     public static Action<GunSwitchData> OnGunSwitch; //invoked when the player switches guns    
     
     #endregion
-    
+
+    public static Action<string> OnPlayBehaviourAnimation;
+
 }
 
 public struct GunSwitchData
