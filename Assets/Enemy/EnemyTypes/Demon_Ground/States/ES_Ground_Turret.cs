@@ -57,7 +57,7 @@ public class ES_Ground_Turret : ES_DemonGround
     public override void OnBullet ()
     {
         //bulletInfo.spawnBullet (Enemy.playerObject.transform.position, eg.muzzleObject);
-        bulletInfo.StartCoroutine (bulletInfo.PlayShot (Enemy.playerReference.transform.position, eg.muzzleObject));
+        bulletInfo.StartCoroutine (bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject));
     }
 
     public override void OnAnimationFinished ()

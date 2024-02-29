@@ -92,7 +92,7 @@ public class ES_Ground_Chase : ES_DemonGround
             if (bulletInfo.bulletReady && readyToBullet)
             {
                 eg.agent.isStopped = true;
-                bulletInfo.PlayShot (Enemy.playerReference.transform.position, eg.muzzleObject);
+                bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject);
                 eg.animator.Play (bulletInfo.attackAnimation);
                 StartCoroutine (bulletWait ());
             }
@@ -132,7 +132,7 @@ public class ES_Ground_Chase : ES_DemonGround
 
     public override void OnBullet ()
     {
-        bulletInfo.StartCoroutine (bulletInfo.PlayShot (Enemy.playerReference.transform.position, eg.muzzleObject));
+        bulletInfo.StartCoroutine (bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject));
     }
 
     public override void OnAnimationFinished ()
