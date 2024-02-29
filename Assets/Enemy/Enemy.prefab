@@ -42,7 +42,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3831898785959713912}
   - component: {fileID: 2616151468426186995}
-  - component: {fileID: 3437983621280888445}
   - component: {fileID: 3448209998300594400}
   - component: {fileID: 3872104577493689534}
   m_Layer: 0
@@ -87,19 +86,6 @@ MonoBehaviour:
   stateEntry: {fileID: 0}
   travelPoint: {x: 0, y: 0, z: 0}
   travelTarget: {fileID: 0}
---- !u!114 &3437983621280888445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2021591513531018249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 801c8b0f5963777498136a617f43538e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
 --- !u!54 &3448209998300594400
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -323,6 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2488ee595fa90ba47bf3eda441343b1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animationEnter: 
 --- !u!1 &8998884110879878547
 GameObject:
   m_ObjectHideFlags: 0

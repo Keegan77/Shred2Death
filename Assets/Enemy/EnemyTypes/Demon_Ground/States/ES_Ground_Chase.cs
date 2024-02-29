@@ -25,7 +25,8 @@ public class ES_Ground_Chase : ES_DemonGround
 
     public override void Enter ()
     {
-        eGround.agent.SetDestination (Enemy.playerObject.transform.position);
+        base.Enter ();
+        eg.agent.SetDestination (Enemy.playerObject.transform.position);
 
         bulletKey = true;
         chaseKey = true;
@@ -48,18 +49,18 @@ public class ES_Ground_Chase : ES_DemonGround
     bool constantUpdate = false;
     public override void machinePhysics ()
     {
-        Vector3 playerDestinationOffset = Enemy.playerObject.transform.position - eGround.agent.destination;
+        Vector3 playerDestinationOffset = Enemy.playerObject.transform.position - eg.agent.destination;
 
 
         if (constantUpdate)
         {
-            eGround.agent.SetDestination (Enemy.playerObject.transform.position);
+            eg.agent.SetDestination (Enemy.playerObject.transform.position);
 
             //Debug.Log (e.agent.pathStatus);
         }
         else if (playerDestinationOffset.magnitude > agentUpdateDistance)
         {
-            eGround.agent.SetDestination (Enemy.playerObject.transform.position);
+            eg.agent.SetDestination (Enemy.playerObject.transform.position);
             Debug.Log ("Resetting Path");
         }
 
@@ -80,7 +81,7 @@ public class ES_Ground_Chase : ES_DemonGround
 
         yield return new WaitForSeconds (UnityEngine.Random.Range (bulletWaitMin, bulletWaitMax));
 
-        bulletInfo.spawnBullet (Enemy.playerObject.transform.position, eGround.muzzleObject);
+        bulletInfo.spawnBullet (Enemy.playerObject.transform.position, eg.muzzleObject);
 
         bulletKey = true;
     }
@@ -94,9 +95,29 @@ public class ES_Ground_Chase : ES_DemonGround
         NavMeshHit hit;
         if (!NavMesh.SamplePosition (Enemy.playerObject.transform.position, out hit, 2, NavMesh.AllAreas))
         {
-            eGround.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
+            eg.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
         }
 
         chaseKey = true;
+    }
+
+    protected override void OnDestinationReached ()
+    {
+        Debug.Log ($"{gameObject.name}: Melee the player!");
+        throw new System.NotImplementedException ();
+    }
+    protected override void OnDestinationFailed ()
+    {
+        throw new System.NotImplementedException ();
+    }
+
+    public override void OnBullet ()
+    {
+        base.OnBullet ();
+    }
+
+    public override void OnAnimationFinished ()
+    {
+        base.OnAnimationFinished ();
     }
 }

@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CameraFOVBehaviour : MonoBehaviour
 {
     [SerializeField] PlayerBase player;
     private Camera camera;
     private Rigidbody rb;
-    float defaultFOV = 40;
+    [SerializeField ]float baseFOV;
     [SerializeField] private float FOVChangeSpeed;
     private float currentFOV;
     private float magnitude;
@@ -16,18 +17,18 @@ public class CameraFOVBehaviour : MonoBehaviour
     private void Start()
     {
         rb = player.GetComponent<Rigidbody>();
-        currentFOV = defaultFOV;
+        currentFOV = baseFOV;
         camera = GetComponent<Camera>();
     }
 
-    private void Update() //TODO: Add a limit for the maximum FOV 
+    private void Update()  
     {
-        magnitude = Mathf.Lerp(magnitude, rb.velocity.magnitude, FOVChangeSpeed * Time.deltaTime);
+        magnitude = Mathf.Lerp(magnitude, rb.velocity.magnitude / 1.5f, FOVChangeSpeed * Time.unscaledDeltaTime);
         //Debug.Log(rb.velocity.magnitude);
         if (magnitude != 0)
         {
-            currentFOV = defaultFOV + magnitude / 3;
-            currentFOV = Mathf.Clamp(currentFOV, player.playerData.defaultFOV, player.playerData.maxFOV);
+            currentFOV = baseFOV + magnitude / 3;
+            currentFOV = Mathf.Clamp(currentFOV, player.playerData.minFOV, player.playerData.maxFOV);
             camera.fieldOfView = currentFOV;
         }
         

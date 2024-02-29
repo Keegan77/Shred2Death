@@ -17,6 +17,7 @@ public class PlayerHalfpipeState : PlayerState
     
     public override void Enter()
     {
+        
         base.Enter();
         SubscribeInputs();
         

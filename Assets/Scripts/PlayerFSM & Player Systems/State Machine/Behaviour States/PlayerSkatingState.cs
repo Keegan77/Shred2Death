@@ -43,6 +43,7 @@ public class PlayerSkatingState : PlayerState
         SubscribeInputs();
         enteredHalfPipeSection = false;
         movementMethods = player.GetMovementMethods();
+        BulletTimeManager.Instance.StartCoroutine(BulletTimeManager.Instance.ChangeBulletTime(1f, .2f));
     }
     
     public override void Exit()
