@@ -1,9 +1,34 @@
 fileFormatVersion: 2
-guid: d01333122e9432948b44830364029480
+guid: ff6d6e8434f3df64a85c8a4c7cff1c4c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PLAYER_MESH_Arms1
+    second: {fileID: 2100000, guid: a2cc771cac4665c4b90015e7615ac160, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PLAYER_MESH_Chest1
+    second: {fileID: 2100000, guid: 02aa198338e75754288e73743e313f57, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PLAYER_MESH_Head1
+    second: {fileID: 2100000, guid: 8e22f4bfe7e3f2b438ab1a835d6a207f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PLAYER_MESH_Legs1
+    second: {fileID: 2100000, guid: 0480d94d10c0ef740908f76dd7068828, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PLAYER_ShredBoard1
+    second: {fileID: 2100000, guid: f92410c820a83e04b83e65885875a953, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -91,7 +116,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: 
+    rootMotionBoneName: WORLD_ROOT
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
@@ -99,7 +124,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
