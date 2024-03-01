@@ -62,7 +62,6 @@ public class ES_Ground_Turret : ES_DemonGround
 
     public override void OnAnimationFinished ()
     {
-        Debug.Log ("Fireball Animation Finished");
         isAnimationPlaying = false;
         eg.animator.Play (animationIdle);
     }
