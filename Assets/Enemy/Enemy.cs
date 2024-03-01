@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 [SelectionBase]
 [RequireComponent(typeof(Enemy_StateMachine))]
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
     #region SCRIPT VARIABLES
     #region Game Objects
@@ -21,6 +21,10 @@ public class Enemy : MonoBehaviour
     [NonSerialized] public GameObject muzzleObject;
     #endregion
 
+    #region Enemy Stats
+    public int health;
+    bool isDead = false;
+    #endregion
 
     [Header ("Components")]
     WaveManager waveManager; //Set by waveManager when the enemy object is instantiated
@@ -42,7 +46,6 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody> ();
 
         muzzleObject = transform.Find ("Body/MuzzlePoint").gameObject;
-        Debug.Log (muzzleObject.name);
     }
 
     //After it's spawned, the static variable for agentSettings should exist.
@@ -60,16 +63,34 @@ public class Enemy : MonoBehaviour
 
     #region SCRIPT FUNCTIONS
 
-    public void takeDamage ()
-    {
-        waveManager.removeEnemy ();
-
-        Destroy (gameObject);
-    }
-
     public static void spawnObject ()
     {
         Instantiate (new GameObject ("Statically Spawned"));
+    }
+
+    public void TakeDamage (float damage)
+    {        
+        health -= Mathf.FloorToInt(damage);
+
+        if (health <= 0 && !isDead) 
+        {
+            isDead = true;
+
+            rb.detectCollisions = false;
+            GetComponent<CapsuleCollider> ().enabled = false;
+
+            DissolvingController d = transform.Find("Body").GetComponent<DissolvingController>();
+
+            d.StartCoroutine (d.Dissolve ());
+        }
+    }
+
+    public void DeathFinished ()
+    {
+        Debug.Log ("Enemy Dead");
+
+        waveManager.removeEnemy ();
+        Destroy (gameObject);
     }
 
     #endregion
@@ -91,6 +112,5 @@ public class Enemy : MonoBehaviour
         }
 
     }
-
     #endregion
 }

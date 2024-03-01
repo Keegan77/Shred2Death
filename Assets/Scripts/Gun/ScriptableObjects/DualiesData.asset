@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dcfcc2f8f7c41a47a7cd2f62c6f16ac, type: 3}
+  m_Name: DualiesData
+  m_EditorClassIdentifier: 
+  name: Shotgun
+  damage: 5
+  maxDistance: 100
+  automatic: 1
+  bulletLerpTime: 0.1
+  bulletsInOneShot: 1
+  magCapacity: 50
+  timeBetweenShots: 0.1
+  camRecoilX: 0.5
+  camRecoilY: 0.5
+  camRecoilZ: 0.5
+  gunRecoilX: 100
+  gunRecoilY: 50
+  gunRecoilZ: 50
+  spreadX: 0.01
+  spreadY: 0.01
+  spreadZ: 0.01
+  readyUpTime: 0
+  currentAmmo: 35
+  alternateFire: 1

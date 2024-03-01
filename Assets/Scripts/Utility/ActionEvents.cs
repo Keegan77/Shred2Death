@@ -2,7 +2,7 @@ using System;
 
 public static class ActionEvents
 {
-    public static Action OnBehaviourStateSwitch;
+    public static Action<Type> OnBehaviourStateSwitch;
 
     #region Trick Events
     public static Action<Trick> OnTrickRequested;  // will be invoked when the player presses the trick input
@@ -17,7 +17,27 @@ public static class ActionEvents
                                         //this data should include the enemy's style value increase
                                         //& multiplier increase
     #endregion
+
+    #region Gun Related Events
+    // create a struct so i can return a variable with GunData and then also SceneDataForGun
+
     
+    public static Action<GunSwitchData> OnGunSwitch; //invoked when the player switches guns    
     
-    
+    #endregion
+
+    public static Action<string> OnPlayBehaviourAnimation;
+
+}
+
+public struct GunSwitchData
+{
+    public GunData GunData;
+    public SceneDataForGun SceneDataForGun;
+
+    public GunSwitchData(GunData gunData, SceneDataForGun sceneDataForGun)
+    {
+        GunData = gunData;
+        SceneDataForGun = sceneDataForGun;
+    }
 }

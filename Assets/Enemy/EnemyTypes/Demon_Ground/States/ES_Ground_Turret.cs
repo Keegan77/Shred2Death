@@ -37,11 +37,11 @@ public class ES_Ground_Turret : ES_DemonGround
         NavMeshHit hit;
         if (NavMesh.SamplePosition (Enemy.playerObject.transform.position, out hit, 4, NavMesh.AllAreas))
         {
-            e.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
+            eGround.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
         }
         else
         {
-            bulletInfo.spawnBullet (Enemy.playerObject.transform.position, e.muzzleObject);
+            bulletInfo.spawnBullet (Enemy.playerObject.transform.position, eGround.muzzleObject);
         }
 
         bulletReady = true;

@@ -9,12 +9,14 @@ using UnityEngine;
 public class PlayerAnimationHandler : MonoBehaviour
 {
     [SerializeField] Animator animator;
+    [SerializeField] Animator shreadboardAnimator;
     [SerializeField] PlayerBase player;
     private bool trickBeingPerformed;
 
     private void OnEnable()
     {
         ActionEvents.OnTrickRequested += TryTrickAnimation;
+        ActionEvents.OnPlayBehaviourAnimation += PlayBehaviourAnimation;
     }
 
     private void OnDisable()
@@ -22,11 +24,18 @@ public class PlayerAnimationHandler : MonoBehaviour
         ActionEvents.OnTrickRequested -= TryTrickAnimation;
     }
 
+    private void PlayBehaviourAnimation(string triggerName)
+    {
+        animator.SetTrigger(triggerName);
+        shreadboardAnimator.SetTrigger(triggerName);
+    }
+    
     private void TryTrickAnimation(Trick trick)
     {
         if (!trickBeingPerformed)
         {
             animator.SetTrigger(trick.animTriggerName);
+            shreadboardAnimator.SetTrigger(trick.animTriggerName);
             StartCoroutine(TrickAnimationSequence(trick));
         }
     }

@@ -161,12 +161,12 @@ public class WaveManager : MonoBehaviour
         //Spawn enemies and direct them to move towards the entry point.
         for (int i = 0; i < row.count; i++)
         {
-            GameObject e = Instantiate (row.enemy, row.spawnPoint.transform.position, row.spawnPoint.transform.rotation, transform.Find ("Enemies"));
+            GameObject e = Instantiate (row.enemy, row.spawnPoint.transform.GetChild(0).position, row.spawnPoint.transform.GetChild(0).rotation, transform.Find ("Enemies"));
             
             Enemy_StateMachine esm = e.GetComponent<Enemy_StateMachine>();
 
-            esm.travelTarget = row.spawnPoint.transform.GetChild (0).gameObject;
-            esm.travelPoint = row.spawnPoint.transform.GetChild (0).position;
+            esm.travelTarget = row.spawnPoint.transform.GetChild (2).gameObject;
+            esm.travelPoint = row.spawnPoint.transform.GetChild (2).position;
 
             //Hopefully the NavMeshAgent is loaded after instantiation
             //e.GetComponent<Enemy>().agent = e.gameObject.GetComponent<NavMeshAgent> (); 
@@ -203,7 +203,5 @@ public class WaveManager : MonoBehaviour
                 StartCoroutine(playWave ());
             }
         }
-
-
     }
 }
