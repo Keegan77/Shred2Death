@@ -18,6 +18,7 @@ public class PlayerGrindState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        ActionEvents.OnPlayBehaviourAnimation?.Invoke("Grind");
         lerping = true;
         SubscribeInputs();
         SetUpSplineFollower();
@@ -30,10 +31,8 @@ public class PlayerGrindState : PlayerState
     public override void Exit()
     {
         UnsubscribeInputs();
-        
+        ActionEvents.OnPlayBehaviourAnimation?.Invoke("Grind Reverse");
     }
-    
-    
     private void SetUpSplineFollower()
     {
         bool isClosed = false;

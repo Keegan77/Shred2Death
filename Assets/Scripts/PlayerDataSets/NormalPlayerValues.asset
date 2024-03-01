@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: NormalPlayerValues
   m_EditorClassIdentifier: 
   baseMovementSpeed: 150
-  baseBoostSpeed: 300
-  boostDuration: 2
+  baseBoostSpeed: 250
+  boostDuration: 1
   baseJumpForce: 25
   baseTurnSharpness: 250
   deAccelerationSpeed: 0.05
@@ -26,10 +26,10 @@ MonoBehaviour:
   minGrindSpeed: 30
   maxGrindSpeed: 100
   grindSpeedAdditive: 15
-  grindPositioningOffset: 1
+  grindPositioningOffset: 0
   grindTurnSharpness: 250
-  railSnapTime: 2000
-  railSnapDistance: 30
+  railSnapTime: 3
+  railSnapDistance: 20
   baseDriftForce: 150
   baseDriftTurnSharpness: 100
   driftRotationalOffset: 10
