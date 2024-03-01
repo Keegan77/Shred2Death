@@ -9,7 +9,6 @@ using UnityEngine;
 public class PlayerAnimationHandler : MonoBehaviour
 {
     [SerializeField] Animator animator;
-    [SerializeField] Animator shreadboardAnimator;
     [SerializeField] PlayerBase player;
     private bool trickBeingPerformed;
 
@@ -27,7 +26,6 @@ public class PlayerAnimationHandler : MonoBehaviour
     private void PlayBehaviourAnimation(string triggerName)
     {
         animator.SetTrigger(triggerName);
-        shreadboardAnimator.SetTrigger(triggerName);
     }
     
     private void TryTrickAnimation(Trick trick)
@@ -35,7 +33,6 @@ public class PlayerAnimationHandler : MonoBehaviour
         if (!trickBeingPerformed)
         {
             animator.SetTrigger(trick.animTriggerName);
-            shreadboardAnimator.SetTrigger(trick.animTriggerName);
             StartCoroutine(TrickAnimationSequence(trick));
         }
     }
