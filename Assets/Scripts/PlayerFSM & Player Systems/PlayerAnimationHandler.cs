@@ -15,6 +15,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     private void OnEnable()
     {
         ActionEvents.OnTrickRequested += TryTrickAnimation;
+        ActionEvents.OnPlayBehaviourAnimation += PlayBehaviourAnimation;
     }
 
     private void OnDisable()
@@ -22,6 +23,11 @@ public class PlayerAnimationHandler : MonoBehaviour
         ActionEvents.OnTrickRequested -= TryTrickAnimation;
     }
 
+    private void PlayBehaviourAnimation(string triggerName)
+    {
+        animator.SetTrigger(triggerName);
+    }
+    
     private void TryTrickAnimation(Trick trick)
     {
         if (!trickBeingPerformed)

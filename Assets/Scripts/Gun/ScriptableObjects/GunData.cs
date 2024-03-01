@@ -8,9 +8,6 @@ public class GunData : ScriptableObject
     [Header("Info")]
     public new string name;
 
-    [Tooltip("Will be used for the gun model pertaining to each gun.")]
-    public GameObject gunPrefab;
-
     [Header("Shooting")]
     public float damage;
     public float maxDistance;

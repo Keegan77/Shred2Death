@@ -15,7 +15,7 @@ public class PlayerStateMachine
     {
         currentState.Exit();
         currentState = newState;
-        ActionEvents.OnBehaviourStateSwitch?.Invoke(); // invokes only on behaviour states & not ability states
+        ActionEvents.OnBehaviourStateSwitch?.Invoke(currentState.GetType()); // invokes only on behaviour states & not ability states
         currentState.Enter();
     }
 }

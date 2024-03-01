@@ -28,7 +28,7 @@ MonoBehaviour:
   grindSpeedAdditive: 15
   grindPositioningOffset: 1
   grindTurnSharpness: 250
-  railSnapTime: 200
+  railSnapTime: 10
   railSnapDistance: 20
   baseDriftForce: 150
   baseDriftTurnSharpness: 100
@@ -42,6 +42,7 @@ MonoBehaviour:
   slopeRangeWherePlayerCantMove: {x: 80, y: 360}
   slopedUpSpeedMult: 1
   slopedDownSpeedMult: 0.5
-  defaultFOV: 40
+  minFOV: 0
   maxFOV: 120
+  adsSpeed: 4
   driftStylePoints: 20

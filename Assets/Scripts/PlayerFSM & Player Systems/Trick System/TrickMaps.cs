@@ -19,7 +19,7 @@ public static class TrickMaps
     //Skating Tricks
     static Trick Ollie        = new Trick("Ollie", 5, 1, .2f, jumpTrick, CustomTrickMethods.OllieFunc); //less ammo bc it's the basic trick & you're always jumping around
     static Trick Kickflip     = new Trick("Ollie", 10, 6, .2f, DPadRIGHT);
-    static Trick PopShuvIt    = new Trick("Ollie", 10, 5, .2f, DPadLEFT, CustomTrickMethods.PopShuvItCustomFunction);
+    static Trick PopShuvIt    = new Trick("Ollie", 10, 500, .2f, DPadLEFT, CustomTrickMethods.PopShuvItCustomFunction);
     
     //Grind Tricks
     static Trick FiftyFifty   = new Trick("Ollie", 15, 5, .2f, DPadRIGHT);
