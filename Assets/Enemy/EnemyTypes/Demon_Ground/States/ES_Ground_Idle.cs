@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+/// <summary>
+/// Uses navmesh to wander around semi-aimlessly.
+/// Warning: Coroutine WanderTimer calls itself when the player is not on the navmesh.
+/// If there is a runaway coroutine issue somehow, that's why.
+/// </summary>
 public class ES_Ground_Idle : ES_DemonGround
 {
     [SerializeField] string animationWalk = "";
@@ -70,8 +76,8 @@ public class ES_Ground_Idle : ES_DemonGround
         Vector3 wanderOffset = Vector3.zero;
 
         //Calculate a path to the player
-        eg.agent.CalculatePath (Enemy.playerObject.transform.position, eg.agentPath);
-        Debug.Log (Enemy.playerObject.transform.position);
+        eg.agent.CalculatePath (Enemy.playerReference.transform.position, eg.agentPath);
+        Debug.Log (Enemy.playerReference.transform.position);
 
         Debug.Log (eg.agentPath.status);
 
@@ -149,16 +155,11 @@ public class ES_Ground_Idle : ES_DemonGround
         //We have the wander offset now. Search this area for the first candidate point in that area.
         for (int i = 0; i < wanderSearchIterations; i++)
         {
-            //point = wanderOffset + UnityEngine.Random.insideUnitSphere.normalized * wanderSearchRadius;
-
             Vector3 point = Vector3.zero;
             Vector2 pointFlat = UnityEngine.Random.insideUnitCircle.normalized * wanderSearchRadius;
-            //point = wanderOffset + new Vector3 (pointFlat.x, transform.position.y, pointFlat.y);
             point = wanderOffset + new Vector3 (pointFlat.x, ceilingPoint.y, pointFlat.y);
 
-            //pointSearchOrigin = new Vector3 (point.x, ceilingPoint.y, point.y);
 
-            //Debug.Log ((point.y - transform.position.y) + searchDistanceDrop);
             RaycastHit groundHit;
             //From the point, 
             if (Physics.Raycast (point, Vector3.down, out groundHit, (point.y - transform.position.y) + searchDistanceDrop, LayerMask.GetMask ("Ground")))
@@ -218,10 +219,11 @@ public class ES_Ground_Idle : ES_DemonGround
 
         if (SetWanderPoint ())
         {
-            //eg.agent.SetDestination (wanderResult);
-            //eg.animator.Play (animationWalk);
-
             StartCoroutine (MoveToPoint (wanderResult, animationWalk));
+        }
+        else
+        {
+            StartCoroutine(WanderTimer ());
         }
 
         isWaiting = false;
