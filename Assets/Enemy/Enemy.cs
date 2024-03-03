@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     [HideInInspector] public GameObject muzzleObject;
 
+    [HideInInspector] public GameObject bodyObject;
     [HideInInspector] public Animator animator;
     #endregion
 
@@ -36,7 +37,8 @@ public class Enemy : MonoBehaviour, IDamageable
     #region SETUP
     void Awake ()
     {
-        EnemyGetComponentReferences();
+        EnemyGetComponentReferences ();
+        
     }
 
     /// <summary>
@@ -48,12 +50,17 @@ public class Enemy : MonoBehaviour, IDamageable
         rb = GetComponent<Rigidbody> ();
 
         muzzleObject = transform.Find ("Body/MuzzlePoint").gameObject;
+
+        bodyObject = transform.Find ("Body").gameObject;
+        animator = bodyObject.GetComponent<Animator> ();
+
+        GetRagdollComponents ();
     }
 
     //After it's spawned, the static variable for agentSettings should exist.
     private void Start ()
     {
-        
+        SetRagdollEnabled (false);
     }
 
     public void SetManager (WaveManager w)
@@ -64,11 +71,6 @@ public class Enemy : MonoBehaviour, IDamageable
     #endregion
 
     #region SCRIPT FUNCTIONS
-
-    public static void spawnObject ()
-    {
-        Instantiate (new GameObject ("Statically Spawned"));
-    }
 
     public void TakeDamage (float damage)
     {        
@@ -84,6 +86,7 @@ public class Enemy : MonoBehaviour, IDamageable
             DissolvingController d = transform.Find("Body").GetComponent<DissolvingController>();
 
             d.StartCoroutine (d.Dissolve ());
+            SetRagdollEnabled (true);
         }
     }
 
@@ -95,6 +98,60 @@ public class Enemy : MonoBehaviour, IDamageable
         Destroy (gameObject);
     }
 
+    #endregion
+
+    #region RAGDOLL PHYSICS
+    [Header ("Ragdoll")]
+    public bool mainRigidBodyDefaultKinematic = true;
+
+    Collider enemyCollider;
+    Rigidbody enemyRigidbody;
+
+    Collider[] ragdollColliders;
+    Rigidbody[] ragdollBodies;
+
+    void GetRagdollComponents ()
+    {
+        enemyCollider = GetComponent<Collider> ();
+        enemyRigidbody = GetComponent<Rigidbody> ();
+
+        ragdollBodies = bodyObject.GetComponentsInChildren<Rigidbody> ();
+        ragdollColliders = bodyObject.GetComponentsInChildren<Collider> ();
+
+        SetRagdollEnabled (false);
+
+    }
+
+    public void SetRagdollEnabled (bool en)
+    {
+        //Debug.Break ();
+        Debug.Log("Setting ragdollEnabled: " + en);
+        Debug.Log (ragdollBodies);
+        Debug.Log (ragdollColliders);
+
+        animator.enabled = !en;
+
+        enemyCollider.enabled = false;
+
+        foreach (Rigidbody rigidbody in ragdollBodies)
+        {
+            Debug.Log (rigidbody);
+            rigidbody.isKinematic = !en;
+        }
+        foreach (Collider collider in ragdollColliders)
+        {
+            Debug.Log (collider);
+            collider.enabled = en;
+        }
+
+        if (!en)
+        {
+            rb.isKinematic = mainRigidBodyDefaultKinematic;
+        }
+
+        enemyCollider.enabled = !en;
+
+    }
     #endregion
 
     #region UNITY FUNCTIONS
