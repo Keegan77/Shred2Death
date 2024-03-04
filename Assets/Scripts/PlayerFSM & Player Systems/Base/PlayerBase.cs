@@ -142,7 +142,6 @@ public class PlayerBase : MonoBehaviour
     public double GetSplineCompletionPercent()
     {
         return splineCompletionPercent;
-        //splineCompletionPercent = currentSpline.Project(transform.position).percent;
     }
     
     public void CheckAndSetSpline()
