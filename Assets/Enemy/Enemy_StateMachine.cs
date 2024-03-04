@@ -49,6 +49,10 @@ public class Enemy_StateMachine : MonoBehaviour
         stateCurrent.Enter ();
     }
 
+
+    #endregion
+
+    #region Listeners
     public void OnSensorActivated ()
     {
         stateCurrent.onPlayerSensorActivated ();
@@ -59,10 +63,20 @@ public class Enemy_StateMachine : MonoBehaviour
         stateCurrent.onPlayerSensorDeactivated ();
     }
 
+    public void OnBullet ()
+    {
+        stateCurrent.OnBullet();
+    }
+
+    public void OnAnimationFinished ()
+    {
+        stateCurrent.OnAnimationFinished ();
+    }
+
     #endregion
-   
-    
-    
+
+
+
     #region SETUP
 
     private void Awake ()

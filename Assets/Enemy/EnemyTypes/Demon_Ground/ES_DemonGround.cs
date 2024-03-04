@@ -2,21 +2,75 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ES_DemonGround : Enemy_State
+/// <summary>
+/// States and functionality regarding Grounded Demons' Behavior.
+/// Scripts that extend this are abbreviated ES_Ground or ESDG_
+/// </summary>
+public abstract class ES_DemonGround : Enemy_State
 {
-    protected E_Demon_Ground eGround;
+    protected E_Demon_Ground eg;
 
     #region STATEMACHINE
     private void Awake ()
     {
-        eGround = transform.parent.GetComponent<E_Demon_Ground>();
+        eg = transform.parent.GetComponent<E_Demon_Ground>();
+    }
+
+    public override void Enter ()
+    {
+        base.Enter ();
+        eg.animator.Play (animationEnter);
+    }
+
+    public override void Exit ()
+    {
+        base.Exit ();
+        eg.agentPath.ClearCorners ();
     }
     #endregion
 
     #region NAVIGATION
     public void EndPath ()
     {
-        eGround.agentPath.ClearCorners ();
+        eg.agentPath.ClearCorners ();
     }
+
+    /// <summary>
+    /// Handles the movement navigation of the 
+    /// </summary>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    protected IEnumerator MoveToPoint (Vector3 p, string animName, bool overwriteAnim = true)
+    {
+        yield return null;
+        eg.agent.CalculatePath (p, eg.agentPath);
+
+        Debug.Log (eg.agent.path.status);
+        if(eg.agentPath.status != UnityEngine.AI.NavMeshPathStatus.PathInvalid)
+        {
+            eg.agent.SetDestination (p);
+            eg.animator.Play (animName);
+        }
+        else
+        {
+            Debug.LogWarning ($"{name}: Could not find path to point, ending MTP");
+
+            OnDestinationFailed ();
+            yield break;
+        }
+
+        Debug.Log ($"{name}: Beginning Movement Routine");
+        Vector3 distanceToDestination = eg.agent.destination - transform.position;
+        while (distanceToDestination.magnitude > eg.agent.stoppingDistance)
+        {
+            distanceToDestination = eg.agent.destination - transform.position;
+            yield return null;
+        }
+
+        OnDestinationReached ();
+    }
+
+    protected abstract void OnDestinationReached ();
+    protected abstract void OnDestinationFailed ();
     #endregion
 }

@@ -14,6 +14,12 @@ public class Enemy_State : MonoBehaviour
     //public static GameObject playerObject
     protected Enemy e;
 
+    //Is the enemy currently playing an animation?
+    protected bool isAnimationPlaying = false;
+
+    [Header("Animation")]
+    [SerializeField] protected string animationEnter = "";
+
     //States will control movement directly.
     //Rigidbody will be set in the start function
 
@@ -26,7 +32,6 @@ public class Enemy_State : MonoBehaviour
 
     public virtual void Enter ()
     {
-
     }
 
     public virtual void Exit ()
@@ -44,6 +49,10 @@ public class Enemy_State : MonoBehaviour
 
     }
 
+
+    #endregion
+
+    #region EVENT RECEPTORS
     public virtual void onPlayerSensorActivated ()
     {
 
@@ -52,6 +61,16 @@ public class Enemy_State : MonoBehaviour
     public virtual void onPlayerSensorDeactivated ()
     {
 
+    }
+
+    public virtual void OnBullet ()
+    {
+
+    }
+
+    public virtual void OnAnimationFinished ()
+    {
+        isAnimationPlaying = false;
     }
 
     #endregion

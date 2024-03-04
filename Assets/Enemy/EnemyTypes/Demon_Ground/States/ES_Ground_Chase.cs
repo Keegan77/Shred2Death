@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class ES_Ground_Chase : ES_DemonGround
 {
+    const string animationFireball = "FIREBALL";
+
     [Header ("Navigation")]
 
     [Tooltip ("How often does navigation update? Lower = more often")]
@@ -14,21 +16,31 @@ public class ES_Ground_Chase : ES_DemonGround
     [SerializeField] float chaseUpdateTimer = 3;
     bool chaseKey = true;
 
-    bool bulletKey = true;
-
-
 
     [Header ("Projectile")]
     [SerializeField] Enemy_BulletPattern bulletInfo;
+
+    [Tooltip("Wait at least this long to shoot a bullet")]
     [SerializeField] float bulletWaitMin = 1;
+
+    [Tooltip("Wait at most this long to shoot a bullet")] 
     [SerializeField] float bulletWaitMax = 5;
+
+    private bool readyToBullet = false;
 
     public override void Enter ()
     {
-        eGround.agent.SetDestination (Enemy.playerObject.transform.position);
+        base.Enter ();
+        eg.agent.SetDestination (Enemy.playerReference.transform.position);
 
-        bulletKey = true;
         chaseKey = true;
+
+        StartCoroutine (bulletWait ());
+    }
+    public override void Exit ()
+    {
+        base.Exit ();
+        eg.agent.isStopped = false;
     }
 
     public override void onPlayerSensorDeactivated ()
@@ -48,41 +60,44 @@ public class ES_Ground_Chase : ES_DemonGround
     bool constantUpdate = false;
     public override void machinePhysics ()
     {
-        Vector3 playerDestinationOffset = Enemy.playerObject.transform.position - eGround.agent.destination;
+        Vector3 playerDestinationOffset = Enemy.playerReference.transform.position - eg.agent.destination;
 
 
         if (constantUpdate)
         {
-            eGround.agent.SetDestination (Enemy.playerObject.transform.position);
+            eg.agent.SetDestination (Enemy.playerReference.transform.position);
 
             //Debug.Log (e.agent.pathStatus);
         }
         else if (playerDestinationOffset.magnitude > agentUpdateDistance)
         {
-            eGround.agent.SetDestination (Enemy.playerObject.transform.position);
+            eg.agent.SetDestination (Enemy.playerReference.transform.position);
             Debug.Log ("Resetting Path");
         }
 
-        if (chaseKey)
+        if (!isAnimationPlaying)
         {
-            StartCoroutine (chaseWait ());
+            if (chaseKey)
+            {
+                if (!Enemy.playerReference.isOnNavMesh)
+                {
+                    eg.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
+                    return;
+                }
+
+                StartCoroutine (chaseWait ());
+            }
+
+            //If a bullet is ready and the enemy has waited long enough, fire a bullet.
+            if (bulletInfo.bulletReady && readyToBullet)
+            {
+                eg.agent.isStopped = true;
+                bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject);
+                eg.animator.Play (bulletInfo.attackAnimation);
+                StartCoroutine (bulletWait ());
+            }
+
         }
-
-        if (bulletKey)
-        {
-            StartCoroutine (bulletWait ());
-        }
-    }
-
-    IEnumerator bulletWait ()
-    {
-        bulletKey = false;
-
-        yield return new WaitForSeconds (UnityEngine.Random.Range (bulletWaitMin, bulletWaitMax));
-
-        bulletInfo.spawnBullet (Enemy.playerObject.transform.position, eGround.muzzleObject);
-
-        bulletKey = true;
     }
 
     IEnumerator chaseWait ()
@@ -91,12 +106,39 @@ public class ES_Ground_Chase : ES_DemonGround
 
         yield return new WaitForSeconds (chaseUpdateTimer);
 
-        NavMeshHit hit;
-        if (!NavMesh.SamplePosition (Enemy.playerObject.transform.position, out hit, 2, NavMesh.AllAreas))
-        {
-            eGround.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
-        }
-
         chaseKey = true;
+    }
+
+    IEnumerator bulletWait ()
+    {
+        readyToBullet = false;
+
+        yield return new WaitForSeconds (Random.Range(bulletWaitMin, bulletWaitMax));
+
+        readyToBullet = true;
+    }
+
+    protected override void OnDestinationReached ()
+    {
+        Debug.Log ($"{gameObject.name}: Melee the player!");
+
+        eg.stateMachine.transitionState(GetComponent<ES_Ground_Turret> ());
+
+    }
+    protected override void OnDestinationFailed ()
+    {
+        throw new System.NotImplementedException ();
+    }
+
+    public override void OnBullet ()
+    {
+        bulletInfo.StartCoroutine (bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject));
+    }
+
+    public override void OnAnimationFinished ()
+    {
+        base.OnAnimationFinished ();
+        eg.agent.isStopped = false;
+        eg.animator.Play (animationEnter);
     }
 }
