@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class PlayerAirborneState : PlayerState
 {
+    private bool coolingDown;
+    private Coroutine coolDownCoroutine;
     public PlayerAirborneState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
@@ -13,13 +15,26 @@ public class PlayerAirborneState : PlayerState
         
         inputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
         {
-            onPerformed = ctx => player.GetMovementMethods().StartBoost(),
-            onCanceled = ctx => player.GetMovementMethods().StopBoost()
+            onPerformed = ctx =>
+            {
+                if (coolingDown) return;
+                player.rb.velocity = Vector3.zero;
+                AddAirForce(100, ForceMode.Impulse, accountForForwardInput:false);
+                coolDownCoroutine = player.StartCoroutine(CoolDownAirBoost());
+            },
         });
         
         inputActions.Add(InputRouting.Instance.input.Player.Nosedive, new InputActionEvents 
             { onPerformed = ctx => stateMachine.SwitchState(player.nosediveState) });
     }
+    
+    private IEnumerator CoolDownAirBoost()
+    {
+        coolingDown = true;
+        yield return new WaitForSeconds(player.playerData.airBoostCooldownSeconds);
+        coolingDown = false;
+    }
+
     
     public override void Enter()
     {
@@ -31,6 +46,11 @@ public class PlayerAirborneState : PlayerState
     {
         base.Exit();
         UnsubscribeInputs();
+        if (coolDownCoroutine != null)
+        {
+            player.StopCoroutine(coolDownCoroutine);
+            coolingDown = false;
+        }
     }
 
     public override void LogicUpdate()
@@ -50,7 +70,7 @@ public class PlayerAirborneState : PlayerState
         
         player.GetOrientationHandler().ReOrient();
         player.GetMovementMethods().TurnPlayer();
-        AddAirForce();
+        AddAirForce(player.playerData.airForwardForce, ForceMode.Acceleration);
         
     }
 
@@ -64,9 +84,8 @@ public class PlayerAirborneState : PlayerState
         
         player.transform.rotation = Quaternion.Lerp(player.transform.rotation, tiltRotation, Time.deltaTime * 5);
     }
-
-
-    private void AddAirForce()
+    
+    private void AddAirForce(float forceAmount, ForceMode forceMode, bool accountForForwardInput = true)
     {
         Vector3 worldForward = player.inputTurningTransform.forward;
         Vector3 localForward = player.inputTurningTransform.InverseTransformDirection(worldForward);
@@ -78,14 +97,21 @@ public class PlayerAirborneState : PlayerState
         newWorldForward = newWorldForward.normalized;
         
         var forwardInput = InputRouting.Instance.GetMoveInput().y;
-        if (forwardInput < 0)
+        if (accountForForwardInput)
         {
-            forwardInput = 0;
+            if (forwardInput > 0)
+            {
+                forwardInput = 1;
+            }
         }
+        else
+        {
+            forwardInput = 1;
+        }
+
         
-        player.rb.AddForce(newWorldForward * (player.playerData.airForwardForce * forwardInput), ForceMode.Acceleration);
+        player.rb.AddForce(newWorldForward * (forceAmount * forwardInput), forceMode);
         
     }
-    
 
 }
