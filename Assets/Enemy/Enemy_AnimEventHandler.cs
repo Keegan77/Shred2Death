@@ -19,7 +19,6 @@ public class Enemy_AnimEventHandler : MonoBehaviour
     public void OnBullet ()
     {
         event_OnBullet.Invoke ();
-        Debug.Log ("FOIREBOWL");
     }
 
 }
