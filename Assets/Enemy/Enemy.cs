@@ -11,14 +11,16 @@ public class Enemy : MonoBehaviour, IDamageable
 {
     #region SCRIPT VARIABLES
     #region Game Objects
-    public static GameObject playerObject;
+    public static SetPlayerReference playerReference;
 
-    [NonSerialized] public Rigidbody rb;
+    [HideInInspector] public Rigidbody rb;
    
 
-    [NonSerialized] public Enemy_StateMachine stateMachine;
+    [HideInInspector] public Enemy_StateMachine stateMachine;
 
-    [NonSerialized] public GameObject muzzleObject;
+    [HideInInspector] public GameObject muzzleObject;
+
+    [HideInInspector] public Animator animator;
     #endregion
 
     #region Enemy Stats

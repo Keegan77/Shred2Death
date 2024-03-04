@@ -10,7 +10,7 @@ public class ES_Flying_Chase : EState_Flying
 {
     public override void Enter ()
     {
-        StartCoroutine (MoveToObject (Enemy.playerObject));
+        StartCoroutine (MoveToObject (Enemy.playerReference.gameObject));
     }
 
     public override void machinePhysics ()
