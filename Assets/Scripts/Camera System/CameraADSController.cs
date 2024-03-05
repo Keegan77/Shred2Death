@@ -8,6 +8,7 @@ public class CameraADSController : MonoBehaviour
     [SerializeField] private Transform originPoint;
     [SerializeField] private Transform ADSPoint;
     [SerializeField] AnimationCurve ADSAnimationCurve;
+    public bool ongoingADSRoutine { get; private set; }
     public bool ADSEnabled { get; private set; }
     private bool queueStopADS;
 
@@ -20,6 +21,7 @@ public class CameraADSController : MonoBehaviour
         InputRouting.Instance.input.Player.AimDownSights.started += ctx =>
         {
             StartCoroutine(ADS(originPoint, ADSPoint));
+            //transform.position = originPoint.position;
             if (player.stateMachine.currentState.GetType() == typeof(PlayerSkatingState)) return;
             BulletTimeManager.Instance.StartCoroutine(BulletTimeManager.Instance.ChangeBulletTime(.2f, .2f));
         };
@@ -32,8 +34,10 @@ public class CameraADSController : MonoBehaviour
 
     private IEnumerator ADS(Transform from, Transform to)
     {
-        if (ADSEnabled) yield break;
-        ADSEnabled = true;
+        //transform.position = from.position;
+        //Debug.Break();
+        if (ongoingADSRoutine) yield break;
+        ongoingADSRoutine = true;
         queueStopADS = false;
         float t = 0;
         
@@ -43,7 +47,8 @@ public class CameraADSController : MonoBehaviour
             transform.position = Vector3.Lerp(from.position, to.position, ADSAnimationCurve.Evaluate(t));
             yield return null;
         }
-        
+        transform.position = to.position;
+        ADSEnabled = true;
         yield return new WaitUntil(() => queueStopADS);
         BulletTimeManager.Instance.StartCoroutine(BulletTimeManager.Instance.ChangeBulletTime(1f, .2f));
         t = 0;
@@ -53,7 +58,9 @@ public class CameraADSController : MonoBehaviour
             transform.position = Vector3.Lerp(to.position, from.position, ADSAnimationCurve.Evaluate(t));
             yield return null;
         }
+        transform.position = from.position;
         queueStopADS = false;
+        ongoingADSRoutine = false;
         ADSEnabled = false;
     }
 }
