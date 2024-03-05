@@ -9,6 +9,8 @@ public class PlayerData : ScriptableObject
     [Header("Movement Values")]
     public float baseMovementSpeed;
 
+    [Tooltip("The style level at which the grounded boost unlocks")]
+    public int groundedBoostStyleLevel;
     public float baseBoostSpeed;
     public float boostDuration;
     public float baseJumpForce;
@@ -20,6 +22,10 @@ public class PlayerData : ScriptableObject
     [Header("Airborne Values (Non-Half Pipe)")]
     public float airForwardForce;
     public float airTiltRange;
+    public float airBoostImpulseForce;
+    public float airBoostCooldownSeconds;
+    [Tooltip("The style level at which the air boost unlocks")]
+    public int airBoostStyleLevel;
 
     [Header("Nosedive Values")] 
     public float noseDiveFallForce;
