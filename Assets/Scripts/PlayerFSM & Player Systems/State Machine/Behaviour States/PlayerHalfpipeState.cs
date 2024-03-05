@@ -65,7 +65,8 @@ public class PlayerHalfpipeState : PlayerState
     {
         base.PhysicsUpdate();
         HalfPipeAirBehaviour();
-        player.GetMovementMethods().TurnPlayer();
+        RotationInAir();
+        //player.GetMovementMethods().TurnPlayer();
         if (player.rb.velocity.y < 0 && player.CheckGroundExtensions()) 
             player.GetOrientationHandler().OrientFromExtensions(); // the if statement prevents accidental landing
                                                                      // rotation when the player is still in the air
@@ -74,6 +75,26 @@ public class PlayerHalfpipeState : PlayerState
              player.movement.SkateForward();
         }
                                                                      
+    }
+
+    private void RotationInAir()
+    {
+        player.transform.Rotate(0,
+            player.playerData.halfPipeAirTurnAmount * InputRouting.Instance.GetBumperInput().x * Time.fixedDeltaTime, 
+            0, Space.Self);
+    }
+
+    private IEnumerator LerpDefaultRotation()
+    {
+        float t = 0;
+        
+        while (t < 1)
+        {
+            t += Time.deltaTime;
+            player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.Euler(90, player.transform.rotation.y, player.transform.rotation.z), t);
+        }
+
+        yield return null;
     }
 
     public void HalfPipeAirBehaviour()

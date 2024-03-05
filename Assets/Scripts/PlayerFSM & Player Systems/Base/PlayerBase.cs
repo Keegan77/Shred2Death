@@ -65,6 +65,7 @@ public class PlayerBase : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.LogicUpdate();
+        Debug.Log(GetOrientationWithDownward()); 
         //Debug.Log(GetOrientationWithDownward() - 90);
     } 
     

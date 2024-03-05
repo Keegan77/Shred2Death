@@ -8,6 +8,7 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
     
     public Input input { get; private set; }
     private Vector2 moveInput;
+    private Vector2 bumperInput;
     private Vector2 lookInput;
     private bool driftHeld;
     private bool boostHeld;
@@ -30,6 +31,13 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
     {
         moveInput = input.Player.Move.ReadValue<Vector2>();
         lookInput = input.Player.Look.ReadValue<Vector2>();
+        bumperInput = input.Player.AirRotation.ReadValue<Vector2>();
+        Debug.Log(bumperInput);
+    }
+
+    public Vector2 GetBumperInput()
+    {
+        return bumperInput;
     }
 
     public Vector2 GetMoveInput()
