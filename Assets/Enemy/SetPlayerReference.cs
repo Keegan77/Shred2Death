@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// 
@@ -8,32 +9,25 @@ using UnityEngine;
 public class SetPlayerReference : MonoBehaviour
 {
 
-    [Tooltip("How often does the player sample the navmesh to see if they're on it?")]
-    public float navMeshSampleRate = 1.0f;
-    private bool sampleAvailable = false;
-
-    public bool isOnNavMesh = false;
+    [HideInInspector] public bool isOnNavMesh = false;
+    NavMeshHit hit;
 
     //Enemy states need to know what the player object is for directional purposes.
     //This sets the enemy_state script up for that when the player loads into the level.
     
     void Start()
     {
-        Enemy.playerObject = gameObject;
+        Enemy.playerReference = this;
     }
 
     private void FixedUpdate ()
     {
-        
+        isOnNavMesh = SampleIsOnNavMesh ();
     }
 
-    public bool SampleIsOnNavMesh ()
+    private bool SampleIsOnNavMesh ()
     {
-        return false;
+        return NavMesh.SamplePosition(transform.position, out hit, 2, NavMesh.AllAreas);
     }
 
-    IEnumerator timer (float t)
-    {
-        yield return new WaitForSeconds (t);
-    }
 }

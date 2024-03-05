@@ -9,34 +9,34 @@ using Random = UnityEngine.Random;
 
 public class GunfireHandler : MonoBehaviour
 {
-    [SerializeField] private GunData currentGun;
-
     private float timeSinceLastShot;
-
-    private bool reloading;
+    [SerializeField] private GunData startingGun; 
+    private GunData currentGun;
+    [SerializeField] private SceneDataForGun startingGunSceneData;
+    private SceneDataForGun currentGunSceneData;
 
     private bool buttonSet; // true if we've set a button listener (we have a non-automatic weapon)
-    
-    [SerializeField] private Recoil cameraRecoil, gunRecoil;
+
+    [SerializeField] private Recoil cameraRecoil;
 
     [SerializeField] private Transform castPoint;
     
     [SerializeField] private TrailRenderer bulletTrail;
 
-    [SerializeField] private Transform gunTip;
-    
-    [SerializeField] private Transform alternateGunTip;
-
-    [SerializeField] private Transform[] dualieGunTips;
-    [SerializeField] private Recoil[] dualieGunRecoilScripts;
+    private Transform[] currentGunTips;
+    private Recoil[] currentGunRecoilScripts;
     private Recoil currentGunRecoilScript;
 
     private Transform currentGunTip;
 
-    private void Start()
+    private void Awake()
     {
+        currentGun = startingGun;
+        currentGunSceneData = startingGunSceneData;
+        currentGunTips = currentGunSceneData.GetGunTips();
+        currentGunRecoilScripts = currentGunSceneData.GetRecoilObjects();
+        
         SetUpGun();
-        currentGun.currentAmmo = currentGun.magCapacity;
     }
 
     private void SetUpGun() // called on start and on gun switch
@@ -45,8 +45,8 @@ public class GunfireHandler : MonoBehaviour
         {
             DisableFireButtonListeners();
         }
-        currentGunTip = dualieGunTips[0];
-        currentGunRecoilScript = dualieGunRecoilScripts[0];
+        currentGunTip = currentGunTips[0];
+        currentGunRecoilScript = currentGunRecoilScripts[0];
         bulletTrail.time = currentGun.bulletLerpTime;
         if (!currentGun.automatic)
         {
@@ -55,8 +55,8 @@ public class GunfireHandler : MonoBehaviour
         }
     }
 
-    private bool CanShoot() =>
-        timeSinceLastShot > currentGun.timeBetweenShots && !reloading; // we don't check ammo here because it's checked
+    public bool CanShoot() =>
+        timeSinceLastShot > currentGun.timeBetweenShots; // we don't check ammo here because it's checked
                                                                        // in the fire method   
 
     private void Update()
@@ -94,7 +94,7 @@ public class GunfireHandler : MonoBehaviour
             {
                 trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity);
 
-                StartCoroutine(SpawnBullet(trail, castPoint.position + direction * (currentGun.maxDistance / 2), currentGunTip.position, hit)); // sets the point of where our raycast would have ended up if it hit anything (point in the air)
+                StartCoroutine(SpawnBullet(trail, castPoint.position + direction * (currentGun.maxDistance), currentGunTip.position, hit)); // sets the point of where our raycast would have ended up if it hit anything (point in the air)
                                    
             }
         }
@@ -104,8 +104,8 @@ public class GunfireHandler : MonoBehaviour
         
         if (currentGun.alternateFire)
         {
-            currentGunTip = currentGunTip == dualieGunTips[0] ? dualieGunTips[1] : dualieGunTips[0];
-            currentGunRecoilScript = currentGunRecoilScript == dualieGunRecoilScripts[0] ? dualieGunRecoilScripts[1] : dualieGunRecoilScripts[0];
+            currentGunTip = currentGunTip == currentGunTips[0] ? currentGunTips[1] : currentGunTips[0];
+            currentGunRecoilScript = currentGunRecoilScript == currentGunRecoilScripts[0] ? currentGunRecoilScripts[1] : currentGunRecoilScripts[0];
         }
         
         
@@ -149,6 +149,22 @@ public class GunfireHandler : MonoBehaviour
     public GunData GetCurrentGunData()
     {
         return currentGun;
+    }
+    
+    public SceneDataForGun GetCurrentGunSceneData()
+    {
+        return currentGunSceneData;
+    }
+
+    public void SetCurrentGun(GunSwitchData switchData) // subscribe to gun switch event
+    {
+        currentGun = switchData.GunData;
+        currentGunSceneData = switchData.SceneDataForGun;
+        
+        currentGunTips = currentGunSceneData.GetGunTips();
+        currentGunRecoilScripts = currentGunSceneData.GetRecoilObjects();
+
+        SetUpGun();
     }
 
 #region Input

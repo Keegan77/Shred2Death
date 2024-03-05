@@ -10,8 +10,16 @@ public class PlayerSkatingState : PlayerState
     {
         inputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
         {
-            onPerformed = ctx => player.GetMovementMethods().StartBoost(),
-            onCanceled = ctx => player.GetMovementMethods().StopBoost()
+            onPerformed = ctx =>
+            {
+                if (player.GetComboHandler().GetStyleLevel() < player.playerData.groundedBoostStyleLevel) return;
+                player.GetMovementMethods().StartBoost();
+            },
+            onCanceled = ctx =>
+            {
+                if (player.GetComboHandler().GetStyleLevel() < player.playerData.groundedBoostStyleLevel) return;
+                player.GetMovementMethods().StopBoost();
+            }
         });
         
         inputActions.Add(InputRouting.Instance.input.Player.TimeShiftDebug, new InputActionEvents

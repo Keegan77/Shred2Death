@@ -6,14 +6,13 @@ public class EBP_SingleShot : Enemy_BulletPattern
 {
     public float cooldownMin = 1;
     public float cooldownMax = 3;
-    public override IEnumerator PlayShot (Vector3 target, GameObject muzzle)
-    {
-        Debug.Log ($"{name}: Playing shot");
 
+    public override IEnumerator PlayShot (GameObject target, GameObject muzzle)
+    {
         bulletReady = false;
 
-        spawnBullet (target, muzzle);
-
+        //LeadShot(target, muzzle, bulletObject)
+        SpawnBullet (LeadShot(target, muzzle, bulletObject), muzzle);
 
         yield return new WaitForSeconds (Random.Range(cooldownMin, cooldownMax));
         bulletReady = true;

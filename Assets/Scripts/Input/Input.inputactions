@@ -103,6 +103,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchGun",
+                    "type": "Button",
+                    "id": "6e0a37a1-ed22-4aad-9504-4143b7ca194e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -373,7 +382,7 @@
                 {
                     "name": "",
                     "id": "aaa9434b-5d09-43a4-b2ea-67bddc4d5593",
-                    "path": "<Gamepad>/leftStickPress",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -439,7 +448,7 @@
                 {
                     "name": "",
                     "id": "70f1e750-8f7e-47f8-bdd7-fc99c3108c43",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/leftStickPress",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -477,6 +486,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Aim Down Sights",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1fd10f94-272e-4876-9dfa-d249667218c1",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchGun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "13010207-c96f-42bf-8d93-963a11ce18dd",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchGun",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

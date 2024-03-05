@@ -7,7 +7,7 @@ public class ES_Bullet : Enemy_State
     public Enemy_BulletPattern pattern;
 
     public void DebugPlayShot ()
-    {
-        StartCoroutine(pattern.PlayShot(Enemy_Bullet.LeadShot(Enemy.playerObject, e.muzzleObject, pattern.bulletObject), e.muzzleObject));
+    {  
+        StartCoroutine(pattern.PlayShot(Enemy.playerReference.gameObject, e.muzzleObject));
     }
 }

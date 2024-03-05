@@ -125,6 +125,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchGun"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e0a37a1-ed22-4aad-9504-4143b7ca194e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -395,7 +404,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""aaa9434b-5d09-43a4-b2ea-67bddc4d5593"",
-                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -461,7 +470,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""70f1e750-8f7e-47f8-bdd7-fc99c3108c43"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -499,6 +508,28 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Aim Down Sights"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1fd10f94-272e-4876-9dfa-d249667218c1"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchGun"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""13010207-c96f-42bf-8d93-963a11ce18dd"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchGun"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1256,6 +1287,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_Player_DropIn = m_Player.FindAction("DropIn", throwIfNotFound: true);
         m_Player_TimeShiftDebug = m_Player.FindAction("TimeShiftDebug", throwIfNotFound: true);
         m_Player_AimDownSights = m_Player.FindAction("Aim Down Sights", throwIfNotFound: true);
+        m_Player_SwitchGun = m_Player.FindAction("SwitchGun", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1349,6 +1381,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_DropIn;
     private readonly InputAction m_Player_TimeShiftDebug;
     private readonly InputAction m_Player_AimDownSights;
+    private readonly InputAction m_Player_SwitchGun;
     public struct PlayerActions
     {
         private @Input m_Wrapper;
@@ -1364,6 +1397,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         public InputAction @DropIn => m_Wrapper.m_Player_DropIn;
         public InputAction @TimeShiftDebug => m_Wrapper.m_Player_TimeShiftDebug;
         public InputAction @AimDownSights => m_Wrapper.m_Player_AimDownSights;
+        public InputAction @SwitchGun => m_Wrapper.m_Player_SwitchGun;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1406,6 +1440,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @AimDownSights.started += instance.OnAimDownSights;
             @AimDownSights.performed += instance.OnAimDownSights;
             @AimDownSights.canceled += instance.OnAimDownSights;
+            @SwitchGun.started += instance.OnSwitchGun;
+            @SwitchGun.performed += instance.OnSwitchGun;
+            @SwitchGun.canceled += instance.OnSwitchGun;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1443,6 +1480,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @AimDownSights.started -= instance.OnAimDownSights;
             @AimDownSights.performed -= instance.OnAimDownSights;
             @AimDownSights.canceled -= instance.OnAimDownSights;
+            @SwitchGun.started -= instance.OnSwitchGun;
+            @SwitchGun.performed -= instance.OnSwitchGun;
+            @SwitchGun.canceled -= instance.OnSwitchGun;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1730,6 +1770,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnDropIn(InputAction.CallbackContext context);
         void OnTimeShiftDebug(InputAction.CallbackContext context);
         void OnAimDownSights(InputAction.CallbackContext context);
+        void OnSwitchGun(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
