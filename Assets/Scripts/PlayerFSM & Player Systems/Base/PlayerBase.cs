@@ -14,6 +14,7 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private Transform extensionRaycastPoint;
         [SerializeField] private SlopeOrientationHandler orientationHandler;
         [SerializeField] private CapsuleCollider skateboardColliderCapsule;
+        [SerializeField] private TrickComboHandler comboHandler;
 
     #endregion
 
@@ -170,6 +171,11 @@ public class PlayerBase : MonoBehaviour
     public void SetRBKinematic(bool isKinematic)
     {
         rb.isKinematic = isKinematic;
+    }
+
+    public TrickComboHandler GetComboHandler()
+    {
+        return comboHandler;
     }
 
     public RaycastHit RaycastFromBowlCheckPoint()

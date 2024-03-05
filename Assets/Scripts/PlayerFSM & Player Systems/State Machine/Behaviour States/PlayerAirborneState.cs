@@ -18,6 +18,7 @@ public class PlayerAirborneState : PlayerState
             onPerformed = ctx =>
             {
                 if (coolingDown) return;
+                if (player.GetComboHandler().GetStyleLevel() < player.playerData.airBoostStyleLevel) return;
                 player.rb.velocity = Vector3.zero;
                 AddAirForce(100, ForceMode.Impulse, accountForForwardInput:false);
                 coolDownCoroutine = player.StartCoroutine(CoolDownAirBoost());
@@ -35,11 +36,12 @@ public class PlayerAirborneState : PlayerState
         coolingDown = false;
     }
 
-    
+    TrickComboHandler comboHandler;
     public override void Enter()
     {
         base.Enter();
         SubscribeInputs();
+        comboHandler = player.gameObject.GetComponent<TrickComboHandler>();
     }
 
     public override void Exit()
@@ -70,6 +72,7 @@ public class PlayerAirborneState : PlayerState
         
         player.GetOrientationHandler().ReOrient();
         player.GetMovementMethods().TurnPlayer();
+        if (player.GetComboHandler().GetStyleLevel() < player.playerData.groundedBoostStyleLevel) return;
         AddAirForce(player.playerData.airForwardForce, ForceMode.Acceleration);
         
     }

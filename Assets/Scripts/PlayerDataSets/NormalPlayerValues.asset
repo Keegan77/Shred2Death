@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: NormalPlayerValues
   m_EditorClassIdentifier: 
   baseMovementSpeed: 150
-  baseBoostSpeed: 250
+  groundedBoostStyleLevel: 0
+  baseBoostSpeed: 300
   boostDuration: 1
   baseJumpForce: 25
   baseTurnSharpness: 150
   deAccelerationSpeed: 0.05
   airForwardForce: 10
   airTiltRange: 45
-  airBoostImpulseForce: 100
+  airBoostImpulseForce: 150
   airBoostCooldownSeconds: 5
+  airBoostStyleLevel: 1
   noseDiveFallForce: 100
   maxNoseDiveVelocity: 700
   noseDiveRotationSpeed: 2
