@@ -134,6 +134,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AirRotation"",
+                    ""type"": ""Value"",
+                    ""id"": ""ccab61cc-b5f3-4dc0-9e77-c5005dc96e2e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -532,6 +541,39 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""action"": ""SwitchGun"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""d8e2c2a7-3aa7-4bed-9e19-3df7f61ed57a"",
+                    ""path"": ""2DVector(mode=1)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AirRotation"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""3333a4bf-6282-45f2-8356-811d921d97b1"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AirRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""15848341-55b0-4034-8f3a-6e59d9ab52f6"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AirRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -1288,6 +1330,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_Player_TimeShiftDebug = m_Player.FindAction("TimeShiftDebug", throwIfNotFound: true);
         m_Player_AimDownSights = m_Player.FindAction("Aim Down Sights", throwIfNotFound: true);
         m_Player_SwitchGun = m_Player.FindAction("SwitchGun", throwIfNotFound: true);
+        m_Player_AirRotation = m_Player.FindAction("AirRotation", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1382,6 +1425,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_TimeShiftDebug;
     private readonly InputAction m_Player_AimDownSights;
     private readonly InputAction m_Player_SwitchGun;
+    private readonly InputAction m_Player_AirRotation;
     public struct PlayerActions
     {
         private @Input m_Wrapper;
@@ -1398,6 +1442,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         public InputAction @TimeShiftDebug => m_Wrapper.m_Player_TimeShiftDebug;
         public InputAction @AimDownSights => m_Wrapper.m_Player_AimDownSights;
         public InputAction @SwitchGun => m_Wrapper.m_Player_SwitchGun;
+        public InputAction @AirRotation => m_Wrapper.m_Player_AirRotation;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1443,6 +1488,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @SwitchGun.started += instance.OnSwitchGun;
             @SwitchGun.performed += instance.OnSwitchGun;
             @SwitchGun.canceled += instance.OnSwitchGun;
+            @AirRotation.started += instance.OnAirRotation;
+            @AirRotation.performed += instance.OnAirRotation;
+            @AirRotation.canceled += instance.OnAirRotation;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1483,6 +1531,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @SwitchGun.started -= instance.OnSwitchGun;
             @SwitchGun.performed -= instance.OnSwitchGun;
             @SwitchGun.canceled -= instance.OnSwitchGun;
+            @AirRotation.started -= instance.OnAirRotation;
+            @AirRotation.performed -= instance.OnAirRotation;
+            @AirRotation.canceled -= instance.OnAirRotation;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1771,6 +1822,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnTimeShiftDebug(InputAction.CallbackContext context);
         void OnAimDownSights(InputAction.CallbackContext context);
         void OnSwitchGun(InputAction.CallbackContext context);
+        void OnAirRotation(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
