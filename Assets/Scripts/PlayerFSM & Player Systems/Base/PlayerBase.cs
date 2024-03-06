@@ -16,7 +16,6 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private SlopeOrientationHandler orientationHandler;
         [SerializeField] private CapsuleCollider skateboardColliderCapsule;
         [SerializeField] private TrickComboHandler comboHandler;
-
     #endregion
 
     #region Public Component References
@@ -78,7 +77,6 @@ public class PlayerBase : MonoBehaviour
 
         if (other.CompareTag("Ramp90"))
         {
-            Debug.Log("Entered 90 ramp");
             orientationHandler.ChangePivot(transform, chestPivot.position);
             playerData.grindPositioningOffset = 3.38f;
         }
@@ -88,7 +86,6 @@ public class PlayerBase : MonoBehaviour
         stateMachine.currentState.StateTriggerExit(other);
         if (other.CompareTag("Ramp90"))
         {
-            Debug.Log("exit 90 ramp");
             orientationHandler.ChangePivot(transform, originPivot.position);
             playerData.grindPositioningOffset = .2f;
         }
@@ -193,15 +190,15 @@ public class PlayerBase : MonoBehaviour
 #endregion
 
     #region Helper Methods, Getters, & Setters
+    
+    public TrickComboHandler GetComboHandler()
+    {
+        return comboHandler;
+    }
 
     public void SetRBKinematic(bool isKinematic)
     {
         rb.isKinematic = isKinematic;
-    }
-
-    public TrickComboHandler GetComboHandler()
-    {
-        return comboHandler;
     }
 
     public RaycastHit RaycastFromBowlCheckPoint()
