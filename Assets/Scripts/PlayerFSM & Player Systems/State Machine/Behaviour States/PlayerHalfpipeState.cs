@@ -109,10 +109,7 @@ public class PlayerHalfpipeState : PlayerState
 
         if (Mathf.Abs(totalRotation) >= 180f)
         {
-            // Grant points for a full rotation
-            Debug.Log("Full rotation");
             rotationIncrementsCompleted++;
-            // Reset totalRotation for the next full rotation
             totalRotation = 0f;
         }
     }

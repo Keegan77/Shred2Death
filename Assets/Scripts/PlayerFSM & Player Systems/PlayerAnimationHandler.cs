@@ -35,9 +35,19 @@ public class PlayerAnimationHandler : MonoBehaviour
         }
     }
     
+    public void DebugQueueElements()
+    {
+        Debug.Log("Current queue elements:");
+        foreach (string triggerName in behaviourAnimationQueue)
+        {
+            Debug.Log(triggerName);
+        }
+    }
+    
     
     private IEnumerator BehaviourStateAnimationSequencer(string triggerName)
     {
+        DebugQueueElements();
         yield return null; // waits a frame so the clip info is properly updated with the new clip
         var currentClipInfo = animator.GetCurrentAnimatorClipInfo(0); // 0 refers to the base animation layer
         yield return new WaitForSeconds(currentClipInfo[0].clip.length);
