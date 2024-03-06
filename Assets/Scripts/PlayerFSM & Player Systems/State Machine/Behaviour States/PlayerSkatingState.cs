@@ -57,6 +57,7 @@ public class PlayerSkatingState : PlayerState
     public override void Exit()
     {
         UnsubscribeInputs();
+        player.constantForce.relativeForce = new Vector3(0, 0, 0);
         base.Exit();
     }
     
@@ -76,6 +77,11 @@ public class PlayerSkatingState : PlayerState
         if (InputRouting.Instance.GetDriftInput(alsoCheckForMoveInput:true))
         {
             stateMachine.SwitchState(player.driftState);
+        }
+
+        if (player.CheckGround())
+        {
+            player.constantForce.relativeForce = new Vector3(0, -20, 0);
         }
     }
     

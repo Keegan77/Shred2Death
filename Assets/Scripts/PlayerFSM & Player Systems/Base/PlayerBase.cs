@@ -32,6 +32,7 @@ public class PlayerBase : MonoBehaviour
         private SplineComputer currentSpline;
         private double splineCompletionPercent;
         public PlayerMovementMethods movement { get; private set; }
+        public ConstantForce constantForce;
         public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit;
         [HideInInspector] 
         public Vector3 forwardLeftRayOrigin, forwardRightRayOrigin, backLeftRayOrigin, backRightRayOrigin;

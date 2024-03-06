@@ -36,6 +36,7 @@ public class PlayerHalfpipeState : PlayerState
     public override void Exit()
     {
         base.Exit();
+        player.constantForce.relativeForce = new Vector3(0, 0, 0);
         UnsubscribeInputs();
         player.GetOrientationHandler().ResetOrientationSpeed();
         foreach (var extrusionMesh in MeshContainerSingleton.Instance.extrusionMeshObjects)
@@ -74,6 +75,16 @@ public class PlayerHalfpipeState : PlayerState
         {
              player.movement.SkateForward();
         }
+
+        if (player.CheckGround("BowlMesh"))
+        {
+            player.constantForce.relativeForce = new Vector3(0, -5, 0);
+        }
+        else
+        {
+            player.constantForce.relativeForce = new Vector3(0, 0, 0);
+        }
+        
                                                                      
     }
 
