@@ -14,11 +14,6 @@ public class PlayerAnimationHandler : MonoBehaviour
     private bool trickBeingPerformed;
     private bool interruptState;
 
-    private void Update()
-    {
-        Debug.Log(trickBeingPerformed);
-    }
-
     private void OnEnable()
     {
         ActionEvents.OnTrickRequested += TryTrickAnimation;

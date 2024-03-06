@@ -19,7 +19,7 @@ public static class TrickMaps
     //Skating Tricks
     static Trick Ollie        = new Trick("Idle", 5, 1, .2f, jumpTrick, CustomTrickMethods.OllieFunc, canBeInterrupted:true); //less ammo bc it's the basic trick & you're always jumping around
     
-    static Trick PopShuvIt    = new Trick("Ollie", 10, 500, .2f, DPadLEFT, CustomTrickMethods.PopShuvItCustomFunction);
+    static Trick PopShuvIt    = new Trick("PopShoveIt", 10, 500, .2f, DPadLEFT, CustomTrickMethods.PopShuvItCustomFunction);
     
     //Grind Tricks
     static Trick FiftyFifty   = new Trick("Ollie", 15, 5, .2f, DPadRIGHT);
@@ -29,6 +29,7 @@ public static class TrickMaps
     //Air Tricks
     static Trick Backflip     = new Trick("Ollie", 20, 5, .2f, DPadDOWN);
     static Trick Kickflip     = new Trick("Kickflip", 10, 6, .2f, DPadRIGHT);
+    static Trick Heelflip     = new Trick("Hellflip", 10, 6, .2f, DPadDOWN);
     #endregion // these tricks are just for testing, they will be replaced with real tricks later
     
     
@@ -36,7 +37,7 @@ public static class TrickMaps
     {
         {typeof(PlayerSkatingState), new []{Ollie}},
         {typeof(PlayerGrindState),   new []{FiftyFifty, FiveO, BoardSlide}},
-        {typeof(PlayerAirborneState), new []{Kickflip}},
+        {typeof(PlayerAirborneState), new []{Kickflip, PopShuvIt, Heelflip}},
         // Add more states and associated tricks here...
     };
     
