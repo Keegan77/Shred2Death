@@ -358,6 +358,7 @@ GameObject:
   - component: {fileID: 4198896277506439367}
   - component: {fileID: 6644245972921724407}
   - component: {fileID: 7622906686642303424}
+  - component: {fileID: 9174426406008690700}
   - component: {fileID: 1372826584483254550}
   m_Layer: 12
   m_Name: PlayerContainer
@@ -538,6 +539,19 @@ MonoBehaviour:
   maxStyleLevel: 5
   styleLevelThreshold: 100
   comboDropTime: 8
+--- !u!114 &9174426406008690700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064705740951400791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f833633356d821e4ebf6d59a489a13aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!135 &1372826584483254550
 SphereCollider:
   m_ObjectHideFlags: 0
