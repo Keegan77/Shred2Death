@@ -12,6 +12,12 @@ public class PlayerAnimationHandler : MonoBehaviour
     [SerializeField] PlayerBase player;
     private Queue<string> behaviourAnimationQueue = new Queue<string>();
     private bool trickBeingPerformed;
+    private bool interruptState;
+
+    private void Update()
+    {
+        Debug.Log(trickBeingPerformed);
+    }
 
     private void OnEnable()
     {
@@ -47,7 +53,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     
     private IEnumerator BehaviourStateAnimationSequencer(string triggerName)
     {
-        DebugQueueElements();
+        //DebugQueueElements();
         yield return null; // waits a frame so the clip info is properly updated with the new clip
         var currentClipInfo = animator.GetCurrentAnimatorClipInfo(0); // 0 refers to the base animation layer
         yield return new WaitForSeconds(currentClipInfo[0].clip.length);
@@ -67,13 +73,16 @@ public class PlayerAnimationHandler : MonoBehaviour
             }
         }
     }
-    
+
+    private Coroutine trickCoroutine;
     private void TryTrickAnimation(Trick trick)
     {
-        if (!trickBeingPerformed)
+        if (!trickBeingPerformed || interruptState)
         {
+            if (interruptState)
+                if (trickCoroutine != null) StopCoroutine(trickCoroutine);
             animator.SetTrigger(trick.animTriggerName);
-            StartCoroutine(TrickAnimationSequence(trick));
+            trickCoroutine = StartCoroutine(TrickAnimationSequence(trick));
         }
     }
     
@@ -81,9 +90,21 @@ public class PlayerAnimationHandler : MonoBehaviour
     {
         //assumes the trigger was set the frame before this coroutine was started
         yield return null; // waits a frame so the clip info is properly updated with the new clip
+        if (trick.canBeInterrupted)
+        {
+            interruptState = true;
+        }
+        else
+        {
+            interruptState = false;
+        }
+
+        yield return null;
         
         var currentClipInfo = animator.GetCurrentAnimatorClipInfo(0); // 0 refers to the base animation layer
         trickBeingPerformed = true;
+        
+        Debug.Log(currentClipInfo[0].clip.length);
         
         ActionEvents.OnTrickPerformed?.Invoke(trick);
         

@@ -41,6 +41,9 @@ public class PlayerSkatingState : PlayerState
             onCanceled = ctx => player.GetMovementMethods().StopBoost()
         });
         
+        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
+            { onPerformed = ctx => player.GetMovementMethods().OllieJump()});
+        
     }
 
     private bool enteredHalfPipeSection;

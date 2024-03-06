@@ -14,6 +14,6 @@ public static class CustomTrickMethods
 
     internal static void OllieFunc(PlayerBase player)
     {
-        player.GetMovementMethods().OllieJump();
+        
     }
 }
