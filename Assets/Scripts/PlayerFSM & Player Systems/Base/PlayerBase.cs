@@ -80,6 +80,7 @@ public class PlayerBase : MonoBehaviour
         {
             Debug.Log("Entered 90 ramp");
             orientationHandler.ChangePivot(transform, chestPivot.position);
+            playerData.grindPositioningOffset = 3.38f;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -89,6 +90,7 @@ public class PlayerBase : MonoBehaviour
         {
             Debug.Log("exit 90 ramp");
             orientationHandler.ChangePivot(transform, originPivot.position);
+            playerData.grindPositioningOffset = .2f;
         }
     }
     
