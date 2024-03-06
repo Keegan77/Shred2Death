@@ -19,10 +19,16 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     public GameObject bulletObject;
     public string attackAnimation;
 
+    /// <summary>
+    /// Runs through the logic of spawning and firing bullets. If a shot needs to lead the player, use LeadShot(target, muzzle, bulletObject) in the target logic for spawnBullet in an inherited script.
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="muzzle"></param>
+    /// <returns></returns>
     public abstract IEnumerator PlayShot (GameObject target, GameObject muzzle);
 
     #region Aiming and shooting
-    public void spawnBullet (Vector3 target, GameObject muzzle)
+    public void SpawnBullet (Vector3 target, GameObject muzzle)
     {
         //GameObject eb = Instantiate (bulletObject, muzzle.transform.position, Quaternion.identity);
         GameObject eb = Instantiate (bulletObject, muzzle.transform.position, Quaternion.identity);
