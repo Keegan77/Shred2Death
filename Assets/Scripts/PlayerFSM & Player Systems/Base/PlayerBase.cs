@@ -12,6 +12,7 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private Transform raycastPoint;
         [SerializeField] private Transform checkForBowlRaycastPoint;
         [SerializeField] private Transform extensionRaycastPoint;
+        [SerializeField] private Transform chestPivot, originPivot;
         [SerializeField] private SlopeOrientationHandler orientationHandler;
         [SerializeField] private CapsuleCollider skateboardColliderCapsule;
         [SerializeField] private TrickComboHandler comboHandler;
@@ -65,14 +66,35 @@ public class PlayerBase : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.LogicUpdate();
-        Debug.Log(GetOrientationWithDownward()); 
+        //Debug.Log(GetOrientationWithDownward()); 
         //Debug.Log(GetOrientationWithDownward() - 90);
     } 
     
     private void FixedUpdate() => stateMachine.currentState.PhysicsUpdate();
-    private void OnTriggerEnter(Collider other) => stateMachine.currentState.StateTriggerEnter(other);
+    private void OnTriggerEnter(Collider other)
+    {
+        stateMachine.currentState.StateTriggerEnter(other);
+
+        if (other.CompareTag("Ramp90"))
+        {
+            Debug.Log("Entered 90 ramp");
+            orientationHandler.ChangePivot(transform, chestPivot.position);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        stateMachine.currentState.StateTriggerExit(other);
+        if (other.CompareTag("Ramp90"))
+        {
+            Debug.Log("exit 90 ramp");
+            orientationHandler.ChangePivot(transform, originPivot.position);
+        }
+    }
+    
+    
     private void OnTriggerStay(Collider other) => stateMachine.currentState.StateTriggerStay(other);
-    private void OnTriggerExit(Collider other) => stateMachine.currentState.StateTriggerExit(other);
+
+
     private void OnCollisionStay(Collision other) => stateMachine.currentState.StateCollisionEnter(other);
     private void OnDrawGizmos()
     {

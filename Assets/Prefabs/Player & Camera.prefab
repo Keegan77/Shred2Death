@@ -254,6 +254,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2742071884636467749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1903718682212022421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6112660942666684793}
+  m_Layer: 12
+  m_Name: OriginPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6112660942666684793
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903718682212022421}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5559937304468360954}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2052750308589718574
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,6 +381,8 @@ Transform:
   - {fileID: 7342932776442279609}
   - {fileID: 6264741664780971715}
   - {fileID: 7715143368668230821}
+  - {fileID: 6112660942666684793}
+  - {fileID: 4091059630163234302}
   m_Father: {fileID: 2033880638604906100}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!54 &6967465418630592810
@@ -406,6 +439,8 @@ MonoBehaviour:
   raycastPoint: {fileID: 581445647682060572}
   checkForBowlRaycastPoint: {fileID: 7342932776442279609}
   extensionRaycastPoint: {fileID: 2597604119206260499}
+  chestPivot: {fileID: 4091059630163234302}
+  originPivot: {fileID: 6112660942666684793}
   orientationHandler: {fileID: 6644245972921724407}
   skateboardColliderCapsule: {fileID: 7383035295540952733}
   comboHandler: {fileID: 7622906686642303424}
@@ -2241,6 +2276,37 @@ MonoBehaviour:
   yRotationOffset: 0
   resetRotationSpeed: 0.25
   player: {fileID: 1464697803107471213}
+--- !u!1 &8671394489134720471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4091059630163234302}
+  m_Layer: 12
+  m_Name: ChestPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4091059630163234302
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8671394489134720471}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.18, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5559937304468360954}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8791448951113930112
 GameObject:
   m_ObjectHideFlags: 0
