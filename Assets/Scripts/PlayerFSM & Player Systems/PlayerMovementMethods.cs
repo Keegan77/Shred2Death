@@ -54,8 +54,8 @@ public class PlayerMovementMethods
         
         
         // Apply force in the direction of forwardAfterRotation
-        rb.AddForce(forwardAfterRotation * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0 ? 
-            InputRouting.Instance.GetMoveInput().y : 0)), ForceMode.Acceleration);
+        rb.AddForce(forwardAfterRotation * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0.1f ? 
+            1 : 0)), ForceMode.Acceleration);
         
         
     }
@@ -111,8 +111,9 @@ public class PlayerMovementMethods
 
     public void CalculateTurnSharpness()
     {
-        if (rb.velocity.magnitude < 20) turnSharpness = playerData.baseTurnSharpness;
-        else turnSharpness = playerData.baseTurnSharpness / (rb.velocity.magnitude / 15);
+        turnSharpness = playerData.baseTurnSharpness;
+        //if (rb.velocity.magnitude < 20) turnSharpness = playerData.baseTurnSharpness;
+        //else turnSharpness = playerData.baseTurnSharpness / (rb.velocity.magnitude / 2);
     }
     
     /// <summary>
@@ -123,10 +124,6 @@ public class PlayerMovementMethods
     {
         rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, rb.velocity.y, 0), playerData.deAccelerationSpeed);
     }
-    
-    
-    
-    
     
     private Coroutine boostTimerCoroutine;
     private Coroutine rechargeBoostCoroutine;
