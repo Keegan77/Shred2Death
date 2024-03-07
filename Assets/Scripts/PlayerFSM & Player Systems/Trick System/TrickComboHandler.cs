@@ -32,14 +32,15 @@ public class TrickComboHandler : MonoBehaviour
     //deltatime increment values
     private float timeSinceLastTrick; // increments by dletaTime in update and resets to 0 ontrickcompletion
     private float timeSinceMultiplierIncrease; // increments by deltaTime in update , resets to 0 on multiplier increase
+    private bool pauseTime;
 
 
     private void Update()
     {
-        if (currentStylePoints > 0)
+        if (currentStylePoints > 0 && !pauseTime)
             timeSinceLastTrick += Time.deltaTime;
         
-        if (currentMultiplier > 1)
+        if (currentMultiplier > 1 && !pauseTime)
             timeSinceMultiplierIncrease += Time.deltaTime;
         
         if (timeSinceLastTrick > comboDropTime)
@@ -103,6 +104,11 @@ public class TrickComboHandler : MonoBehaviour
     public float GetTimeSinceMultiplierIncrease()
     {
         return timeSinceMultiplierIncrease;
+    }
+    
+    public void SetPauseComboDrop(bool status)
+    {
+        pauseTime = status;
     }
 
     #endregion

@@ -61,6 +61,22 @@ public class SlopeOrientationHandler : MonoBehaviour
             Time.fixedDeltaTime * slopeOrientationSpeed);
     }
     
+    public void ChangePivot(Transform parentTransform, Vector3 newPivot)
+    {
+        Dictionary<Transform, Vector3> cachedChildPositions = new Dictionary<Transform, Vector3>();
+        foreach (Transform child in parentTransform)
+        {
+            cachedChildPositions[child] = child.position;
+        }
+        
+        parentTransform.position = newPivot;
+
+        foreach (KeyValuePair<Transform, Vector3> childPosition in cachedChildPositions)
+        {
+            childPosition.Key.position = childPosition.Value;
+        }
+    }
+    
     public void OrientFromExtensions() // should refactor into a coroutine to do this, so we are locked into orienting
     {
         Quaternion targetRotation = Quaternion.FromToRotation(playerBase.transform.up, Vector3.up) 
