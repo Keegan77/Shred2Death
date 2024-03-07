@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 
 //After going through and doing validaiton scripting, ArenaComplete might not need to exist
@@ -11,18 +12,14 @@ public class WaveManager : MonoBehaviour
     #region PARAMETERS
 
     [Header ("Events")]
-
-    //A list of things that can happen when the encounter starts.
-    //It's most commonly going to be closing the gates,
-    //but we can leave the door open for other things to happen.
-    [Tooltip("When the arena is activated by entering it, which events happen? (Attach to WaveManager as components from Assets/Waves/Wave Events)")]
+    //teehee
+    [Tooltip ("When the arena is triggered and starts its first wave, what happens? (For some god forsaken reason the engine gives me errors when I name this variable responsibly)")]
     [SerializeField]
-    Wave_Event[] openingEvents;
-
+    WaveArenaEvent[] eventArenaIsOpened;
     //As with the opening events, these are things that happen when the arena is completed.
     [Tooltip ("When all waves in this arena have been cleared, which events happen? (Attach to WaveManager as components from Assets/Waves/Wave Events)")]
-    [SerializeField]
-    Wave_Event[] closingEvents;
+    [SerializeField] WaveArenaEvent[] eventArenaClose;
+
 
     [Header("Waves")]
     [SerializeField] Wave[] waves;
@@ -114,25 +111,27 @@ public class WaveManager : MonoBehaviour
     IEnumerator beginEncounter ()
     {
         //Play the opening events of the arena
-        foreach (Wave_Event e in openingEvents)
+        foreach (WaveArenaEvent e in eventArenaIsOpened)
         {
-            e.event_Open ();
-            yield return e.eventDelay ();
+            e.arenaEvents.Invoke ();
+            yield return new WaitForSeconds (e.eventTime);
         }
 
+        //eventArenaOpen.Invoke ();
+        //yield return null;
+
         //Once the opening events are complete, begin the first wave
-        StartCoroutine(playWave ());
+        StartCoroutine (playWave ());
     }
 
     //Play through the closing events.
     IEnumerator finishEncounter ()
     {
-        foreach (Wave_Event e in closingEvents)
+        foreach (WaveArenaEvent e in eventArenaClose)
         {
-            e.event_Close ();
-            yield return e.eventDelay ();
+            e.arenaEvents.Invoke ();
+            yield return new WaitForSeconds (e.eventTime);
         }
-
         areaComplete = true;
         areaEnabled = false;
     }
