@@ -4,35 +4,53 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteInEditMode]
+
+/// <summary>
+/// 
+/// </summary>
 public class MutliFillBar : MonoBehaviour
 {
     #region Fill Bars
-    [Header("Values")]
-    public float minValue;
-    public float maxValue;
-
+    [Header ("Values")]
     [Min(1)]
-    public int fillBarCount = 1;
+    public float meterMaxValue = 1;
+    public float meterCurrentValue;
 
-    [Header("Inner Fills")]
-    public Texture fillImage;
+    #endregion
+
+    #region private
+    Transform fillbarContainer;
+    int fillbarCount;
+    float fillbarMaxValue;
     #endregion
 
     #region CONSTANTS
-
     const string PATH_FILLBAR = "FillBars";
     #endregion
 
-    #region STARTUP
 
     private void Start ()
     {
-        
+        meterCurrentValue = 0;
+
+        fillbarContainer = transform.Find(PATH_FILLBAR);
+
+        fillbarCount = fillbarContainer.childCount;
+        fillbarMaxValue = meterMaxValue / fillbarCount;
     }
-    #endregion
 
-    #region FUNCTIONS
 
-    #endregion
+
+    private void Update ()
+    {
+        for (int i = 0 ; i < fillbarCount ; i++) 
+        {
+            Image img = fillbarContainer.GetChild(i).GetComponent<Image>();
+
+            float fillAmount = (meterCurrentValue - (i * fillbarMaxValue)) / fillbarMaxValue;
+
+            img.fillAmount = Mathf.Clamp (fillAmount, 0, 1);
+        }
+    }
 }
+
