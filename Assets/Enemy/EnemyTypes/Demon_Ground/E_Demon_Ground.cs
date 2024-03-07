@@ -14,6 +14,11 @@ public class E_Demon_Ground : Enemy
     [NonSerialized] public static NavMeshBuildSettings[] agentSettings;
     [NonSerialized] public int agentIndex = 0;
 
+    [Header ("States Info")]
+    public bool isInMeleeRange = false;
+    public void State_SetMeleeRange (bool v) { isInMeleeRange=v;}
+
+
 
     // Start is called before the first frame update
     void Start()
