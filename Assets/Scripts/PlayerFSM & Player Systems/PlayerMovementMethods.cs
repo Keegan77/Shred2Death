@@ -54,7 +54,7 @@ public class PlayerMovementMethods
         
         
         // Apply force in the direction of forwardAfterRotation
-        rb.AddForce(forwardAfterRotation * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0.1f ? 
+        rb.AddForce(forwardAfterRotation * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0.25f ? 
             1 : 0)), ForceMode.Acceleration);
         
         

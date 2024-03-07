@@ -12,10 +12,10 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private Transform raycastPoint;
         [SerializeField] private Transform checkForBowlRaycastPoint;
         [SerializeField] private Transform extensionRaycastPoint;
+        [SerializeField] private Transform chestPivot, originPivot;
         [SerializeField] private SlopeOrientationHandler orientationHandler;
         [SerializeField] private CapsuleCollider skateboardColliderCapsule;
         [SerializeField] private TrickComboHandler comboHandler;
-
     #endregion
 
     #region Public Component References
@@ -31,6 +31,7 @@ public class PlayerBase : MonoBehaviour
         private SplineComputer currentSpline;
         private double splineCompletionPercent;
         public PlayerMovementMethods movement { get; private set; }
+        public ConstantForce constantForce;
         public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit;
         [HideInInspector] 
         public Vector3 forwardLeftRayOrigin, forwardRightRayOrigin, backLeftRayOrigin, backRightRayOrigin;
@@ -65,13 +66,35 @@ public class PlayerBase : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.LogicUpdate();
+        //Debug.Log(GetOrientationWithDownward()); 
         //Debug.Log(GetOrientationWithDownward() - 90);
     } 
     
     private void FixedUpdate() => stateMachine.currentState.PhysicsUpdate();
-    private void OnTriggerEnter(Collider other) => stateMachine.currentState.StateTriggerEnter(other);
+    private void OnTriggerEnter(Collider other)
+    {
+        stateMachine.currentState.StateTriggerEnter(other);
+
+        if (other.CompareTag("Ramp90"))
+        {
+            orientationHandler.ChangePivot(transform, chestPivot.position);
+            playerData.grindPositioningOffset = 3.38f;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        stateMachine.currentState.StateTriggerExit(other);
+        if (other.CompareTag("Ramp90"))
+        {
+            orientationHandler.ChangePivot(transform, originPivot.position);
+            playerData.grindPositioningOffset = .2f;
+        }
+    }
+    
+    
     private void OnTriggerStay(Collider other) => stateMachine.currentState.StateTriggerStay(other);
-    private void OnTriggerExit(Collider other) => stateMachine.currentState.StateTriggerExit(other);
+
+
     private void OnCollisionStay(Collision other) => stateMachine.currentState.StateCollisionEnter(other);
     private void OnDrawGizmos()
     {
@@ -167,15 +190,15 @@ public class PlayerBase : MonoBehaviour
 #endregion
 
     #region Helper Methods, Getters, & Setters
+    
+    public TrickComboHandler GetComboHandler()
+    {
+        return comboHandler;
+    }
 
     public void SetRBKinematic(bool isKinematic)
     {
         rb.isKinematic = isKinematic;
-    }
-
-    public TrickComboHandler GetComboHandler()
-    {
-        return comboHandler;
     }
 
     public RaycastHit RaycastFromBowlCheckPoint()

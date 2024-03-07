@@ -134,6 +134,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AirRotation"",
+                    ""type"": ""Value"",
+                    ""id"": ""ccab61cc-b5f3-4dc0-9e77-c5005dc96e2e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -532,6 +541,72 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""action"": ""SwitchGun"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""d8e2c2a7-3aa7-4bed-9e19-3df7f61ed57a"",
+                    ""path"": ""2DVector(mode=1)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AirRotation"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""3333a4bf-6282-45f2-8356-811d921d97b1"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AirRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""15848341-55b0-4034-8f3a-6e59d9ab52f6"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AirRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""0494c1d6-45ad-4de1-8dcd-93898d7578fa"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AirRotation"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""d9397c9b-9d30-4791-b66f-488c92be2a82"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AirRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""fa9dfc04-3020-49b7-b9b0-9949cdc6c15a"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AirRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -1155,8 +1230,30 @@ public partial class @Input: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""7772c75c-0009-40cb-b9ab-96b220097aa6"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LBumperTrick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""def1c00e-ce83-49b9-85a2-19cf733e1d1f"",
                     ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RBumperTrick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7432664c-a953-439b-8525-8c7eb4371606"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1177,8 +1274,30 @@ public partial class @Input: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""03dc3de9-ba68-4a95-8004-b663c7f9a1a5"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DpadUP"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""d8cb22bc-6016-4166-8631-86e782af4830"",
                     ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DpadDOWN"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0b718e0-5115-4863-b4a1-d4414daa4ff2"",
+                    ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1199,8 +1318,30 @@ public partial class @Input: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""d843fb03-73ee-4a3d-9ecb-ff29f92aa3a6"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DpadLEFT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""ae333b0f-19f6-41b9-ac19-83e92e8d2585"",
                     ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DpadRIGHT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""89e510c8-8897-48eb-a430-a946fae6affc"",
+                    ""path"": ""<Gamepad>/dpad/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1288,6 +1429,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_Player_TimeShiftDebug = m_Player.FindAction("TimeShiftDebug", throwIfNotFound: true);
         m_Player_AimDownSights = m_Player.FindAction("Aim Down Sights", throwIfNotFound: true);
         m_Player_SwitchGun = m_Player.FindAction("SwitchGun", throwIfNotFound: true);
+        m_Player_AirRotation = m_Player.FindAction("AirRotation", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1382,6 +1524,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_TimeShiftDebug;
     private readonly InputAction m_Player_AimDownSights;
     private readonly InputAction m_Player_SwitchGun;
+    private readonly InputAction m_Player_AirRotation;
     public struct PlayerActions
     {
         private @Input m_Wrapper;
@@ -1398,6 +1541,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         public InputAction @TimeShiftDebug => m_Wrapper.m_Player_TimeShiftDebug;
         public InputAction @AimDownSights => m_Wrapper.m_Player_AimDownSights;
         public InputAction @SwitchGun => m_Wrapper.m_Player_SwitchGun;
+        public InputAction @AirRotation => m_Wrapper.m_Player_AirRotation;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1443,6 +1587,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @SwitchGun.started += instance.OnSwitchGun;
             @SwitchGun.performed += instance.OnSwitchGun;
             @SwitchGun.canceled += instance.OnSwitchGun;
+            @AirRotation.started += instance.OnAirRotation;
+            @AirRotation.performed += instance.OnAirRotation;
+            @AirRotation.canceled += instance.OnAirRotation;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1483,6 +1630,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @SwitchGun.started -= instance.OnSwitchGun;
             @SwitchGun.performed -= instance.OnSwitchGun;
             @SwitchGun.canceled -= instance.OnSwitchGun;
+            @AirRotation.started -= instance.OnAirRotation;
+            @AirRotation.performed -= instance.OnAirRotation;
+            @AirRotation.canceled -= instance.OnAirRotation;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1771,6 +1921,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnTimeShiftDebug(InputAction.CallbackContext context);
         void OnAimDownSights(InputAction.CallbackContext context);
         void OnSwitchGun(InputAction.CallbackContext context);
+        void OnAirRotation(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
