@@ -125,9 +125,9 @@ public class Enemy : MonoBehaviour, IDamageable
     public void SetRagdollEnabled (bool en)
     {
         //Debug.Break ();
-        Debug.Log("Setting ragdollEnabled: " + en);
-        Debug.Log (ragdollBodies);
-        Debug.Log (ragdollColliders);
+        //Debug.Log("Setting ragdollEnabled: " + en);
+        //Debug.Log (ragdollBodies);
+        //Debug.Log (ragdollColliders);
 
         animator.enabled = !en;
 
@@ -140,7 +140,7 @@ public class Enemy : MonoBehaviour, IDamageable
         }
         foreach (Collider collider in ragdollColliders)
         {
-            Debug.Log (collider);
+            //Debug.Log (collider);
             collider.enabled = en;
         }
 
