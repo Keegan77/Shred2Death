@@ -43,7 +43,7 @@ public class ES_Ground_Turret : ES_DemonGround
 
     void FireBullet ()
     {
-        if (Enemy.playerReference.isOnNavMesh)
+        if (Enemy.playerReference.isOnNavMesh && !eg.isInMeleeRange)
         {
             eg.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
         }

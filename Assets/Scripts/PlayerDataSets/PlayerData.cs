@@ -19,13 +19,15 @@ public class PlayerData : ScriptableObject
     
     
     
-    [Header("Airborne Values (Non-Half Pipe)")]
+    [Header("Airborne Values")]
     public float airForwardForce;
     public float airTiltRange;
     public float airBoostImpulseForce;
     public float airBoostCooldownSeconds;
     [Tooltip("The style level at which the air boost unlocks")]
     public int airBoostStyleLevel;
+
+    public float halfPipeAirTurnAmount;
 
     [Header("Nosedive Values")] 
     public float noseDiveFallForce;

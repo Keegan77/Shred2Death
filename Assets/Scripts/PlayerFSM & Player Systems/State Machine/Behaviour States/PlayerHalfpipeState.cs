@@ -14,11 +14,13 @@ public class PlayerHalfpipeState : PlayerState
     }
 
     private GameObject closestHalfPipe;
-    
+    private int rotationIncrementsCompleted;
     public override void Enter()
     {
-        
+        player.GetComboHandler().SetPauseComboDrop(true);
         base.Enter();
+        totalRotation = 0f;
+        rotationIncrementsCompleted = 0;
         SubscribeInputs();
         
         player.GetOrientationHandler().SetOrientationSpeed(10f);
@@ -36,6 +38,16 @@ public class PlayerHalfpipeState : PlayerState
     public override void Exit()
     {
         base.Exit();
+        player.GetComboHandler().SetPauseComboDrop(false);
+        Debug.Log($"Total rotation style: {rotationIncrementsCompleted * 180}");
+        ActionEvents.OnTrickCompletion?.Invoke(new Trick($"Rotation trick: " +
+                                                         $"{rotationIncrementsCompleted * 180}",
+                                                   rotationIncrementsCompleted * 10,
+                                                  2 * rotationIncrementsCompleted,
+                                              0.1f,
+                                                   null));
+
+        player.constantForce.relativeForce = new Vector3(0, 0, 0);
         UnsubscribeInputs();
         player.GetOrientationHandler().ResetOrientationSpeed();
         foreach (var extrusionMesh in MeshContainerSingleton.Instance.extrusionMeshObjects)
@@ -65,7 +77,8 @@ public class PlayerHalfpipeState : PlayerState
     {
         base.PhysicsUpdate();
         HalfPipeAirBehaviour();
-        player.GetMovementMethods().TurnPlayer();
+        RotationInAir();
+        //player.GetMovementMethods().TurnPlayer();
         if (player.rb.velocity.y < 0 && player.CheckGroundExtensions()) 
             player.GetOrientationHandler().OrientFromExtensions(); // the if statement prevents accidental landing
                                                                      // rotation when the player is still in the air
@@ -73,7 +86,46 @@ public class PlayerHalfpipeState : PlayerState
         {
              player.movement.SkateForward();
         }
-                                                                     
+
+        if (player.CheckGround("BowlMesh"))
+        {
+            player.constantForce.relativeForce = new Vector3(0, -5, 0);
+        }
+        else
+        {
+            player.constantForce.relativeForce = new Vector3(0, 0, 0);
+        }
+        
+    }
+    private float previousXRotation = 0f;
+    private float totalRotation = 0f;
+    
+    private void RotationInAir()
+    {
+        float rotationThisFrame = player.playerData.halfPipeAirTurnAmount * InputRouting.Instance.GetBumperInput().x * Time.fixedDeltaTime;
+        player.transform.Rotate(0, rotationThisFrame, 0, Space.Self);
+
+        totalRotation += rotationThisFrame;
+
+        if (Mathf.Abs(totalRotation) >= 180f)
+        {
+            rotationIncrementsCompleted++;
+            totalRotation = 0f;
+        }
+    }
+    
+
+    private IEnumerator LerpDefaultRotation()
+    {
+        float t = 0;
+        
+        while (t < 1)
+        {
+            t += Time.deltaTime;
+            player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.Euler(90, player.transform.rotation.y, player.transform.rotation.z), t);
+        }
+
+        yield return null;
     }
 
     public void HalfPipeAirBehaviour()

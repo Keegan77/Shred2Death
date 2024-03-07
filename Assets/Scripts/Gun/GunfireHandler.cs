@@ -19,10 +19,13 @@ public class GunfireHandler : MonoBehaviour
 
     [SerializeField] private Recoil cameraRecoil;
 
-    [SerializeField] private Transform castPoint;
+    
     
     [SerializeField] private TrailRenderer bulletTrail;
-
+    [Header("Transforms")]
+    [SerializeField] private Transform castPoint;
+    [SerializeField] private Transform forwardFromPlayerPoint;
+    
     private Transform[] currentGunTips;
     private Recoil[] currentGunRecoilScripts;
     private Recoil currentGunRecoilScript;

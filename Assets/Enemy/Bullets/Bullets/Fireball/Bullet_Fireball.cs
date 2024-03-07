@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[SelectionBase]
 public class Bullet_Fireball : Enemy_Bullet
 {
     [Header("Fireball")]

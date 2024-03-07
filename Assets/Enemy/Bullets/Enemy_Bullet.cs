@@ -21,6 +21,10 @@ public abstract class Enemy_Bullet : MonoBehaviour
     [Tooltip ("How fast does the bullet go?")]
     public float speed = 10;
 
+    [Tooltip("How much damage does the bullet do on impact?")]
+    public int damage = 1;
+
+
     [Tooltip ("When targeting the player, aim for a point in this radius around them.")]
     public float deviation = 1;
 
@@ -45,5 +49,22 @@ public abstract class Enemy_Bullet : MonoBehaviour
     {
         yield return new WaitForSeconds (t);
         Destroy (gameObject);
+    }
+
+    private void OnTriggerEnter (Collider other)
+    {
+        if (other.CompareTag ("Player"))
+        {
+            if(other.GetComponent<IDamageable>() != null)
+            {
+                other.GetComponent<IDamageable> ().TakeDamage (damage);
+            }
+            else
+            {
+                Debug.LogError ("Player IDamageable Component not found. Damage cannot be taken.");
+            }
+            
+            //throw new NotImplementedException ("No player health script has been linked to enemy bullets");
+        }
     }
 }
