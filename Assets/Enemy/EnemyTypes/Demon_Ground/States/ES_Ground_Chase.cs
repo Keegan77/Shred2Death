@@ -63,6 +63,11 @@ public class ES_Ground_Chase : ES_DemonGround
         Vector3 playerDestinationOffset = Enemy.playerReference.transform.position - eg.agent.destination;
 
 
+        if (eg.isInMeleeRange)
+        {
+            eg.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
+        }
+
         if (constantUpdate)
         {
             eg.agent.SetDestination (Enemy.playerReference.transform.position);
@@ -91,9 +96,10 @@ public class ES_Ground_Chase : ES_DemonGround
             //If a bullet is ready and the enemy has waited long enough, fire a bullet.
             if (bulletInfo.bulletReady && readyToBullet)
             {
-                eg.agent.isStopped = true;
-                bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject);
-                eg.animator.Play (bulletInfo.attackAnimation);
+                Debug.Log ("EnemyPlayingShot On The Run");
+                //eg.agent.isStopped = true;
+                bulletInfo.StartCoroutine(bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject));
+                //eg.animator.Play (bulletInfo.attackAnimation);
                 StartCoroutine (bulletWait ());
             }
 
