@@ -9,11 +9,11 @@ public static class CustomTrickMethods
     internal static void PopShuvItCustomFunction(PlayerBase player)
     {
         Debug.Log("A pop shuv it has been completed! This is custom code which is running on this trick alone!");
-        player.GetMovementMethods().OllieJump();
+        //player.GetMovementMethods().OllieJump();
     }
 
     internal static void OllieFunc(PlayerBase player)
     {
-        player.GetMovementMethods().OllieJump();
+        
     }
 }

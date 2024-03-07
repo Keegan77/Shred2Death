@@ -41,6 +41,7 @@ public class PlayerAirborneState : PlayerState
     {
         base.Enter();
         SubscribeInputs();
+        ActionEvents.OnPlayBehaviourAnimation?.Invoke("Idle");
         comboHandler = player.gameObject.GetComponent<TrickComboHandler>();
     }
 
