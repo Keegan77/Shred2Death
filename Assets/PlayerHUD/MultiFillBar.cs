@@ -8,12 +8,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 
 /// </summary>
-<<<<<<<< Updated upstream:Assets/PlayerHUD/MultiFillBar/MutliFillBar.cs
-/// 
-public class MutliFillBar : MonoBehaviour
-========
 public class MultiFillBar : MonoBehaviour
->>>>>>>> Stashed changes:Assets/PlayerHUD/MultiFillBar.cs
 {
     #region Fill Bars
     [Header("Parameters")]
@@ -53,7 +48,7 @@ public class MultiFillBar : MonoBehaviour
         fillbarMaxValue = meterMaxValue / fillbarCount;
     }
 
-
+    
 
     private void Update ()
     {
@@ -61,12 +56,9 @@ public class MultiFillBar : MonoBehaviour
         {
             Image img = fillbarContainer.GetChild(i).GetComponent<Image>();
 
-<<<<<<<< Updated upstream:Assets/PlayerHUD/MultiFillBar/MutliFillBar.cs
-            float fillAmount = (meterCurrentValue - (i * (meterMaxValue / fillbarContainer.childCount))) / fillbarMaxValue;
-========
+
             // Percentage X
             float fillAmount = (meterCurrentValue - (i * fillbarMaxValue)) / fillbarMaxValue;
->>>>>>>> Stashed changes:Assets/PlayerHUD/MultiFillBar.cs
 
             // What is X percent of the difference between offsetMin and Max? Offset this to the minimum fill
             fillAmount = fillAmount * (fillOffsetMax - fillOffsetMin) + fillOffsetMin;
