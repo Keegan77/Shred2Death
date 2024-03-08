@@ -8,6 +8,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 
 /// </summary>
+/// 
 public class MutliFillBar : MonoBehaviour
 {
     #region Fill Bars
@@ -47,7 +48,7 @@ public class MutliFillBar : MonoBehaviour
         {
             Image img = fillbarContainer.GetChild(i).GetComponent<Image>();
 
-            float fillAmount = (meterCurrentValue - (i * fillbarMaxValue)) / fillbarMaxValue;
+            float fillAmount = (meterCurrentValue - (i * (meterMaxValue / fillbarContainer.childCount))) / fillbarMaxValue;
 
             img.fillAmount = Mathf.Clamp (fillAmount, 0, 1);
         }
