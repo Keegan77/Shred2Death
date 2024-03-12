@@ -32,9 +32,9 @@ public class PlayerBase : MonoBehaviour
         private double splineCompletionPercent;
         public PlayerMovementMethods movement { get; private set; }
         public ConstantForce constantForce;
-        public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit;
+        public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit, middleLeftSlopeHit, middleRightSlopeHit;
         [HideInInspector] 
-        public Vector3 forwardLeftRayOrigin, forwardRightRayOrigin, backLeftRayOrigin, backRightRayOrigin;
+        public Vector3 forwardLeftRayOrigin, forwardRightRayOrigin, backLeftRayOrigin, backRightRayOrigin, middleLeftRayOrigin, middleRightRayOrigin;
         [HideInInspector] 
         public Vector3 forwardRayOrigin, backRayOrigin, leftRayOrigin, rightRayOrigin;
         Vector3 backRayEndPoint, forwardRayEndPoint, leftRayEndPoint, rightRayEndPoint;
@@ -109,6 +109,8 @@ public class PlayerBase : MonoBehaviour
         Gizmos.DrawLine(backRightRayOrigin, backRightRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
         Gizmos.DrawLine(forwardLeftRayOrigin, forwardLeftRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
         Gizmos.DrawLine(forwardRightRayOrigin, forwardRightRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
+        Gizmos.DrawLine(middleLeftRayOrigin, middleLeftRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
+        Gizmos.DrawLine(middleRightRayOrigin, middleRightRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
         
         Gizmos.color = Color.blue;
         
@@ -222,7 +224,11 @@ public class PlayerBase : MonoBehaviour
         backLeftRayOrigin = raycastPoint.position - (forwardMultByOffset) - (rightMultByOffset);
         backRightRayOrigin = raycastPoint.position - (forwardMultByOffset) + (rightMultByOffset);
         
+        middleLeftRayOrigin = raycastPoint.position - rightMultByOffset;
+        middleRightRayOrigin = raycastPoint.position + rightMultByOffset;
+        
 
+        //extension raycasts
         backRayOrigin = extensionRaycastPoint.position - forwardMultByOffset;
         forwardRayOrigin = extensionRaycastPoint.position + forwardMultByOffset;
         
@@ -247,6 +253,9 @@ public class PlayerBase : MonoBehaviour
 
         bool backLeftDownRayHit = Physics.Raycast(backLeftRayOrigin, -playerModelTransform.up, out backLeftSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
         bool backRightDownRayHit = Physics.Raycast(backRightRayOrigin, -playerModelTransform.up, out backRightSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
+        
+        bool middleLeftDownRayHit = Physics.Raycast(middleLeftRayOrigin, -playerModelTransform.up, out middleLeftSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
+        bool middleRightDownRayHit = Physics.Raycast(middleRightRayOrigin, -playerModelTransform.up, out middleRightSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
 
         bool forwardLeftDownRayHit = Physics.Raycast(forwardLeftRayOrigin, -playerModelTransform.up, out forwardLeftSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
         bool forwardRightDownRayHit = Physics.Raycast(forwardRightRayOrigin, -playerModelTransform.up, out forwardRightSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
