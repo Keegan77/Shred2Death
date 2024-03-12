@@ -66,5 +66,9 @@ public abstract class Enemy_Bullet : MonoBehaviour
             
             //throw new NotImplementedException ("No player health script has been linked to enemy bullets");
         }
+        else
+        {
+            Debug.Log ("Bullet: Not a Player");
+        }
     }
 }
