@@ -28,6 +28,8 @@ public class PlayerAnimationHandler : MonoBehaviour
 
     private void PlayBehaviourAnimation(string triggerName)
     {
+        if (behaviourAnimationQueue.Contains(triggerName)) return;
+        
         behaviourAnimationQueue.Enqueue(triggerName);
         if (behaviourAnimationQueue.Count == 1)
         {

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 [RequireComponent(typeof(GunfireHandler))]
 public class GunSwitcher : MonoBehaviour
@@ -10,13 +11,12 @@ public class GunSwitcher : MonoBehaviour
     [SerializeField] List<GunData> guns;
     [SerializeField] SceneDataForGun[] sceneDataForGuns;
     private GunSwitchData switchData;
-    [SerializeField] private GameObject rigTargetsParent;
-    FollowTargetProperties[] rigTargets;
+    [SerializeField] TwoBoneIKConstraint leftArmMover,rightArmMover;
+    [SerializeField] RigBuilder rigBuilder;
     private bool gunSwitchQueued;
     
     private void Start()
     {
-        rigTargets = rigTargetsParent.GetComponentsInChildren<FollowTargetProperties>();
         gunfireHandler = GetComponent<GunfireHandler>();
         switchData = new GunSwitchData(gunfireHandler.GetCurrentGunData(), gunfireHandler.GetCurrentGunSceneData()); // move from here, just a syntax reminder
         SetModels(GetNextGunSceneData().GetGunModels(), false);
@@ -98,10 +98,9 @@ public class GunSwitcher : MonoBehaviour
 
     private void SetModels(GameObject[] models, bool activeStatus)
     {
-
         foreach (var model in models)
         {
-            model.SetActive(activeStatus);
+            model.GetComponent<MeshRenderer>().enabled = activeStatus;
             if (activeStatus == true) StartCoroutine(ScaleUpFromZero(model, .2f));
         }
     }
@@ -119,21 +118,24 @@ public class GunSwitcher : MonoBehaviour
             model.transform.localScale = Vector3.Lerp(startScale, endScale, curve.Evaluate(timeElapsed / lerpTime));
             yield return null;
         }
+        SetRigTargetPoints(gunfireHandler.GetCurrentGunSceneData().GetAllTargets());
     }
     
     private void HandleOnGunSwitch(GunSwitchData switchData)
     {
         Transform[] transformTargets = switchData.SceneDataForGun.GetAllTargets();
         
-        SetRigTargetPoints(transformTargets);
+        SetRigTargetPoints(transformTargets); // Here we want to instead get the arm movers and set their targets to the new gun's targets
         gunfireHandler.SetCurrentGun(switchData);
     }
     private void SetRigTargetPoints(Transform[] transformTargets)
     {
-        foreach (var target in rigTargets)
-        {
-            target.SetOriginPoint(GetTargetByTag(transformTargets, target.gameObject.tag));
-        }
+        leftArmMover.data.target = GetTargetByTag(transformTargets, "LeftHandTarget");
+        leftArmMover.data.hint = GetTargetByTag(transformTargets, "LeftHandHint");
+        rightArmMover.data.target = GetTargetByTag(transformTargets, "RightHandTarget");
+        rightArmMover.data.hint = GetTargetByTag(transformTargets, "RightHandHint");
+
+        rigBuilder.Build();
     }
     
     private Transform GetTargetByTag(Transform[] transformTargets, string tag)
@@ -145,7 +147,6 @@ public class GunSwitcher : MonoBehaviour
                 return target;
             }
         }
-
         return null;
     }
 }
