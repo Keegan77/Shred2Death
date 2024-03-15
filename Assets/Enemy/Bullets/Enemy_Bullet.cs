@@ -55,7 +55,16 @@ public abstract class Enemy_Bullet : MonoBehaviour
     {
         if (other.CompareTag ("Player"))
         {
-            throw new NotImplementedException ("No player health script has been linked to enemy bullets");
+            if(other.GetComponent<IDamageable>() != null)
+            {
+                other.GetComponent<IDamageable> ().TakeDamage (damage);
+            }
+            else
+            {
+                Debug.LogError ("Player IDamageable Component not found. Damage cannot be taken.");
+            }
+            
+            //throw new NotImplementedException ("No player health script has been linked to enemy bullets");
         }
     }
 }
