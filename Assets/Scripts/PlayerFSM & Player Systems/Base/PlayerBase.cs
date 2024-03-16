@@ -14,7 +14,6 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private Transform extensionRaycastPoint;
         [SerializeField] private Transform chestPivot, originPivot;
         [SerializeField] private SlopeOrientationHandler orientationHandler;
-        [SerializeField] private CapsuleCollider skateboardColliderCapsule;
         [SerializeField] private TrickComboHandler comboHandler;
     #endregion
 
@@ -32,9 +31,10 @@ public class PlayerBase : MonoBehaviour
         private double splineCompletionPercent;
         public PlayerMovementMethods movement { get; private set; }
         public ConstantForce constantForce;
-        public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit, middleLeftSlopeHit, middleRightSlopeHit;
-        [HideInInspector] 
-        public Vector3 forwardLeftRayOrigin, forwardRightRayOrigin, backLeftRayOrigin, backRightRayOrigin, middleLeftRayOrigin, middleRightRayOrigin;
+        public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit;
+
+        [HideInInspector]
+        public Vector3 forwardLeftRayOrigin, forwardRightRayOrigin, backLeftRayOrigin, backRightRayOrigin;
         [HideInInspector] 
         public Vector3 forwardRayOrigin, backRayOrigin, leftRayOrigin, rightRayOrigin;
         Vector3 backRayEndPoint, forwardRayEndPoint, leftRayEndPoint, rightRayEndPoint;
@@ -59,7 +59,6 @@ public class PlayerBase : MonoBehaviour
     private void Awake()
     {
         StateMachineSetup();
-        skateboardOriginalColliderRadius = skateboardColliderCapsule.radius;
         movement = new PlayerMovementMethods(this, rb, playerData, inputTurningTransform);
     }
     
@@ -109,8 +108,6 @@ public class PlayerBase : MonoBehaviour
         Gizmos.DrawLine(backRightRayOrigin, backRightRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
         Gizmos.DrawLine(forwardLeftRayOrigin, forwardLeftRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
         Gizmos.DrawLine(forwardRightRayOrigin, forwardRightRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
-        Gizmos.DrawLine(middleLeftRayOrigin, middleLeftRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
-        Gizmos.DrawLine(middleRightRayOrigin, middleRightRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
         
         Gizmos.color = Color.blue;
         
@@ -224,9 +221,6 @@ public class PlayerBase : MonoBehaviour
         backLeftRayOrigin = raycastPoint.position - (forwardMultByOffset) - (rightMultByOffset);
         backRightRayOrigin = raycastPoint.position - (forwardMultByOffset) + (rightMultByOffset);
         
-        middleLeftRayOrigin = raycastPoint.position - rightMultByOffset;
-        middleRightRayOrigin = raycastPoint.position + rightMultByOffset;
-        
 
         //extension raycasts
         backRayOrigin = extensionRaycastPoint.position - forwardMultByOffset;
@@ -247,16 +241,12 @@ public class PlayerBase : MonoBehaviour
     
     public bool CheckGround(string layerName = "Ground")
     {
-
         var layerMask = (1 << LayerMask.NameToLayer(layerName));
         UpdateRayOriginPoints();
 
         bool backLeftDownRayHit = Physics.Raycast(backLeftRayOrigin, -playerModelTransform.up, out backLeftSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
         bool backRightDownRayHit = Physics.Raycast(backRightRayOrigin, -playerModelTransform.up, out backRightSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
         
-        bool middleLeftDownRayHit = Physics.Raycast(middleLeftRayOrigin, -playerModelTransform.up, out middleLeftSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
-        bool middleRightDownRayHit = Physics.Raycast(middleRightRayOrigin, -playerModelTransform.up, out middleRightSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
-
         bool forwardLeftDownRayHit = Physics.Raycast(forwardLeftRayOrigin, -playerModelTransform.up, out forwardLeftSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
         bool forwardRightDownRayHit = Physics.Raycast(forwardRightRayOrigin, -playerModelTransform.up, out forwardRightSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
 
@@ -315,23 +305,6 @@ public class PlayerBase : MonoBehaviour
     public float GetOriginalColliderRadius()
     {
         return skateboardOriginalColliderRadius;
-    }
-    public IEnumerator ScaleCapsuleCollider(float newRadius)
-    {
-        float duration = .15f; // Duration for the scaling operation, adjust as needed
-        float elapsed = 0f;
-
-        float originalRadius = skateboardColliderCapsule.radius;
-
-        while (Mathf.Abs(skateboardColliderCapsule.radius - newRadius) > 0.01f)
-        {
-            elapsed += Time.deltaTime;
-            skateboardColliderCapsule.radius = Mathf.Lerp(originalRadius, newRadius, elapsed / duration);
-            yield return null;
-        }
-
-        // Ensure the final radius is exactly what's expected
-        skateboardColliderCapsule.radius = newRadius;
     }
     
 }

@@ -287,7 +287,6 @@ GameObject:
   - component: {fileID: 7622906686642303424}
   - component: {fileID: 3719033429802293273}
   - component: {fileID: 9174426406008690700}
-  - component: {fileID: 1372826584483254550}
   m_Layer: 12
   m_Name: PlayerContainer
   m_TagString: Player
@@ -383,6 +382,8 @@ MonoBehaviour:
   forwardRightRayOrigin: {x: 17.67, y: 6.5374517, z: 5.5985403}
   backLeftRayOrigin: {x: 18.37, y: 6.5374517, z: 7.25854}
   backRightRayOrigin: {x: 17.67, y: 6.5374517, z: 7.25854}
+  middleLeftRayOrigin: {x: 18.37, y: 6.5374517, z: 6.42854}
+  middleRightRayOrigin: {x: 17.67, y: 6.5374517, z: 6.42854}
   forwardRayOrigin: {x: 18.02, y: 6.297452, z: 5.5985403}
   backRayOrigin: {x: 18.02, y: 6.297452, z: 7.25854}
   leftRayOrigin: {x: 18.37, y: 6.297452, z: 6.42854}
@@ -493,27 +494,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
---- !u!135 &1372826584483254550
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2064705740951400791}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2449074291578262128
 GameObject:
   m_ObjectHideFlags: 0
