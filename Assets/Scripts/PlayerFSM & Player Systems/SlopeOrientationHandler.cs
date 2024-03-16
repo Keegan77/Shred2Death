@@ -46,7 +46,7 @@ public class SlopeOrientationHandler : MonoBehaviour
         slopeOrientationSpeed = baseSlopeOrientationSpeed;
     }
 
-    /*public void OrientToSlope()
+    public void OrientToSlope()
     {
         Vector3 averageNormal = (playerBase.forwardLeftSlopeHit.normal + playerBase.forwardRightSlopeHit.normal + 
                                  playerBase.backLeftSlopeHit.normal +
@@ -59,9 +59,9 @@ public class SlopeOrientationHandler : MonoBehaviour
         // Lerp to the desired rotation
         playerBase.transform.rotation = Quaternion.Slerp(playerBase.transform.rotation, targetRotation,
             Time.fixedDeltaTime * slopeOrientationSpeed);
-    }*/
+    }
     
-    public void OrientToSlope()
+    /*public void OrientToSlope()
     {
         float currentYRotation = playerBase.transform.rotation.eulerAngles.y;
         // Cast raycasts from the position of each wheel
@@ -89,19 +89,22 @@ public class SlopeOrientationHandler : MonoBehaviour
         // Calculate the target rotation
         
         Quaternion targetRotation = Quaternion.identity;
-        targetRotation *= Quaternion.AngleAxis(xRotation, transform.right);
-        targetRotation *= Quaternion.AngleAxis(zRotation, transform.forward);
+        //targetRotation *= Quaternion.AngleAxis(xRotation, transform.right);
+        //targetRotation *= Quaternion.AngleAxis(zRotation, transform.forward);
+        targetRotation = Quaternion.Euler(xRotation, currentYRotation, zRotation);
         
         //use fromtorotation to get the actual target rotation based on transform.up
-        targetRotation = Quaternion.FromToRotation(playerBase.transform.up, targetRotation * Vector3.up) * playerBase.transform.rotation;
+        //targetRotation = Quaternion.FromToRotation(playerBase.transform.up, targetRotation * Vector3.up) * playerBase.transform.rotation;
         
 
         // Apply the target rotation
         playerBase.transform.rotation = Quaternion.Slerp(playerBase.transform.rotation, targetRotation, Time.fixedDeltaTime * slopeOrientationSpeed);
         // Apply these rotation angles to the skateboard
-        playerBase.transform.rotation = Quaternion.Euler(playerBase.transform.rotation.eulerAngles.x, currentYRotation, playerBase.transform.rotation.eulerAngles.z);
+        //playerBase.transform.rotation = Quaternion.Euler(playerBase.transform.rotation.eulerAngles.x, currentYRotation, playerBase.transform.rotation.eulerAngles.z);
+        
+        Debug.Log(xRotation + " " + zRotation);
         //playerBase.transform.rotation = Quaternion.Euler(xRotation, transform.rotation.eulerAngles.y, zRotation);
-    }
+    }*/
     
     public void ChangePivot(Transform parentTransform, Vector3 newPivot)
     {
