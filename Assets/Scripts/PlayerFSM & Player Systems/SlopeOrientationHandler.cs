@@ -106,7 +106,7 @@ public class SlopeOrientationHandler : MonoBehaviour
         //playerBase.transform.rotation = Quaternion.Euler(xRotation, transform.rotation.eulerAngles.y, zRotation);
     }*/
     
-    public void ChangePivot(Transform parentTransform, Vector3 newPivot)
+    /*public void ChangePivot(Transform parentTransform, Vector3 newPivot)
     {
         Dictionary<Transform, Vector3> cachedChildPositions = new Dictionary<Transform, Vector3>();
         foreach (Transform child in parentTransform)
@@ -120,7 +120,7 @@ public class SlopeOrientationHandler : MonoBehaviour
         {
             childPosition.Key.position = childPosition.Value;
         }
-    }
+    }*/
     
     public void OrientFromExtensions() // should refactor into a coroutine to do this, so we are locked into orienting
     {

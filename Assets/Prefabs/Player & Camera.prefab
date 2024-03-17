@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 6644245972921724407}
   - component: {fileID: 7622906686642303424}
   - component: {fileID: 3719033429802293273}
-  - component: {fileID: 9174426406008690700}
+  - component: {fileID: 4216492802562461432}
   m_Layer: 12
   m_Name: PlayerContainer
   m_TagString: Player
@@ -303,7 +303,7 @@ Transform:
   m_GameObject: {fileID: 2064705740951400791}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -3.38, y: 0, z: -0.15}
+  m_LocalPosition: {x: -3.38, y: -1.5, z: -0.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -371,23 +371,20 @@ MonoBehaviour:
   chestPivot: {fileID: 4091059630163234302}
   originPivot: {fileID: 6112660942666684793}
   orientationHandler: {fileID: 6644245972921724407}
-  skateboardColliderCapsule: {fileID: 7383035295540952733}
   comboHandler: {fileID: 7622906686642303424}
   rb: {fileID: 6967465418630592810}
   inputTurningTransform: {fileID: 6264741664780971715}
   playerModelTransform: {fileID: 6867235279004832454}
   playerData: {fileID: 11400000, guid: 1a3dc727a00a88b4dab330927467122e, type: 2}
   constantForce: {fileID: 361494770088818583}
-  forwardLeftRayOrigin: {x: 18.37, y: 6.5374517, z: 5.5985403}
-  forwardRightRayOrigin: {x: 17.67, y: 6.5374517, z: 5.5985403}
-  backLeftRayOrigin: {x: 18.37, y: 6.5374517, z: 7.25854}
-  backRightRayOrigin: {x: 17.67, y: 6.5374517, z: 7.25854}
-  middleLeftRayOrigin: {x: 18.37, y: 6.5374517, z: 6.42854}
-  middleRightRayOrigin: {x: 17.67, y: 6.5374517, z: 6.42854}
-  forwardRayOrigin: {x: 18.02, y: 6.297452, z: 5.5985403}
-  backRayOrigin: {x: 18.02, y: 6.297452, z: 7.25854}
-  leftRayOrigin: {x: 18.37, y: 6.297452, z: 6.42854}
-  rightRayOrigin: {x: 17.67, y: 6.297452, z: 6.42854}
+  forwardLeftRayOrigin: {x: 18.37, y: 5.0374517, z: -13.091459}
+  forwardRightRayOrigin: {x: 17.67, y: 5.0374517, z: -13.091459}
+  backLeftRayOrigin: {x: 18.37, y: 5.0374517, z: -11.431459}
+  backRightRayOrigin: {x: 17.67, y: 5.0374517, z: -11.431459}
+  forwardRayOrigin: {x: 18.02, y: 4.797452, z: -13.091459}
+  backRayOrigin: {x: 18.02, y: 4.797452, z: -11.431459}
+  leftRayOrigin: {x: 18.37, y: 4.797452, z: -12.261459}
+  rightRayOrigin: {x: 17.67, y: 4.797452, z: -12.261459}
   grindRailFollower: {fileID: 5986969473009569870, guid: 58642cd707a8a1e449bef0d5c13f5759, type: 3}
 --- !u!114 &7380166272104267722
 MonoBehaviour:
@@ -481,7 +478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
---- !u!114 &9174426406008690700
+--- !u!114 &4216492802562461432
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -490,10 +487,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2064705740951400791}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f833633356d821e4ebf6d59a489a13aa, type: 3}
+  m_Script: {fileID: 11500000, guid: 617024aee56b3d743b95950363b34b67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  rayLength: 1.8
+  rideHeight: 1.6
+  rideSpringStrength: 100
+  rideSpringDamper: 10
+  raycastOrigin: {fileID: 581445647682060572}
 --- !u!1 &2449074291578262128
 GameObject:
   m_ObjectHideFlags: 0
@@ -2134,7 +2135,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1763954516614702768}
-  - component: {fileID: 7383035295540952733}
   m_Layer: 12
   m_Name: Shredboard
   m_TagString: Untagged
@@ -2157,29 +2157,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6867235279004832454}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!136 &7383035295540952733
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7750400975582830543}
-  m_Material: {fileID: 13400000, guid: 3e9bf19c650b046419e2835ad6c56ba2, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.40630203
-  m_Height: 2.9898345
-  m_Direction: 2
-  m_Center: {x: 0.05999303, y: 0.13503581, z: 0.050148368}
 --- !u!1 &8253264026255025629
 GameObject:
   m_ObjectHideFlags: 0
