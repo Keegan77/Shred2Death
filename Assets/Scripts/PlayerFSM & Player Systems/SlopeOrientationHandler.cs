@@ -50,7 +50,9 @@ public class SlopeOrientationHandler : MonoBehaviour
     {
         Vector3 averageNormal = (playerBase.forwardLeftSlopeHit.normal + playerBase.forwardRightSlopeHit.normal + 
                                  playerBase.backLeftSlopeHit.normal +
-                                 playerBase.backRightSlopeHit.normal).normalized;
+                                 playerBase.backRightSlopeHit.normal + 
+                                 playerBase.middleLeftSlopeHit.normal +
+                                 playerBase.middleRightSlopeHit.normal).normalized;
 
         // stores perpendicular angle into targetRotation
         targetRotation = Quaternion.FromToRotation(playerBase.transform.up, averageNormal) 
