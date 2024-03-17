@@ -8,12 +8,21 @@ using UnityEngine.UI;
 /// <summary>
 /// 
 /// </summary>
-public class MutliFillBar : MonoBehaviour
+public class MultiFillBar : MonoBehaviour
 {
     #region Fill Bars
+    [Header("Parameters")]
+    public float meterMaxValue = 100;
+
+    [Tooltip("Offset for the fillbars at 0% meter")]
+    [Range(0f, 1f)]
+    [SerializeField] float fillOffsetMin = 0;
+
+    [Tooltip("Offset for the fillbars at 100% meter")]
+    [Range(0f, 1f)]
+    [SerializeField] float fillOffsetMax = 1;
+
     [Header ("Values")]
-    [Min(1)]
-    public float meterMaxValue = 1;
     public float meterCurrentValue;
 
     #endregion
@@ -39,7 +48,7 @@ public class MutliFillBar : MonoBehaviour
         fillbarMaxValue = meterMaxValue / fillbarCount;
     }
 
-
+    
 
     private void Update ()
     {
@@ -47,9 +56,14 @@ public class MutliFillBar : MonoBehaviour
         {
             Image img = fillbarContainer.GetChild(i).GetComponent<Image>();
 
+
+            // Percentage X
             float fillAmount = (meterCurrentValue - (i * fillbarMaxValue)) / fillbarMaxValue;
 
-            img.fillAmount = Mathf.Clamp (fillAmount, 0, 1);
+            // What is X percent of the difference between offsetMin and Max? Offset this to the minimum fill
+            fillAmount = fillAmount * (fillOffsetMax - fillOffsetMin) + fillOffsetMin;
+
+            img.fillAmount = Mathf.Clamp (fillAmount, fillOffsetMin, fillOffsetMax);
         }
     }
 }
