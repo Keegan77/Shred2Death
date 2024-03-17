@@ -1,11 +1,8 @@
 #if UNITY_EDITOR
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
-
 using UnityEditor;
+using UnityEngine.Animations.Rigging;
 
 
 public class SavePositionAndGunData : MonoBehaviour
@@ -14,6 +11,7 @@ public class SavePositionAndGunData : MonoBehaviour
     public Transform[] guns;
     public Transform[] gunSwivels;
     public PositionalDataStore dataStore;
+    [SerializeField] RigBuilder rigBuilder;
     
     private void OnEnable()
     {
@@ -75,6 +73,11 @@ public class SavePositionAndGunData : MonoBehaviour
             gunSwivels[i].localPosition = dataStore.gunSwivelPositions[i];
             gunSwivels[i].localEulerAngles = dataStore.gunSwivelEulerRotations[i];
         }  
+    }
+
+    public void RebuildRig()
+    {
+        rigBuilder.Build();
     }
 
     
