@@ -30,8 +30,11 @@ public class PlayerCapsuleFloater : MonoBehaviour
             Vector3 rayDir = transform.TransformDirection(Vector3.down); // downward direction relative to the player's current rotation
             
             float rayDirVel = Vector3.Dot(rayDir, vel);
+            //dot product is a measure of how much of vel is in the direction of rayDir. If the player is moving
+            //locally downward, rayDirVel will be a large positive number. If it's moving locally upwards,
+            //it will be a large negative number.
             
-            float x = hit.distance - rideHeight;
+            float x = hit.distance - rideHeight; //this mag determines how much spring force strength we need to apply
             
             float springForce = (x * rideSpringStrength) - (rayDirVel * rideSpringDamper);
             
@@ -42,6 +45,6 @@ public class PlayerCapsuleFloater : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(raycastOrigin.position, -transform.up * rayLength);
+        //Gizmos.DrawRay(raycastOrigin.position, -transform.up * rayLength);
     }
 }
