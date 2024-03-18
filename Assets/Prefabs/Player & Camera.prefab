@@ -464,6 +464,7 @@ MonoBehaviour:
   inputTurningTransform: {fileID: 6264741664780971715}
   playerModelTransform: {fileID: 6867235279004832454}
   playerData: {fileID: 11400000, guid: 1a3dc727a00a88b4dab330927467122e, type: 2}
+  proceduralRigController: {fileID: 6265791741991128856}
   constantForce: {fileID: 361494770088818583}
   forwardLeftRayOrigin: {x: 18.37, y: 5.0374517, z: -13.091459}
   forwardRightRayOrigin: {x: 17.67, y: 5.0374517, z: -13.091459}
@@ -3181,6 +3182,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c77bea9c94c12d14f85f1484b349cf4e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1708456115892816982}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c77bea9c94c12d14f85f1484b349cf4e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6265791741991128856}
     - targetCorrespondingSourceObject: {fileID: 5198418424004405158, guid: c77bea9c94c12d14f85f1484b349cf4e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3236073284315636269}
@@ -3676,6 +3680,20 @@ MonoBehaviour:
   - m_Rig: {fileID: 406594010102296293}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &6265791741991128856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7963147200888113568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7817c136e9b7bae488a71b848342bd26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armRig: {fileID: 7326819366841382584}
+  legRig: {fileID: 406594010102296293}
 --- !u!4 &7994824763406398049 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8308873984082082160, guid: c77bea9c94c12d14f85f1484b349cf4e, type: 3}

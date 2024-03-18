@@ -18,6 +18,12 @@ public class PlayerGrindState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        player.proceduralRigController.StartCoroutine(
+            player.proceduralRigController.LerpWeightToValue
+                                                 (player.proceduralRigController.legRig,
+                                                     0,
+                                                     .1f)
+        );
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Grind");
         lerping = true;
         SubscribeInputs();
@@ -31,6 +37,12 @@ public class PlayerGrindState : PlayerState
     public override void Exit()
     {
         UnsubscribeInputs();
+        player.proceduralRigController.StartCoroutine(
+            player.proceduralRigController.LerpWeightToValue
+            (player.proceduralRigController.legRig,
+                1,
+                .1f)
+        );
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Grind Reverse");
     }
     private void SetUpSplineFollower()
@@ -75,7 +87,6 @@ public class PlayerGrindState : PlayerState
         {
             sFollower.direction = Spline.Direction.Backward;
             sFollower.followSpeed = -Mathf.Abs(sFollower.followSpeed);
-            
         }
 
         if (!isClosed)

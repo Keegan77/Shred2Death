@@ -45,7 +45,9 @@ public class PlayerData : ScriptableObject
     public float grindSpeedAdditive;
     [Tooltip("This value offsets the player's height on the grind rail, play around and find a value that works with the player model")]
     public float grindPositioningOffset;
+
     [Tooltip("The turn amount of grinding, should be probably slightly higher than the base turn sharpness or something. Play around with it!")]
+    public float skateboardGrindPosition;
     public float grindTurnSharpness;
     [Tooltip("Amount of time it takes to snap to the grind rail")]
     public float railSnapTime;

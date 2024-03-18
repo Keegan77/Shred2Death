@@ -45,7 +45,11 @@ public class SkateboardSlopePositioner : MonoBehaviour
         }
         else
         {
-            //transform.localPosition = startingPos;
+            transform.localPosition = startingPos;
+        }
+        if (player.stateMachine.currentState == player.grindState)
+        {
+            transform.localPosition = new Vector3(startingPos.x, player.playerData.skateboardGrindPosition, startingPos.z);
         }
     }
 
