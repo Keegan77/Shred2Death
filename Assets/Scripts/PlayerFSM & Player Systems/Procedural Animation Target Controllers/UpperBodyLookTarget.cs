@@ -44,27 +44,25 @@ public class UpperBodyLookTarget : MonoBehaviour
         else
         {
             currentTarget = cameraForwardPoint; // player looks at camera
-        }
-
-        if (forwardDot < 0) // if we are not looking forward
-        {
-            rightDot = Vector3.Dot(player.transform.right, cam.forward);
-            if (rightDot > 0) // if we are looking to the right
+            if (forwardDot < 0) // if we are not looking forward
             {
-                currentLookPoint.position = rightLookPoint.position;
-                currentTarget = currentLookPoint;
-                currentTarget.position = new Vector3(currentTarget.position.x, 
-                    cameraForwardPoint.position.y, currentTarget.position.z);
-            }
-            else
-            {
-                currentLookPoint.position = leftLookPoint.position;
-                currentTarget = currentLookPoint;
-                currentTarget.position = new Vector3(currentTarget.position.x, 
-                    cameraForwardPoint.position.y, currentTarget.position.z);
+                rightDot = Vector3.Dot(player.transform.right, cam.forward);
+                if (rightDot > 0) // if we are looking to the right
+                {
+                    currentLookPoint.position = rightLookPoint.position;
+                    currentTarget = currentLookPoint;
+                    currentTarget.position = new Vector3(currentTarget.position.x, 
+                        cameraForwardPoint.position.y, currentTarget.position.z);
+                }
+                else
+                {
+                    currentLookPoint.position = leftLookPoint.position;
+                    currentTarget = currentLookPoint;
+                    currentTarget.position = new Vector3(currentTarget.position.x, 
+                        cameraForwardPoint.position.y, currentTarget.position.z);
+                }
             }
         }
-
         
     }
 
