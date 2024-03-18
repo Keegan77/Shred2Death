@@ -104,12 +104,24 @@ public class PlayerAnimationHandler : MonoBehaviour
         ActionEvents.OnTrickPerformed?.Invoke(trick);
         
         if (trick.customMethod != null) trick.customMethod.Invoke(player);
+        player.proceduralRigController.StartCoroutine(
+            player.proceduralRigController.LerpWeightToValue
+            (player.proceduralRigController.legRig,
+                0,
+                .05f)
+        );
         
         yield return new WaitForSeconds(currentClipInfo[0].clip.length);
         
         trickBeingPerformed = false;
         
         ActionEvents.OnTrickCompletion?.Invoke(trick);
+        player.proceduralRigController.StartCoroutine(
+            player.proceduralRigController.LerpWeightToValue
+            (player.proceduralRigController.legRig,
+                1,
+                .05f)
+        );
         
     }
     
