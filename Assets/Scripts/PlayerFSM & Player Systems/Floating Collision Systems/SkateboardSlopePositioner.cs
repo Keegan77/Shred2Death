@@ -14,6 +14,7 @@ public class SkateboardSlopePositioner : MonoBehaviour
     [SerializeField] private float rayNormalDistance; //1.3
     [SerializeField] private float rayHalfPipeDist;
     private float rayDistance;
+    private float skateboardGrindPos = -.76f;
 
     //[SerializeField] private float raycastZOffsetFromOrigin;
 
@@ -49,7 +50,7 @@ public class SkateboardSlopePositioner : MonoBehaviour
         }
         if (player.stateMachine.currentState == player.grindState)
         {
-            transform.localPosition = new Vector3(startingPos.x, player.playerData.skateboardGrindPosition, startingPos.z);
+            transform.localPosition = new Vector3(startingPos.x, skateboardGrindPos, startingPos.z);
         }
     }
 
