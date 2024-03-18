@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class PlayerHUD : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    StatsWidget stats;
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        stats = transform.Find("StatsWidget").GetComponent<StatsWidget>();
     }
 }
