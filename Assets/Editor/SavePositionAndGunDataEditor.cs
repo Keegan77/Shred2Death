@@ -14,6 +14,10 @@ public class SavePositionAndGunDataEditor : Editor
         {
             myScript.SetPositions();
         }
+        if (GUILayout.Button("Preview Positions"))
+        {
+            myScript.RebuildRig();
+        }
     }
 }
 #endif
