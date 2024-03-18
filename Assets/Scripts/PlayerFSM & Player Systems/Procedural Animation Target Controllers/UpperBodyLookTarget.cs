@@ -12,6 +12,7 @@ public class UpperBodyLookTarget : MonoBehaviour
     [SerializeField] private PlayerBase player;
     [SerializeField] private float targetMoveSpeed;
     private Transform currentTarget;
+    private Transform currentLookPoint;
 
     private float forwardDot, rightDot;
     
@@ -20,12 +21,13 @@ public class UpperBodyLookTarget : MonoBehaviour
     private void Start()
     {
         currentTarget = cameraForwardPoint;
+        currentLookPoint = new GameObject().transform;
     }
 
     private void Update()
     {
         forwardDot = Vector3.Dot(player.transform.forward, cam.forward);
-        rightDot = Vector3.Dot(player.transform.right, cam.forward);
+        
         
         //transform.position = currentTarget.position;
         LerpToTargetPosition();
@@ -46,15 +48,18 @@ public class UpperBodyLookTarget : MonoBehaviour
 
         if (forwardDot < 0) // if we are not looking forward
         {
+            rightDot = Vector3.Dot(player.transform.right, cam.forward);
             if (rightDot > 0) // if we are looking to the right
             {
-                currentTarget = rightLookPoint;
+                currentLookPoint.position = rightLookPoint.position;
+                currentTarget = currentLookPoint;
                 currentTarget.position = new Vector3(currentTarget.position.x, 
                     cameraForwardPoint.position.y, currentTarget.position.z);
             }
             else
             {
-                currentTarget = leftLookPoint;
+                currentLookPoint.position = leftLookPoint.position;
+                currentTarget = currentLookPoint;
                 currentTarget.position = new Vector3(currentTarget.position.x, 
                     cameraForwardPoint.position.y, currentTarget.position.z);
             }
