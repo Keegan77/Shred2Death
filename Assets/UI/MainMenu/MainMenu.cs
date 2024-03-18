@@ -22,6 +22,15 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene(s.name);
     }
+    public void testLoadLevel(string s)
+    {
+        SceneManager.LoadScene(s);
+    }
+
+    public void EndGame()
+    {
+        Application.Quit();
+    }
 
     public void moveToSubMenu(GameObject m)
     {
@@ -32,8 +41,8 @@ public class MainMenu : MonoBehaviour
 
         m.SetActive(true);
 
-        if (panner != null) StopCoroutine(panner);
-        panner = StartCoroutine(PanCamera(m.GetComponent<SubMenu>()));
+        StopAllCoroutines();
+        StartCoroutine(PanCamera(m.GetComponent<SubMenu>()));
     }
 
     IEnumerator PanCamera(SubMenu m)
