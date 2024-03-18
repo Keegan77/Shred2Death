@@ -62,12 +62,12 @@ public class TrickComboHandler : MonoBehaviour
         if (currentStyleLevel >= maxStyleLevel) return;
         currentStylePoints += trick.stylePoints * currentMultiplier;
         timeSinceLastTrick = 0;
-        
-        if (currentStylePoints > styleLevelThreshold)
+        float leftoverPoints = 0;
+        while (currentStylePoints > styleLevelThreshold)
         {
             currentStyleLevel++;
             
-            currentStylePoints = 0;
+            currentStylePoints -= styleLevelThreshold;
         }
     }
     
