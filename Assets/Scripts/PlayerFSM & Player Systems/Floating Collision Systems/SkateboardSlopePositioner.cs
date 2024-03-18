@@ -26,7 +26,6 @@ public class SkateboardSlopePositioner : MonoBehaviour
     private void FixedUpdate()
     {
         SetRayDistances();
-        //Debug.Log(player.GetOrientationWithDownward() - 90);
         
         float YOffset;
         if (player.stateMachine.currentState != player.halfPipeState)

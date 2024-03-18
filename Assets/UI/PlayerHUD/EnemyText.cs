@@ -16,7 +16,7 @@ public class EnemyText : MonoBehaviour
         text = GetComponent<TMP_Text>();
     }
 
-    public void setText (int remEnemies)
+    public void setTextCount (int remEnemies)
     {
         text.text = $"{Mathf.Clamp (remEnemies, 0, 99)}";
     }

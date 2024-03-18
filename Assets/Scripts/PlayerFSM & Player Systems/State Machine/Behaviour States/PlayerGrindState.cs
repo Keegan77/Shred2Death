@@ -9,6 +9,7 @@ public class PlayerGrindState : PlayerState
     private float baseSpeed;
     private float currentSpeed;
     private float grindPosOffset = .21f;
+    private Coroutine jumpOffEndOfRailCoroutine;
     private Quaternion jumpedOnOrientation;
     public PlayerGrindState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
@@ -89,10 +90,10 @@ public class PlayerGrindState : PlayerState
             sFollower.direction = Spline.Direction.Backward;
             sFollower.followSpeed = -Mathf.Abs(sFollower.followSpeed);
         }
-
+        
         if (!isClosed)
         {
-            player.StartCoroutine(JumpOffEndOfRail());
+            jumpOffEndOfRailCoroutine = player.StartCoroutine(JumpOffEndOfRail());
         }
     }
 
@@ -104,10 +105,12 @@ public class PlayerGrindState : PlayerState
     
     private void JumpOffRail()
     {
+        if (jumpOffEndOfRailCoroutine != null) player.StopCoroutine(jumpOffEndOfRailCoroutine);
         GameObject.Destroy(followerObj);
         player.transform.rotation = player.inputTurningTransform.rotation;
         player.inputTurningTransform.rotation = player.transform.rotation;
         player.SetRBKinematic(false);
+        player.rb.velocity = Vector3.zero;
         player.rb.AddForce(player.transform.up * player.playerData.baseJumpForce, ForceMode.Impulse);
         player.rb.AddForce(player.inputTurningTransform.forward * player.playerData.baseJumpForce, ForceMode.Impulse);
         
