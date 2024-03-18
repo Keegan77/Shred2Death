@@ -101,8 +101,6 @@ public class PlayerAnimationHandler : MonoBehaviour
         var currentClipInfo = animator.GetCurrentAnimatorClipInfo(0); // 0 refers to the base animation layer
         trickBeingPerformed = true;
         
-        Debug.Log(currentClipInfo[0].clip.length);
-        
         ActionEvents.OnTrickPerformed?.Invoke(trick);
         
         if (trick.customMethod != null) trick.customMethod.Invoke(player);
