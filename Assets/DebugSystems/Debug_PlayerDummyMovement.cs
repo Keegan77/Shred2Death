@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// </summary>
 /// 
 [SelectionBase]
-public class Debug_PlayerDummyMovement : MonoBehaviour
+public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
 {
     public float movementSpeed = 1;
     public float cameraSensitivity = 1;
@@ -120,5 +120,10 @@ public class Debug_PlayerDummyMovement : MonoBehaviour
         movement = new Vector3 (mov.x, movementVertical, mov.y);
 
         rb.velocity = transform.rotation * (movement.normalized * movementSpeed);
+    }
+
+    public void TakeDamage (float damage)
+    {
+        Debug.Log ("Robot Hit by bullet");
     }
 }
