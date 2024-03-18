@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Acts as an interface to the playerHUD widget to make accessing its information easier.
 /// </summary>
-public class PlayerHUDContainer : MonoBehaviour
+public class StatsWidget : MonoBehaviour
 {
     public MultiFillBar styleMeter;
     public FillBar healthBar;
