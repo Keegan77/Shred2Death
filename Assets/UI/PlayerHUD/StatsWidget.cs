@@ -8,8 +8,14 @@ using UnityEngine.UI;
 /// </summary>
 public class StatsWidget : MonoBehaviour
 {
+    [Tooltip("Update the meterCurrentValue directly. The bar will fill on its own")]
     public MultiFillBar styleMeter;
+
+    [Tooltip("Update the currentValue of this bar. The bar will fill on its own")]
     public FillBar healthBar;
+    [Tooltip("Update the currentValue of this bar. The bar will fill on its own")]
     public FillBar ammoBar;
+
+    [Tooltip("Use setTextCount() to update the text")]
     public EnemyText enemyText;
 }
