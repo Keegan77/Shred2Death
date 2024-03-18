@@ -96,6 +96,7 @@ MonoBehaviour:
   bulletTrail: {fileID: 7813219577322349254, guid: 79f84f138d92c5940a31ad9ce67d67e7, type: 3}
   castPoint: {fileID: 5841990873912046364}
   forwardFromPlayerPoint: {fileID: 0}
+  playerHUD: {fileID: 0}
 --- !u!114 &7904182442366907517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,14 +467,14 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 1a3dc727a00a88b4dab330927467122e, type: 2}
   proceduralRigController: {fileID: 6265791741991128856}
   constantForce: {fileID: 361494770088818583}
-  forwardLeftRayOrigin: {x: 18.37, y: 5.0374517, z: -13.091459}
-  forwardRightRayOrigin: {x: 17.67, y: 5.0374517, z: -13.091459}
-  backLeftRayOrigin: {x: 18.37, y: 5.0374517, z: -11.431459}
-  backRightRayOrigin: {x: 17.67, y: 5.0374517, z: -11.431459}
-  forwardRayOrigin: {x: 18.02, y: 4.797452, z: -13.091459}
-  backRayOrigin: {x: 18.02, y: 4.797452, z: -11.431459}
-  leftRayOrigin: {x: 18.37, y: 4.797452, z: -12.261459}
-  rightRayOrigin: {x: 17.67, y: 4.797452, z: -12.261459}
+  forwardLeftRayOrigin: {x: 4.12, y: 16.167452, z: -13.091459}
+  forwardRightRayOrigin: {x: 3.42, y: 16.167452, z: -13.091459}
+  backLeftRayOrigin: {x: 4.12, y: 16.167452, z: -11.431459}
+  backRightRayOrigin: {x: 3.42, y: 16.167452, z: -11.431459}
+  forwardRayOrigin: {x: 3.77, y: 15.927452, z: -13.091459}
+  backRayOrigin: {x: 3.77, y: 15.927452, z: -11.431459}
+  leftRayOrigin: {x: 4.12, y: 15.927452, z: -12.261459}
+  rightRayOrigin: {x: 3.42, y: 15.927452, z: -12.261459}
   grindRailFollower: {fileID: 5986969473009569870, guid: 58642cd707a8a1e449bef0d5c13f5759, type: 3}
 --- !u!114 &7380166272104267722
 MonoBehaviour:
@@ -549,9 +550,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96fdd7bcfbaeb0e47b0cfc4c79ebd760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHUD: {fileID: 0}
   maxMultiplier: 4
   multiplierDropTime: 3
-  maxStyleLevel: 5
+  maxStyleLevel: 4
   styleLevelThreshold: 100
   comboDropTime: 8
 --- !u!114 &3719033429802293273
