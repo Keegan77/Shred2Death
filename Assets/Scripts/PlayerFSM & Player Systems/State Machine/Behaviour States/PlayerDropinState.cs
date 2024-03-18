@@ -38,16 +38,15 @@ public class PlayerDropinState : PlayerState
         {
             t += Time.deltaTime * 3;
             player.transform.rotation = Quaternion.Slerp(player.transform.rotation, targetRotation, t);
+            player.rb.velocity = Vector3.Lerp(player.rb.velocity, new Vector3(0, player.rb.velocity.y, 0), t);
             yield return null;
         }
 
         // Reset t for the position lerp
         t = 0;
 
-        player.transform.position = new Vector3(bowlSurfaceHit.point.x, player.transform.position.y, bowlSurfaceHit.point.z);
 
-
-        stateMachine.SwitchState(player.skatingState);
+        stateMachine.SwitchState(player.halfPipeState);
         Debug.Log("State switched");
     }
         

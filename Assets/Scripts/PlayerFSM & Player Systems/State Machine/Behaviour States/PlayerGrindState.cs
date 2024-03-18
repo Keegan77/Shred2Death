@@ -8,6 +8,7 @@ public class PlayerGrindState : PlayerState
     private bool lerping;
     private float baseSpeed;
     private float currentSpeed;
+    private float grindPosOffset = .21f;
     private Quaternion jumpedOnOrientation;
     public PlayerGrindState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
@@ -18,6 +19,12 @@ public class PlayerGrindState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        player.proceduralRigController.StartCoroutine(
+            player.proceduralRigController.LerpWeightToValue
+                                                 (player.proceduralRigController.legRig,
+                                                     0,
+                                                     .1f)
+        );
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Grind");
         lerping = true;
         SubscribeInputs();
@@ -31,6 +38,12 @@ public class PlayerGrindState : PlayerState
     public override void Exit()
     {
         UnsubscribeInputs();
+        player.proceduralRigController.StartCoroutine(
+            player.proceduralRigController.LerpWeightToValue
+            (player.proceduralRigController.legRig,
+                1,
+                .1f)
+        );
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Grind Reverse");
     }
     private void SetUpSplineFollower()
@@ -75,7 +88,6 @@ public class PlayerGrindState : PlayerState
         {
             sFollower.direction = Spline.Direction.Backward;
             sFollower.followSpeed = -Mathf.Abs(sFollower.followSpeed);
-            
         }
 
         if (!isClosed)
@@ -110,7 +122,7 @@ public class PlayerGrindState : PlayerState
         if (lerping) return;
         ModifyFollowSpeed();
         
-        player.transform.position = sFollower.result.position + new Vector3(0, player.playerData.grindPositioningOffset, 0);
+        player.transform.position = sFollower.result.position + new Vector3(0, grindPosOffset, 0);
         player.transform.rotation = Quaternion.Euler(0, sFollower.result.rotation.eulerAngles.y + jumpedOnOrientation.eulerAngles.y, 0);
         player.GetMovementMethods().TurnPlayer(true, player.playerData.grindTurnSharpness * Time.deltaTime);
         
@@ -125,7 +137,7 @@ public class PlayerGrindState : PlayerState
         while (t < 1)
         {
             t = Mathf.MoveTowards(t, 1, Time.deltaTime * seconds);
-            Vector3 endPos = sFollower.result.position + new Vector3(0, player.playerData.grindPositioningOffset, 0);
+            Vector3 endPos = sFollower.result.position + new Vector3(0, grindPosOffset, 0);
             Quaternion endRot = Quaternion.Euler(0, sFollower.result.rotation.eulerAngles.y + jumpedOnOrientation.eulerAngles.y, 0);
             player.transform.position = Vector3.Lerp(startPos, endPos, t);
             player.transform.rotation = Quaternion.Lerp(startRot, endRot, t);

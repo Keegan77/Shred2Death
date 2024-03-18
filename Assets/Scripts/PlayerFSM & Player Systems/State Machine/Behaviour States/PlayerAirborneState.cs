@@ -41,6 +41,12 @@ public class PlayerAirborneState : PlayerState
     {
         base.Enter();
         SubscribeInputs();
+        player.proceduralRigController.StartCoroutine(
+            player.proceduralRigController.LerpWeightToValue
+            (player.proceduralRigController.legRig,
+                0,
+                .1f)
+        );
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Idle");
         comboHandler = player.gameObject.GetComponent<TrickComboHandler>();
     }
@@ -48,6 +54,12 @@ public class PlayerAirborneState : PlayerState
     public override void Exit()
     {
         base.Exit();
+        player.proceduralRigController.StartCoroutine(
+            player.proceduralRigController.LerpWeightToValue
+            (player.proceduralRigController.legRig,
+                1,
+                .1f)
+        );
         UnsubscribeInputs();
         if (coolDownCoroutine != null)
         {

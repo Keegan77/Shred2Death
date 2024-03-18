@@ -44,7 +44,7 @@ public class PlayerCapsuleFloater : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        //Gizmos.DrawRay(raycastOrigin.position, -transform.up * rayLength);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(raycastOrigin.position, transform.TransformDirection(Vector3.down) * rayLength);
     }
 }
