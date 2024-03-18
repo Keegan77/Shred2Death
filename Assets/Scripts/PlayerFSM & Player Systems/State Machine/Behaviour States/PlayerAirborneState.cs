@@ -45,7 +45,7 @@ public class PlayerAirborneState : PlayerState
             player.proceduralRigController.LerpWeightToValue
             (player.proceduralRigController.legRig,
                 0,
-                .1f)
+                .3f)
         );
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Idle");
         comboHandler = player.gameObject.GetComponent<TrickComboHandler>();
