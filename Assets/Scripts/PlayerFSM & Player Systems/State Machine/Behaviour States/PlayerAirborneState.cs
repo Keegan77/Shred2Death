@@ -48,6 +48,7 @@ public class PlayerAirborneState : PlayerState
     public override void Exit()
     {
         base.Exit();
+
         UnsubscribeInputs();
         if (coolDownCoroutine != null)
         {

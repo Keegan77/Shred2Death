@@ -33,10 +33,6 @@ public class RotateWithMouse : MonoBehaviour
         rotation.y += lookDelta.x * rotationSpeed * Time.deltaTime;
         rotation.x -= lookDelta.y * rotationSpeed * Time.deltaTime;
         rotation.x = Mathf.Clamp(rotation.x, -90f, 90f); // Limit the vertical rotation
-        if (player.stateMachine.currentState != player.halfPipeState)
-        {
-            rotation.y = Mathf.Clamp(rotation.y, -110f, 110f); // Limit the horizontal rotation
-        }
         
         
         // Apply the rotation to the origin transform

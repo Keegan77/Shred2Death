@@ -23,6 +23,8 @@ public class PlayerBase : MonoBehaviour
         public Transform inputTurningTransform, playerModelTransform; // this is public because we want access from our states
         [Tooltip("Holds all of the player's base movement values.")]
         public PlayerData playerData;
+
+        public RigWeightController proceduralRigController;
         
     #endregion
 
