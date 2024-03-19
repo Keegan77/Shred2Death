@@ -16,6 +16,7 @@ public class PlayerHUD : MonoBehaviour
 
     public PlayerHUDSubMenu menuGameOver;
     public PlayerHUDSubMenu menuPause;
+    public PlayerHUDSubMenu menuDemoTimeUp;
 
     private GameObject subMenuContainer;
     private GameObject widgetContainer;
@@ -42,6 +43,7 @@ public class PlayerHUD : MonoBehaviour
         c.gameObject.SetActive(true);
     }
     #endregion
+
     #region Menuing
     public void openMenu(PlayerHUDSubMenu menu)
     {
@@ -99,6 +101,18 @@ public class PlayerHUD : MonoBehaviour
     {
         SceneManager.LoadScene(l);
         Time.timeScale = 1;
+    }
+    #endregion
+
+    #region DEMO
+    public void Demo_OnTimerExpired()
+    {
+        if (!gamePaused)
+        {
+            ToggleGamePaused();
+        }
+
+        openMenu(menuDemoTimeUp);
     }
     #endregion
 }
