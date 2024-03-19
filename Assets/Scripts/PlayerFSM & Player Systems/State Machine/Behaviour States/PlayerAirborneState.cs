@@ -44,6 +44,12 @@ public class PlayerAirborneState : PlayerState
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Idle");
         comboHandler = player.gameObject.GetComponent<TrickComboHandler>();
     }
+    
+    private void RotationInAir()
+    {
+        float rotationThisFrame = player.playerData.halfPipeAirTurnAmount * InputRouting.Instance.GetBumperInput().x * Time.fixedDeltaTime;
+        player.transform.Rotate(0, rotationThisFrame, 0, Space.Self);
+    }
 
     public override void Exit()
     {
@@ -69,6 +75,8 @@ public class PlayerAirborneState : PlayerState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        
+        RotationInAir();
         
         TiltPlayerWithVelocity();
         

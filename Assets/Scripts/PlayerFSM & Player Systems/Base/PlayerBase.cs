@@ -75,6 +75,8 @@ public class PlayerBase : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         stateMachine.currentState.StateTriggerEnter(other);
+        
+        
 
         /*if (other.CompareTag("Ramp90"))
         {
@@ -97,6 +99,16 @@ public class PlayerBase : MonoBehaviour
 
 
     private void OnCollisionStay(Collision other) => stateMachine.currentState.StateCollisionEnter(other);
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("BurnDamage"))
+        {
+            movement.DoBurnForce(other.contacts[0].point, 10);
+            // Calculate the direction from the player to the point of collisio
+        }
+    }
+
     private void OnDrawGizmos()
     {
         // Update the ray origin points
