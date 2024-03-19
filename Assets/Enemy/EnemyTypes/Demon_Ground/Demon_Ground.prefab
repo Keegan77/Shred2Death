@@ -312,6 +312,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2021591513531018249, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3754971543326130396}
+    - targetCorrespondingSourceObject: {fileID: 2021591513531018249, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8743463145703335452}
     - targetCorrespondingSourceObject: {fileID: 7785432053934259893, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4959909828943106546}
@@ -418,7 +421,7 @@ MonoBehaviour:
   muzzleObject: {fileID: 0}
   bodyObject: {fileID: 0}
   animator: {fileID: 0}
-  health: 0
+  health: 10
   mainRigidBodyDefaultKinematic: 1
   isInMeleeRange: 0
 --- !u!114 &2644739336677671387
@@ -460,6 +463,18 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &8743463145703335452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5324938368301081438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9efa5c27cca51fb428a408deee90c714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5653537672990207873 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1990238580269932758, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
@@ -885,7 +900,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4093495610136247643, guid: 0e8004b24d195c04aac7727ee10e6024, type: 3}
       propertyPath: dieDelay
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 4093495610136247643, guid: 0e8004b24d195c04aac7727ee10e6024, type: 3}
       propertyPath: disolveTime
