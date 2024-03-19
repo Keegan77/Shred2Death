@@ -9,11 +9,11 @@ using UnityEngine;
 /// </summary>
 public class EnemyText : MonoBehaviour
 {
-    TMP_Text text;
+    TextMeshProUGUI text;
 
     private void Awake ()
     {
-        text = GetComponent<TMP_Text>();
+        text = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     public void setTextCount (int remEnemies)

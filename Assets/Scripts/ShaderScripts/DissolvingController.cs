@@ -13,7 +13,7 @@ public class DissolvingController : MonoBehaviour
     public UnityEvent OnDissolved;
 
     [Tooltip ("How long before the enemy starts dissolving?")]
-    public float dieDelay = 0.5f;
+    public float dieDelay;
     [Tooltip("How long does it take for the enemy to dissolve?")]
     public float disolveTime = 2f;
 

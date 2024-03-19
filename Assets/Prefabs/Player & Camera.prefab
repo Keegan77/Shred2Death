@@ -371,11 +371,10 @@ GameObject:
   - component: {fileID: 1464697803107471213}
   - component: {fileID: 7380166272104267722}
   - component: {fileID: 7059973690341233823}
-  - component: {fileID: 4198896277506439367}
   - component: {fileID: 6644245972921724407}
   - component: {fileID: 7622906686642303424}
-  - component: {fileID: 3719033429802293273}
   - component: {fileID: 4216492802562461432}
+  - component: {fileID: 7156684046601958127}
   m_Layer: 12
   m_Name: PlayerContainer
   m_TagString: Player
@@ -467,14 +466,14 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 1a3dc727a00a88b4dab330927467122e, type: 2}
   proceduralRigController: {fileID: 6265791741991128856}
   constantForce: {fileID: 361494770088818583}
-  forwardLeftRayOrigin: {x: 4.12, y: 16.167452, z: -13.091459}
-  forwardRightRayOrigin: {x: 3.42, y: 16.167452, z: -13.091459}
-  backLeftRayOrigin: {x: 4.12, y: 16.167452, z: -11.431459}
-  backRightRayOrigin: {x: 3.42, y: 16.167452, z: -11.431459}
-  forwardRayOrigin: {x: 3.77, y: 15.927452, z: -13.091459}
-  backRayOrigin: {x: 3.77, y: 15.927452, z: -11.431459}
-  leftRayOrigin: {x: 4.12, y: 15.927452, z: -12.261459}
-  rightRayOrigin: {x: 3.42, y: 15.927452, z: -12.261459}
+  forwardLeftRayOrigin: {x: 254.37, y: -34.762547, z: -851.92865}
+  forwardRightRayOrigin: {x: 253.66998, y: -34.762547, z: -851.92865}
+  backLeftRayOrigin: {x: 254.37, y: -34.762547, z: -850.2686}
+  backRightRayOrigin: {x: 253.66998, y: -34.762547, z: -850.2686}
+  forwardRayOrigin: {x: 254.01999, y: -35.00255, z: -851.92865}
+  backRayOrigin: {x: 254.01999, y: -35.00255, z: -850.2686}
+  leftRayOrigin: {x: 254.37, y: -35.00255, z: -851.09863}
+  rightRayOrigin: {x: 253.66998, y: -35.00255, z: -851.09863}
   grindRailFollower: {fileID: 5986969473009569870, guid: 58642cd707a8a1e449bef0d5c13f5759, type: 3}
 --- !u!114 &7380166272104267722
 MonoBehaviour:
@@ -502,19 +501,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 3686535255245228384}
   player: {fileID: 1464697803107471213}
---- !u!114 &4198896277506439367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2064705740951400791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb054ba2524518e4883dc8b944ca2bae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOnNavMesh: 0
 --- !u!114 &6644245972921724407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,20 +542,6 @@ MonoBehaviour:
   maxStyleLevel: 4
   styleLevelThreshold: 100
   comboDropTime: 8
---- !u!114 &3719033429802293273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2064705740951400791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f833633356d821e4ebf6d59a489a13aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  playerHUD: {fileID: 7350014428951949226}
 --- !u!114 &4216492802562461432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,6 +559,19 @@ MonoBehaviour:
   rideSpringStrength: 100
   rideSpringDamper: 10
   raycastOrigin: {fileID: 581445647682060572}
+--- !u!114 &7156684046601958127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064705740951400791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb054ba2524518e4883dc8b944ca2bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOnNavMesh: 0
 --- !u!1 &2449074291578262128
 GameObject:
   m_ObjectHideFlags: 0
@@ -897,7 +882,7 @@ GameObject:
   - component: {fileID: 2033880638604906100}
   m_Layer: 0
   m_Name: Player & Camera
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1325,7 +1310,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -1881,7 +1866,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7715143368668230821}
-  - component: {fileID: 6797333919715794329}
   m_Layer: 0
   m_Name: AgentObject
   m_TagString: Untagged
@@ -1904,19 +1888,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5559937304468360954}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6797333919715794329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6231862656630710396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb054ba2524518e4883dc8b944ca2bae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOnNavMesh: 0
 --- !u!1 &6249433151807023524
 GameObject:
   m_ObjectHideFlags: 0
@@ -2127,9 +2098,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6867235279004832454}
   - component: {fileID: 3996957137588570977}
+  - component: {fileID: 4262805175918256464}
   m_Layer: 12
   m_Name: PlayerModel (Drifting Transform)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2177,6 +2149,20 @@ CapsuleCollider:
   m_Height: 3.3190086
   m_Direction: 1
   m_Center: {x: 0, y: -0.83892906, z: 0}
+--- !u!114 &4262805175918256464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6726430881185471661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f833633356d821e4ebf6d59a489a13aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  playerHUD: {fileID: 7350014428951949226}
 --- !u!1 &7035387300022996955
 GameObject:
   m_ObjectHideFlags: 0
@@ -2554,7 +2540,7 @@ GameObject:
   - component: {fileID: 4091059630163234302}
   m_Layer: 12
   m_Name: ChestPivot
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
