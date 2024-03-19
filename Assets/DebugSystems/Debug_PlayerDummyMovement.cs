@@ -22,6 +22,8 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
     GameObject cameraPivot;
     GameObject cameraAnchor;
 
+    public PlayerHUD hud;
+
     Vector3 rotationTrack = Vector3.zero;
 
 
@@ -89,20 +91,20 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
             if (cameraKey)
             {
                 //cameraObject.transform.SetParent (null, true);
-                Cursor.lockState = CursorLockMode.Locked;
+                hud.ToggleGamePaused();
             }
 
             //parent the camera to the anchor
             else
             {
 
-                Cursor.lockState = CursorLockMode.None;
+                hud.ToggleGamePaused();
             }
 
             cameraKey = !cameraKey;
         }
 
-        if(!cameraKey)
+        if(cameraKey)
         {
             rotationTrack += rot;
             transform.rotation = Quaternion.Euler (rotationTrack);
