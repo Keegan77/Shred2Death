@@ -41,6 +41,7 @@ public class MainMenu : MonoBehaviour
         }
 
         m.SetActive(true);
+        m.GetComponent<SubMenu>().defaultButtonSelected.Select();
 
         StopAllCoroutines();
         StartCoroutine(PanCamera(m.GetComponent<SubMenu>()));
