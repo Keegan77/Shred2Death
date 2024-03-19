@@ -18,6 +18,7 @@ public class PlayerHUD : MonoBehaviour
     public PlayerHUDSubMenu menuPause;
 
     private GameObject subMenuContainer;
+    private GameObject widgetContainer;
     #endregion
 
     bool gamePaused = false;
@@ -26,6 +27,7 @@ public class PlayerHUD : MonoBehaviour
     private void Awake()
     {
         subMenuContainer = transform.Find("SubMenus").gameObject;
+        widgetContainer = transform.Find("Widgets").gameObject;
         subMenuContainer.SetActive(false);
     }
 
@@ -45,8 +47,10 @@ public class PlayerHUD : MonoBehaviour
         //pause the game, recording the timescale
         if (!gamePaused)
         {
-            openMenu(menuPause);
             subMenuContainer.SetActive(true);
+            widgetContainer.SetActive(false);
+            openMenu(menuPause);
+            Cursor.lockState = CursorLockMode.None;
 
             currentTimeScale = Time.timeScale;
             Time.timeScale = 0;
@@ -55,8 +59,11 @@ public class PlayerHUD : MonoBehaviour
         //unpause the game, setting the timescale to the proper speed
         else
         {
-            Time.timeScale = currentTimeScale;
             subMenuContainer.SetActive(false);
+            widgetContainer.SetActive(true);
+            Cursor.lockState = CursorLockMode.Locked;
+
+            Time.timeScale = currentTimeScale;
         }
 
         gamePaused = !gamePaused;
