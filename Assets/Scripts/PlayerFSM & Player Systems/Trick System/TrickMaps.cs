@@ -21,10 +21,6 @@ public static class TrickMaps
     
     static Trick PopShuvIt    = new Trick("PopShoveIt", 10, 5, .2f, DPadLEFT, CustomTrickMethods.PopShuvItCustomFunction);
     
-    //Grind Tricks
-    static Trick FiftyFifty   = new Trick("Ollie", 15, 5, .2f, DPadRIGHT);
-    static Trick FiveO        = new Trick("Ollie", 15, 5, .2f, DPadLEFT);
-    static Trick BoardSlide   = new Trick("Ollie", 15, 5, .2f, LBumperTrick);
     
     //Air Tricks
     static Trick Backflip     = new Trick("Kickflip", 20, 5, .2f, DPadLEFT, CustomTrickMethods.PopShuvItCustomFunction);
