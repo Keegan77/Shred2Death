@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Crosshairs : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public RawImage crosshair_Dot;
+    public RawImage crosshair_Dualies;
+    public RawImage crosshair_Shotgun;
 
-    // Update is called once per frame
-    void Update()
+    public void SetCrossHair(Image c)
     {
-        
+        foreach (Transform t in transform)
+        {
+            t.gameObject.SetActive(false);
+        }
+
+        c.gameObject.SetActive(true);
     }
 }

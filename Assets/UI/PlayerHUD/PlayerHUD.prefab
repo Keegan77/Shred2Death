@@ -1626,7 +1626,7 @@ GameObject:
   - component: {fileID: 5844931610183451063}
   - component: {fileID: 7742116869073087852}
   m_Layer: 5
-  m_Name: Reticles
+  m_Name: Crosshairs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1666,6 +1666,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee723717526391d48b5b96dfcadf16ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crosshair_Dot: {fileID: 6572485136616051056}
+  crosshair_Dualies: {fileID: 560120269169538912}
+  crosshair_Shotgun: {fileID: 5194866821272129049}
 --- !u!1 &6562241223052686355
 GameObject:
   m_ObjectHideFlags: 0
