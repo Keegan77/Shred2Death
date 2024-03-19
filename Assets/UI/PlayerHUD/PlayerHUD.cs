@@ -60,20 +60,24 @@ public class PlayerHUD : MonoBehaviour
     }
 
     #endregion
+
     #region Scene Management
     public void Scene_ReturnToTile()
     {
         SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1;
     }
 
     public void Scene_RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1;
     }
 
     public void Scene_LoadLevel(string l)
     {
         SceneManager.LoadScene(l);
+        Time.timeScale = 1;
     }
     #endregion
 }

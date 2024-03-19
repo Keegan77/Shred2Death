@@ -16,6 +16,7 @@ public class MainMenu : MonoBehaviour
     private void Awake()
     {
         cam = Camera.main;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void LoadLevel(Scene s)
