@@ -31,6 +31,17 @@ public class PlayerHUD : MonoBehaviour
         subMenuContainer.SetActive(false);
     }
 
+    #region active HUD
+    public void SetCrosshair(UnityEngine.UI.RawImage c)
+    {
+        foreach (Transform t in crosshair.transform)
+        {
+            t.gameObject.SetActive(false);
+        }
+
+        c.gameObject.SetActive(true);
+    }
+    #endregion
     #region Menuing
     public void openMenu(PlayerHUDSubMenu menu)
     {
