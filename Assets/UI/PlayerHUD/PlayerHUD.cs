@@ -12,7 +12,7 @@ public class PlayerHUD : MonoBehaviour
     public StatsWidget stats;
 
     [Tooltip("Container for the per weapon crosshairs. Contains reference variables to each crosshair")]
-    public Crosshairs reticles;
+    public Crosshairs crosshair;
 
     public PlayerHUDSubMenu menuGameOver;
     public PlayerHUDSubMenu menuPause;
