@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4dcfcc2f8f7c41a47a7cd2f62c6f16ac, type: 3}
-  m_Name: TestGun
+  m_Name: Shotgun
   m_EditorClassIdentifier: 
   name: Shotgun
   damage: 2
@@ -32,3 +32,15 @@ MonoBehaviour:
   readyUpTime: 0
   currentAmmo: 9
   alternateFire: 0
+  fireSounds:
+  - {fileID: 8300000, guid: 9447eb50abcd5d74294113315e08f174, type: 3}
+  - {fileID: 8300000, guid: 2e033143176ccb34bb7933ec7d81aa55, type: 3}
+  - {fileID: 8300000, guid: d13e27177ba0143408d268cdf80c7a33, type: 3}
+  - {fileID: 8300000, guid: ab17aad149038354bae1dc5d9a2bff60, type: 3}
+  - {fileID: 8300000, guid: 78fbfb3350d091c4b9a5fff649f4d172, type: 3}
+  delayPerAudioClip:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0

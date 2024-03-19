@@ -143,6 +143,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MoveForwardButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""74081b0d-6f0a-4ccc-92f7-d9e5f0a7ac71"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -607,6 +616,17 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""action"": ""AirRotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc319e3f-053f-43c3-b83e-bbd0b77b439c"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveForwardButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1286,7 +1306,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d8cb22bc-6016-4166-8631-86e782af4830"",
-                    ""path"": ""<Keyboard>/2"",
+                    ""path"": ""<Keyboard>/5"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1430,6 +1450,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_Player_AimDownSights = m_Player.FindAction("Aim Down Sights", throwIfNotFound: true);
         m_Player_SwitchGun = m_Player.FindAction("SwitchGun", throwIfNotFound: true);
         m_Player_AirRotation = m_Player.FindAction("AirRotation", throwIfNotFound: true);
+        m_Player_MoveForwardButton = m_Player.FindAction("MoveForwardButton", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1525,6 +1546,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_AimDownSights;
     private readonly InputAction m_Player_SwitchGun;
     private readonly InputAction m_Player_AirRotation;
+    private readonly InputAction m_Player_MoveForwardButton;
     public struct PlayerActions
     {
         private @Input m_Wrapper;
@@ -1542,6 +1564,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         public InputAction @AimDownSights => m_Wrapper.m_Player_AimDownSights;
         public InputAction @SwitchGun => m_Wrapper.m_Player_SwitchGun;
         public InputAction @AirRotation => m_Wrapper.m_Player_AirRotation;
+        public InputAction @MoveForwardButton => m_Wrapper.m_Player_MoveForwardButton;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1590,6 +1613,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @AirRotation.started += instance.OnAirRotation;
             @AirRotation.performed += instance.OnAirRotation;
             @AirRotation.canceled += instance.OnAirRotation;
+            @MoveForwardButton.started += instance.OnMoveForwardButton;
+            @MoveForwardButton.performed += instance.OnMoveForwardButton;
+            @MoveForwardButton.canceled += instance.OnMoveForwardButton;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1633,6 +1659,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @AirRotation.started -= instance.OnAirRotation;
             @AirRotation.performed -= instance.OnAirRotation;
             @AirRotation.canceled -= instance.OnAirRotation;
+            @MoveForwardButton.started -= instance.OnMoveForwardButton;
+            @MoveForwardButton.performed -= instance.OnMoveForwardButton;
+            @MoveForwardButton.canceled -= instance.OnMoveForwardButton;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1922,6 +1951,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnAimDownSights(InputAction.CallbackContext context);
         void OnSwitchGun(InputAction.CallbackContext context);
         void OnAirRotation(InputAction.CallbackContext context);
+        void OnMoveForwardButton(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

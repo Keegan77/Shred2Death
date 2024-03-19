@@ -15,6 +15,7 @@ public class SkateboardSlopePositioner : MonoBehaviour
     [SerializeField] private float rayHalfPipeDist;
     private float rayDistance;
     private float skateboardGrindPos = -.76f;
+    private bool justHitGround;
 
     //[SerializeField] private float raycastZOffsetFromOrigin;
 
@@ -40,6 +41,11 @@ public class SkateboardSlopePositioner : MonoBehaviour
         
         if (Physics.Raycast(raycastOrigin.position, -raycastOrigin.up, out RaycastHit hit, rayDistance))
         {
+            if (!justHitGround)
+            {
+                ActionEvents.PlayerSFXOneShot?.Invoke(SFXContainerSingleton.Instance.landingSounds[UnityEngine.Random.Range(0, SFXContainerSingleton.Instance.landingSounds.Count)], 0);
+            }
+            justHitGround = true;
             Vector3 localOffset = transform.TransformDirection(new Vector3(0, YOffset, ZOffset));
             transform.position = hit.point + localOffset;
             if (hit.collider.CompareTag("BurnDamage"))
@@ -49,6 +55,7 @@ public class SkateboardSlopePositioner : MonoBehaviour
         }
         else
         {
+            justHitGround = false;
             transform.localPosition = startingPos;
         }
         if (player.stateMachine.currentState == player.grindState)

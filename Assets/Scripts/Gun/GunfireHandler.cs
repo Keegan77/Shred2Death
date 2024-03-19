@@ -90,6 +90,10 @@ public class GunfireHandler : MonoBehaviour
         
         cameraRecoil.FireRecoil(currentGun.camRecoilX, currentGun.camRecoilY, currentGun.camRecoilZ); // apply recoil
         currentGunRecoilScript.FireRecoil(currentGun.gunRecoilX, currentGun.gunRecoilY, currentGun.gunRecoilZ);
+
+        int randInt = Random.Range(0, currentGun.fireSounds.Count);
+        
+        ActionEvents.PlayerSFXOneShot?.Invoke(currentGun.fireSounds[randInt], currentGun.delayPerAudioClip[randInt]); // play a random fire sound
         
         for (int i = 0; i < currentGun.bulletsInOneShot; i++) 
         {

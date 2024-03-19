@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public static class ActionEvents
 {
@@ -27,6 +28,8 @@ public static class ActionEvents
     #endregion
 
     public static Action<string> OnPlayBehaviourAnimation;
+
+    public static Action<AudioClip, float> PlayerSFXOneShot;
 
 }
 
