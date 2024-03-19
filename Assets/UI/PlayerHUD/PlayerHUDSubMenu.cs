@@ -12,6 +12,7 @@ public class PlayerHUDSubMenu : MonoBehaviour
 
     public void OnActivated()
     {
+        gameObject.SetActive(true);
         defaultButtonActive.Select();
     }
 }

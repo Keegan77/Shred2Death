@@ -42,11 +42,11 @@ public class PlayerHUD : MonoBehaviour
         //pause the game, recording the timescale
         if (!gamePaused)
         {
-            currentTimeScale = Time.timeScale;
-            Time.timeScale = 0;
-
             openMenu(menuPause);
             subMenuContainer.SetActive(true);
+
+            currentTimeScale = Time.timeScale;
+            Time.timeScale = 0;
         }
 
         //unpause the game, setting the timescale to the proper speed
