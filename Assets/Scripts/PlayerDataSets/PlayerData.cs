@@ -18,7 +18,6 @@ public class PlayerData : ScriptableObject
     public float deAccelerationSpeed;
     
     
-    
     [Header("Airborne Values")]
     public float airForwardForce;
     public float airTiltRange;
@@ -28,6 +27,7 @@ public class PlayerData : ScriptableObject
     public int airBoostStyleLevel;
 
     public float halfPipeAirTurnAmount;
+
 
     [Header("Nosedive Values")] 
     public float noseDiveFallForce;
@@ -75,8 +75,6 @@ public class PlayerData : ScriptableObject
     [Tooltip("Amount of time in seconds before each drift boost phase will send you to the next drift phase")]
     public float driftPhaseTime;
     
-    
-    
     [Header("Slope Orientation Settings")]
 
     [Tooltip("X is min, Y is max. If the slope is within this range, the player will not be able to exert a forward " +
@@ -95,5 +93,11 @@ public class PlayerData : ScriptableObject
     
     [Header("State Exit Style Points")]
     public float driftStylePoints;
+
+    
+    [Header("Burn Bounce Values")] 
+    public float burnForce;
+    public float extraBurnVerticalForce;
+    public float burnBounceCooldown;
 
 }

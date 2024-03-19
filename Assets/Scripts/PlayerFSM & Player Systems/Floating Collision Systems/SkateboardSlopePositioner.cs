@@ -42,6 +42,10 @@ public class SkateboardSlopePositioner : MonoBehaviour
         {
             Vector3 localOffset = transform.TransformDirection(new Vector3(0, YOffset, ZOffset));
             transform.position = hit.point + localOffset;
+            if (hit.collider.CompareTag("BurnDamage"))
+            {
+                player.movement.DoBurnForce(hit.point, 10);
+            }
         }
         else
         {

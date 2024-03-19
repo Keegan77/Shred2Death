@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class TrickComboHandler : MonoBehaviour
 {
+    [Header("UI Reference")]
+    [SerializeField] private PlayerHUD playerHUD;
+    
     [Header("Multiplier Settings")]
     
     [Tooltip("The maximum achievable multiplier")]
@@ -34,9 +37,12 @@ public class TrickComboHandler : MonoBehaviour
     private float timeSinceMultiplierIncrease; // increments by deltaTime in update , resets to 0 on multiplier increase
     private bool pauseTime;
 
+    private float x = 0;
+
 
     private void Update()
     {
+        UpdateStyleUI();
         if (currentStylePoints > 0 && !pauseTime)
             timeSinceLastTrick += Time.deltaTime;
         
@@ -62,12 +68,9 @@ public class TrickComboHandler : MonoBehaviour
         if (currentStyleLevel >= maxStyleLevel) return;
         currentStylePoints += trick.stylePoints * currentMultiplier;
         timeSinceLastTrick = 0;
-        float leftoverPoints = 0;
-        while (currentStylePoints > styleLevelThreshold)
+        if (currentStylePoints > styleLevelThreshold * (currentStyleLevel + 1))
         {
             currentStyleLevel++;
-            
-            currentStylePoints -= styleLevelThreshold;
         }
     }
     
@@ -77,6 +80,20 @@ public class TrickComboHandler : MonoBehaviour
         currentMultiplier += trick.multiplierIncrease;
         if (currentMultiplier > maxMultiplier) currentMultiplier = maxMultiplier;
         timeSinceMultiplierIncrease = 0;
+    }
+
+    private void UpdateStyleUI()
+    {
+        float target = currentStylePoints / styleLevelThreshold;
+        // create ease in out animation curve
+        
+        playerHUD.stats.styleMeter.meterCurrentValue = Mathf.Lerp(playerHUD.stats.styleMeter.meterCurrentValue,
+            (currentStylePoints / (styleLevelThreshold * (maxStyleLevel))) * 100,  Time.deltaTime * 5);
+        // STYLE LEVEL THRESH * MAX STYLE LEVEL = MAX STYLE POINTS
+        // current style points / max style points = percentage to max style points
+        // bar fills to 100, so we multiply by 100
+        
+        //this algorithm should work for us no matter the amount of style levels
     }
 
     #region Getters

@@ -22,7 +22,7 @@ public abstract class Enemy_Bullet : MonoBehaviour
     public float speed = 10;
 
     [Tooltip("How much damage does the bullet do on impact?")]
-    public int damage = 1;
+    public int damage;
 
 
     [Tooltip ("When targeting the player, aim for a point in this radius around them.")]
