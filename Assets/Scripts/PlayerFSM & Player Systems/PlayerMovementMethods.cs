@@ -12,6 +12,7 @@ public class PlayerMovementMethods
     private float movementSpeed;
     public float turnSharpness { get; private set; }
     private float boostTimer;
+    private bool burnCooldownActive;
 
     private float baseSpeed;
     public PlayerMovementMethods(PlayerBase player, Rigidbody rb, PlayerData playerData, Transform inputTurningTransform)
@@ -85,6 +86,35 @@ public class PlayerMovementMethods
         }
         
         
+    }
+
+    public void DoBurnForce(Vector3 contactPoint, float dmg)
+    {
+        if (burnCooldownActive) return;
+        Debug.Log("burn dmg");
+        
+        player.GetComponent<IDamageable>().TakeDamage(dmg);
+        
+        player.StartCoroutine(BurnForceTimer());
+        
+        // Calculate the direction from the player to the point of collision
+        Vector3 collisionDirection = contactPoint - player.transform.position;
+        //transform.rotation = Quaternion.LookRotation(new Vector3(transform.rotation.x, collisionDirection.y, transform.rotation.z));
+
+        // Normalize the direction
+        collisionDirection = collisionDirection.normalized;
+        Vector3 force = new Vector3(collisionDirection.x, -collisionDirection.y, collisionDirection.z);
+
+        // Apply a force in the opposite direction of the collision
+        rb.velocity = Vector3.zero;
+        rb.AddForce(new Vector3(-collisionDirection.x, playerData.extraBurnVerticalForce , -collisionDirection.z) * playerData.burnForce, ForceMode.Impulse);
+    }
+    
+    private IEnumerator BurnForceTimer()
+    {
+        burnCooldownActive = true;
+        yield return new WaitForSeconds(playerData.burnBounceCooldown);
+        burnCooldownActive = false;
     }
     
     private void CalculateCurrentSpeed() 
