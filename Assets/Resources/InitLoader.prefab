@@ -134,6 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b84da1d33c5a48949bf199bf112d5813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyCount: 0
+  playerHUD: {fileID: 0}
 --- !u!1 &3271697813421315257
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,6 +169,7 @@ Transform:
   - {fileID: 6303083971495683738}
   - {fileID: 1198545915541151118}
   - {fileID: 4513136876371675925}
+  - {fileID: 6033605097959215797}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5288417215989852006
@@ -214,3 +217,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletTimeScale: 0.05
+--- !u!1 &6887686646044727864
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6033605097959215797}
+  - component: {fileID: 4069760888870377815}
+  m_Layer: 0
+  m_Name: SFXContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6033605097959215797
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6887686646044727864}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3917989515398390813}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4069760888870377815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6887686646044727864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 283e3bdf00918514b8cb5e3f3e4b5012, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ollieSounds:
+  - {fileID: 8300000, guid: 79fe482d433b36641a2bc5107cf9e910, type: 3}
+  - {fileID: 8300000, guid: b44af690760827342b077354234490c3, type: 3}
+  - {fileID: 8300000, guid: 49987016e22ba8d4ebb2f32fa4db6892, type: 3}
+  - {fileID: 8300000, guid: 4e9250a872c3e1c4bb65f8a677064082, type: 3}
+  landingSounds:
+  - {fileID: 8300000, guid: 0e2733aab0ba98d468392af53da2a377, type: 3}
+  - {fileID: 8300000, guid: 98f995b3687f5284a8214da821bd3262, type: 3}
+  - {fileID: 8300000, guid: d23eb22cc11be0e4f9fab0e2619c2ead, type: 3}
+  kickOffSounds:
+  - {fileID: 8300000, guid: 11980197212ff47448ed76bbb287fbd6, type: 3}
+  - {fileID: 8300000, guid: e6f840eb12c723344bf1785176ef972a, type: 3}
+  - {fileID: 8300000, guid: bbd316811bb1d1c4c9e838cd8c3cc808, type: 3}
+  popShuvItSound: {fileID: 8300000, guid: df7741a5333df574a954acad2352cf2d, type: 3}

@@ -23,6 +23,7 @@ public class GunData : ScriptableObject
     public int magCapacity;
     public float timeBetweenShots;
 
+    
     [Header("Camera Recoil")]
     public float camRecoilX;
     public float camRecoilY;
@@ -49,4 +50,8 @@ public class GunData : ScriptableObject
     [Tooltip("Setting this to true will alternate the firing of the gun between the player model's " +
              "left and right hand. Useful for duelies.")]
     [SerializeField] public bool alternateFire;
+
+    [Header("Audio")] public List<AudioClip> fireSounds;
+
+    public List<float> delayPerAudioClip;
 }

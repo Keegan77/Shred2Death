@@ -9,11 +9,12 @@ public static class CustomTrickMethods
     internal static void PopShuvItCustomFunction(PlayerBase player)
     {
         Debug.Log("A pop shuv it has been completed! This is custom code which is running on this trick alone!");
-        //player.GetMovementMethods().OllieJump();
+        ActionEvents.PlayerSFXOneShot?.Invoke(SFXContainerSingleton.Instance.popShuvItSound, 0);
     }
 
     internal static void OllieFunc(PlayerBase player)
     {
-        
+        List<AudioClip> ollieSounds = SFXContainerSingleton.Instance.ollieSounds;
+        ActionEvents.PlayerSFXOneShot?.Invoke(ollieSounds[Random.Range(0, ollieSounds.Count)], 0);
     }
 }

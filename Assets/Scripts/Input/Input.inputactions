@@ -121,6 +121,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "MoveForwardButton",
+                    "type": "Button",
+                    "id": "74081b0d-6f0a-4ccc-92f7-d9e5f0a7ac71",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -424,7 +433,7 @@
                 {
                     "name": "",
                     "id": "68d3d649-4922-4cc3-984e-19aeb0f93bac",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/leftStickPress",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -521,6 +530,17 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "4f2d13a7-28a2-4606-b7b3-dba650be4abb",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchGun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "2D Vector",
                     "id": "d8e2c2a7-3aa7-4bed-9e19-3df7f61ed57a",
                     "path": "2DVector(mode=1)",
@@ -585,6 +605,28 @@
                     "action": "AirRotation",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "fc319e3f-053f-43c3-b83e-bbd0b77b439c",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveForwardButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ef852902-c90f-45d5-b9b8-c54e8fd20ea3",
+                    "path": "<Gamepad>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveForwardButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -1264,7 +1306,7 @@
                 {
                     "name": "",
                     "id": "d8cb22bc-6016-4166-8631-86e782af4830",
-                    "path": "<Keyboard>/2",
+                    "path": "<Keyboard>/5",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
