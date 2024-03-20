@@ -129,7 +129,7 @@ public class ES_Ground_Idle : ES_DemonGround
         Vector3 ceilingPoint = Vector3.zero;
         float searchDistanceDrop = E_Demon_Ground.agentSettings[eg.agentIndex].ledgeDropHeight;
 
-        if (Physics.Raycast (transform.position, Vector3.up, out ceilingCheck, E_Demon_Ground.agentSettings[eg.agentIndex].maxJumpAcrossDistance, LayerMask.GetMask ("Ground")))
+        if (Physics.Raycast (transform.position, Vector3.up, out ceilingCheck, 1, LayerMask.GetMask ("Ground")))
         {
             //Debug.Log ("Raycast hit something");
             //Debug.Log (ceilingCheck.point);
@@ -193,6 +193,7 @@ public class ES_Ground_Idle : ES_DemonGround
             else
             {
                 Debug.Log ("Raycastpoint not found");
+
 
             }
         }
