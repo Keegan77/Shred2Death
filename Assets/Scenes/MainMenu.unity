@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1.2991706, g: 0.31565997, b: 0.31670102, a: 1}
+  m_IndirectSpecularColor: {r: 1.2991706, g: 0.31566018, b: 0.31670102, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1959,6 +1959,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1176441110}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: SaveSensitivity
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &933014376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2164,7 +2176,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: CityPlazaGreyBoxV5
+          m_StringArgument: CityPlazaGreyBoxV6
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1127215023
@@ -2241,6 +2253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstMenu: {fileID: 1137617887}
   cameraPanTime: 0.5
+  sliderObj: {fileID: 1747775142}
 --- !u!4 &1176441111
 Transform:
   m_ObjectHideFlags: 0
@@ -2767,6 +2780,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1747775140}
   - component: {fileID: 1747775141}
+  - component: {fileID: 1747775142}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -2844,10 +2858,23 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.3
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1747775142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747775139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0726197b08ffb449305625bd585dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivitySlider: {fileID: 1747775141}
 --- !u!1 &1765469833
 GameObject:
   m_ObjectHideFlags: 0

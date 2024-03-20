@@ -38,7 +38,8 @@ public class AudioMagnitude : MonoBehaviour
         if (lockAirState)
         {
             if (player.stateMachine.currentState != player.airborneState &&
-                player.stateMachine.currentState != player.nosediveState)
+                player.stateMachine.currentState != player.nosediveState &&
+                player.stateMachine.currentState != player.halfPipeState)
             {
                 audioSource.volume = 0;
                 return;

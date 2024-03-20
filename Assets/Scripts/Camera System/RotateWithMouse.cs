@@ -30,8 +30,8 @@ public class RotateWithMouse : MonoBehaviour
         // Get the input delta
         Vector2 lookDelta = InputRouting.Instance.GetLookInput();
 
-        rotation.y += lookDelta.x * rotationSpeed * Time.deltaTime;
-        rotation.x -= lookDelta.y * rotationSpeed * Time.deltaTime;
+        rotation.y += lookDelta.x * PlayerPrefs.GetFloat("Sensitivity") * Time.unscaledDeltaTime;
+        rotation.x -= lookDelta.y * PlayerPrefs.GetFloat("Sensitivity") * Time.unscaledDeltaTime;
         rotation.x = Mathf.Clamp(rotation.x, -90f, 90f); // Limit the vertical rotation
         
         

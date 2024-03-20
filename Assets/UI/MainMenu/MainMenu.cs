@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 public class MainMenu : MonoBehaviour
 {
@@ -11,12 +13,14 @@ public class MainMenu : MonoBehaviour
     [Tooltip("How long does it take for the camera to pan between menus?")]
     public float cameraPanTime = 0.5f;
 
+    public SliderRef sliderObj;
     Camera cam;
     Coroutine panner;
     private void Awake()
     {
         cam = Camera.main;
         Cursor.lockState = CursorLockMode.None;
+        SaveSensitivity();
     }
 
     public void LoadLevel(Scene s)
@@ -46,6 +50,14 @@ public class MainMenu : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(PanCamera(m.GetComponent<SubMenu>()));
     }
+    
+    public void SaveSensitivity()
+    {
+        float newSens = Mathf.Lerp(25, 300, sliderObj.sensitivitySlider.value);
+        PlayerPrefs.SetFloat("Sensitivity", newSens);
+        Debug.Log("Sensitivity saved as " + newSens);
+    }
+    
 
     IEnumerator PanCamera(SubMenu m)
     {
