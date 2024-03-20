@@ -14,6 +14,7 @@ public class PlayerNosediveState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        UnsubscribeInputs();
         SubscribeInputs();
         //player.extraGravityComponent.force = new Vector3(0, -player.playerData.fastFallGravity, 0);
     }

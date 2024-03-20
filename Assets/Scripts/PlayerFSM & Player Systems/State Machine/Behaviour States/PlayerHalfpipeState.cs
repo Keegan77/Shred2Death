@@ -35,6 +35,7 @@ public class PlayerHalfpipeState : PlayerState
         base.Enter();
         totalRotation = 0f;
         rotationIncrementsCompleted = 0;
+        UnsubscribeInputs();
         SubscribeInputs();
         
         player.GetOrientationHandler().SetOrientationSpeed(10f);

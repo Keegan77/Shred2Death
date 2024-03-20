@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,9 +27,21 @@ public class MeshContainerSingleton : MonoBehaviour
         //SceneManager.sceneLoaded += ClearList;
     }
 
+    private void OnEnable()
+    {
+        // on scene load
+        SceneManager.sceneLoaded += ClearList;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= ClearList;
+    }
+
     private void ClearList(Scene scene, LoadSceneMode mode)
     {
         extrusionMeshObjects.Clear();
+        ActionEvents.LoadBowlMeshes?.Invoke();
     }
 
 

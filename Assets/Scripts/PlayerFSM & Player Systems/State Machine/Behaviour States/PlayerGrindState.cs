@@ -33,6 +33,7 @@ public class PlayerGrindState : PlayerState
         List<AudioClip> grindLoopSounds = SFXContainerSingleton.Instance.grindSounds;
         ActionEvents.PlayerSFXOneShot?.Invoke(grindImpacts[Random.Range(0, grindImpacts.Count)], 0);
         ActionEvents.PlayLoopAudio?.Invoke(grindLoopSounds[Random.Range(0, grindLoopSounds.Count)]);
+        UnsubscribeInputs();
         SubscribeInputs();
         SetUpSplineFollower();
         

@@ -53,7 +53,7 @@ public class PlayerSkatingState : PlayerState
     public override void Enter()
     {
         base.Enter();
-
+        UnsubscribeInputs();
         SubscribeInputs();
         enteredHalfPipeSection = false;
         movementMethods = player.GetMovementMethods();

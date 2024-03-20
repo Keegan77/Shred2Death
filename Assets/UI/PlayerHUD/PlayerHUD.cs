@@ -7,7 +7,9 @@ using UnityEngine.SceneManagement;
 public class PlayerHUD : MonoBehaviour
 {
     #region References
-    [Header("References")]
+
+    [Header("References")] [SerializeField]
+    private PlayerBase player;
     [Tooltip("See the tooltips on the StatsWidget object to see how to use the widget.")]
     public StatsWidget stats;
 
@@ -94,6 +96,8 @@ public class PlayerHUD : MonoBehaviour
     public void Scene_RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //player.movement = null;
+        Destroy(player);
         Time.timeScale = 1;
     }
 

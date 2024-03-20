@@ -63,7 +63,7 @@ public class PlayerMovementMethods
 
     public void OllieJump()
     {
-        rb.AddRelativeForce(player.transform.up * playerData.baseJumpForce, ForceMode.Impulse);
+        if (player != null) rb.AddRelativeForce(player.transform.up * playerData.baseJumpForce, ForceMode.Impulse);
     }
     
     /// <summary>

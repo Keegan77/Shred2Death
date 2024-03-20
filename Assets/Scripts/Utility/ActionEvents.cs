@@ -35,6 +35,8 @@ public static class ActionEvents
     
     public static Action StopLoopAudio;
 
+    public static Action LoadBowlMeshes;
+
 }
 
 public struct GunSwitchData

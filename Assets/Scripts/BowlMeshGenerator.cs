@@ -24,7 +24,22 @@ public class BowlMeshGenerator : MonoBehaviour
     public Vector3[] topVerts = null;
     private Vector2 heightConsiderationThreshold; 
     [SerializeField] SplineComputer vertSpline;
+
+    private void OnEnable()
+    {
+        ActionEvents.LoadBowlMeshes += GenerateExtrudedMesh;
+    }
+
+    private void OnDisable()
+    {
+        ActionEvents.LoadBowlMeshes -= GenerateExtrudedMesh;
+    }
     
+    private void AddToMeshList()
+    {
+        MeshContainerSingleton.Instance.extrusionMeshObjects.Add(gameObject);
+    }
+
     private void Start()
     {
         originalMeshFilter = GetComponent<MeshFilter>();
