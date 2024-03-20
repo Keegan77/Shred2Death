@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SceneDataForGun : MonoBehaviour
 {
@@ -9,10 +10,16 @@ public class SceneDataForGun : MonoBehaviour
     [SerializeField] private Transform[] gunTips;
     [SerializeField] private Transform[] allTargets;
     [SerializeField] private Recoil[] recoilObjects;
+    [SerializeField] private RawImage crosshair;
     
     public GunData GetAssociatedGun()
     {
         return associatedGun;
+    }
+    
+    public RawImage GetCrosshair()
+    {
+        return crosshair;
     }
     
     public Transform[] GetGunTips()

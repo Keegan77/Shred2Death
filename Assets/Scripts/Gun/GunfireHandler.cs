@@ -49,6 +49,7 @@ public class GunfireHandler : MonoBehaviour
         {
             DisableFireButtonListeners();
         }
+        playerHUD.SetCrosshair(currentGunSceneData.GetCrosshair());
         currentGunTip = currentGunTips[0];
         currentGunRecoilScript = currentGunRecoilScripts[0];
         bulletTrail.time = currentGun.bulletLerpTime;
