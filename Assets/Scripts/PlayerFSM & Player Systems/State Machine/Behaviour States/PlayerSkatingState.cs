@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSkatingState : PlayerState
@@ -52,6 +53,7 @@ public class PlayerSkatingState : PlayerState
     public override void Enter()
     {
         base.Enter();
+
         SubscribeInputs();
         enteredHalfPipeSection = false;
         movementMethods = player.GetMovementMethods();

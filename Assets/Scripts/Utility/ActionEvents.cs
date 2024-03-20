@@ -31,6 +31,10 @@ public static class ActionEvents
 
     public static Action<AudioClip, float> PlayerSFXOneShot;
 
+    public static Action<AudioClip> PlayLoopAudio;
+    
+    public static Action StopLoopAudio;
+
 }
 
 public struct GunSwitchData

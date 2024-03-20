@@ -12,6 +12,8 @@ public class SFXContainerSingleton : MonoBehaviour
     public List<AudioClip> landingSounds;
     public List<AudioClip> kickOffSounds;
     public AudioClip popShuvItSound;
+    public List<AudioClip> grindImpactNoises;
+    public List<AudioClip> grindSounds;
     
 
     private void Awake()

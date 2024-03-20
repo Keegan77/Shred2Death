@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Dreamteck.Splines;
 using UnityEngine;
 
@@ -28,6 +29,10 @@ public class PlayerGrindState : PlayerState
         );
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Grind");
         lerping = true;
+        List<AudioClip> grindImpacts = SFXContainerSingleton.Instance.grindImpactNoises;
+        List<AudioClip> grindLoopSounds = SFXContainerSingleton.Instance.grindSounds;
+        ActionEvents.PlayerSFXOneShot?.Invoke(grindImpacts[Random.Range(0, grindImpacts.Count)], 0);
+        ActionEvents.PlayLoopAudio?.Invoke(grindLoopSounds[Random.Range(0, grindLoopSounds.Count)]);
         SubscribeInputs();
         SetUpSplineFollower();
         
@@ -39,6 +44,7 @@ public class PlayerGrindState : PlayerState
     public override void Exit()
     {
         UnsubscribeInputs();
+        ActionEvents.StopLoopAudio?.Invoke();
         player.proceduralRigController.StartCoroutine(
             player.proceduralRigController.LerpWeightToValue
             (player.proceduralRigController.legRig,
