@@ -26,7 +26,7 @@ public class CountdownTimer : MonoBehaviour
         text = GetComponent<TMP_Text>();
         StartCoroutine(waitASec());
 
-        text.text = $"Remaining Time: {minutes}:{seconds:00}";
+        text.text = $"{minutes}:{seconds:00}";
     }
 
     // Update is called once per frame
@@ -39,7 +39,7 @@ public class CountdownTimer : MonoBehaviour
             minutes = Mathf.CeilToInt(demoTime) / 60;
             seconds = Mathf.CeilToInt(demoTime) % 60;
 
-            text.text = $"Remaining Time: {minutes}:{seconds:00}";
+            text.text = $"{minutes}:{seconds:00}";
 
             if (demoTime < 0)
             {
