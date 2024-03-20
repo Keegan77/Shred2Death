@@ -37,7 +37,7 @@ public class EnemyCounterSingleton : MonoBehaviour
 
     private void Update()
     {
-        UpdateEnemyHUD();
+        if (playerHUD != null) UpdateEnemyHUD();
     }
 
     private void UpdateEnemyHUD()

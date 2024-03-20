@@ -16,6 +16,7 @@ public class MainMenu : MonoBehaviour
     private void Awake()
     {
         cam = Camera.main;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void LoadLevel(Scene s)
@@ -40,6 +41,7 @@ public class MainMenu : MonoBehaviour
         }
 
         m.SetActive(true);
+        m.GetComponent<SubMenu>().defaultButtonSelected.Select();
 
         StopAllCoroutines();
         StartCoroutine(PanCamera(m.GetComponent<SubMenu>()));

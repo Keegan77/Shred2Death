@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class PlayerSkatingState : PlayerState
@@ -43,6 +44,15 @@ public class PlayerSkatingState : PlayerState
         
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
             { onPerformed = ctx => player.GetMovementMethods().OllieJump()});
+        
+        inputActions.Add(InputRouting.Instance.input.Player.MoveForwardButton, new InputActionEvents
+        {
+            onPerformed = ctx =>
+            {
+                ActionEvents.PlayerSFXOneShot?.Invoke(SFXContainerSingleton.Instance.kickOffSounds[Random.Range(0, 
+                    SFXContainerSingleton.Instance.kickOffSounds.Count)], 0);
+            },
+        });
         
     }
 
