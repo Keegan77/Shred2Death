@@ -122,7 +122,7 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
         //Debug.Log ($"Compensation: {compensate}");
         //Debug.Log ($"Time 3 || Player: {tp3} | Bullet: {te3}");
 
-        return intersect3 + UnityEngine.Random.insideUnitSphere * bullet.deviation;
+        return intersect3 + UnityEngine.Random.insideUnitSphere * bullet.deviation + Enemy.playerReference.aimOffset;
 
     }
 

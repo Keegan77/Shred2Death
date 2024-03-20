@@ -9,6 +9,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private float currentHealth;
     private bool isDead;
     [SerializeField] private PlayerHUD playerHUD;
+    private float timer;
+    [SerializeField] float regenHealthCooldown;
+    [SerializeField] float healthRegenerationSpeed;
 
     private void Start()
     {
@@ -23,21 +26,38 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private void Update()
     {
         UpdateHealthUI();
+        
+        timer += Time.deltaTime;
+        
+        if (timer > regenHealthCooldown)
+        {
+            currentHealth += Time.deltaTime * healthRegenerationSpeed;
+        }
     }
 
     public void TakeDamage(float damage)
     {
         if (isDead) return;
+        timer = 0;
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
             Die();
         }
     }
+    
+    public bool IsDead()
+    {
+        return isDead;
+    }
 
     public void Die()
     {
         isDead = true;
-        //death code
+        playerHUD.subMenuContainer.SetActive(true);
+        playerHUD.widgetContainer.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        playerHUD.openMenu(playerHUD.menuGameOver);
+        Time.timeScale = 0;
     }
 }

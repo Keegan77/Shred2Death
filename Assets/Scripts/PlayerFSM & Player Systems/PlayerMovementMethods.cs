@@ -93,7 +93,7 @@ public class PlayerMovementMethods
         if (burnCooldownActive) return;
         Debug.Log("burn dmg");
         
-        player.GetComponent<IDamageable>().TakeDamage(dmg);
+        player.GetComponentInChildren<IDamageable>()?.TakeDamage(dmg);
         
         player.StartCoroutine(BurnForceTimer());
         

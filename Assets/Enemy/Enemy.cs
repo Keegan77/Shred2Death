@@ -124,9 +124,6 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void SetRagdollEnabled (bool en)
     {
-        Debug.Log (en);
-        Debug.Log (!en);
-
         animator.enabled = !en;
 
         enemyCollider.enabled = false;

@@ -15,6 +15,9 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private Transform chestPivot, originPivot;
         [SerializeField] private SlopeOrientationHandler orientationHandler;
         [SerializeField] private TrickComboHandler comboHandler;
+        [SerializeField] private PlayerHUD playerHUD;
+        [SerializeField] private CountdownTimer timer;
+        [SerializeField] private PlayerHealth health;
     #endregion
 
     #region Public Component References
@@ -29,6 +32,8 @@ public class PlayerBase : MonoBehaviour
     #endregion
 
     #region Private class fields
+
+    private bool timerRanOut;
         private SplineComputer currentSpline;
         private double splineCompletionPercent;
         public PlayerMovementMethods movement { get; private set; }
@@ -97,6 +102,26 @@ public class PlayerBase : MonoBehaviour
     
     private void OnTriggerStay(Collider other) => stateMachine.currentState.StateTriggerStay(other);
 
+
+    private void OnEnable()
+    {
+        timer.timerExpired.AddListener(() =>
+        {
+            timerRanOut = true;
+        });
+        InputRouting.Instance.input.UI.Pause.performed += ctx =>
+        {
+            if (!timerRanOut && !health.IsDead()) playerHUD.ToggleGamePaused();
+        };
+    }
+
+    private void OnDisable()
+    {
+        InputRouting.Instance.input.UI.Pause.performed -= ctx =>
+        {
+            if (!timerRanOut) playerHUD.ToggleGamePaused();
+        };
+    }
 
     private void OnCollisionStay(Collision other) => stateMachine.currentState.StateCollisionEnter(other);
 
@@ -255,14 +280,16 @@ public class PlayerBase : MonoBehaviour
     
     public bool CheckGround(string layerName = "Ground")
     {
-        var layerMask = (1 << LayerMask.NameToLayer(layerName));
+        var layerMask = 1 << LayerMask.NameToLayer(layerName);
+        var layerMask2 = 1 << LayerMask.NameToLayer("Default");
+        var combinedLayerMask = layerMask | layerMask2;
         UpdateRayOriginPoints();
 
-        bool backLeftDownRayHit = Physics.Raycast(backLeftRayOrigin, -playerModelTransform.up, out backLeftSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
-        bool backRightDownRayHit = Physics.Raycast(backRightRayOrigin, -playerModelTransform.up, out backRightSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
+        bool backLeftDownRayHit = Physics.Raycast(backLeftRayOrigin, -playerModelTransform.up, out backLeftSlopeHit, orientationHandler.slopeDownDetectionDistance, combinedLayerMask);
+        bool backRightDownRayHit = Physics.Raycast(backRightRayOrigin, -playerModelTransform.up, out backRightSlopeHit, orientationHandler.slopeDownDetectionDistance, combinedLayerMask);
         
-        bool forwardLeftDownRayHit = Physics.Raycast(forwardLeftRayOrigin, -playerModelTransform.up, out forwardLeftSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
-        bool forwardRightDownRayHit = Physics.Raycast(forwardRightRayOrigin, -playerModelTransform.up, out forwardRightSlopeHit, orientationHandler.slopeDownDetectionDistance, layerMask);
+        bool forwardLeftDownRayHit = Physics.Raycast(forwardLeftRayOrigin, -playerModelTransform.up, out forwardLeftSlopeHit, orientationHandler.slopeDownDetectionDistance, combinedLayerMask);
+        bool forwardRightDownRayHit = Physics.Raycast(forwardRightRayOrigin, -playerModelTransform.up, out forwardRightSlopeHit, orientationHandler.slopeDownDetectionDistance, combinedLayerMask);
 
         return (forwardLeftDownRayHit && forwardRightDownRayHit) || (backLeftDownRayHit && backRightDownRayHit);
     }

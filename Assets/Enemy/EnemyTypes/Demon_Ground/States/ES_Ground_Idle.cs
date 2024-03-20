@@ -77,9 +77,6 @@ public class ES_Ground_Idle : ES_DemonGround
 
         //Calculate a path to the player
         eg.agent.CalculatePath (Enemy.playerReference.transform.position, eg.agentPath);
-        Debug.Log (Enemy.playerReference.transform.position);
-
-        Debug.Log (eg.agentPath.status);
 
         //If the path is incomplete return a null path
         if (eg.agentPath.status != NavMeshPathStatus.PathComplete)
@@ -132,7 +129,7 @@ public class ES_Ground_Idle : ES_DemonGround
         Vector3 ceilingPoint = Vector3.zero;
         float searchDistanceDrop = E_Demon_Ground.agentSettings[eg.agentIndex].ledgeDropHeight;
 
-        if (Physics.Raycast (transform.position, Vector3.up, out ceilingCheck, E_Demon_Ground.agentSettings[eg.agentIndex].maxJumpAcrossDistance, LayerMask.GetMask ("Ground")))
+        if (Physics.Raycast (transform.position, Vector3.up, out ceilingCheck, 1, LayerMask.GetMask ("Ground")))
         {
             //Debug.Log ("Raycast hit something");
             //Debug.Log (ceilingCheck.point);
@@ -197,6 +194,7 @@ public class ES_Ground_Idle : ES_DemonGround
             {
                 Debug.Log ("Raycastpoint not found");
 
+
             }
         }
 
@@ -212,8 +210,7 @@ public class ES_Ground_Idle : ES_DemonGround
     protected IEnumerator WanderTimer ()
     {
         eg.animator.Play (animationEnter);
-
-        Debug.Log ("Wander timer enabled");
+        
         isWaiting = true;
         yield return new WaitForSeconds (Random.Range (wanderStayTimeMin, wanderStayTimeMax));
 

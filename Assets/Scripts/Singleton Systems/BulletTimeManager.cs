@@ -20,7 +20,7 @@ public class BulletTimeManager : MonoBehaviour
 
     //todo: create list of items to not be affected by bullet time
     
-    public IEnumerator ChangeBulletTime(float timeScale, float duration)
+    /*public IEnumerator ChangeBulletTime(float timeScale, float duration)
     {
         float t = 0;
         while (t < 1)
@@ -30,6 +30,11 @@ public class BulletTimeManager : MonoBehaviour
             
             yield return null;
         }
+    }*/
+    
+    public void ChangeBulletTime(float timeScale)
+    {
+        Time.timeScale = timeScale;
     }
     
 }

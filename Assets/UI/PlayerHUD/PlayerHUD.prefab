@@ -1517,6 +1517,9 @@ MonoBehaviour:
   menuGameOver: {fileID: 1029499104498548772}
   menuPause: {fileID: 6107424523301770407}
   menuDemoTimeUp: {fileID: 4535611411046213885}
+  subMenuContainer: {fileID: 1763967296075867938}
+  widgetContainer: {fileID: 7171424303416167610}
+  gamePaused: 0
 --- !u!1 &5793205663153500930
 GameObject:
   m_ObjectHideFlags: 0
@@ -2932,6 +2935,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: CountdownTimer
       objectReference: {fileID: 0}
+    - target: {fileID: 3340083973349321631, guid: 1fdc182804b023547b67ced367887ae9, type: 3}
+      propertyPath: demoTime
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 3340083973349321631, guid: 1fdc182804b023547b67ced367887ae9, type: 3}
+      propertyPath: playerHUD
+      value: 
+      objectReference: {fileID: 4825270911490475076}
     - target: {fileID: 3340083973349321631, guid: 1fdc182804b023547b67ced367887ae9, type: 3}
       propertyPath: timerExpired.m_PersistentCalls.m_Calls.Array.size
       value: 1

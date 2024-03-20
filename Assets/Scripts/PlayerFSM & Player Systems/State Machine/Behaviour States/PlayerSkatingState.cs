@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class PlayerSkatingState : PlayerState
@@ -21,12 +18,6 @@ public class PlayerSkatingState : PlayerState
                 if (player.GetComboHandler().GetStyleLevel() < player.playerData.groundedBoostStyleLevel) return;
                 player.GetMovementMethods().StopBoost();
             }
-        });
-        
-        inputActions.Add(InputRouting.Instance.input.Player.TimeShiftDebug, new InputActionEvents
-        {
-            onPerformed = ctx => BulletTimeManager.Instance.StartCoroutine(BulletTimeManager.Instance.ChangeBulletTime(0.2f, .2f)),
-            onCanceled = ctx => BulletTimeManager.Instance.StartCoroutine(BulletTimeManager.Instance.ChangeBulletTime(1f, .2f)),
         });
         
         inputActions.Add(InputRouting.Instance.input.Player.DropIn, new InputActionEvents
@@ -64,7 +55,8 @@ public class PlayerSkatingState : PlayerState
         SubscribeInputs();
         enteredHalfPipeSection = false;
         movementMethods = player.GetMovementMethods();
-        BulletTimeManager.Instance.StartCoroutine(BulletTimeManager.Instance.ChangeBulletTime(1f, .2f));
+        //BulletTimeManager.Instance.StartCoroutine(BulletTimeManager.Instance.ChangeBulletTime(1f, .2f));
+        BulletTimeManager.Instance.ChangeBulletTime(1f);
     }
     
     public override void Exit()
@@ -78,7 +70,7 @@ public class PlayerSkatingState : PlayerState
     {
         base.LogicUpdate();
 
-        if (!player.CheckGround() && !InputRouting.Instance.GetBoostInput() && !player.GetOrientationWithDownward().IsInRangeOf(70, 110)) // if we are facing upward and not boosting and not on the ground, we go into halfpipe state
+        if (!player.CheckGround() && !player.GetOrientationWithDownward().IsInRangeOf(85, 110)) // if we are facing upward and not on the ground, we go into halfpipe state
         {
             stateMachine.SwitchState(player.halfPipeState);
         }

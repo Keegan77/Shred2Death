@@ -16,12 +16,12 @@ public class ES_Ground_MoveTowardsPoint : ES_DemonGround
 
     public override void machinePhysics ()
     {
-        //Vector3 distanceToDestination = eGround.agent.destination - transform.position;
+        Vector3 distanceToDestination = eg.agent.destination - transform.position;
 
-        //if (distanceToDestination.magnitude <= eGround.agent.stoppingDistance)
-        //{
-        //    eGround.stateMachine.transitionState (GetComponent<ES_Ground_Idle> ());
-        //}
+        if (distanceToDestination.magnitude <= eg.agent.stoppingDistance)
+        {
+            eg.stateMachine.transitionState(GetComponent<ES_Ground_Chase>());
+        }
     }
 
     public override void onPlayerSensorActivated ()

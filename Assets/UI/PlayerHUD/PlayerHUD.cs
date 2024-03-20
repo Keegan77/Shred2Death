@@ -18,11 +18,11 @@ public class PlayerHUD : MonoBehaviour
     public PlayerHUDSubMenu menuPause;
     public PlayerHUDSubMenu menuDemoTimeUp;
 
-    private GameObject subMenuContainer;
-    private GameObject widgetContainer;
+    public GameObject subMenuContainer;
+    public GameObject widgetContainer;
     #endregion
 
-    bool gamePaused = false;
+    public bool gamePaused = false;
     float currentTimeScale = 1;
 
     private void Awake()

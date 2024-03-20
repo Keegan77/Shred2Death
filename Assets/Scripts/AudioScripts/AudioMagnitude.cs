@@ -26,15 +26,23 @@ public class AudioMagnitude : MonoBehaviour
 
     private void Update()
     {
-        if (lockSkateState && player.stateMachine.currentState != player.skatingState)
+        if (lockSkateState)
         {
-            audioSource.volume = 0;
-            return;
+            if (player.stateMachine.currentState != player.skatingState && 
+                player.stateMachine.currentState != player.driftState)
+            {
+                audioSource.volume = 0;
+                return;
+            }
         }
-        if (lockAirState && player.stateMachine.currentState != player.airborneState)
+        if (lockAirState)
         {
-            audioSource.volume = 0;
-            return;
+            if (player.stateMachine.currentState != player.airborneState &&
+                player.stateMachine.currentState != player.nosediveState)
+            {
+                audioSource.volume = 0;
+                return;
+            }
         }
 
         audioSource.volume = Mathf.Clamp01(rb.velocity.magnitude / 90);
