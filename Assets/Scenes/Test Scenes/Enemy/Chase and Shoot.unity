@@ -184,6 +184,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+--- !u!114 &122992089 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4641657589535589862, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
+  m_PrefabInstance: {fileID: 197794765}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bacd63dda8d1194d83874442a13949d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &197794765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -236,6 +247,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6292476844615906848, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
+      propertyPath: playerHealth
+      value: 
+      objectReference: {fileID: 1738366253}
     - target: {fileID: 6632714718895213613, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
       propertyPath: m_Name
       value: Debug_PlayerDummy
@@ -243,7 +258,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6632714718895213613, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1738366253}
   m_SourcePrefab: {fileID: 100100000, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
 --- !u!1 &538969780
 GameObject:
@@ -704,6 +722,27 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
+--- !u!1 &1738366247 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6632714718895213613, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
+  m_PrefabInstance: {fileID: 197794765}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1738366253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738366247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f833633356d821e4ebf6d59a489a13aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  playerHUD: {fileID: 122992089}
+  regenHealthCooldown: 0
+  healthRegenerationSpeed: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
