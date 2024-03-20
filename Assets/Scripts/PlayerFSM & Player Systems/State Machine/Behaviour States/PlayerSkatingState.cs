@@ -73,7 +73,7 @@ public class PlayerSkatingState : PlayerState
     {
         base.LogicUpdate();
 
-        if (!player.CheckGround() && !InputRouting.Instance.GetBoostInput() && !player.GetOrientationWithDownward().IsInRangeOf(70, 110)) // if we are facing upward and not boosting and not on the ground, we go into halfpipe state
+        if (!player.CheckGround() && !player.GetOrientationWithDownward().IsInRangeOf(85, 110)) // if we are facing upward and not on the ground, we go into halfpipe state
         {
             stateMachine.SwitchState(player.halfPipeState);
         }

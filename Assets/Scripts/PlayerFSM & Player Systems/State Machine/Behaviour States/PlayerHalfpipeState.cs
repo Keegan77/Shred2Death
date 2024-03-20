@@ -11,6 +11,14 @@ public class PlayerHalfpipeState : PlayerState
         
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
             { onPerformed = ctx => player.CheckAndSetSpline()});
+        inputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
+        {
+            onPerformed = ctx =>
+            {
+                player.GetMovementMethods().StartBoost();
+                stateMachine.SwitchState(player.airborneState);
+            },
+        });
     }
 
     private GameObject closestHalfPipe;
@@ -76,12 +84,6 @@ public class PlayerHalfpipeState : PlayerState
         if (player.CheckGround() && player.rb.velocity.y <= 0) // if we detect the ground layer and are going downward
         {
             stateMachine.SwitchState(player.skatingState);
-        }
-
-        if (InputRouting.Instance.GetBoostInput())
-        {
-            player.movement.StartBoost();
-            stateMachine.SwitchState(player.airborneState);
         }
     }
 
