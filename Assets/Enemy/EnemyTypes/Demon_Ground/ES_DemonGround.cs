@@ -44,8 +44,7 @@ public abstract class ES_DemonGround : Enemy_State
     {
         yield return null;
         eg.agent.CalculatePath (p, eg.agentPath);
-
-        Debug.Log (eg.agent.path.status);
+        
         if(eg.agentPath.status != UnityEngine.AI.NavMeshPathStatus.PathInvalid)
         {
             eg.agent.SetDestination (p);
@@ -58,8 +57,7 @@ public abstract class ES_DemonGround : Enemy_State
             OnDestinationFailed ();
             yield break;
         }
-
-        Debug.Log ($"{name}: Beginning Movement Routine");
+        
         Vector3 distanceToDestination = eg.agent.destination - transform.position;
         while (distanceToDestination.magnitude > eg.agent.stoppingDistance)
         {

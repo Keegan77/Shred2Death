@@ -9,6 +9,6 @@ public class FirewallCollisionMover : MonoBehaviour
 
     private void Update()
     {
-        transform.position = new Vector3(transform.position.x, player.transform.position.y - 10, transform.position.z);
+        transform.position = new Vector3(transform.position.x, player.transform.position.y - 30, transform.position.z);
     }
 }

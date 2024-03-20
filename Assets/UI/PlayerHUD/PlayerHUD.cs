@@ -22,7 +22,7 @@ public class PlayerHUD : MonoBehaviour
     private GameObject widgetContainer;
     #endregion
 
-    bool gamePaused = false;
+    public bool gamePaused = false;
     float currentTimeScale = 1;
 
     private void Awake()

@@ -9,6 +9,7 @@ using TMPro;
 /// </summary>
 public class CountdownTimer : MonoBehaviour
 {
+    [SerializeField] PlayerHUD playerHUD;
     public float demoTime = 300;
     int minutes;
     int seconds;
@@ -32,7 +33,7 @@ public class CountdownTimer : MonoBehaviour
     {
         if (timerRunning)
         {
-            demoTime -= Time.unscaledDeltaTime;
+            if (!playerHUD.gamePaused) demoTime -= Time.unscaledDeltaTime;
 
             minutes = Mathf.CeilToInt(demoTime) / 60;
             seconds = Mathf.CeilToInt(demoTime) % 60;

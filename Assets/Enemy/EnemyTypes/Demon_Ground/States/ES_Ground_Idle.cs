@@ -77,9 +77,6 @@ public class ES_Ground_Idle : ES_DemonGround
 
         //Calculate a path to the player
         eg.agent.CalculatePath (Enemy.playerReference.transform.position, eg.agentPath);
-        Debug.Log (Enemy.playerReference.transform.position);
-
-        Debug.Log (eg.agentPath.status);
 
         //If the path is incomplete return a null path
         if (eg.agentPath.status != NavMeshPathStatus.PathComplete)
@@ -212,8 +209,7 @@ public class ES_Ground_Idle : ES_DemonGround
     protected IEnumerator WanderTimer ()
     {
         eg.animator.Play (animationEnter);
-
-        Debug.Log ("Wander timer enabled");
+        
         isWaiting = true;
         yield return new WaitForSeconds (Random.Range (wanderStayTimeMin, wanderStayTimeMax));
 

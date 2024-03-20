@@ -15,6 +15,8 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private Transform chestPivot, originPivot;
         [SerializeField] private SlopeOrientationHandler orientationHandler;
         [SerializeField] private TrickComboHandler comboHandler;
+        [SerializeField] private PlayerHUD playerHUD;
+        [SerializeField] private CountdownTimer timer;
     #endregion
 
     #region Public Component References
@@ -29,6 +31,8 @@ public class PlayerBase : MonoBehaviour
     #endregion
 
     #region Private class fields
+
+    private bool timerRanOut;
         private SplineComputer currentSpline;
         private double splineCompletionPercent;
         public PlayerMovementMethods movement { get; private set; }
@@ -97,6 +101,26 @@ public class PlayerBase : MonoBehaviour
     
     private void OnTriggerStay(Collider other) => stateMachine.currentState.StateTriggerStay(other);
 
+
+    private void OnEnable()
+    {
+        timer.timerExpired.AddListener(() =>
+        {
+            timerRanOut = true;
+        });
+        InputRouting.Instance.input.UI.Pause.performed += ctx =>
+        {
+            if (!timerRanOut) playerHUD.ToggleGamePaused();
+        };
+    }
+
+    private void OnDisable()
+    {
+        InputRouting.Instance.input.UI.Pause.performed -= ctx =>
+        {
+            if (!timerRanOut) playerHUD.ToggleGamePaused();
+        };
+    }
 
     private void OnCollisionStay(Collision other) => stateMachine.currentState.StateCollisionEnter(other);
 

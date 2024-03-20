@@ -41,7 +41,6 @@ public class Enemy_StateMachine : MonoBehaviour
 
     public void transitionState (Enemy_State s)
     {
-        Debug.Log ("Transitioning from " + stateCurrent + " to " + s);
         stateCurrent.Exit ();
 
         stateCurrent = s;
