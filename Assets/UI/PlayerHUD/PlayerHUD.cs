@@ -18,8 +18,8 @@ public class PlayerHUD : MonoBehaviour
     public PlayerHUDSubMenu menuPause;
     public PlayerHUDSubMenu menuDemoTimeUp;
 
-    private GameObject subMenuContainer;
-    private GameObject widgetContainer;
+    public GameObject subMenuContainer;
+    public GameObject widgetContainer;
     #endregion
 
     public bool gamePaused = false;

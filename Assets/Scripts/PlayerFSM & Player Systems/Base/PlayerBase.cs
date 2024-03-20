@@ -17,6 +17,7 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private TrickComboHandler comboHandler;
         [SerializeField] private PlayerHUD playerHUD;
         [SerializeField] private CountdownTimer timer;
+        [SerializeField] private PlayerHealth health;
     #endregion
 
     #region Public Component References
@@ -110,7 +111,7 @@ public class PlayerBase : MonoBehaviour
         });
         InputRouting.Instance.input.UI.Pause.performed += ctx =>
         {
-            if (!timerRanOut) playerHUD.ToggleGamePaused();
+            if (!timerRanOut && !health.IsDead()) playerHUD.ToggleGamePaused();
         };
     }
 

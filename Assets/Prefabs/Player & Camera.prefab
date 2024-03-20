@@ -559,6 +559,7 @@ MonoBehaviour:
   comboHandler: {fileID: 7622906686642303424}
   playerHUD: {fileID: 7350014428951949226}
   timer: {fileID: 8158652854704102508}
+  health: {fileID: 4262805175918256464}
   rb: {fileID: 6967465418630592810}
   inputTurningTransform: {fileID: 6264741664780971715}
   playerModelTransform: {fileID: 6867235279004832454}
@@ -1515,6 +1516,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  playerHealth: {fileID: 4262805175918256464}
   player: {fileID: 1464697803107471213}
 --- !u!114 &5140742258028430381
 MonoBehaviour:
@@ -2309,6 +2311,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   playerHUD: {fileID: 7350014428951949226}
+  regenHealthCooldown: 5
+  healthRegenerationSpeed: 1
 --- !u!1 &7035387300022996955
 GameObject:
   m_ObjectHideFlags: 0
@@ -3575,6 +3579,22 @@ PrefabInstance:
       propertyPath: playerHUD
       value: 
       objectReference: {fileID: 7350014428951949226}
+    - target: {fileID: 6183419138398631810, guid: 8204e795f862bc14db23677e72352bca, type: 3}
+      propertyPath: playerHealth
+      value: 
+      objectReference: {fileID: 4262805175918256464}
+    - target: {fileID: 6488748839562322987, guid: 8204e795f862bc14db23677e72352bca, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -59.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7062067429610997960, guid: 8204e795f862bc14db23677e72352bca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9096548377434552585, guid: 8204e795f862bc14db23677e72352bca, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

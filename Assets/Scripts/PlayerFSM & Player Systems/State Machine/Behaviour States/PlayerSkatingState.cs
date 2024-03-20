@@ -23,12 +23,6 @@ public class PlayerSkatingState : PlayerState
             }
         });
         
-        inputActions.Add(InputRouting.Instance.input.Player.TimeShiftDebug, new InputActionEvents
-        {
-            onPerformed = ctx => BulletTimeManager.Instance.StartCoroutine(BulletTimeManager.Instance.ChangeBulletTime(0.2f, .2f)),
-            onCanceled = ctx => BulletTimeManager.Instance.StartCoroutine(BulletTimeManager.Instance.ChangeBulletTime(1f, .2f)),
-        });
-        
         inputActions.Add(InputRouting.Instance.input.Player.DropIn, new InputActionEvents
         {
             onPerformed = ctx =>
@@ -64,7 +58,8 @@ public class PlayerSkatingState : PlayerState
         SubscribeInputs();
         enteredHalfPipeSection = false;
         movementMethods = player.GetMovementMethods();
-        BulletTimeManager.Instance.StartCoroutine(BulletTimeManager.Instance.ChangeBulletTime(1f, .2f));
+        //BulletTimeManager.Instance.StartCoroutine(BulletTimeManager.Instance.ChangeBulletTime(1f, .2f));
+        BulletTimeManager.Instance.ChangeBulletTime(1f);
     }
     
     public override void Exit()
