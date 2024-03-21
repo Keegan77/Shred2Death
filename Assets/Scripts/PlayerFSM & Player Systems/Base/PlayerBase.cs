@@ -18,10 +18,12 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private PlayerHUD playerHUD;
         [SerializeField] private CountdownTimer timer;
         [SerializeField] private PlayerHealth health;
+        
     #endregion
 
     #region Public Component References
         [Header("Public Component References")]
+        public ParticleStatePlayer particlePlayer;
         public Rigidbody rb;
         public Transform inputTurningTransform, playerModelTransform; // this is public because we want access from our states
         [Tooltip("Holds all of the player's base movement values.")]

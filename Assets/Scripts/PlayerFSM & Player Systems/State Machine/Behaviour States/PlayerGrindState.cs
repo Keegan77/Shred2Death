@@ -21,6 +21,7 @@ public class PlayerGrindState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        player.particlePlayer.PlayParticle();
         player.GetComboHandler().SetPauseComboDrop(true);
         player.proceduralRigController.StartCoroutine(
             player.proceduralRigController.LerpWeightToValue
@@ -46,6 +47,7 @@ public class PlayerGrindState : PlayerState
     public override void Exit()
     {
         UnsubscribeInputs();
+        player.particlePlayer.StopParticle();
         player.GetComboHandler().SetPauseComboDrop(false);
         ActionEvents.StopLoopAudio?.Invoke();
         player.proceduralRigController.StartCoroutine(
