@@ -331,6 +331,10 @@ public class PlayerBase : MonoBehaviour
     {
         return Vector3.Angle(transform.forward, Vector3.down);
     }
+    public float GetRightAngleWithDownward()
+    {
+        return Vector3.Angle(transform.right, Vector3.down);
+    }
     #endregion
     
     private void StateMachineSetup()

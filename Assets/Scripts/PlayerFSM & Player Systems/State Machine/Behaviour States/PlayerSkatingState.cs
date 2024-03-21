@@ -71,11 +71,12 @@ public class PlayerSkatingState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        Debug.Log(player.GetOrientationWithDownward() - 90);
-        float orientation = player.GetOrientationWithDownward() - 90;
-        if (!player.CheckGround() && orientation.IsInRangeOf(60, 100)) // if we are facing upward and not on the ground, we go into halfpipe state
+        Debug.Log(player.GetRightAngleWithDownward() - 90);
+        float downOrientation = player.GetOrientationWithDownward() - 90;
+        float rightOrientation = player.GetRightAngleWithDownward() - 90;
+        if (downOrientation.IsInRangeOf(55, 100) || Mathf.Abs(rightOrientation).IsInRangeOf(35, 100)) // if we are facing upward and not on the ground, we go into halfpipe state
         {
-            stateMachine.SwitchState(player.halfPipeState);
+            if (!player.CheckGround()) stateMachine.SwitchState(player.halfPipeState);
         }
         else if (!player.CheckGround()) // if we are not facing upward, dont enter half pipe state, enter airborne
         {

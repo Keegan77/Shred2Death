@@ -39,7 +39,14 @@ public class UpperBodyLookTarget : MonoBehaviour
         }
         else if (player.stateMachine.currentState == player.halfPipeState)
         {
-            currentTarget = playerForwardPoint; //player looks towards crosshair
+            if (InputRouting.Instance.GetBumperInput().x != 0 || InputRouting.Instance.GetBumperInput().y != 0)
+            {
+                currentTarget = playerForwardPoint; //player looks towards crosshair
+            }
+            else
+            {
+                currentTarget = cameraForwardPoint; // player looks at camera
+            }
         }
         else
         {
