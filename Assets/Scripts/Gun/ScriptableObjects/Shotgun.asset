@@ -20,9 +20,9 @@ MonoBehaviour:
   bulletsInOneShot: 12
   magCapacity: 10
   timeBetweenShots: 0.1
-  camRecoilX: 0.5
-  camRecoilY: 0.5
-  camRecoilZ: 0.5
+  camRecoilX: 5
+  camRecoilY: 5
+  camRecoilZ: 3
   gunRecoilX: 100
   gunRecoilY: 50
   gunRecoilZ: 50
@@ -30,7 +30,7 @@ MonoBehaviour:
   spreadY: 0.1
   spreadZ: 0.1
   readyUpTime: 0
-  currentAmmo: 9
+  currentAmmo: 10
   alternateFire: 0
   fireSounds:
   - {fileID: 8300000, guid: 9447eb50abcd5d74294113315e08f174, type: 3}
@@ -44,3 +44,9 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  outOfAmmoSounds:
+  - {fileID: 8300000, guid: abeb5b4d01026ad41afe6192b18ad9f9, type: 3}
+  - {fileID: 8300000, guid: 39e4ad5f072fdb947993d3e13eb15dd2, type: 3}
+  - {fileID: 8300000, guid: e09c4089bfd1c0843bb84379b70c9482, type: 3}
+  - {fileID: 8300000, guid: e4e670adfdfa1c4448e4982459f54f93, type: 3}
+  - {fileID: 8300000, guid: 005e81a1c97ff7a43a39e9c98be09011, type: 3}

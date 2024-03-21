@@ -20,9 +20,9 @@ MonoBehaviour:
   bulletsInOneShot: 1
   magCapacity: 50
   timeBetweenShots: 0.1
-  camRecoilX: 2
+  camRecoilX: 2.5
   camRecoilY: 0.5
-  camRecoilZ: 0.75
+  camRecoilZ: 0.5
   gunRecoilX: 100
   gunRecoilY: 25
   gunRecoilZ: 10
@@ -30,7 +30,7 @@ MonoBehaviour:
   spreadY: 0.01
   spreadZ: 0.01
   readyUpTime: 0
-  currentAmmo: 0
+  currentAmmo: 30
   alternateFire: 1
   fireSounds:
   - {fileID: 8300000, guid: b917edf21fcffa54fa5ed4ec0bccf30c, type: 3}
@@ -39,8 +39,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 845b1c21f55eb7348bc75683ee29d8f8, type: 3}
   - {fileID: 8300000, guid: 8848d9e7af5b1b0498fc77b45033002e, type: 3}
   delayPerAudioClip:
-  - 0.3
-  - 0.3
-  - 0.3
-  - 0.3
-  - 0.3
+  - 0.25
+  - 0.25
+  - 0.25
+  - 0.25
+  - 0.25
+  outOfAmmoSounds:
+  - {fileID: 8300000, guid: b3f257210be78134e9d4dde1a48d1643, type: 3}
+  - {fileID: 8300000, guid: 52b6f2f4dadeac049ab486aebad41319, type: 3}
+  - {fileID: 8300000, guid: 2048c3b3223e51445841df49e2994d47, type: 3}
+  - {fileID: 8300000, guid: 4ad5d774af4213d4bad1c9c87c31fdcb, type: 3}
+  - {fileID: 8300000, guid: 70ce902aa72bdb442a23a7f0a5f1e196, type: 3}
