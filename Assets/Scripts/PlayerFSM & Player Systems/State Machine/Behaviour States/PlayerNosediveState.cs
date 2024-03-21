@@ -9,6 +9,8 @@ public class PlayerNosediveState : PlayerState
         // put input here
         /*inputActions.Add(InputRouting.Instance.input.Player.Nosedive, new InputActionEvents 
             { onCanceled = ctx => stateMachine.SwitchState(player.airborneState) });*/
+        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
+            { onPerformed = ctx => player.CheckAndSetSpline()});
     }
 
     public override void Enter()
@@ -59,6 +61,20 @@ public class PlayerNosediveState : PlayerState
         base.Exit();
         UnsubscribeInputs();
         //player.extraGravityComponent.force = new Vector3(0, -player.playerData.extraGravity, 0);
+    }
+    
+    public override void StateCollisionEnter(Collision collision)
+    {
+        base.StateCollisionEnter(collision);
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            stateMachine.SwitchState(player.skatingState);
+        }
+        
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Spline"))
+        {
+            player.CheckAndSetSpline();
+        }
     }
     
     
