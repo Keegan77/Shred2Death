@@ -14,6 +14,7 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
     private bool boostHeld;
     private bool jumpHeld;
     private bool fireHeld;
+    private bool moveForwardHeld;
     private void Awake()
     {
         if (Instance == null)
@@ -74,6 +75,12 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
     {
         return jumpHeld;
     }
+    
+    public bool GetMoveForwardInput()
+    {
+        return moveForwardHeld;
+    }
+    
     private void OnEnable()
     {
         input.Enable();
@@ -89,13 +96,16 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
             
         input.Player.Fire.performed += ctx => fireHeld = true;
         input.Player.Fire.canceled += ctx => fireHeld = false;
+        
+        input.Player.MoveForwardButton.performed += ctx => moveForwardHeld = true;
+        input.Player.MoveForwardButton.canceled += ctx => moveForwardHeld = false;
     }
 
     private void OnDisable()
     {
         input.Player.Drift.performed -= ctx => driftHeld = true;
         input.Player.Drift.canceled -= ctx => driftHeld = false;
-        
+                                  
         input.Player.Jump.performed -= ctx => jumpHeld = true;
         input.Player.Jump.canceled -= ctx => jumpHeld = false;
         

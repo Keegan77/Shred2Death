@@ -13,6 +13,7 @@ public class PlayerMovementMethods
     public float turnSharpness { get; private set; }
     private float boostTimer;
     private bool burnCooldownActive;
+    float turnSmoothVelocity;
 
     private float baseSpeed;
     public PlayerMovementMethods(PlayerBase player, Rigidbody rb, PlayerData playerData, Transform inputTurningTransform)
@@ -55,7 +56,7 @@ public class PlayerMovementMethods
         
         
         // Apply force in the direction of forwardAfterRotation
-        rb.AddForce(forwardAfterRotation * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0.25f ? 
+        rb.AddForce(player.transform.forward * (movementSpeed * (player.ShouldMoveForward() ? 
             1 : 0)), ForceMode.Acceleration);
         
         
@@ -70,9 +71,9 @@ public class PlayerMovementMethods
     /// Handles turning the player model with left and right input. Rotating the player works best for the movement we
     /// are trying to achieve, as movement is based on the player's forward direction. Meant to be used in FixedUpdate.
     /// </summary>
-    public void TurnPlayer(bool overrideTurnSharpness = false, float newTurnSharpness = 0) // Rotates the input turning transform
+    public void TurnPlayer() // Rotates the input turning transform
     {
-        if (overrideTurnSharpness)
+        /*if (overrideTurnSharpness)
         {
             player.inputTurningTransform.Rotate(0,
                 newTurnSharpness * InputRouting.Instance.GetMoveInput().x, 
@@ -83,8 +84,17 @@ public class PlayerMovementMethods
             player.transform.Rotate(0,
                 turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 
                 0, Space.Self);
-        }
+        }*/
+        float turnSmoothTime = .5f;
         
+        
+        Vector3 targetDirection =
+            new Vector3(InputRouting.Instance.GetMoveInput().x, 0, InputRouting.Instance.GetMoveInput().y);
+        float targetAngle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg + player.GetPlayerCamera().transform.eulerAngles.y;
+        float angle = Mathf.SmoothDampAngle(player.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+        
+        if (targetDirection == Vector3.zero) return;
+        player.transform.rotation = Quaternion.Euler(player.transform.eulerAngles.x, angle, player.transform.eulerAngles.z);
         
     }
 

@@ -18,6 +18,7 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private PlayerHUD playerHUD;
         [SerializeField] private CountdownTimer timer;
         [SerializeField] private PlayerHealth health;
+        [SerializeField] private Camera cam;
         
     #endregion
 
@@ -49,6 +50,7 @@ public class PlayerBase : MonoBehaviour
         Vector3 backRayEndPoint, forwardRayEndPoint, leftRayEndPoint, rightRayEndPoint;
         
         float skateboardOriginalColliderRadius;
+        private bool movingForward;
     #endregion
 
     #region State Factory
@@ -107,6 +109,10 @@ public class PlayerBase : MonoBehaviour
 
     private void OnEnable()
     {
+        InputRouting.Instance.input.Player.MoveForwardButton.performed += ctx =>
+        {
+            movingForward = !movingForward;
+        };
         timer.timerExpired.AddListener(() =>
         {
             timerRanOut = true;
@@ -119,6 +125,11 @@ public class PlayerBase : MonoBehaviour
 
     private void OnDisable()
     {
+        InputRouting.Instance.input.Player.MoveForwardButton.performed -= ctx =>
+        {
+            movingForward = !movingForward;
+        };
+        
         InputRouting.Instance.input.UI.Pause.performed -= ctx =>
         {
             if (!timerRanOut) playerHUD.ToggleGamePaused();
@@ -188,6 +199,10 @@ public class PlayerBase : MonoBehaviour
     {
         return movement;
     }
+    public bool ShouldMoveForward()
+    {
+        return movingForward;
+    }
 
 #endregion
 
@@ -230,6 +245,11 @@ public class PlayerBase : MonoBehaviour
 #endregion
 
     #region Helper Methods, Getters, & Setters
+    
+    public Camera GetPlayerCamera()
+    {
+        return cam;
+    }
     
     public TrickComboHandler GetComboHandler()
     {

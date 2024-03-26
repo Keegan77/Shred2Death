@@ -40,7 +40,7 @@ public class OrientCamera : MonoBehaviour
 
         if (currentStateType != typeof(PlayerHalfpipeState))
         {
-            OrientToForward(); //default camera orientation state
+            //OrientToForward(); //default camera orientation state
         }
     }
     
