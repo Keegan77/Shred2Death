@@ -154,7 +154,7 @@ public class PlayerMovementMethods
         
         //movementSpeed = baseSpeed + offset;
         
-        movementSpeed = Mathf.Lerp(0, playerData.baseMovementSpeed, timeElapsed / playerData.accelTime) + offset;
+        movementSpeed = Mathf.Lerp(playerData.minSpeed, playerData.baseMovementSpeed, timeElapsed / playerData.accelTime) + offset;
         
         Debug.Log(movementSpeed);
     }
