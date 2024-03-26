@@ -14,8 +14,12 @@ public class PlayerData : ScriptableObject
     public float baseBoostSpeed;
     public float boostDuration;
     public float baseJumpForce;
-    public float baseTurnSharpness;
+    //public float baseTurnSharpness; 150
     public float deAccelerationSpeed;
+    
+    public Vector2 minMaxTurnSharpness;
+    public float speedMagnitudeThresholdForMaxTurnSharpness;
+    public AnimationCurve turnSharpnessCurve;
     
     
     [Header("Airborne Values")]

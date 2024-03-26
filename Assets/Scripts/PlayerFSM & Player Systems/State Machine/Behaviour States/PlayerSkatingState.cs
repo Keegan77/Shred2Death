@@ -95,11 +95,10 @@ public class PlayerSkatingState : PlayerState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        movementMethods.CalculateTurnSharpness();
         movementMethods.SkateForward();
         movementMethods.DeAccelerate();
         if (player.CheckGround()) player.GetOrientationHandler().OrientToSlope();
-        if (InputRouting.Instance.GetMoveInput().y != 0) movementMethods.TurnPlayer();
+        movementMethods.TurnPlayer();
     }
     
     public override void StateTriggerStay(Collider other)

@@ -85,13 +85,14 @@ public class PlayerMovementMethods
                 turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 
                 0, Space.Self);
         }*/
+        CalculateTurnSharpness();
         float turnSmoothTime = .5f;
         
         
         Vector3 targetDirection =
             new Vector3(InputRouting.Instance.GetMoveInput().x, 0, InputRouting.Instance.GetMoveInput().y);
         float targetAngle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg + player.GetPlayerCamera().transform.eulerAngles.y;
-        float angle = Mathf.SmoothDampAngle(player.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+        float angle = Mathf.SmoothDampAngle(player.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSharpness);
         
         if (targetDirection == Vector3.zero) return;
         player.transform.rotation = Quaternion.Euler(player.transform.eulerAngles.x, angle, player.transform.eulerAngles.z);
@@ -151,9 +152,10 @@ public class PlayerMovementMethods
 
     public void CalculateTurnSharpness()
     {
-        turnSharpness = playerData.baseTurnSharpness;
-        //if (rb.velocity.magnitude < 20) turnSharpness = playerData.baseTurnSharpness;
-        //else turnSharpness = playerData.baseTurnSharpness / (rb.velocity.magnitude / 2);
+        float t = rb.velocity.magnitude / playerData.speedMagnitudeThresholdForMaxTurnSharpness;
+        turnSharpness = Mathf.Lerp(playerData.minMaxTurnSharpness.x, playerData.minMaxTurnSharpness.y, 
+            playerData.turnSharpnessCurve.Evaluate(t));
+        Debug.Log(turnSharpness);
     }
     
     /// <summary>
