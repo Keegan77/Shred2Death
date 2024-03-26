@@ -14,6 +14,7 @@ public class PlayerMovementMethods
     private float boostTimer;
     private bool burnCooldownActive;
     float turnSmoothVelocity;
+    private float timeElapsed;
 
     private float baseSpeed;
     public PlayerMovementMethods(PlayerBase player, Rigidbody rb, PlayerData playerData, Transform inputTurningTransform)
@@ -56,8 +57,7 @@ public class PlayerMovementMethods
         
         
         // Apply force in the direction of forwardAfterRotation
-        rb.AddForce(player.transform.forward * (movementSpeed * (player.ShouldMoveForward() ? 
-            1 : 0)), ForceMode.Acceleration);
+        rb.AddForce(player.transform.forward * movementSpeed, ForceMode.Acceleration);
         
         
     }
@@ -130,8 +130,14 @@ public class PlayerMovementMethods
     
     private void CalculateCurrentSpeed() 
     {
+        timeElapsed = Mathf.Clamp01(timeElapsed);
+        
+        if (player.ShouldMoveForward())
+        {
+            timeElapsed += Time.deltaTime;
+        } else timeElapsed -= Time.deltaTime;
+        
         float offset = rb.velocity.y;
-        float extraForce;
         Func<float, float> calculateExtraForce = (slopeMultiplier) =>
             -(player.GetOrientationWithDownward() - 90) * slopeMultiplier; // this is a negative so if we are going
                                                                            // down, we add force, if we are going up,
@@ -146,8 +152,11 @@ public class PlayerMovementMethods
         }
         // Get the rotation around the x-axis, ranging from -90 to 90
         
-        movementSpeed = baseSpeed + offset;
-        //Debug.Log(movementSpeed);
+        //movementSpeed = baseSpeed + offset;
+        
+        movementSpeed = Mathf.Lerp(0, playerData.baseMovementSpeed, timeElapsed / playerData.accelTime) + offset;
+        
+        Debug.Log(movementSpeed);
     }
 
     public void CalculateTurnSharpness()
@@ -155,7 +164,7 @@ public class PlayerMovementMethods
         float t = rb.velocity.magnitude / playerData.speedMagnitudeThresholdForMaxTurnSharpness;
         turnSharpness = Mathf.Lerp(playerData.minMaxTurnSharpness.x, playerData.minMaxTurnSharpness.y, 
             playerData.turnSharpnessCurve.Evaluate(t));
-        Debug.Log(turnSharpness);
+        
     }
     
     /// <summary>
