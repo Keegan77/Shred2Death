@@ -5,9 +5,12 @@ using UnityEngine.AI;
 
 
 /// <summary>
+/// DEPRECIATED FOR NOW
 /// Uses navmesh to wander around semi-aimlessly.
 /// Warning: Coroutine WanderTimer calls itself when the player is not on the navmesh.
 /// If there is a runaway coroutine issue somehow, that's why.
+/// 
+/// 
 /// </summary>
 public class ES_Ground_Idle : ES_DemonGround
 {

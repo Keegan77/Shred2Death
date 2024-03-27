@@ -15,10 +15,11 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
     public float movementSpeed = 1;
     public float cameraSensitivity = 1;
     public bool useCamera = true;
+    public bool lockCameraOnStart = true;
     private bool cameraKey = true;
     private bool cameraKeyPrev = false;
 
-    public GameObject cameraObject;
+    GameObject cameraObject;
     GameObject cameraPivot;
     GameObject cameraAnchor;
 
@@ -62,10 +63,17 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
         cameraAnchor = transform.Find ("CameraPivot/CameraAnchor").gameObject;
 
         rotationTrack = transform.rotation.eulerAngles;
+
+        if (lockCameraOnStart)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     private void Start ()
     {
+        cameraObject = Camera.main.gameObject;
+
         if (useCamera)
         {
             cameraObject.transform.SetParent (cameraAnchor.transform, false);

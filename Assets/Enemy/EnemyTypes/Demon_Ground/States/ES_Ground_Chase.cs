@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Enemies in the chase state move towards the player continuously.
+/// Occasionally they stop for a brief second to throw a fireball at the player.
+/// 
+/// If the player is in the air or the enemy is close enough, enter the turret state.
+/// </summary>
 public class ES_Ground_Chase : ES_DemonGround
 {
-    const string animationFireball = "FIREBALL";
-
     [Header ("Navigation")]
 
     [Tooltip ("How often does navigation update? Lower = more often")]
@@ -68,13 +72,17 @@ public class ES_Ground_Chase : ES_DemonGround
             eg.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
         }
 
-        if (constantUpdate)
-        {
-            eg.agent.SetDestination (Enemy.playerReference.transform.position);
+        ////DEPRECIATED
+        ////If the enemy is close enough, continuously pathfind into th eplayer
+        //if (constantUpdate)
+        //{
+        //    eg.agent.SetDestination (Enemy.playerReference.transform.position);
 
-            //Debug.Log (e.agent.pathStatus);
-        }
-        else if (playerDestinationOffset.magnitude > agentUpdateDistance)
+        //    //Debug.Log (e.agent.pathStatus);
+        //}
+
+        //Did the player move far enough away from the previous destination?
+        if (playerDestinationOffset.magnitude > agentUpdateDistance)
         {
             eg.agent.SetDestination (Enemy.playerReference.transform.position);
             Debug.Log ("Resetting Path");
@@ -98,6 +106,7 @@ public class ES_Ground_Chase : ES_DemonGround
             {
                 Debug.Log ("EnemyPlayingShot On The Run");
                 //eg.agent.isStopped = true;
+                
                 bulletInfo.StartCoroutine(bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject));
                 //eg.animator.Play (bulletInfo.attackAnimation);
                 StartCoroutine (bulletWait ());
@@ -106,6 +115,16 @@ public class ES_Ground_Chase : ES_DemonGround
         }
     }
 
+
+    /// <summary>
+    /// Chasewait is a timer that controls how often an enemy will update its AI state.
+    /// It updates a chaseKey value that 
+    /// Called in MachinePhysics
+    /// </summary>
+    /// <returns></returns>
+    /// 
+    //TODO: This logic is better suited as an InvokeRepeating statement.
+    //      or rather, have an AI update function run on the state machine.
     IEnumerator chaseWait ()
     {
         chaseKey = false;
@@ -115,6 +134,7 @@ public class ES_Ground_Chase : ES_DemonGround
         chaseKey = true;
     }
 
+    //TODO: Depreciate this, it's redundant.
     IEnumerator bulletWait ()
     {
         readyToBullet = false;

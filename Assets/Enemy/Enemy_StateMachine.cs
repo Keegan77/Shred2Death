@@ -62,11 +62,20 @@ public class Enemy_StateMachine : MonoBehaviour
         stateCurrent.onPlayerSensorDeactivated ();
     }
 
+    /// <summary>
+    /// Animations have events that are caught by a script.
+    /// This signal is brought to the stateMachine and then sent down to the current state.
+    /// 
+    /// This is usually to signal a bulletPattern to play in line with an animation.
+    /// </summary>
     public void OnBullet ()
     {
         stateCurrent.OnBullet();
     }
 
+    /// <summary>
+    /// Animations send this signal down to the current state when they are finished.
+    /// </summary>
     public void OnAnimationFinished ()
     {
         stateCurrent.OnAnimationFinished ();
