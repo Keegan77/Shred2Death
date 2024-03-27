@@ -71,10 +71,17 @@ public class PlayerSkatingState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-
-        if (!player.CheckGround() && !player.GetOrientationWithDownward().IsInRangeOf(85, 110)) // if we are facing upward and not on the ground, we go into halfpipe state
+        float orientationWithDown = player.GetOrientationWithDownward() - 90;
+        
+        Vector3 newBackLeft = new Vector3(player.backLeftRayOrigin.x, player.backLeftRayOrigin.y, player.backLeftRayOrigin.z + .5f);
+        Vector3 newBackRight = new Vector3(player.backRightRayOrigin.x, player.backRightRayOrigin.y, player.backRightRayOrigin.z + .5f);
+        Vector3 rayOrigin = (newBackLeft + newBackRight) / 2;
+        
+        if (!player.CheckGround() && 
+            Physics.Raycast(rayOrigin, -player.transform.up, out RaycastHit hit, 4) && 
+            orientationWithDown.IsInRangeOf(20, 110)) // if we are facing upward and not on the ground, we go into halfpipe state
         {
-            stateMachine.SwitchState(player.halfPipeState);
+            if (hit.collider.CompareTag("Ramp90")) stateMachine.SwitchState(player.halfPipeState);
         }
         else if (!player.CheckGround()) // if we are not facing upward, dont enter half pipe state, enter airborne
         {

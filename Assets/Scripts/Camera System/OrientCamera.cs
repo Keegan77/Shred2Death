@@ -51,6 +51,7 @@ public class OrientCamera : MonoBehaviour
 
         // Slerp from the current rotation to the target rotation
         SlerpToNewRotation(Quaternion.LookRotation(player.transform.forward), baseSlerpSpeed);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
     }
     
     void SlerpToNewRotation(Quaternion targetRotation, float slerpSpeed)

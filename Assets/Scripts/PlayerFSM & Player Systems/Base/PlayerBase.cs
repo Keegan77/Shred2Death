@@ -153,6 +153,8 @@ public class PlayerBase : MonoBehaviour
         // Update the ray origin points
         UpdateRayOriginPoints();
 
+        
+        
         // Set Gizmos color
         Gizmos.color = Color.red;
 
@@ -190,6 +192,17 @@ public class PlayerBase : MonoBehaviour
         {
             Gizmos.DrawLine(checkForBowlRaycastPoint.position, checkForBowlRaycastPoint.position - transform.forward * 10f);
         }
+
+        Vector3 newBackLeft = new Vector3(backLeftRayOrigin.x, backLeftRayOrigin.y, backLeftRayOrigin.z + .5f);
+        Vector3 newBackRight = new Vector3(backRightRayOrigin.x, backRightRayOrigin.y, backRightRayOrigin.z + .5f);
+        Vector3 rayOrigin = (newBackLeft + newBackRight) / 2;
+        Vector3 rayDirection = -transform.up;
+        float rayLength = 4;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(rayOrigin, rayDirection * rayLength);
+        
+        
     }
     
 #endregion
