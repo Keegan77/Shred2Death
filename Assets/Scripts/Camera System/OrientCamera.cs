@@ -56,6 +56,7 @@ public class OrientCamera : MonoBehaviour
     void SlerpToNewRotation(Quaternion targetRotation, float slerpSpeed)
     {
         transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, slerpSpeed * Time.unscaledDeltaTime);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
     }
     
     
