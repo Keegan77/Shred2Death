@@ -156,7 +156,6 @@ public class PlayerMovementMethods
         
         movementSpeed = Mathf.Lerp(playerData.minSpeed, playerData.baseMovementSpeed, timeElapsed / playerData.accelTime) + offset;
         
-        Debug.Log(movementSpeed);
     }
 
     public void CalculateTurnSharpness()

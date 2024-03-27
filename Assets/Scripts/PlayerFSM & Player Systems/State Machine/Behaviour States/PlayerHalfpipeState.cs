@@ -92,6 +92,7 @@ public class PlayerHalfpipeState : PlayerState
     {
         base.PhysicsUpdate();
         HalfPipeAirBehaviour();
+        RotateWithYVelocity();
         RotationInAir();
         //player.GetMovementMethods().TurnPlayer();
         if (player.rb.velocity.y < 0 && player.CheckGroundExtensions()) 
@@ -127,6 +128,23 @@ public class PlayerHalfpipeState : PlayerState
             rotationIncrementsCompleted++;
             totalRotation = 0f;
         }
+    }
+
+    private void RotateWithYVelocity()
+    {
+        // Get the y velocity
+        float yVelocity = player.rb.velocity.y;
+
+        // Convert the y velocity to a percentage between -30 and 30
+        float t = Mathf.InverseLerp(0, -50, yVelocity);
+        Debug.Log(t);
+        // Calculate the target rotation
+        Quaternion targetRot = Quaternion.LookRotation(Vector3.down, player.transform.up);
+
+
+        if (InputRouting.Instance.GetBumperInput().magnitude > .1f) return;
+        // Interpolate between the current rotation and the target rotation based on the percentage
+        player.transform.localRotation = Quaternion.Lerp(player.transform.localRotation, targetRot, t);
     }
     
 
