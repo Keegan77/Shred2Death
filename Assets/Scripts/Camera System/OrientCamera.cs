@@ -42,6 +42,7 @@ public class OrientCamera : MonoBehaviour
         {
             OrientToForward(); //default camera orientation state
         }
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
     }
     
     void OrientToForward()
