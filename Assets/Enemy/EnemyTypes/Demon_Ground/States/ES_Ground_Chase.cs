@@ -108,26 +108,6 @@ public class ES_Ground_Chase : ES_DemonGround
         }
     }
 
-    /// <summary>
-    /// Chasewait is a timer that controls how often an enemy will update its AI state.
-    /// It updates a chaseKey value that 
-    /// Called in MachinePhysics
-    /// </summary>
-    /// <returns></returns>
-    /// 
-    //TODO: This logic is better suited as an InvokeRepeating statement.
-    //      or rather, have an AI update function run on the state machine.
-
-    //TODO: Depreciate this, it's redundant.
-    //IEnumerator bulletWait ()
-    //{
-    //    readyToBullet = false;
-
-    //    yield return new WaitForSeconds (Random.Range(bulletWaitMin, bulletWaitMax));
-
-    //    readyToBullet = true;
-    //}
-
     protected override void OnDestinationReached ()
     {
         Debug.Log ($"{gameObject.name}: Melee the player!");
