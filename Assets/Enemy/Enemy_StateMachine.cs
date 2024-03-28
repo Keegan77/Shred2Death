@@ -24,12 +24,20 @@ public class Enemy_StateMachine : MonoBehaviour
 
     [Header("Control Parameters")]
 
-    [Tooltip("Will the enemy update the logic in their current state?")]
-    public bool aiUpdate = true;
-
-    [Tooltip("How long does the enemy wait  ")]
+    [Tooltip("Interval in seconds between AI updates")]
     [Min(0.1f)]
     public float aiFrequency = 1f;
+    float aiTimeKeeper = 0f;
+
+    //updateEnabled controls whether or not the stateMachien will run AI checks.
+    public bool aiUpdateEnabled
+    {
+        get { return _aiUpdateEnabled; }
+        set { _aiUpdateEnabled = value; aiTimeKeeper = Time.time; }
+    }
+    private bool _aiUpdateEnabled = true;
+
+    
 
 
     [Header ("Navigation")]
@@ -37,8 +45,6 @@ public class Enemy_StateMachine : MonoBehaviour
     public GameObject travelTarget;
 
     #endregion
-
-
 
     #region SCRIPT FUNCTIONS
     public void machineUpdate ()
@@ -49,32 +55,29 @@ public class Enemy_StateMachine : MonoBehaviour
     public void machinePhysics ()
     {
         stateCurrent.machinePhysics ();
+
+        if (aiUpdateEnabled && Time.time - aiTimeKeeper > aiFrequency)
+        {
+            Debug.Log ("Updating AI");
+            AIUpdate ();
+
+            aiTimeKeeper = Time.time;
+        }
     }
 
-    private void AiUpdate ()
+    private void AIUpdate ()
     {
-
+        stateCurrent.AIUpdate ();
     }
 
     public void transitionState (Enemy_State s)
     {
+        Debug.Log ("Transitioning state to: " + s);
         stateCurrent.Exit ();
 
         stateCurrent = s;
 
         stateCurrent.Enter ();
-    }
-
-    public void setAIPaused (bool enabled)
-    {
-        if ( enabled )
-        {
-            InvokeRepeating()
-        }
-        else
-        {
-            CancelInvoke ();
-        }
     }
 
 
@@ -119,6 +122,11 @@ public class Enemy_StateMachine : MonoBehaviour
     {
         //currentState = initialState;
         statesObject = transform.Find ("States").gameObject;
+    }
+
+    private void Start ()
+    {
+        aiTimeKeeper = Time.time;
     }
 
     #endregion

@@ -18,7 +18,7 @@ public class ES_Ground_Chase : ES_DemonGround
 
     [Tooltip ("How often will the agent check to see if it should enter turret mode?")]
     [SerializeField] float chaseUpdateTimer = 3;
-    bool chaseKey = true;
+    //bool chaseKey = true;
 
 
     [Header ("Projectile")]
@@ -30,21 +30,21 @@ public class ES_Ground_Chase : ES_DemonGround
     [Tooltip("Wait at most this long to shoot a bullet")] 
     [SerializeField] float bulletWaitMax = 5;
 
-    private bool readyToBullet = false;
+    private bool readyToBullet = true;
 
     public override void Enter ()
     {
         base.Enter ();
         eg.agent.SetDestination (Enemy.playerReference.transform.position);
 
-        chaseKey = true;
-
-        StartCoroutine (bulletWait ());
+        //StartCoroutine (bulletWait ());
     }
     public override void Exit ()
     {
         base.Exit ();
         eg.agent.isStopped = false;
+
+        bulletInfo.CancelShot ();
     }
 
     public override void onPlayerSensorDeactivated ()
@@ -64,22 +64,19 @@ public class ES_Ground_Chase : ES_DemonGround
     bool constantUpdate = false;
     public override void machinePhysics ()
     {
+       
+    }
+
+
+    public override void AIUpdate ()
+    {
         Vector3 playerDestinationOffset = Enemy.playerReference.transform.position - eg.agent.destination;
 
-
-        if (eg.isInMeleeRange)
+        if ( eg.isInMeleeRange )
         {
             eg.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
+            return;
         }
-
-        ////DEPRECIATED
-        ////If the enemy is close enough, continuously pathfind into th eplayer
-        //if (constantUpdate)
-        //{
-        //    eg.agent.SetDestination (Enemy.playerReference.transform.position);
-
-        //    //Debug.Log (e.agent.pathStatus);
-        //}
 
         //Did the player move far enough away from the previous destination?
         if (playerDestinationOffset.magnitude > agentUpdateDistance)
@@ -88,33 +85,28 @@ public class ES_Ground_Chase : ES_DemonGround
             Debug.Log ("Resetting Path");
         }
 
-        if (!isAnimationPlaying)
+        if ( !isAnimationPlaying )
         {
-            if (chaseKey)
-            {
-                if (!Enemy.playerReference.isOnNavMesh)
-                {
-                    eg.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
-                    return;
-                }
 
-                StartCoroutine (chaseWait ());
+            if ( !Enemy.playerReference.isOnNavMesh )
+            {
+                eg.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
+                return;
             }
 
             //If a bullet is ready and the enemy has waited long enough, fire a bullet.
-            if (bulletInfo.bulletReady && readyToBullet)
+            if ( bulletInfo.bulletReady && readyToBullet )
             {
                 Debug.Log ("EnemyPlayingShot On The Run");
                 //eg.agent.isStopped = true;
-                
-                bulletInfo.StartCoroutine(bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject));
+
+                bulletInfo.StartCoroutine (bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject));
                 //eg.animator.Play (bulletInfo.attackAnimation);
-                StartCoroutine (bulletWait ());
+                //StartCoroutine (bulletWait ());
             }
 
         }
     }
-
 
     /// <summary>
     /// Chasewait is a timer that controls how often an enemy will update its AI state.
@@ -125,24 +117,16 @@ public class ES_Ground_Chase : ES_DemonGround
     /// 
     //TODO: This logic is better suited as an InvokeRepeating statement.
     //      or rather, have an AI update function run on the state machine.
-    IEnumerator chaseWait ()
-    {
-        chaseKey = false;
-
-        yield return new WaitForSeconds (chaseUpdateTimer);
-
-        chaseKey = true;
-    }
 
     //TODO: Depreciate this, it's redundant.
-    IEnumerator bulletWait ()
-    {
-        readyToBullet = false;
+    //IEnumerator bulletWait ()
+    //{
+    //    readyToBullet = false;
 
-        yield return new WaitForSeconds (Random.Range(bulletWaitMin, bulletWaitMax));
+    //    yield return new WaitForSeconds (Random.Range(bulletWaitMin, bulletWaitMax));
 
-        readyToBullet = true;
-    }
+    //    readyToBullet = true;
+    //}
 
     protected override void OnDestinationReached ()
     {

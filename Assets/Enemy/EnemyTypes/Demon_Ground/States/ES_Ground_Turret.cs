@@ -35,7 +35,12 @@ public class ES_Ground_Turret : ES_DemonGround
 
     public override void machinePhysics ()
     {
-        if (bulletInfo.bulletReady && !isAnimationPlaying)
+        
+    }
+
+    public override void AIUpdate ()
+    {
+        if ( bulletInfo.bulletReady && !isAnimationPlaying )
         {
             FireBullet ();
         }

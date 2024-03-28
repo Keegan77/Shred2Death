@@ -24,10 +24,14 @@ public class ES_Ground_MoveTowardsPoint : ES_DemonGround
     /// </summary>
     public override void machinePhysics ()
     {
-        Vector3 distanceToDestination = eg.agent.destination - transform.position;
+        Vector3 distanceToDestination = eg.stateMachine.travelPoint - transform.position;
 
         if (distanceToDestination.magnitude <= eg.agent.stoppingDistance)
         {
+            Debug.Log ("Transition requirement met");
+            Debug.Log (eg.agent.destination);
+            Debug.Log (transform.position);
+            Debug.Log(distanceToDestination.magnitude);
             eg.stateMachine.transitionState(GetComponent<ES_Ground_Chase>());
         }
     }
@@ -40,7 +44,7 @@ public class ES_Ground_MoveTowardsPoint : ES_DemonGround
 
     protected override void OnDestinationReached ()
     {
-        eg.stateMachine.transitionState(GetComponent<ES_Ground_Idle> ());
+        eg.stateMachine.transitionState(GetComponent<ES_Ground_Chase> ());
     }
 
     protected override void OnDestinationFailed ()

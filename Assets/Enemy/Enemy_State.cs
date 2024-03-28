@@ -49,6 +49,11 @@ public class Enemy_State : MonoBehaviour
 
     }
 
+    public virtual void AIUpdate ()
+    {
+
+    }
+
 
     #endregion
 
