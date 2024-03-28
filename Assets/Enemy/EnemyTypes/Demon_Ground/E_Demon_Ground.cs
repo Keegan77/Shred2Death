@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+/// <summary>
+/// Grounded enemies use a navigation mesh to traverse a level.
+/// </summary>
 public class E_Demon_Ground : Enemy
 {
     [NonSerialized] public NavMeshAgent agent; //NavMeshAgent refuses to load in time and now I have to serialize it. Hate.
-    [NonSerialized] public Enemy_NavManager agentManger;
     [NonSerialized] public NavMeshPath agentPath;
 
     //agentSettings will be set by the navmesh present in the level.
@@ -16,6 +19,9 @@ public class E_Demon_Ground : Enemy
 
     [Header ("States Info")]
     public bool isInMeleeRange = false;
+
+
+    //When the melee range sensor is triggered, this is called via Unity Event.
     public void State_SetMeleeRange (bool v) { isInMeleeRange=v;}
 
 
@@ -52,15 +58,14 @@ public class E_Demon_Ground : Enemy
     private void Awake ()
     {
         EnemyGetComponentReferences ();
-        animator = transform.Find("Body").GetComponent<Animator>();
     }
 
     protected override void EnemyGetComponentReferences ()
     {
         base.EnemyGetComponentReferences ();
-        agentManger = GetComponent<Enemy_NavManager> ();
         agent = GetComponent<NavMeshAgent> ();
         agentPath = new NavMeshPath ();
+        animator = transform.Find ("Body").GetComponent<Animator> ();
     }
 
     // Update is called once per frame

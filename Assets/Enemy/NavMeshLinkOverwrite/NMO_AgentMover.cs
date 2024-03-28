@@ -17,6 +17,7 @@ public class NMO_AgentMover : MonoBehaviour
 
     [SerializeField]
     private float _jumpDuration = 0.8f;
+    [SerializeField] private float _jumpWait = 0.0f;
 
     public UnityEvent OnLand, OnStartJump;
 
@@ -84,6 +85,9 @@ public class NMO_AgentMover : MonoBehaviour
 
     private IEnumerator MoveOnOffMeshLink(NMO_Spline spline, bool reverseDirection)
     {
+
+        yield return new WaitForSeconds (_jumpWait);
+
         float currentTime = 0;
         Vector3 agentStartPosition = _Agent.transform.position;
 

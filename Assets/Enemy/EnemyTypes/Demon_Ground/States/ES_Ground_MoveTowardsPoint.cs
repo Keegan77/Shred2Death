@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Grounded enemies enter this state when they spawn. 
+/// This state guides them towards a destination passed to them by a WaveManager.
+/// </summary>
 public class ES_Ground_MoveTowardsPoint : ES_DemonGround
 {
     public override void Enter ()
@@ -14,6 +18,10 @@ public class ES_Ground_MoveTowardsPoint : ES_DemonGround
 
     }
 
+
+    /// <summary>
+    /// When the enemy gets close enough to their destination, begin chasing the player.
+    /// </summary>
     public override void machinePhysics ()
     {
         Vector3 distanceToDestination = eg.agent.destination - transform.position;
