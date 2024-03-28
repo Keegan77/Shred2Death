@@ -20,6 +20,18 @@ public class Enemy_StateMachine : MonoBehaviour
     [Tooltip("What state does this enemy enter when they spawn in? Usually set to a move_to_point script")]
     public Enemy_State stateEntry;
 
+
+
+    [Header("Control Parameters")]
+
+    [Tooltip("Will the enemy update the logic in their current state?")]
+    public bool aiUpdate = true;
+
+    [Tooltip("How long does the enemy wait  ")]
+    [Min(0.1f)]
+    public float aiFrequency = 1f;
+
+
     [Header ("Navigation")]
     public Vector3 travelPoint;
     public GameObject travelTarget;
@@ -39,6 +51,11 @@ public class Enemy_StateMachine : MonoBehaviour
         stateCurrent.machinePhysics ();
     }
 
+    private void AiUpdate ()
+    {
+
+    }
+
     public void transitionState (Enemy_State s)
     {
         stateCurrent.Exit ();
@@ -46,6 +63,18 @@ public class Enemy_StateMachine : MonoBehaviour
         stateCurrent = s;
 
         stateCurrent.Enter ();
+    }
+
+    public void setAIPaused (bool enabled)
+    {
+        if ( enabled )
+        {
+            InvokeRepeating()
+        }
+        else
+        {
+            CancelInvoke ();
+        }
     }
 
 
@@ -82,7 +111,6 @@ public class Enemy_StateMachine : MonoBehaviour
     }
 
     #endregion
-
 
 
     #region SETUP
