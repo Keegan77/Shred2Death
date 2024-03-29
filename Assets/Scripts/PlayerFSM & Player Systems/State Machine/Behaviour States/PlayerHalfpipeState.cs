@@ -65,7 +65,7 @@ public class PlayerHalfpipeState : PlayerState
                                                          $"{rotationIncrementsCompleted * 180}",
                                                    rotationIncrementsCompleted * 6,
                                                   2 * rotationIncrementsCompleted,
-                                              0.1f,
+                                                0.1f,
                                                    null));
 
         player.constantForce.relativeForce = new Vector3(0, 0, 0);
@@ -136,7 +136,7 @@ public class PlayerHalfpipeState : PlayerState
         float yVelocity = player.rb.velocity.y;
 
         // Convert the y velocity to a percentage between -30 and 30
-        float t = Mathf.InverseLerp(0, -50, yVelocity);
+        float t = Mathf.InverseLerp(10, -50, yVelocity);
         Debug.Log(t);
         // Calculate the target rotation
         Quaternion targetRot = Quaternion.LookRotation(Vector3.down, player.transform.up);
@@ -144,7 +144,7 @@ public class PlayerHalfpipeState : PlayerState
 
         if (InputRouting.Instance.GetBumperInput().magnitude > .1f) return;
         // Interpolate between the current rotation and the target rotation based on the percentage
-        player.transform.localRotation = Quaternion.Lerp(player.transform.localRotation, targetRot, t);
+        player.transform.rotation = Quaternion.Lerp(player.transform.rotation, targetRot, t);
     }
     
 
