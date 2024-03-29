@@ -86,8 +86,6 @@ public class PlayerBase : MonoBehaviour
     {
         stateMachine.currentState.StateTriggerEnter(other);
         
-        
-
         /*if (other.CompareTag("Ramp90"))
         {
             orientationHandler.ChangePivot(transform, chestPivot.position);
