@@ -23,6 +23,7 @@ public class PlayerHalfpipeState : PlayerState
 
     private GameObject closestHalfPipe;
     private int rotationIncrementsCompleted;
+    private Quaternion initRotation;
     public override void Enter()
     {
         player.GetComboHandler().SetPauseComboDrop(true);
@@ -48,6 +49,7 @@ public class PlayerHalfpipeState : PlayerState
         //player.StartCoroutine(player.ScaleCapsuleCollider(0.25f)); //EXPERIMENTAL - scales the player's collider to fit the half pipe
         player.GetMovementMethods().StopBoost();
         //closestHalfPipe = GetClosestHalfPipe();
+        initRotation = player.transform.rotation;
     }
 
     public override void Exit()
@@ -136,7 +138,7 @@ public class PlayerHalfpipeState : PlayerState
         float yVelocity = player.rb.velocity.y;
 
         // Convert the y velocity to a percentage between -30 and 30
-        float t = Mathf.InverseLerp(10, -50, yVelocity);
+        float t = Mathf.InverseLerp(30, -30, yVelocity);
         Debug.Log(t);
         // Calculate the target rotation
         Quaternion targetRot = Quaternion.LookRotation(Vector3.down, player.transform.up);
@@ -144,7 +146,7 @@ public class PlayerHalfpipeState : PlayerState
 
         if (InputRouting.Instance.GetBumperInput().magnitude > .1f) return;
         // Interpolate between the current rotation and the target rotation based on the percentage
-        player.transform.rotation = Quaternion.Lerp(player.transform.rotation, targetRot, t);
+        player.transform.rotation = Quaternion.Lerp(initRotation, targetRot, t);
     }
     
 
