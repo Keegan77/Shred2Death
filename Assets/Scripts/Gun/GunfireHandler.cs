@@ -86,8 +86,9 @@ public class GunfireHandler : MonoBehaviour
     {
         RaycastHit hit; //instantiate our raycast ref
         TrailRenderer trail; // instantiate our gun trail
-        
+
         if (currentGun.currentAmmo <= 0) return;
+
         
         cameraRecoil.FireRecoil(currentGun.camRecoilX, currentGun.camRecoilY, currentGun.camRecoilZ); // apply recoil
         currentGunRecoilScript.FireRecoil(currentGun.gunRecoilX, currentGun.gunRecoilY, currentGun.gunRecoilZ);
@@ -204,6 +205,7 @@ public class GunfireHandler : MonoBehaviour
             }
         };
     }
+    
 
     private void IncreaseAmmo(Trick trick)
     {
@@ -213,6 +215,15 @@ public class GunfireHandler : MonoBehaviour
 
     private void OnEnable()
     {
+        InputRouting.Instance.input.Player.Fire.performed += ctx =>
+        {
+            if (currentGun.currentAmmo <= 0)
+            {
+                int rand = Random.Range(0, currentGun.outOfAmmoSounds.Count);
+            
+                ActionEvents.PlayerSFXOneShot?.Invoke(currentGun.outOfAmmoSounds[rand], currentGun.delayPerAudioClip[rand]);
+            }
+        };
         ActionEvents.OnTrickCompletion += IncreaseAmmo;
     }
 
@@ -220,6 +231,15 @@ public class GunfireHandler : MonoBehaviour
     {
         if (buttonSet) DisableFireButtonListeners();
         ActionEvents.OnTrickCompletion -= IncreaseAmmo;
+        InputRouting.Instance.input.Player.Fire.performed -= ctx =>
+        {
+            if (currentGun.currentAmmo <= 0)
+            {
+                int rand = Random.Range(0, currentGun.outOfAmmoSounds.Count);
+            
+                ActionEvents.PlayerSFXOneShot?.Invoke(currentGun.outOfAmmoSounds[rand], .2f);
+            }
+        };
     }
 #endregion
 }

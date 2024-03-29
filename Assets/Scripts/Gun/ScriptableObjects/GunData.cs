@@ -54,4 +54,6 @@ public class GunData : ScriptableObject
     [Header("Audio")] public List<AudioClip> fireSounds;
 
     public List<float> delayPerAudioClip;
+    
+    public List<AudioClip> outOfAmmoSounds;
 }

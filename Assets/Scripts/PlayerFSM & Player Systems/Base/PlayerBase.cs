@@ -137,10 +137,11 @@ public class PlayerBase : MonoBehaviour
         };
     }
 
-    private void OnCollisionStay(Collision other) => stateMachine.currentState.StateCollisionEnter(other);
+    //private void OnCollisionStay(Collision other) => stateMachine.currentState.StateCollisionEnter(other);
 
     private void OnCollisionEnter(Collision other)
     {
+        stateMachine.currentState.StateCollisionEnter(other);
         if (other.gameObject.CompareTag("BurnDamage"))
         {
             movement.DoBurnForce(other.contacts[0].point, 10);
@@ -363,6 +364,10 @@ public class PlayerBase : MonoBehaviour
     public float GetOrientationWithDownward()
     {
         return Vector3.Angle(transform.forward, Vector3.down);
+    }
+    public float GetRightAngleWithDownward()
+    {
+        return Vector3.Angle(transform.right, Vector3.down);
     }
     #endregion
     
