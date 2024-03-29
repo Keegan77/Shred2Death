@@ -14,8 +14,20 @@ public class PlayerData : ScriptableObject
     public float baseBoostSpeed;
     public float boostDuration;
     public float baseJumpForce;
-    public float baseTurnSharpness;
+    //public float baseTurnSharpness; 150
     public float deAccelerationSpeed;
+    
+    public Vector2 minMaxTurnSharpness;
+    public float speedMagnitudeThresholdForMaxTurnSharpness;
+    public AnimationCurve turnSharpnessCurve;
+    
+    [Header("Acceleration")]
+    [Tooltip("Minimum speed used as the starting acceleration force. Over time increases until it's at base movement speed")]
+    public float minSpeed;
+    [Tooltip("Time it takes to reach base movement speed")]
+    public float accelTime;
+    [Tooltip("The curve used to determine the acceleration over time")]
+    public AnimationCurve accelerationCurve;
     
     
     [Header("Airborne Values")]

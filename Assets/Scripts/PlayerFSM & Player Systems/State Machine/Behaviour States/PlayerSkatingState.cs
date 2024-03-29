@@ -83,7 +83,7 @@ public class PlayerSkatingState : PlayerState
             stateMachine.SwitchState(player.airborneState);
         }
 
-        if (InputRouting.Instance.GetDriftInput(alsoCheckForMoveInput:true))
+        if (InputRouting.Instance.GetDriftInput() && player.ShouldMoveForward())
         {
             stateMachine.SwitchState(player.driftState);
         }
@@ -97,11 +97,10 @@ public class PlayerSkatingState : PlayerState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        movementMethods.CalculateTurnSharpness();
         movementMethods.SkateForward();
         movementMethods.DeAccelerate();
         if (player.CheckGround()) player.GetOrientationHandler().OrientToSlope();
-        if (InputRouting.Instance.GetMoveInput().y != 0) movementMethods.TurnPlayer();
+        movementMethods.TurnPlayer();
     }
     
     public override void StateTriggerStay(Collider other)

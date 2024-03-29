@@ -138,8 +138,15 @@ public class PlayerGrindState : PlayerState
         
         player.transform.position = sFollower.result.position + new Vector3(0, grindPosOffset, 0);
         player.transform.rotation = Quaternion.Euler(0, sFollower.result.rotation.eulerAngles.y + jumpedOnOrientation.eulerAngles.y, 0);
-        player.GetMovementMethods().TurnPlayer(true, player.playerData.grindTurnSharpness * Time.deltaTime);
+        GrindTurn(player.playerData.grindTurnSharpness * Time.deltaTime);
         
+    }
+
+    private void GrindTurn(float turnSharpness)
+    {
+        player.transform.Rotate(0,
+            turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 
+            0, Space.Self);
     }
 
     private IEnumerator LerpToFollower(float seconds)
