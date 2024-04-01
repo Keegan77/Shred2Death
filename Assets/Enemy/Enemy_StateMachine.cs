@@ -58,7 +58,6 @@ public class Enemy_StateMachine : MonoBehaviour
 
         if (aiUpdateEnabled && Time.time - aiTimeKeeper > aiFrequency)
         {
-            Debug.Log ("Updating AI");
             AIUpdate ();
 
             aiTimeKeeper = Time.time;

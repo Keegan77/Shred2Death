@@ -9,26 +9,16 @@ using UnityEngine.AI;
 /// 
 /// If the player is in the air or the enemy is close enough, enter the turret state.
 /// </summary>
-public class ES_Ground_Chase : ES_DemonGround
+public class ESG_Chase : ES_DemonGround
 {
     [Header ("Navigation")]
 
     [Tooltip ("How often does navigation update? Lower = more often")]
     [SerializeField] float agentUpdateDistance = 4;
 
-    [Tooltip ("How often will the agent check to see if it should enter turret mode?")]
-    [SerializeField] float chaseUpdateTimer = 3;
-    //bool chaseKey = true;
-
 
     [Header ("Projectile")]
     [SerializeField] Enemy_BulletPattern bulletInfo;
-
-    [Tooltip("Wait at least this long to shoot a bullet")]
-    [SerializeField] float bulletWaitMin = 1;
-
-    [Tooltip("Wait at most this long to shoot a bullet")] 
-    [SerializeField] float bulletWaitMax = 5;
 
     private bool readyToBullet = true;
 
@@ -74,7 +64,7 @@ public class ES_Ground_Chase : ES_DemonGround
 
         if ( eg.isInMeleeRange )
         {
-            eg.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
+            eg.stateMachine.transitionState (GetComponent<ESG_Turret> ());
             return;
         }
 
@@ -90,7 +80,7 @@ public class ES_Ground_Chase : ES_DemonGround
 
             if ( !Enemy.playerReference.isOnNavMesh )
             {
-                eg.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
+                eg.stateMachine.transitionState (GetComponent<ESG_Turret> ());
                 return;
             }
 
@@ -112,7 +102,7 @@ public class ES_Ground_Chase : ES_DemonGround
     {
         Debug.Log ($"{gameObject.name}: Melee the player!");
 
-        eg.stateMachine.transitionState(GetComponent<ES_Ground_Turret> ());
+        eg.stateMachine.transitionState(GetComponent<ESG_Turret> ());
 
     }
     protected override void OnDestinationFailed ()

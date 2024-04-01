@@ -6,7 +6,7 @@ using UnityEngine;
 /// Grounded enemies enter this state when they spawn. 
 /// This state guides them towards a destination passed to them by a WaveManager.
 /// </summary>
-public class ES_Ground_MoveTowardsPoint : ES_DemonGround
+public class ESG_MoveTowardsPoint : ES_DemonGround
 {
     public override void Enter ()
     {
@@ -32,19 +32,19 @@ public class ES_Ground_MoveTowardsPoint : ES_DemonGround
             Debug.Log (eg.agent.destination);
             Debug.Log (transform.position);
             Debug.Log(distanceToDestination.magnitude);
-            eg.stateMachine.transitionState(GetComponent<ES_Ground_Chase>());
+            eg.stateMachine.transitionState(GetComponent<ESG_Chase>());
         }
     }
 
     public override void onPlayerSensorActivated ()
     {
-        eg.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
-        GetComponent<ES_Ground_Chase> ().onPlayerSensorActivated ();
+        eg.stateMachine.transitionState (GetComponent<ESG_Chase> ());
+        GetComponent<ESG_Chase> ().onPlayerSensorActivated ();
     }
 
     protected override void OnDestinationReached ()
     {
-        eg.stateMachine.transitionState(GetComponent<ES_Ground_Chase> ());
+        eg.stateMachine.transitionState(GetComponent<ESG_Chase> ());
     }
 
     protected override void OnDestinationFailed ()

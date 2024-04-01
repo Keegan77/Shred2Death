@@ -8,7 +8,7 @@ using UnityEngine.AI;
 /// using the stats provided by the selected BulletInfo
 /// </summary>
 
-public class ES_Ground_Turret : ES_DemonGround
+public class ESG_Turret : ES_DemonGround
 {
     #region PARAMETERS
     const string animationIdle = "IDLE";
@@ -50,7 +50,7 @@ public class ES_Ground_Turret : ES_DemonGround
     {
         if (Enemy.playerReference.isOnNavMesh && !eg.isInMeleeRange)
         {
-            eg.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
+            eg.stateMachine.transitionState (GetComponent<ESG_Chase> ());
         }
         else
         {
