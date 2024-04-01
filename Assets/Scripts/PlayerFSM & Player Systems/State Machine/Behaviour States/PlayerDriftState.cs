@@ -89,8 +89,8 @@ public class PlayerDriftState : PlayerState
         if (Enum.IsDefined(typeof(DriftPhase), nextDriftPhase))
         {
             return nextDriftPhase;
-        }
-        else return currentDriftPhase;
+        } 
+        return currentDriftPhase;
     }
     
     public override void LogicUpdate()

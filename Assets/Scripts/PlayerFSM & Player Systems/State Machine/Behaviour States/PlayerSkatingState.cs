@@ -35,7 +35,18 @@ public class PlayerSkatingState : PlayerState
         });
         
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
-            { onPerformed = ctx => player.GetMovementMethods().OllieJump()});
+            { 
+                onPerformed = ctx =>
+                {
+                    player.capsuleFloater.SetRideHeight(player.capsuleFloater.crouchingRideHeight);
+                },
+                onCanceled = ctx =>
+                {
+                    if (!player.CheckGround()) return;
+                    stateMachine.SwitchState(player.airborneState);
+                    player.GetMovementMethods().OllieJump();
+                }
+            });
         
         inputActions.Add(InputRouting.Instance.input.Player.MoveForwardButton, new InputActionEvents
         {
@@ -65,6 +76,7 @@ public class PlayerSkatingState : PlayerState
     {
         UnsubscribeInputs();
         player.constantForce.relativeForce = new Vector3(0, 0, 0);
+        player.capsuleFloater.SetRideHeight(player.capsuleFloater.standingRideHeight);
         base.Exit();
     }
     

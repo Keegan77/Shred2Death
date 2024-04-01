@@ -25,6 +25,8 @@ public class PlayerBase : MonoBehaviour
     #region Public Component References
         [Header("Public Component References")]
         public ParticleStatePlayer particlePlayer;
+
+        public PlayerCapsuleFloater capsuleFloater;
         public Rigidbody rb;
         public Transform inputTurningTransform, playerModelTransform; // this is public because we want access from our states
         [Tooltip("Holds all of the player's base movement values.")]

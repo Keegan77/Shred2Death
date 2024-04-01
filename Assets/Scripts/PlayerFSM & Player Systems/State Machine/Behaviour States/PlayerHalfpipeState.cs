@@ -27,19 +27,19 @@ public class PlayerHalfpipeState : PlayerState
     public override void Enter()
     {
         player.GetComboHandler().SetPauseComboDrop(true);
-        player.proceduralRigController.StartCoroutine(
+        /*player.proceduralRigController.StartCoroutine(
             player.proceduralRigController.LerpWeightToValue
             (player.proceduralRigController.legRig,
                 0,
                 1f)
-        );
+        );*/
         base.Enter();
         totalRotation = 0f;
         rotationIncrementsCompleted = 0;
         UnsubscribeInputs();
         SubscribeInputs();
         
-        player.GetOrientationHandler().SetOrientationSpeed(10f);
+        player.GetOrientationHandler().SetOrientationSpeed(15f);
         
         foreach (var extrusionMesh in MeshContainerSingleton.Instance.extrusionMeshObjects)
         {
@@ -55,12 +55,12 @@ public class PlayerHalfpipeState : PlayerState
     public override void Exit()
     {
         base.Exit();
-        player.proceduralRigController.StartCoroutine(
+        /*player.proceduralRigController.StartCoroutine(
             player.proceduralRigController.LerpWeightToValue
             (player.proceduralRigController.legRig,
                 1,
                 .1f)
-        );
+        );*/
         player.GetComboHandler().SetPauseComboDrop(false);
         Debug.Log($"Total rotation style: {rotationIncrementsCompleted * 180}");
         ActionEvents.OnTrickCompletion?.Invoke(new Trick($"Rotation trick: " +
