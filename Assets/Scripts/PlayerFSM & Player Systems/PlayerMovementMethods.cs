@@ -192,7 +192,7 @@ public class PlayerMovementMethods
         boostTimerCoroutine = player.StartCoroutine(BoostTimer());
     }
 
-    bool currentlyBoosting;
+    public bool currentlyBoosting;
     bool currentlyRecharging;
     public void StopBoost() // subscribe this to on input canceled boost input cancel
     {
