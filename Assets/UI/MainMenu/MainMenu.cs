@@ -74,7 +74,7 @@ public class MainMenu : MonoBehaviour
             yield return null;
         }
 
-        //Debug.Log("Done");
+        Debug.Log("Done");
     }
 
     private void Start()

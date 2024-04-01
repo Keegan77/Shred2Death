@@ -35,27 +35,29 @@ public class OrientCamera : MonoBehaviour
     
     void LateUpdate()
     {
-        combinedRotation = mainRotationTransform.eulerAngles + additionalRotationTransform.localEulerAngles;
+        //combinedRotation = mainRotationTransform.eulerAngles + additionalRotationTransform.localEulerAngles;
         var currentStateType = player.stateMachine.currentState.GetType();
 
-        if (currentStateType != typeof(PlayerHalfpipeState))
+        if (currentStateType == typeof(PlayerDriftState))
         {
             OrientToForward(); //default camera orientation state
         }
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
     }
     
     void OrientToForward()
     {
-        var targetRotation = Quaternion.Euler(0, combinedRotation.y, 0);
+        //var targetRotation = Quaternion.Euler(0, combinedRotation.y, 0);
 
         // Slerp from the current rotation to the target rotation
-        SlerpToNewRotation(targetRotation, baseSlerpSpeed);
+        SlerpToNewRotation(Quaternion.LookRotation(player.transform.forward), baseSlerpSpeed);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
     }
     
-
     void SlerpToNewRotation(Quaternion targetRotation, float slerpSpeed)
     {
         transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, slerpSpeed * Time.unscaledDeltaTime);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
     }
     
     

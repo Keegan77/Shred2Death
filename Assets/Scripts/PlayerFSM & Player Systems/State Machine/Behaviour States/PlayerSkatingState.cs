@@ -35,7 +35,18 @@ public class PlayerSkatingState : PlayerState
         });
         
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
-            { onPerformed = ctx => player.GetMovementMethods().OllieJump()});
+            { 
+                onPerformed = ctx =>
+                {
+                    player.capsuleFloater.SetRideHeight(player.capsuleFloater.crouchingRideHeight);
+                },
+                onCanceled = ctx =>
+                {
+                    if (!player.CheckGround()) return;
+                    stateMachine.SwitchState(player.airborneState);
+                    player.GetMovementMethods().OllieJump();
+                }
+            });
         
         inputActions.Add(InputRouting.Instance.input.Player.MoveForwardButton, new InputActionEvents
         {
@@ -65,25 +76,31 @@ public class PlayerSkatingState : PlayerState
     {
         UnsubscribeInputs();
         player.constantForce.relativeForce = new Vector3(0, 0, 0);
+        player.capsuleFloater.SetRideHeight(player.capsuleFloater.standingRideHeight);
         base.Exit();
     }
     
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        Debug.Log(player.GetRightAngleWithDownward() - 90);
-        float downOrientation = player.GetOrientationWithDownward() - 90;
-        float rightOrientation = player.GetRightAngleWithDownward() - 90;
-        if (downOrientation.IsInRangeOf(55, 100) || Mathf.Abs(rightOrientation).IsInRangeOf(35, 100)) // if we are facing upward and not on the ground, we go into halfpipe state
+        float orientationWithDown = player.GetOrientationWithDownward() - 90;
+        
+        Vector3 newBackLeft = new Vector3(player.backLeftRayOrigin.x, player.backLeftRayOrigin.y, player.backLeftRayOrigin.z + .5f);
+        Vector3 newBackRight = new Vector3(player.backRightRayOrigin.x, player.backRightRayOrigin.y, player.backRightRayOrigin.z + .5f);
+        Vector3 rayOrigin = (newBackLeft + newBackRight) / 2;
+        
+        if (!player.CheckGround() && 
+            Physics.Raycast(rayOrigin, -player.transform.up, out RaycastHit hit, 4) && 
+            orientationWithDown.IsInRangeOf(20, 110)) // if we are facing upward and not on the ground, we go into halfpipe state
         {
-            if (!player.CheckGround()) stateMachine.SwitchState(player.halfPipeState);
+            if (hit.collider.CompareTag("Ramp90")) stateMachine.SwitchState(player.halfPipeState);
         }
         else if (!player.CheckGround()) // if we are not facing upward, dont enter half pipe state, enter airborne
         {
             stateMachine.SwitchState(player.airborneState);
         }
 
-        if (InputRouting.Instance.GetDriftInput(alsoCheckForMoveInput:true))
+        if (InputRouting.Instance.GetDriftInput() && player.ShouldMoveForward())
         {
             stateMachine.SwitchState(player.driftState);
         }
@@ -97,11 +114,10 @@ public class PlayerSkatingState : PlayerState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        movementMethods.CalculateTurnSharpness();
         movementMethods.SkateForward();
         movementMethods.DeAccelerate();
         if (player.CheckGround()) player.GetOrientationHandler().OrientToSlope();
-        if (InputRouting.Instance.GetMoveInput().y != 0) movementMethods.TurnPlayer();
+        movementMethods.TurnPlayer();
     }
     
     public override void StateTriggerStay(Collider other)

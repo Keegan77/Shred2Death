@@ -23,22 +23,23 @@ public class PlayerHalfpipeState : PlayerState
 
     private GameObject closestHalfPipe;
     private int rotationIncrementsCompleted;
+    private Quaternion initRotation;
     public override void Enter()
     {
         player.GetComboHandler().SetPauseComboDrop(true);
-        player.proceduralRigController.StartCoroutine(
+        /*player.proceduralRigController.StartCoroutine(
             player.proceduralRigController.LerpWeightToValue
             (player.proceduralRigController.legRig,
                 0,
                 1f)
-        );
+        );*/
         base.Enter();
         totalRotation = 0f;
         rotationIncrementsCompleted = 0;
         UnsubscribeInputs();
         SubscribeInputs();
         
-        player.GetOrientationHandler().SetOrientationSpeed(10f);
+        player.GetOrientationHandler().SetOrientationSpeed(15f);
         
         foreach (var extrusionMesh in MeshContainerSingleton.Instance.extrusionMeshObjects)
         {
@@ -48,24 +49,25 @@ public class PlayerHalfpipeState : PlayerState
         //player.StartCoroutine(player.ScaleCapsuleCollider(0.25f)); //EXPERIMENTAL - scales the player's collider to fit the half pipe
         player.GetMovementMethods().StopBoost();
         //closestHalfPipe = GetClosestHalfPipe();
+        initRotation = player.transform.rotation;
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.proceduralRigController.StartCoroutine(
+        /*player.proceduralRigController.StartCoroutine(
             player.proceduralRigController.LerpWeightToValue
             (player.proceduralRigController.legRig,
                 1,
                 .1f)
-        );
+        );*/
         player.GetComboHandler().SetPauseComboDrop(false);
         Debug.Log($"Total rotation style: {rotationIncrementsCompleted * 180}");
         ActionEvents.OnTrickCompletion?.Invoke(new Trick($"Rotation trick: " +
                                                          $"{rotationIncrementsCompleted * 180}",
                                                    rotationIncrementsCompleted * 6,
                                                   2 * rotationIncrementsCompleted,
-                                              0.1f,
+                                                0.1f,
                                                    null));
 
         player.constantForce.relativeForce = new Vector3(0, 0, 0);
@@ -92,6 +94,7 @@ public class PlayerHalfpipeState : PlayerState
     {
         base.PhysicsUpdate();
         HalfPipeAirBehaviour();
+        RotateWithYVelocity();
         RotationInAir();
         //player.GetMovementMethods().TurnPlayer();
         if (player.rb.velocity.y < 0 && player.CheckGroundExtensions()) 
@@ -127,6 +130,23 @@ public class PlayerHalfpipeState : PlayerState
             rotationIncrementsCompleted++;
             totalRotation = 0f;
         }
+    }
+
+    private void RotateWithYVelocity()
+    {
+        // Get the y velocity
+        float yVelocity = player.rb.velocity.y;
+
+        // Convert the y velocity to a percentage between -30 and 30
+        float t = Mathf.InverseLerp(30, -30, yVelocity);
+        Debug.Log(t);
+        // Calculate the target rotation
+        Quaternion targetRot = Quaternion.LookRotation(Vector3.down, player.transform.up);
+
+
+        if (InputRouting.Instance.GetBumperInput().magnitude > .1f) return;
+        // Interpolate between the current rotation and the target rotation based on the percentage
+        player.transform.rotation = Quaternion.Lerp(initRotation, targetRot, t);
     }
     
 
