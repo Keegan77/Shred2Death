@@ -17,11 +17,11 @@ public static class TrickMaps
     
     #region Trick Creation
     static Trick Ollie        = new Trick("Idle", 5, 3, .2f, jumpTrick, CustomTrickMethods.OllieFunc, canBeInterrupted:true); //less ammo bc it's the basic trick & you're always jumping around
-    static Trick PopShuvIt    = new Trick("PopShoveIt", 10, 5, .2f, DPadLEFT, CustomTrickMethods.PopShuvItCustomFunction);
+    static Trick PopShuvIt    = new Trick("PopShoveIt", 10, 5, .2f, DPadLEFT, CustomTrickMethods.GeneralTrickFunc);
     
-    static Trick Backflip     = new Trick("Kickflip", 20, 5, .2f, DPadLEFT, CustomTrickMethods.PopShuvItCustomFunction);
-    static Trick Kickflip     = new Trick("Kickflip", 10, 6, .2f, DPadRIGHT, CustomTrickMethods.PopShuvItCustomFunction);
-    static Trick Heelflip     = new Trick("Hellflip", 10, 6, .2f, DPadDOWN, CustomTrickMethods.PopShuvItCustomFunction);
+    static Trick Backflip     = new Trick("Kickflip", 20, 5, .2f, DPadLEFT, CustomTrickMethods.GeneralTrickFunc);
+    static Trick Kickflip     = new Trick("Kickflip", 10, 6, .2f, DPadRIGHT, CustomTrickMethods.GeneralTrickFunc);
+    static Trick Heelflip     = new Trick("Hellflip", 10, 6, .2f, DPadDOWN, CustomTrickMethods.GeneralTrickFunc);
     #endregion 
     
     

@@ -135,7 +135,7 @@ public class PlayerMovementMethods
         if (player.ShouldMoveForward())
         {
             timeElapsed += Time.deltaTime;
-        } else timeElapsed -= Time.deltaTime;
+        } else timeElapsed = 0;
         
         float offset = rb.velocity.y;
         Func<float, float> calculateExtraForce = (slopeMultiplier) =>
