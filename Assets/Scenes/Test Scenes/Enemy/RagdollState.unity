@@ -791,7 +791,7 @@ MonoBehaviour:
         m_MethodName: transitionState
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 1204131863}
           m_ObjectArgumentAssemblyTypeName: Enemy_State, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -973,6 +973,17 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!114 &1204131863 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7078634803442072299, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+  m_PrefabInstance: {fileID: 1993702896}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8deb32a2b6aef1740885f4641eb90785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1895677435
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,7 +1067,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1204131863}
         m_TargetAssemblyTypeName: ES_Ragdoll, Assembly-CSharp
         m_MethodName: EnterRagdoll
         m_Mode: 6
