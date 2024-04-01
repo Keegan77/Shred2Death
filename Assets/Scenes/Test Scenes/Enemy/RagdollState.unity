@@ -123,11 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!54 &271660104 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 4179908008895433842, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-  m_PrefabInstance: {fileID: 1993702896}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &471437643
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,7 +791,7 @@ MonoBehaviour:
         m_MethodName: transitionState
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 1993702898}
+          m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: Enemy_State, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -1061,7 +1056,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1993702898}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ES_Ragdoll, Assembly-CSharp
         m_MethodName: EnterRagdoll
         m_Mode: 6
@@ -1182,44 +1177,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4170527639866061282, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1993702898}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
---- !u!1 &1993702897 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4170527639866061282, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-  m_PrefabInstance: {fileID: 1993702896}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1993702898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1993702897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8deb32a2b6aef1740885f4641eb90785, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animationEnter: 
-  thresholdStationary: 0.1
-  timeRagdollRecovery: 2
-  stateExit: {fileID: 1993702903}
-  objectRagdollTarget: {fileID: 271660104}
---- !u!114 &1993702903 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7930438919017360526, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-  m_PrefabInstance: {fileID: 1993702896}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1993702897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2488ee595fa90ba47bf3eda441343b1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1995944217
 GameObject:
   m_ObjectHideFlags: 0
