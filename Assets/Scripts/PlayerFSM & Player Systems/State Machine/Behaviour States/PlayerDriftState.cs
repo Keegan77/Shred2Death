@@ -34,8 +34,7 @@ public class PlayerDriftState : PlayerState
         driftSpeedBoost = 0;
         rotationAmount = player.playerData.driftRotationalOffset;
         exitQueued = false;
-        driftDirection = InputRouting.Instance.GetBumperInput().x > 0 ? 1 : -1;
-        
+        driftDirection = Mathf.Sign(InputRouting.Instance.GetMoveInput().x);
         current = 0;
         player.StartCoroutine(DriftRotationY(player.playerModelTransform, driftDirection * rotationAmount, player.playerData.playerModelRotationSpeed));
         player.StartCoroutine(DriftPhaseController());
@@ -89,8 +88,8 @@ public class PlayerDriftState : PlayerState
         if (Enum.IsDefined(typeof(DriftPhase), nextDriftPhase))
         {
             return nextDriftPhase;
-        } 
-        return currentDriftPhase;
+        }
+        else return currentDriftPhase;
     }
     
     public override void LogicUpdate()
@@ -117,9 +116,9 @@ public class PlayerDriftState : PlayerState
     {
         base.Exit();
         player.StartCoroutine(DriftRotationY(player.playerModelTransform, 0, 
-            100));
+            player.playerData.playerModelRotationSpeed));
         player.StartCoroutine(DriftRotationY(player.transform, player.transform.localEulerAngles.y + rotationAmount * driftDirection,
-            100, true));
+            player.playerData.playerModelRotationSpeed, true));
         
         ActionEvents.AddToStylePoints?.Invoke(player.playerData.driftStylePoints);
         

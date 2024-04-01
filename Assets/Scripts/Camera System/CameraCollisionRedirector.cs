@@ -20,14 +20,8 @@ public class CameraCollisionRedirector : MonoBehaviour
         adsDistanceFromOrbital    = Vector3.Distance(orbitalPoint.position, ADSPoint.position);
         
         currentCamDistance = cameraDistanceFromOrbital;
-        string[] layersToIgnore = new string[] { "BowlMesh", "Player"}; 
-        layerMask = ~0; 
-
-        foreach (string layerName in layersToIgnore)
-        {
-            int layerIndex = LayerMask.NameToLayer(layerName);
-            layerMask &= ~(1 << layerIndex); // Add this layer to the mask
-        }
+        layerToIgnore = LayerMask.NameToLayer("BowlMesh");
+        layerMask = ~(1 << layerToIgnore);
         cameraADSController = GetComponent<CameraADSController>();
         cameraStartingLocalPos = transform.localPosition;
     }

@@ -770,23 +770,21 @@ MonoBehaviour:
   playerHUD: {fileID: 7350014428951949226}
   timer: {fileID: 8158652854704102508}
   health: {fileID: 4262805175918256464}
-  cam: {fileID: 5912513470888662147}
   particlePlayer: {fileID: 5484122730297747241}
-  capsuleFloater: {fileID: 4216492802562461432}
   rb: {fileID: 6967465418630592810}
   inputTurningTransform: {fileID: 6264741664780971715}
   playerModelTransform: {fileID: 6867235279004832454}
   playerData: {fileID: 11400000, guid: 1a3dc727a00a88b4dab330927467122e, type: 2}
   proceduralRigController: {fileID: 6265791741991128856}
   constantForce: {fileID: 361494770088818583}
-  forwardLeftRayOrigin: {x: 20.13, y: 3.8874521, z: 5.8685403}
-  forwardRightRayOrigin: {x: 19.429998, y: 3.8874521, z: 5.8685403}
-  backLeftRayOrigin: {x: 20.13, y: 3.8874521, z: 7.52854}
-  backRightRayOrigin: {x: 19.429998, y: 3.8874521, z: 7.52854}
-  forwardRayOrigin: {x: 19.779999, y: 3.647452, z: 5.8685403}
-  backRayOrigin: {x: 19.779999, y: 3.647452, z: 7.52854}
-  leftRayOrigin: {x: 20.13, y: 3.647452, z: 6.69854}
-  rightRayOrigin: {x: 19.429998, y: 3.647452, z: 6.69854}
+  forwardLeftRayOrigin: {x: 359.31296, y: 94.58986, z: -294.50815}
+  forwardRightRayOrigin: {x: 358.61295, y: 94.58986, z: -294.50815}
+  backLeftRayOrigin: {x: 359.31296, y: 94.58986, z: -292.84818}
+  backRightRayOrigin: {x: 358.61295, y: 94.58986, z: -292.84818}
+  forwardRayOrigin: {x: 358.96295, y: 94.34986, z: -294.50815}
+  backRayOrigin: {x: 358.96295, y: 94.34986, z: -292.84818}
+  leftRayOrigin: {x: 359.31296, y: 94.34986, z: -293.67816}
+  rightRayOrigin: {x: 358.61295, y: 94.34986, z: -293.67816}
   grindRailFollower: {fileID: 5986969473009569870, guid: 58642cd707a8a1e449bef0d5c13f5759, type: 3}
 --- !u!114 &7380166272104267722
 MonoBehaviour:
@@ -867,10 +865,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 617024aee56b3d743b95950363b34b67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 6967465418630592810}
   rayLength: 1.8
-  standingRideHeight: 1.6
-  crouchingRideHeight: 1.1
+  rideHeight: 1.6
   rideSpringStrength: 100
   rideSpringDamper: 10
   raycastOrigin: {fileID: 581445647682060572}

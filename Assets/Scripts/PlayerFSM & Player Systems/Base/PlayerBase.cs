@@ -18,15 +18,12 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private PlayerHUD playerHUD;
         [SerializeField] private CountdownTimer timer;
         [SerializeField] private PlayerHealth health;
-        [SerializeField] private Camera cam;
         
     #endregion
 
     #region Public Component References
         [Header("Public Component References")]
         public ParticleStatePlayer particlePlayer;
-
-        public PlayerCapsuleFloater capsuleFloater;
         public Rigidbody rb;
         public Transform inputTurningTransform, playerModelTransform; // this is public because we want access from our states
         [Tooltip("Holds all of the player's base movement values.")]
@@ -52,7 +49,6 @@ public class PlayerBase : MonoBehaviour
         Vector3 backRayEndPoint, forwardRayEndPoint, leftRayEndPoint, rightRayEndPoint;
         
         float skateboardOriginalColliderRadius;
-        private bool movingForward;
     #endregion
 
     #region State Factory
@@ -77,7 +73,6 @@ public class PlayerBase : MonoBehaviour
     
     private void Update()
     {
-        //Debug.Log(rb.velocity.magnitude);
         stateMachine.currentState.LogicUpdate();
         //Debug.Log(GetOrientationWithDownward()); 
         //Debug.Log(GetOrientationWithDownward() - 90);
@@ -88,6 +83,8 @@ public class PlayerBase : MonoBehaviour
     {
         stateMachine.currentState.StateTriggerEnter(other);
         
+        
+
         /*if (other.CompareTag("Ramp90"))
         {
             orientationHandler.ChangePivot(transform, chestPivot.position);
@@ -110,10 +107,6 @@ public class PlayerBase : MonoBehaviour
 
     private void OnEnable()
     {
-        InputRouting.Instance.input.Player.MoveForwardButton.performed += ctx =>
-        {
-            movingForward = !movingForward;
-        };
         timer.timerExpired.AddListener(() =>
         {
             timerRanOut = true;
@@ -126,11 +119,6 @@ public class PlayerBase : MonoBehaviour
 
     private void OnDisable()
     {
-        InputRouting.Instance.input.Player.MoveForwardButton.performed -= ctx =>
-        {
-            movingForward = !movingForward;
-        };
-        
         InputRouting.Instance.input.UI.Pause.performed -= ctx =>
         {
             if (!timerRanOut) playerHUD.ToggleGamePaused();
@@ -154,8 +142,6 @@ public class PlayerBase : MonoBehaviour
         // Update the ray origin points
         UpdateRayOriginPoints();
 
-        
-        
         // Set Gizmos color
         Gizmos.color = Color.red;
 
@@ -193,17 +179,6 @@ public class PlayerBase : MonoBehaviour
         {
             Gizmos.DrawLine(checkForBowlRaycastPoint.position, checkForBowlRaycastPoint.position - transform.forward * 10f);
         }
-
-        Vector3 newBackLeft = new Vector3(backLeftRayOrigin.x, backLeftRayOrigin.y, backLeftRayOrigin.z + .5f);
-        Vector3 newBackRight = new Vector3(backRightRayOrigin.x, backRightRayOrigin.y, backRightRayOrigin.z + .5f);
-        Vector3 rayOrigin = (newBackLeft + newBackRight) / 2;
-        Vector3 rayDirection = -transform.up;
-        float rayLength = 4;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(rayOrigin, rayDirection * rayLength);
-        
-        
     }
     
 #endregion
@@ -213,10 +188,6 @@ public class PlayerBase : MonoBehaviour
     public PlayerMovementMethods GetMovementMethods()
     {
         return movement;
-    }
-    public bool ShouldMoveForward()
-    {
-        return movingForward;
     }
 
 #endregion
@@ -260,11 +231,6 @@ public class PlayerBase : MonoBehaviour
 #endregion
 
     #region Helper Methods, Getters, & Setters
-    
-    public Camera GetPlayerCamera()
-    {
-        return cam;
-    }
     
     public TrickComboHandler GetComboHandler()
     {
