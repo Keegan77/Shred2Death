@@ -40,6 +40,7 @@ public class PlayerGrindState : PlayerState
         SetUpSplineFollower();
         
         jumpedOnOrientation = Quaternion.Euler(0, player.transform.rotation.eulerAngles.y - sFollower.result.rotation.eulerAngles.y, 0);
+        player.transform.rotation = Quaternion.Euler(0, sFollower.result.rotation.eulerAngles.y + jumpedOnOrientation.eulerAngles.y, 0);
         player.StartCoroutine(LerpToFollower(player.playerData.railSnapTime));
         player.SetRBKinematic(true);
         
@@ -137,9 +138,16 @@ public class PlayerGrindState : PlayerState
         ModifyFollowSpeed();
         
         player.transform.position = sFollower.result.position + new Vector3(0, grindPosOffset, 0);
-        player.transform.rotation = Quaternion.Euler(0, sFollower.result.rotation.eulerAngles.y + jumpedOnOrientation.eulerAngles.y, 0);
-        player.GetMovementMethods().TurnPlayer(true, player.playerData.grindTurnSharpness * Time.deltaTime);
+        //player.transform.rotation = Quaternion.Euler(0, sFollower.result.rotation.eulerAngles.y + jumpedOnOrientation.eulerAngles.y, 0);
+        GrindTurn(player.playerData.grindTurnSharpness);
         
+    }
+
+    private void GrindTurn(float turnSharpness)
+    {
+        player.transform.Rotate(0,
+            turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 
+            0, Space.Self);
     }
 
     private IEnumerator LerpToFollower(float seconds)
