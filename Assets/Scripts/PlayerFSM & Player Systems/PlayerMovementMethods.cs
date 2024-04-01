@@ -13,6 +13,8 @@ public class PlayerMovementMethods
     public float turnSharpness { get; private set; }
     private float boostTimer;
     private bool burnCooldownActive;
+    float turnSmoothVelocity;
+    private float timeElapsed;
 
     private float baseSpeed;
     public PlayerMovementMethods(PlayerBase player, Rigidbody rb, PlayerData playerData, Transform inputTurningTransform)
@@ -55,8 +57,7 @@ public class PlayerMovementMethods
         
         
         // Apply force in the direction of forwardAfterRotation
-        rb.AddForce(forwardAfterRotation * (movementSpeed * (InputRouting.Instance.GetMoveInput().y > 0.25f ? 
-            1 : 0)), ForceMode.Acceleration);
+        rb.AddForce(player.transform.forward * movementSpeed, ForceMode.Acceleration);
         
         
     }
@@ -70,9 +71,9 @@ public class PlayerMovementMethods
     /// Handles turning the player model with left and right input. Rotating the player works best for the movement we
     /// are trying to achieve, as movement is based on the player's forward direction. Meant to be used in FixedUpdate.
     /// </summary>
-    public void TurnPlayer(bool overrideTurnSharpness = false, float newTurnSharpness = 0) // Rotates the input turning transform
+    public void TurnPlayer() // Rotates the input turning transform
     {
-        if (overrideTurnSharpness)
+        /*if (overrideTurnSharpness)
         {
             player.inputTurningTransform.Rotate(0,
                 newTurnSharpness * InputRouting.Instance.GetMoveInput().x, 
@@ -83,8 +84,18 @@ public class PlayerMovementMethods
             player.transform.Rotate(0,
                 turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 
                 0, Space.Self);
-        }
+        }*/
+        CalculateTurnSharpness();
+        float turnSmoothTime = .5f;
         
+        
+        Vector3 targetDirection =
+            new Vector3(InputRouting.Instance.GetMoveInput().x, 0, InputRouting.Instance.GetMoveInput().y);
+        float targetAngle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg + player.GetPlayerCamera().transform.eulerAngles.y;
+        float angle = Mathf.SmoothDampAngle(player.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSharpness);
+        
+        if (targetDirection == Vector3.zero) return;
+        player.transform.rotation = Quaternion.Euler(player.transform.eulerAngles.x, angle, player.transform.eulerAngles.z);
         
     }
 
@@ -119,8 +130,14 @@ public class PlayerMovementMethods
     
     private void CalculateCurrentSpeed() 
     {
+        timeElapsed = Mathf.Clamp01(timeElapsed);
+        
+        if (player.ShouldMoveForward())
+        {
+            timeElapsed += Time.deltaTime;
+        } else timeElapsed = 0;
+        
         float offset = rb.velocity.y;
-        float extraForce;
         Func<float, float> calculateExtraForce = (slopeMultiplier) =>
             -(player.GetOrientationWithDownward() - 90) * slopeMultiplier; // this is a negative so if we are going
                                                                            // down, we add force, if we are going up,
@@ -135,15 +152,18 @@ public class PlayerMovementMethods
         }
         // Get the rotation around the x-axis, ranging from -90 to 90
         
-        movementSpeed = baseSpeed + offset;
-        //Debug.Log(movementSpeed);
+        //movementSpeed = baseSpeed + offset;
+        
+        movementSpeed = Mathf.Lerp(playerData.minSpeed, playerData.baseMovementSpeed, timeElapsed / playerData.accelTime) + offset;
+        
     }
 
     public void CalculateTurnSharpness()
     {
-        turnSharpness = playerData.baseTurnSharpness;
-        //if (rb.velocity.magnitude < 20) turnSharpness = playerData.baseTurnSharpness;
-        //else turnSharpness = playerData.baseTurnSharpness / (rb.velocity.magnitude / 2);
+        float t = rb.velocity.magnitude / playerData.speedMagnitudeThresholdForMaxTurnSharpness;
+        turnSharpness = Mathf.Lerp(playerData.minMaxTurnSharpness.x, playerData.minMaxTurnSharpness.y, 
+            playerData.turnSharpnessCurve.Evaluate(t));
+        
     }
     
     /// <summary>
@@ -172,7 +192,7 @@ public class PlayerMovementMethods
         boostTimerCoroutine = player.StartCoroutine(BoostTimer());
     }
 
-    bool currentlyBoosting;
+    public bool currentlyBoosting;
     bool currentlyRecharging;
     public void StopBoost() // subscribe this to on input canceled boost input cancel
     {
