@@ -48,14 +48,15 @@ public class PlayerSkatingState : PlayerState
                 }
             });
         
-        inputActions.Add(InputRouting.Instance.input.Player.MoveForwardButton, new InputActionEvents
+        //TODO: Change to play once when input is detected after it hasn't been detected for atleast one frame
+        /*inputActions.Add(InputRouting.Instance.input.Player.MoveForwardButton, new InputActionEvents
         {
             onPerformed = ctx =>
             {
                 ActionEvents.PlayerSFXOneShot?.Invoke(SFXContainerSingleton.Instance.kickOffSounds[Random.Range(0, 
                     SFXContainerSingleton.Instance.kickOffSounds.Count)], 0);
             },
-        });
+        });*/
         
     }
 

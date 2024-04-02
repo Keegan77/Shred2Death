@@ -155,6 +155,11 @@ public class PlayerMovementMethods
         //movementSpeed = baseSpeed + offset;
         
         movementSpeed = Mathf.Lerp(playerData.minSpeed, playerData.baseMovementSpeed, timeElapsed / playerData.accelTime) + offset;
+
+        if (InputRouting.Instance.GetBrakeInput())
+        {
+            movementSpeed = movementSpeed / 2;
+        }
         
     }
 

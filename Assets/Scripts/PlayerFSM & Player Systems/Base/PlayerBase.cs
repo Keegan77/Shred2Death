@@ -51,7 +51,6 @@ public class PlayerBase : MonoBehaviour
         public Vector3 forwardRayOrigin, backRayOrigin, leftRayOrigin, rightRayOrigin;
         Vector3 backRayEndPoint, forwardRayEndPoint, leftRayEndPoint, rightRayEndPoint;
         
-        float skateboardOriginalColliderRadius;
     #endregion
 
     #region State Factory
@@ -368,11 +367,6 @@ public class PlayerBase : MonoBehaviour
         nosediveState = new PlayerNosediveState(this, stateMachine);
         dropinState = new PlayerDropinState(this, stateMachine);
         stateMachine.Init(airborneState);
-    }
-    
-    public float GetOriginalColliderRadius()
-    {
-        return skateboardOriginalColliderRadius;
     }
     
 }
