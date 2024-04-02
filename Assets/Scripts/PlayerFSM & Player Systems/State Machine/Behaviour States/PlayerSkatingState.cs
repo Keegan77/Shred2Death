@@ -86,13 +86,17 @@ public class PlayerSkatingState : PlayerState
         base.LogicUpdate();
         float orientationWithDown = player.GetOrientationWithDownward() - 90;
         
-        Vector3 newBackLeft = new Vector3(player.backLeftRayOrigin.x, player.backLeftRayOrigin.y, player.backLeftRayOrigin.z + .5f);
-        Vector3 newBackRight = new Vector3(player.backRightRayOrigin.x, player.backRightRayOrigin.y, player.backRightRayOrigin.z + .5f);
+        Vector3 newBackLeft = new Vector3(player.backLeftRayOrigin.x, player.backLeftRayOrigin.y, player.backLeftRayOrigin.z);
+        Vector3 newBackRight = new Vector3(player.backRightRayOrigin.x, player.backRightRayOrigin.y, player.backRightRayOrigin.z);
         Vector3 rayOrigin = (newBackLeft + newBackRight) / 2;
         
+        //convert ray origin to local space from player
+        Vector3 rayOriginLocal = player.transform.InverseTransformPoint(rayOrigin);
+        rayOriginLocal.z -= 1f;
+        rayOrigin = player.transform.TransformPoint(rayOriginLocal);
+        
         if (!player.CheckGround() && 
-            Physics.Raycast(rayOrigin, -player.transform.up, out RaycastHit hit, 4) && 
-            orientationWithDown.IsInRangeOf(20, 110)) // if we are facing upward and not on the ground, we go into halfpipe state
+            Physics.Raycast(rayOrigin, -player.transform.up, out RaycastHit hit, 4, 1 << LayerMask.NameToLayer("Ground"), QueryTriggerInteraction.Ignore)) // if we are facing upward and not on the ground, we go into halfpipe state
         {
             if (hit.collider.CompareTag("Ramp90")) stateMachine.SwitchState(player.halfPipeState);
         }

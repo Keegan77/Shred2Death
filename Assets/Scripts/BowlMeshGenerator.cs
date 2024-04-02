@@ -1,11 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Dreamteck.Splines;
-using UnityEditor;
-using UnityEngine.Serialization;
 
 public class BowlMeshGenerator : MonoBehaviour
 {
@@ -90,7 +87,7 @@ public class BowlMeshGenerator : MonoBehaviour
 
         double threshold = .05f;
         List<Vector3> keys = new List<Vector3>(vertSampleMap.Keys);
-        foreach (var key in keys)
+        /*foreach (var key in keys)
         {
             if (vertSampleMap[key] >= 1 - threshold)
             {
@@ -99,7 +96,7 @@ public class BowlMeshGenerator : MonoBehaviour
             {
                 vertSampleMap[key] = 1;
             }
-        }
+        }*/
         topVertices = topVertices.OrderBy(v => vertSampleMap[v]).ToList();
         return topVertices.ToArray();
     }
@@ -173,6 +170,12 @@ public class BowlMeshGenerator : MonoBehaviour
             int indexUpOne = (i + 1) % baseCount; // Wraps around to the first vertex if we're at the last vertex
             int extrudedIndex = i + baseCount; // The index of the corresponding extruded vertex
 
+            if (i == baseCount - 1)
+            {
+                continue; //leaves the loop before the last triangle generation as to not generate from the last
+                //vertex to the first vertex
+            }
+            
             if (!closedLoop)
             {
                 if (i == baseCount - 1)

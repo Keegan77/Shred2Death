@@ -39,7 +39,7 @@ public class PlayerHalfpipeState : PlayerState
         UnsubscribeInputs();
         SubscribeInputs();
         
-        player.GetOrientationHandler().SetOrientationSpeed(15f);
+        player.GetOrientationHandler().SetOrientationSpeed(20f);
         
         foreach (var extrusionMesh in MeshContainerSingleton.Instance.extrusionMeshObjects)
         {
@@ -113,6 +113,8 @@ public class PlayerHalfpipeState : PlayerState
         {
             player.constantForce.relativeForce = new Vector3(0, 0, 0);
         }
+        
+        //player.rb.SetLocalAxisVelocity(player..up, 0);
         
     }
     private float previousXRotation = 0f;

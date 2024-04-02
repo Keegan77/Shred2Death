@@ -183,13 +183,17 @@ public class PlayerBase : MonoBehaviour
             Gizmos.DrawLine(checkForBowlRaycastPoint.position, checkForBowlRaycastPoint.position - transform.forward * 10f);
         }
 
-        Vector3 newBackLeft = new Vector3(backLeftRayOrigin.x, backLeftRayOrigin.y, backLeftRayOrigin.z + .5f);
-        Vector3 newBackRight = new Vector3(backRightRayOrigin.x, backRightRayOrigin.y, backRightRayOrigin.z + .5f);
+        Vector3 newBackLeft = new Vector3(backLeftRayOrigin.x, backLeftRayOrigin.y, backLeftRayOrigin.z);
+        Vector3 newBackRight = new Vector3(backRightRayOrigin.x, backRightRayOrigin.y, backRightRayOrigin.z);
         Vector3 rayOrigin = (newBackLeft + newBackRight) / 2;
+        //convert ray origin to local space from player
+        Vector3 rayOriginLocal = transform.InverseTransformPoint(rayOrigin);
+        rayOriginLocal.z -= 1f;
+        rayOrigin = transform.TransformPoint(rayOriginLocal);
         Vector3 rayDirection = -transform.up;
         float rayLength = 4;
 
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.blue;
         Gizmos.DrawRay(rayOrigin, rayDirection * rayLength);
         
         
