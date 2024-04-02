@@ -20,4 +20,9 @@ public class RigWeightController : MonoBehaviour
             yield return null;
         }
     }
+    
+    public void SetWeightToValue(Rig rig, float targetWeight)
+    {
+        rig.weight = targetWeight;
+    }
 }
