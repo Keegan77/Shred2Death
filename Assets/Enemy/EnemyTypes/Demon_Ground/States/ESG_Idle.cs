@@ -5,11 +5,14 @@ using UnityEngine.AI;
 
 
 /// <summary>
+/// DEPRECIATED FOR NOW
 /// Uses navmesh to wander around semi-aimlessly.
 /// Warning: Coroutine WanderTimer calls itself when the player is not on the navmesh.
 /// If there is a runaway coroutine issue somehow, that's why.
+/// 
+/// 
 /// </summary>
-public class ES_Ground_Idle : ES_DemonGround
+public class ESG_Idle : ES_DemonGround
 {
     [SerializeField] string animationWalk = "";
 
@@ -61,8 +64,8 @@ public class ES_Ground_Idle : ES_DemonGround
 
     public override void onPlayerSensorActivated ()
     {
-        eg.stateMachine.transitionState (GetComponent<ES_Ground_Chase> ());
-        GetComponent<ES_Ground_Chase> ().onPlayerSensorActivated ();
+        eg.stateMachine.transitionState (GetComponent<ESG_Chase> ());
+        GetComponent<ESG_Chase> ().onPlayerSensorActivated ();
     }
 
     #endregion

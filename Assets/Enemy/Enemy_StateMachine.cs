@@ -20,13 +20,31 @@ public class Enemy_StateMachine : MonoBehaviour
     [Tooltip("What state does this enemy enter when they spawn in? Usually set to a move_to_point script")]
     public Enemy_State stateEntry;
 
+
+
+    [Header("Control Parameters")]
+
+    [Tooltip("Interval in seconds between AI updates")]
+    [Min(0.1f)]
+    public float aiFrequency = 1f;
+    float aiTimeKeeper = 0f;
+
+    //updateEnabled controls whether or not the stateMachien will run AI checks.
+    public bool aiUpdateEnabled
+    {
+        get { return _aiUpdateEnabled; }
+        set { _aiUpdateEnabled = value; aiTimeKeeper = Time.time; }
+    }
+    private bool _aiUpdateEnabled = true;
+
+    
+
+
     [Header ("Navigation")]
     public Vector3 travelPoint;
     public GameObject travelTarget;
 
     #endregion
-
-
 
     #region SCRIPT FUNCTIONS
     public void machineUpdate ()
@@ -37,10 +55,23 @@ public class Enemy_StateMachine : MonoBehaviour
     public void machinePhysics ()
     {
         stateCurrent.machinePhysics ();
+
+        if (aiUpdateEnabled && Time.time - aiTimeKeeper > aiFrequency)
+        {
+            AIUpdate ();
+
+            aiTimeKeeper = Time.time;
+        }
+    }
+
+    private void AIUpdate ()
+    {
+        stateCurrent.AIUpdate ();
     }
 
     public void transitionState (Enemy_State s)
     {
+        Debug.Log ("Transitioning state to: " + s);
         stateCurrent.Exit ();
 
         stateCurrent = s;
@@ -62,11 +93,20 @@ public class Enemy_StateMachine : MonoBehaviour
         stateCurrent.onPlayerSensorDeactivated ();
     }
 
+    /// <summary>
+    /// Animations have events that are caught by a script.
+    /// This signal is brought to the stateMachine and then sent down to the current state.
+    /// 
+    /// This is usually to signal a bulletPattern to play in line with an animation.
+    /// </summary>
     public void OnBullet ()
     {
         stateCurrent.OnBullet();
     }
 
+    /// <summary>
+    /// Animations send this signal down to the current state when they are finished.
+    /// </summary>
     public void OnAnimationFinished ()
     {
         stateCurrent.OnAnimationFinished ();
@@ -75,13 +115,17 @@ public class Enemy_StateMachine : MonoBehaviour
     #endregion
 
 
-
     #region SETUP
 
     private void Awake ()
     {
         //currentState = initialState;
         statesObject = transform.Find ("States").gameObject;
+    }
+
+    private void Start ()
+    {
+        aiTimeKeeper = Time.time;
     }
 
     #endregion

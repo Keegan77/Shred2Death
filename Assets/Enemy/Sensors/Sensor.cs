@@ -27,7 +27,7 @@ public class Sensor : MonoBehaviour
     
 
     /// <summary>
-    /// Checks the sensor's conditions manuially.
+    /// Checks the sensor's conditions manually.
     /// </summary>
     /// <returns>True if the sensor's conditions are met</returns>
     public virtual bool Ping()

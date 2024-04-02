@@ -45,7 +45,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   minSpeed: 0
-  accelTime: 1
+  accelTime: 0.3
   accelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -72,6 +72,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   airForwardForce: 10
   airTiltRange: 45
+  halfPipeTurnRange: 90
   airBoostImpulseForce: 150
   airBoostCooldownSeconds: 5
   airBoostStyleLevel: 1
@@ -87,7 +88,7 @@ MonoBehaviour:
   railSnapDistance: 20
   baseDriftForce: 350
   baseDriftTurnSharpness: 150
-  driftRotationalOffset: 10
+  driftRotationalOffset: 45
   baseDriftBoost: 50
   driftBoostAdditive: 15
   inputExtraDriftTurnSharpness: 100

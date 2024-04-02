@@ -25,6 +25,8 @@ public class PlayerBase : MonoBehaviour
     #region Public Component References
         [Header("Public Component References")]
         public ParticleStatePlayer particlePlayer;
+
+        public PlayerCapsuleFloater capsuleFloater;
         public Rigidbody rb;
         public Transform inputTurningTransform, playerModelTransform; // this is public because we want access from our states
         [Tooltip("Holds all of the player's base movement values.")]
@@ -86,8 +88,6 @@ public class PlayerBase : MonoBehaviour
     {
         stateMachine.currentState.StateTriggerEnter(other);
         
-        
-
         /*if (other.CompareTag("Ramp90"))
         {
             orientationHandler.ChangePivot(transform, chestPivot.position);
@@ -154,6 +154,8 @@ public class PlayerBase : MonoBehaviour
         // Update the ray origin points
         UpdateRayOriginPoints();
 
+        
+        
         // Set Gizmos color
         Gizmos.color = Color.red;
 
@@ -191,6 +193,17 @@ public class PlayerBase : MonoBehaviour
         {
             Gizmos.DrawLine(checkForBowlRaycastPoint.position, checkForBowlRaycastPoint.position - transform.forward * 10f);
         }
+
+        Vector3 newBackLeft = new Vector3(backLeftRayOrigin.x, backLeftRayOrigin.y, backLeftRayOrigin.z + .5f);
+        Vector3 newBackRight = new Vector3(backRightRayOrigin.x, backRightRayOrigin.y, backRightRayOrigin.z + .5f);
+        Vector3 rayOrigin = (newBackLeft + newBackRight) / 2;
+        Vector3 rayDirection = -transform.up;
+        float rayLength = 4;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(rayOrigin, rayDirection * rayLength);
+        
+        
     }
     
 #endregion
