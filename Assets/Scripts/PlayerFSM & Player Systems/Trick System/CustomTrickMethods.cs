@@ -6,7 +6,7 @@ public static class CustomTrickMethods
 {
     public delegate void TrickMethod(PlayerBase player);
 
-    internal static void PopShuvItCustomFunction(PlayerBase player)
+    internal static void GeneralTrickFunc(PlayerBase player)
     {
         Debug.Log("A pop shuv it has been completed! This is custom code which is running on this trick alone!");
         ActionEvents.PlayerSFXOneShot?.Invoke(SFXContainerSingleton.Instance.popShuvItSound, 0);

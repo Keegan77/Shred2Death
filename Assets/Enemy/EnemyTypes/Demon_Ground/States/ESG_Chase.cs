@@ -3,44 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ES_Ground_Chase : ES_DemonGround
+/// <summary>
+/// Enemies in the chase state move towards the player continuously.
+/// Occasionally they stop for a brief second to throw a fireball at the player.
+/// 
+/// If the player is in the air or the enemy is close enough, enter the turret state.
+/// </summary>
+public class ESG_Chase : ES_DemonGround
 {
-    const string animationFireball = "FIREBALL";
-
     [Header ("Navigation")]
 
     [Tooltip ("How often does navigation update? Lower = more often")]
     [SerializeField] float agentUpdateDistance = 4;
 
-    [Tooltip ("How often will the agent check to see if it should enter turret mode?")]
-    [SerializeField] float chaseUpdateTimer = 3;
-    bool chaseKey = true;
-
 
     [Header ("Projectile")]
     [SerializeField] Enemy_BulletPattern bulletInfo;
 
-    [Tooltip("Wait at least this long to shoot a bullet")]
-    [SerializeField] float bulletWaitMin = 1;
-
-    [Tooltip("Wait at most this long to shoot a bullet")] 
-    [SerializeField] float bulletWaitMax = 5;
-
-    private bool readyToBullet = false;
+    private bool readyToBullet = true;
 
     public override void Enter ()
     {
         base.Enter ();
         eg.agent.SetDestination (Enemy.playerReference.transform.position);
 
-        chaseKey = true;
-
-        StartCoroutine (bulletWait ());
+        //StartCoroutine (bulletWait ());
     }
     public override void Exit ()
     {
         base.Exit ();
         eg.agent.isStopped = false;
+
+        bulletInfo.CancelShot ();
     }
 
     public override void onPlayerSensorDeactivated ()
@@ -60,75 +54,55 @@ public class ES_Ground_Chase : ES_DemonGround
     bool constantUpdate = false;
     public override void machinePhysics ()
     {
+       
+    }
+
+
+    public override void AIUpdate ()
+    {
         Vector3 playerDestinationOffset = Enemy.playerReference.transform.position - eg.agent.destination;
 
-
-        if (eg.isInMeleeRange)
+        if ( eg.isInMeleeRange )
         {
-            eg.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
+            eg.stateMachine.transitionState (GetComponent<ESG_Turret> ());
+            return;
         }
 
-        if (constantUpdate)
-        {
-            eg.agent.SetDestination (Enemy.playerReference.transform.position);
-
-            //Debug.Log (e.agent.pathStatus);
-        }
-        else if (playerDestinationOffset.magnitude > agentUpdateDistance)
+        //Did the player move far enough away from the previous destination?
+        if (playerDestinationOffset.magnitude > agentUpdateDistance)
         {
             eg.agent.SetDestination (Enemy.playerReference.transform.position);
             Debug.Log ("Resetting Path");
         }
 
-        if (!isAnimationPlaying)
+        if ( !isAnimationPlaying )
         {
-            if (chaseKey)
-            {
-                if (!Enemy.playerReference.isOnNavMesh)
-                {
-                    eg.stateMachine.transitionState (GetComponent<ES_Ground_Turret> ());
-                    return;
-                }
 
-                StartCoroutine (chaseWait ());
+            if ( !Enemy.playerReference.isOnNavMesh )
+            {
+                eg.stateMachine.transitionState (GetComponent<ESG_Turret> ());
+                return;
             }
 
             //If a bullet is ready and the enemy has waited long enough, fire a bullet.
-            if (bulletInfo.bulletReady && readyToBullet)
+            if ( bulletInfo.bulletReady && readyToBullet )
             {
                 Debug.Log ("EnemyPlayingShot On The Run");
                 //eg.agent.isStopped = true;
-                bulletInfo.StartCoroutine(bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject));
+
+                bulletInfo.StartCoroutine (bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject));
                 //eg.animator.Play (bulletInfo.attackAnimation);
-                StartCoroutine (bulletWait ());
+                //StartCoroutine (bulletWait ());
             }
 
         }
-    }
-
-    IEnumerator chaseWait ()
-    {
-        chaseKey = false;
-
-        yield return new WaitForSeconds (chaseUpdateTimer);
-
-        chaseKey = true;
-    }
-
-    IEnumerator bulletWait ()
-    {
-        readyToBullet = false;
-
-        yield return new WaitForSeconds (Random.Range(bulletWaitMin, bulletWaitMax));
-
-        readyToBullet = true;
     }
 
     protected override void OnDestinationReached ()
     {
         Debug.Log ($"{gameObject.name}: Melee the player!");
 
-        eg.stateMachine.transitionState(GetComponent<ES_Ground_Turret> ());
+        eg.stateMachine.transitionState(GetComponent<ESG_Turret> ());
 
     }
     protected override void OnDestinationFailed ()
