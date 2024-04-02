@@ -21,12 +21,14 @@ public abstract class ES_DemonGround : Enemy_State
     {
         base.Enter ();
         eg.animator.Play (animationEnter);
+        eg.agent.isStopped = false;
     }
 
     public override void Exit ()
     {
         base.Exit ();
         eg.agentPath.ClearCorners ();
+        eg.agent.isStopped = true;
     }
     #endregion
 

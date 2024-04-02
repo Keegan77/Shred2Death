@@ -29,6 +29,8 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     protected static int tokens = 50;
     [SerializeField] protected int tokenCost = 1;
 
+    public float bulletCooldown = 3;
+
 
     /// <summary>
     /// Runs through the logic of spawning and firing bullets. If a shot needs to lead the player, use LeadShot(target, muzzle, bulletObject) in the target logic for spawnBullet in an inherited script.
