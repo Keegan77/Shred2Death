@@ -16,7 +16,6 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private SlopeOrientationHandler orientationHandler;
         [SerializeField] private TrickComboHandler comboHandler;
         [SerializeField] private PlayerHUD playerHUD;
-        [SerializeField] private CountdownTimer timer;
         [SerializeField] private PlayerHealth health;
         [SerializeField] private Camera cam;
         
@@ -108,10 +107,6 @@ public class PlayerBase : MonoBehaviour
 
     private void OnEnable()
     {
-        timer.timerExpired.AddListener(() =>
-        {
-            timerRanOut = true;
-        });
         InputRouting.Instance.input.UI.Pause.performed += ctx =>
         {
             if (!timerRanOut && !health.IsDead()) playerHUD.ToggleGamePaused();
