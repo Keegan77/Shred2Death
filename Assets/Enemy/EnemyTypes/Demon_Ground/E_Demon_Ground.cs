@@ -68,9 +68,9 @@ public class E_Demon_Ground : Enemy
         animator = transform.Find ("Body").GetComponent<Animator> ();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void SetRagdollEnabled (bool en)
     {
-        
+        agent.enabled = en;
+        base.SetRagdollEnabled (en);
     }
 }

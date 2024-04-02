@@ -18,7 +18,7 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     //There's multiple things that determine whether a bullet is ready,
     //One of which is a key per bullet pattern that dictates whether or not its on cooldown.
     private bool _bulletReady = true;
-    public bool bulletReady { get { return isBulletReady(); } protected set { _bulletReady = value; } }
+    public bool bulletReady { get { return _bulletReady == true && tokenCost < tokens; } protected set { _bulletReady = value; } }
     
 
     [Header("Basic Info")]
@@ -44,12 +44,6 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     /// 2) There is a token available
     /// </summary>
     /// <returns>true if an enemy is cleared to shoot</returns>
-    bool isBulletReady ()
-    {
-        return
-            //All of these are true
-            _bulletReady == true && tokenCost < tokens;
-    }
 
     /// <summary>
     /// If the shot is cancelled for whatever reason, 

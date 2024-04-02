@@ -53,7 +53,7 @@ public class DissolvingController : MonoBehaviour
         //If they are not, skip the dissolve step
         if (VFXGraph != null && animator != null)
         {
-            animator.SetBool ("fuckingdies", true);
+            //animator.SetBool ("fuckingdies", true);
 
             VFXGraph.gameObject.SetActive(true);
             VFXGraph.Play();

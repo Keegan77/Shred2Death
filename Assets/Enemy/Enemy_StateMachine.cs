@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,10 +14,11 @@ public class Enemy_StateMachine : MonoBehaviour
     #region VARIABLES
     //[SerializeField] Enemy_State initialState;
 
-    GameObject statesObject;
+    public GameObject statesObject;
 
     [Header("States")]
     public Enemy_State stateCurrent;
+    public Enemy_State statePrevious;
 
     [Tooltip("What state does this enemy enter when they spawn in? Usually set to a move_to_point script")]
     public Enemy_State stateEntry;
@@ -74,6 +77,7 @@ public class Enemy_StateMachine : MonoBehaviour
         Debug.Log ("Transitioning state to: " + s);
         stateCurrent.Exit ();
 
+        statePrevious = stateCurrent;
         stateCurrent = s;
 
         stateCurrent.Enter ();
