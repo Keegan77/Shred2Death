@@ -100,7 +100,7 @@ public class PlayerSkatingState : PlayerState
             stateMachine.SwitchState(player.airborneState);
         }
 
-        if (InputRouting.Instance.GetDriftInput() && player.ShouldMoveForward())
+        if (InputRouting.Instance.GetDriftInput() && player.rb.velocity.magnitude > 1f)
         {
             stateMachine.SwitchState(player.driftState);
         }

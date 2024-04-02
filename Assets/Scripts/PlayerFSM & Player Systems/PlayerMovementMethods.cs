@@ -132,7 +132,7 @@ public class PlayerMovementMethods
     {
         timeElapsed = Mathf.Clamp01(timeElapsed);
         
-        if (player.ShouldMoveForward())
+        if (InputRouting.Instance.GetMoveInput().magnitude > 0)
         {
             timeElapsed += Time.deltaTime;
         } else timeElapsed = 0;
