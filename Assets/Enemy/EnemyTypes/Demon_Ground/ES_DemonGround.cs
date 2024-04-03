@@ -13,6 +13,7 @@ public abstract class ES_DemonGround : Enemy_State
     #region STATEMACHINE
     private void Awake ()
     {
+        e = transform.parent.GetComponent<Enemy> ();
         eg = transform.parent.GetComponent<E_Demon_Ground>();
     }
 
