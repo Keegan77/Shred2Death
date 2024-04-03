@@ -17,18 +17,19 @@ public class PlayerGrindState : PlayerState
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => JumpOffRail()});
     }
     private SplineFollower sFollower;
+    private Coroutine lerpRigRoutine;
     
     public override void Enter()
     {
         base.Enter();
         player.particlePlayer.PlayParticle();
         player.GetComboHandler().SetPauseComboDrop(true);
-        /*player.proceduralRigController.StartCoroutine(
+        lerpRigRoutine = player.proceduralRigController.StartCoroutine(
             player.proceduralRigController.LerpWeightToValue
                                                  (player.proceduralRigController.legRig,
                                                      0,
                                                      .1f)
-        );*/
+        );
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Grind");
         lerping = true;
         List<AudioClip> grindImpacts = SFXContainerSingleton.Instance.grindImpactNoises;
@@ -48,15 +49,11 @@ public class PlayerGrindState : PlayerState
     public override void Exit()
     {
         UnsubscribeInputs();
+        if (lerpRigRoutine != null) player.StopCoroutine(lerpRigRoutine);
         player.particlePlayer.StopParticle();
         player.GetComboHandler().SetPauseComboDrop(false);
         ActionEvents.StopLoopAudio?.Invoke();
-        player.proceduralRigController.StartCoroutine(
-            player.proceduralRigController.LerpWeightToValue
-            (player.proceduralRigController.legRig,
-                1,
-                .1f)
-        );
+        player.proceduralRigController.SetWeightToValue(player.proceduralRigController.legRig, 1);
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Grind Reverse");
     }
     private void SetUpSplineFollower()
