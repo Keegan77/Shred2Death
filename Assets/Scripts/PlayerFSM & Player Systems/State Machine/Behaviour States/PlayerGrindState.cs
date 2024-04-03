@@ -23,6 +23,7 @@ public class PlayerGrindState : PlayerState
     {
         base.Enter();
         player.particlePlayer.PlayParticle();
+        totalInputRotation = 0;
         player.GetComboHandler().SetPauseComboDrop(true);
         lerpRigRoutine = player.proceduralRigController.StartCoroutine(
             player.proceduralRigController.LerpWeightToValue
@@ -127,7 +128,7 @@ public class PlayerGrindState : PlayerState
         //player.OllieJump();
         stateMachine.SwitchState(player.airborneState);
     }
-    
+    private float totalInputRotation = 0f;
     public override void LogicUpdate()
     {
         base.LogicUpdate();
@@ -135,9 +136,21 @@ public class PlayerGrindState : PlayerState
         ModifyFollowSpeed();
         
         player.transform.position = sFollower.result.position + new Vector3(0, grindPosOffset, 0);
-        //player.transform.rotation = Quaternion.Euler(0, sFollower.result.rotation.eulerAngles.y + jumpedOnOrientation.eulerAngles.y, 0);
-        GrindTurn(player.playerData.grindTurnSharpness);
-        
+        // Calculate the grind turn
+        float grindTurn = player.playerData.grindTurnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime;
+
+        // Accumulate the grind turn into totalInputRotation
+        totalInputRotation += grindTurn;
+
+        // Get the rotation from the grind rail and add the rotation when the player jumped on the rail
+        float railRotation = sFollower.result.rotation.eulerAngles.y + jumpedOnOrientation.eulerAngles.y;
+
+        // Add the totalInputRotation to the rail rotation
+        float totalRotation = railRotation + totalInputRotation;
+
+        // Apply the total rotation to the player
+        player.transform.rotation = Quaternion.Euler(0, totalRotation, 0);
+
     }
 
     private void GrindTurn(float turnSharpness)
