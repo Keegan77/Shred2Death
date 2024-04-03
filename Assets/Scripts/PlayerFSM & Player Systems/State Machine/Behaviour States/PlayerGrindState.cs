@@ -88,7 +88,7 @@ public class PlayerGrindState : PlayerState
         
 
         
-        sFollower.SetPercent(player.GetSplineCompletionPercent());
+        sFollower.SetPercent(player.GetSplineCompletionPercent()); // moves the spline follower to be where the player jumped on
         
         if (dotProduct > 0) // if the product is positive, that means we are moving in the direction of the spline
         {
@@ -103,14 +103,22 @@ public class PlayerGrindState : PlayerState
         
         if (!isClosed)
         {
-            jumpOffEndOfRailCoroutine = player.StartCoroutine(JumpOffEndOfRail());
+            jumpOffEndOfRailCoroutine = player.StartCoroutine(QueueEndRailDismount());
         }
     }
 
-    private IEnumerator JumpOffEndOfRail()
+    private IEnumerator QueueEndRailDismount()
     {
-        yield return new WaitUntil(() => sFollower.result.percent == 1 || sFollower.result.percent == 0);
-        JumpOffRail();
+        if (sFollower.direction == Spline.Direction.Forward)
+        {
+            yield return new WaitUntil(() => sFollower.result.percent == 1);
+            JumpOffRail();
+        }
+        else
+        {
+            yield return new WaitUntil(() => sFollower.result.percent == 0);
+            JumpOffRail();
+        }
     }
     
     private void JumpOffRail()
