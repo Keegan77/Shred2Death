@@ -5,27 +5,39 @@ using UnityEngine;
 
 /// <summary>
 /// Upon entering a state, perform a single attack, returning to the previous
-/// state afterwards
+/// state afterwards.
 /// </summary>
 public class ES_Attack : Enemy_State, iAttack
 {
-    public GameObject muzzlePoints { get; set; }
-    public Enemy_BulletPattern bulletInfo { get; set; }
+    [SerializeField] private GameObject _muzzlePoint;
+    [SerializeField] private Enemy_BulletPattern _bulletInfo;
+    public GameObject muzzlePoint { get { return _muzzlePoint; } set { muzzlePoint = value; } }
+    public Enemy_BulletPattern bulletInfo { get { return _bulletInfo; } set { _bulletInfo = value; } }
 
     #region StateMachine
     public override void Enter ()
     {
         base.Enter ();
+        StartCoroutine (PlayShot ());
     }
 
     public override void Exit ()
     {
         base.Exit ();
+        StopAllCoroutines ();
+        bulletInfo.CancelShot ();
     }
     #endregion
 
     public IEnumerator PlayShot ()
     {
-        yield return null;
+        if (bulletInfo.bulletReady)
+        {
+            bulletInfo.reserveTokens ();
+            e.animator.Play (bulletInfo.attackAnimation);
+            yield return bulletInfo.PlayShot (Enemy.playerReference.gameObject, muzzlePoint);
+        }
+
+        e.stateMachine.transitionState (e.stateMachine.statePrevious);
     }
 }

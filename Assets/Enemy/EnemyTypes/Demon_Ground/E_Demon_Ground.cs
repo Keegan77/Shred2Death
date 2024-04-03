@@ -10,8 +10,9 @@ using UnityEngine.AI;
 /// </summary>
 public class E_Demon_Ground : Enemy
 {
-    [NonSerialized] public NavMeshAgent agent; //NavMeshAgent refuses to load in time and now I have to serialize it. Hate.
-    [NonSerialized] public NavMeshPath agentPath;
+    [Header("Navigation")]
+    public NavMeshAgent agent; //NavMeshAgent refuses to load in time and now I have to serialize it. Hate.
+    public NavMeshPath agentPath;
 
     //agentSettings will be set by the navmesh present in the level.
     [NonSerialized] public static NavMeshBuildSettings[] agentSettings;
@@ -63,7 +64,7 @@ public class E_Demon_Ground : Enemy
     protected override void EnemyGetComponentReferences ()
     {
         base.EnemyGetComponentReferences ();
-        agent = GetComponent<NavMeshAgent> ();
+        //agent = GetComponent<NavMeshAgent> ();
         agentPath = new NavMeshPath ();
         animator = transform.Find ("Body").GetComponent<Animator> ();
     }

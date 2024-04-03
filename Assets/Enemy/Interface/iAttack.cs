@@ -13,7 +13,9 @@ using UnityEngine;
 public interface iAttack
 {
     #region Parameters
-    abstract GameObject muzzlePoints { get; set; }
+    // Using abstracted getters and setters lets us declare these publicly
+    // while also allowing us to customize per bullet pattern which behavior we use.
+    abstract GameObject muzzlePoint { get; set; }
     abstract Enemy_BulletPattern bulletInfo { get; set; }
 
     #endregion
@@ -23,7 +25,7 @@ public interface iAttack
     /// 
     /// </summary>
     /// <returns></returns>
-    public IEnumerator PlayShot ();
+    abstract IEnumerator PlayShot ();
     #endregion
 
     #region Concrete Functions

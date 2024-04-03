@@ -23,14 +23,11 @@ public class ESG_Turret : ES_DemonGround
     public override void Enter ()
     {
         base.Enter ();
-
-        eg.agent.isStopped = true;
     }
 
     public override void Exit ()
     {
         base.Exit ();
-        eg.agent.isStopped = false;
     }
 
     public override void machinePhysics ()
@@ -40,9 +37,10 @@ public class ESG_Turret : ES_DemonGround
 
     public override void AIUpdate ()
     {
-        if ( bulletInfo.bulletReady && !isAnimationPlaying )
+        if ( bulletInfo.bulletReady )
         {
-            FireBullet ();
+            //FireBullet ();
+            e.stateMachine.transitionState (GetComponent<ES_Attack> ());
         }
     }
 
