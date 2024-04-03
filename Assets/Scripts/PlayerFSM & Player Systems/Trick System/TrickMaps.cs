@@ -16,23 +16,20 @@ public static class TrickMaps
     private static InputAction DPadRIGHT = InputRouting.Instance.input.PlayerTricks.DpadRIGHT;
     
     #region Trick Creation
-    //Skating Tricks
     static Trick Ollie        = new Trick("Idle", 5, 3, .2f, jumpTrick, CustomTrickMethods.OllieFunc, canBeInterrupted:true); //less ammo bc it's the basic trick & you're always jumping around
+    static Trick PopShuvIt    = new Trick("PopShoveIt", 10, 5, .2f, DPadLEFT, CustomTrickMethods.GeneralTrickFunc);
     
-    static Trick PopShuvIt    = new Trick("PopShoveIt", 10, 5, .2f, DPadLEFT, CustomTrickMethods.PopShuvItCustomFunction);
-    
-    
-    //Air Tricks
-    static Trick Backflip     = new Trick("Kickflip", 20, 5, .2f, DPadLEFT, CustomTrickMethods.PopShuvItCustomFunction);
-    static Trick Kickflip     = new Trick("Kickflip", 10, 6, .2f, DPadRIGHT, CustomTrickMethods.PopShuvItCustomFunction);
-    static Trick Heelflip     = new Trick("Hellflip", 10, 6, .2f, DPadDOWN, CustomTrickMethods.PopShuvItCustomFunction);
-    #endregion // these tricks are just for testing, they will be replaced with real tricks later
+    static Trick Backflip     = new Trick("Kickflip", 20, 5, .2f, DPadLEFT, CustomTrickMethods.GeneralTrickFunc);
+    static Trick Kickflip     = new Trick("Kickflip", 10, 6, .2f, DPadRIGHT, CustomTrickMethods.GeneralTrickFunc);
+    static Trick Heelflip     = new Trick("Hellflip", 10, 6, .2f, DPadDOWN, CustomTrickMethods.GeneralTrickFunc);
+    #endregion 
     
     
     public static readonly Dictionary<Type, Trick[]> StateMap = new Dictionary<Type, Trick[]>
     {
         {typeof(PlayerSkatingState), new []{Ollie}},
         {typeof(PlayerAirborneState), new []{Kickflip, PopShuvIt, Heelflip}},
+        {typeof(PlayerHalfpipeState), new []{Kickflip, PopShuvIt, Heelflip}},
         // Add more states and associated tricks here...
     };
     

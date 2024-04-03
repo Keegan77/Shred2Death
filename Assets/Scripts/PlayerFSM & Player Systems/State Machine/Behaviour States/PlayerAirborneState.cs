@@ -67,7 +67,7 @@ public class PlayerAirborneState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (player.CheckGround())
+        if (player.CheckGround() && player.rb.velocity.y < 0f)
         {
             stateMachine.SwitchState(player.skatingState);
         }

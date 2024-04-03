@@ -7,17 +7,28 @@ using UnityEngine;
 /// This is the first of two systems regarding the firing of bullets.
 /// Bullet Patterns are a paradigm of which enemies can spawn bullets by.
 /// 
+/// Contains a token system that will govern how many enemies can shoot
+/// at any given time.
+/// 
 /// Scripts deriving from this are prefixed EBP_
 /// </summary>
 [Serializable]
 public abstract class Enemy_BulletPattern : MonoBehaviour
 {
-    public bool bulletReady { get; protected set; } = true;
+    //There's multiple things that determine whether a bullet is ready,
+    //One of which is a key per bullet pattern that dictates whether or not its on cooldown.
+    private bool _bulletReady = true;
+    public bool bulletReady { get { return isBulletReady(); } protected set { _bulletReady = value; } }
     
 
     [Header("Basic Info")]
     public GameObject bulletObject;
     public string attackAnimation;
+
+    [Header ("Parameters")]
+    protected static int tokens = 50;
+    [SerializeField] protected int tokenCost = 1;
+
 
     /// <summary>
     /// Runs through the logic of spawning and firing bullets. If a shot needs to lead the player, use LeadShot(target, muzzle, bulletObject) in the target logic for spawnBullet in an inherited script.
@@ -26,6 +37,31 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     /// <param name="muzzle"></param>
     /// <returns></returns>
     public abstract IEnumerator PlayShot (GameObject target, GameObject muzzle);
+
+    /// <summary>
+    /// The bullet being ready depends on more than one condition:
+    /// 1) The bullet is off cooldown
+    /// 2) There is a token available
+    /// </summary>
+    /// <returns>true if an enemy is cleared to shoot</returns>
+    bool isBulletReady ()
+    {
+        return
+            //All of these are true
+            _bulletReady == true && tokenCost < tokens;
+    }
+
+    /// <summary>
+    /// If the shot is cancelled for whatever reason, 
+    /// call this to return the tokens to the pool
+    /// </summary>
+    public void CancelShot ()
+    {
+        if (!_bulletReady)
+        {
+            tokens += tokenCost;
+        }
+    }
 
     #region Aiming and shooting
     public void SpawnBullet (Vector3 target, GameObject muzzle)
@@ -49,6 +85,7 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
         #endregion
 
     }
+
 
 
     //TODO: The slope based off the player's velocity would be a good thing to look at for more accurate shots
@@ -125,6 +162,17 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
         return intersect3 + UnityEngine.Random.insideUnitSphere * bullet.deviation + Enemy.playerReference.aimOffset;
 
     }
+
+    #endregion
+
+    #region UNITY SCRIPTS
+
+    //If the enemy is destroyed before it can give the token back
+    private void OnDestroy ()
+    {
+        CancelShot ();
+    }
+
 
     #endregion
 }

@@ -15,10 +15,11 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
     public float movementSpeed = 1;
     public float cameraSensitivity = 1;
     public bool useCamera = true;
+    public bool lockCameraOnStart = true;
     private bool cameraKey = true;
     private bool cameraKeyPrev = false;
 
-    public GameObject cameraObject;
+    GameObject cameraObject;
     GameObject cameraPivot;
     GameObject cameraAnchor;
 
@@ -62,10 +63,17 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
         cameraAnchor = transform.Find ("CameraPivot/CameraAnchor").gameObject;
 
         rotationTrack = transform.rotation.eulerAngles;
+
+        if (lockCameraOnStart)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     private void Start ()
     {
+        cameraObject = Camera.main.gameObject;
+
         if (useCamera)
         {
             cameraObject.transform.SetParent (cameraAnchor.transform, false);
@@ -75,36 +83,37 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
         
     }
 
+    //sets the camera key to sync with the menu better.
+    public void pauseGame(bool c)
+    {
+        hud.ToggleGamePaused ();
+
+        cameraKey = c;
+    }
+
+    private void OnEnable ()
+    {
+        InputRouting.Instance.input.UI.Pause.started += ctx => pauseGame(!cameraKey);
+    }
+    private void OnDisable ()
+    {
+        InputRouting.Instance.input.UI.Pause.started -= ctx => pauseGame (!cameraKey);
+    }
+
     // Update is called once per frame
     void Update()
     {
         bool clicked = InputRouting.Instance.GetBoostInput ();
         Vector3 rot = cameraRotation * cameraSensitivity * Time.deltaTime;
-        
+
 
         //If the player has clicked
-        if (clicked && !cameraKeyPrev ) 
+        if (clicked && !cameraKeyPrev)
         {
-            //Debug.Log ("Mouse clicked");
-
-            //Unparent the camera from the anchor
-            if (cameraKey)
-            {
-                //cameraObject.transform.SetParent (null, true);
-                hud.ToggleGamePaused();
-            }
-
-            //parent the camera to the anchor
-            else
-            {
-
-                hud.ToggleGamePaused();
-            }
-
-            cameraKey = !cameraKey;
+            cameraKey = hud.gameObject.activeSelf;
         }
 
-        if(cameraKey)
+        if (cameraKey)
         {
             rotationTrack += rot;
             transform.rotation = Quaternion.Euler (rotationTrack);

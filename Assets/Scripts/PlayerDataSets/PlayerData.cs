@@ -33,6 +33,7 @@ public class PlayerData : ScriptableObject
     [Header("Airborne Values")]
     public float airForwardForce;
     public float airTiltRange;
+    public float halfPipeTurnRange;
     public float airBoostImpulseForce;
     public float airBoostCooldownSeconds;
     [Tooltip("The style level at which the air boost unlocks")]

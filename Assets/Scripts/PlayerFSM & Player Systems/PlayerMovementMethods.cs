@@ -132,10 +132,10 @@ public class PlayerMovementMethods
     {
         timeElapsed = Mathf.Clamp01(timeElapsed);
         
-        if (player.ShouldMoveForward())
+        if (InputRouting.Instance.GetMoveInput().magnitude > 0)
         {
             timeElapsed += Time.deltaTime;
-        } else timeElapsed -= Time.deltaTime;
+        } else timeElapsed = 0;
         
         float offset = rb.velocity.y;
         Func<float, float> calculateExtraForce = (slopeMultiplier) =>
@@ -155,8 +155,12 @@ public class PlayerMovementMethods
         //movementSpeed = baseSpeed + offset;
         
         movementSpeed = Mathf.Lerp(playerData.minSpeed, playerData.baseMovementSpeed, timeElapsed / playerData.accelTime) + offset;
+
+        if (InputRouting.Instance.GetBrakeInput())
+        {
+            movementSpeed = movementSpeed / 2;
+        }
         
-        Debug.Log(movementSpeed);
     }
 
     public void CalculateTurnSharpness()
@@ -193,7 +197,7 @@ public class PlayerMovementMethods
         boostTimerCoroutine = player.StartCoroutine(BoostTimer());
     }
 
-    bool currentlyBoosting;
+    public bool currentlyBoosting;
     bool currentlyRecharging;
     public void StopBoost() // subscribe this to on input canceled boost input cancel
     {

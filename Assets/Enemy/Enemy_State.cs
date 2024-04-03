@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -30,13 +31,18 @@ public class Enemy_State : MonoBehaviour
         e = transform.parent.GetComponent<Enemy>();
     }
 
+    /// <summary>
+    /// After entering the state 
+    /// </summary>
     public virtual void Enter ()
     {
+        Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Entered");
     }
 
     public virtual void Exit ()
     {
         StopAllCoroutines();
+        Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Exited");
     }
 
     public virtual void machineUpdate ()
@@ -47,6 +53,11 @@ public class Enemy_State : MonoBehaviour
     public virtual void machinePhysics ()
     {
 
+    }
+
+    public virtual void AIUpdate ()
+    {
+        Debug.Log ($"{e.name} ({GetInstanceID()}): Updating AI", this);
     }
 
 

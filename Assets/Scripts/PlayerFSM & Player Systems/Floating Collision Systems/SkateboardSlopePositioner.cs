@@ -39,7 +39,7 @@ public class SkateboardSlopePositioner : MonoBehaviour
             YOffset = horizontalYOffset;
         }
         
-        if (Physics.Raycast(raycastOrigin.position, -raycastOrigin.up, out RaycastHit hit, rayDistance))
+        if (Physics.Raycast(raycastOrigin.position, -raycastOrigin.up, out RaycastHit hit, rayDistance, 1 << LayerMask.NameToLayer("Ground")))
         {
             if (!justHitGround)
             {
