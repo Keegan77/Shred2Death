@@ -23,12 +23,12 @@ public class PlayerGrindState : PlayerState
         base.Enter();
         player.particlePlayer.PlayParticle();
         player.GetComboHandler().SetPauseComboDrop(true);
-        player.proceduralRigController.StartCoroutine(
+        /*player.proceduralRigController.StartCoroutine(
             player.proceduralRigController.LerpWeightToValue
                                                  (player.proceduralRigController.legRig,
                                                      0,
                                                      .1f)
-        );
+        );*/
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Grind");
         lerping = true;
         List<AudioClip> grindImpacts = SFXContainerSingleton.Instance.grindImpactNoises;
