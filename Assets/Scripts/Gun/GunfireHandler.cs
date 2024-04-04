@@ -88,6 +88,7 @@ public class GunfireHandler : MonoBehaviour
         TrailRenderer trail; // instantiate our gun trail
 
         if (currentGun.currentAmmo <= 0) return;
+        
 
         
         cameraRecoil.FireRecoil(currentGun.camRecoilX, currentGun.camRecoilY, currentGun.camRecoilZ); // apply recoil

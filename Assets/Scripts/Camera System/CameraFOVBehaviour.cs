@@ -21,8 +21,9 @@ public class CameraFOVBehaviour : MonoBehaviour
         camera = GetComponent<Camera>();
     }
 
-    private void Update()  
+    private void Update()
     {
+        if (rb == null) return;
         magnitude = Mathf.Lerp(magnitude, rb.velocity.magnitude / 1.5f, FOVChangeSpeed * Time.unscaledDeltaTime);
         //Debug.Log(rb.velocity.magnitude);
         if (magnitude != 0)
