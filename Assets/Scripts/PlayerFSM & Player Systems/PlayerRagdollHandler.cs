@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -34,11 +31,6 @@ public class PlayerRagdollHandler : MonoBehaviour
         InputRouting.Instance.input.Debug.InitiateDeath.performed += ctx => player.stateMachine.SwitchState(player.deathState);
     }
 
-    private void OnDisable()
-    {
-        
-    }
-
     private void Update()
     {
         if (ragdollEnabled)
@@ -59,7 +51,7 @@ public class PlayerRagdollHandler : MonoBehaviour
         Vector3 cachedVel = player.rb.velocity;
         
         GameObject skateboardDoll = Instantiate(newSkateboard, cachedPos + new Vector3(0, .25f, 0), cachedRot);
-        Rigidbody boardDollRb = skateboardDoll.transform.AddComponent<Rigidbody>();
+        Rigidbody boardDollRb = skateboardDoll.GetComponent<Rigidbody>();
         
         boardDollRb.velocity = cachedVel;
         //skateboard.transform.position = cachedPos + new Vector3(0, 5.43f, 0);
