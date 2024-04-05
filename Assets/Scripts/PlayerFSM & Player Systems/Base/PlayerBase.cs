@@ -127,10 +127,9 @@ public class PlayerBase : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         stateMachine.currentState.StateCollisionEnter(other);
-        if (other.gameObject.CompareTag("BurnDamage"))
+        if (other.gameObject.CompareTag("BurnDamageFireWall"))
         {
             movement.DoBurnForce(other.contacts[0].point, 10);
-            // Calculate the direction from the player to the point of collisio
         }
     }
 

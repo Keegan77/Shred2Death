@@ -98,7 +98,7 @@ public class PlayerMovementMethods
         
     }
 
-    public void DoBurnForce(Vector3 contactPoint, float dmg)
+    public void DoBurnForce(Vector3 contactPoint, float dmg, bool keepHozForces = false)
     {
         if (burnCooldownActive) return;
         Debug.Log("burn dmg");
@@ -113,7 +113,12 @@ public class PlayerMovementMethods
 
         // Normalize the direction
         collisionDirection = collisionDirection.normalized;
-        Vector3 force = new Vector3(collisionDirection.x, -collisionDirection.y, collisionDirection.z);
+        if (keepHozForces)
+        {
+            rb.velocity = Vector3.zero;
+            rb.AddForce(new Vector3(collisionDirection.x, playerData.extraBurnVerticalForce , collisionDirection.z) * playerData.burnForce, ForceMode.Impulse);
+            return;
+        }
 
         // Apply a force in the opposite direction of the collision
         rb.velocity = Vector3.zero;
