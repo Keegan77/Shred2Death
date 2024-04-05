@@ -15,11 +15,6 @@ public class EnemyTrickOffHandler : MonoBehaviour
         ActionEvents.OnTrickPerformed += CheckForAndExecuteTrickOff;
     }
 
-    private void Update()
-    {
-        Debug.Log(enemiesInTriggerStack.Count);
-    }
-
     private void OnDisable()
     {
         ActionEvents.OnTrickPerformed -= CheckForAndExecuteTrickOff;
@@ -55,7 +50,7 @@ public class EnemyTrickOffHandler : MonoBehaviour
         Debug.Log("yo");
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            Debug.Log("yo,enemy");
+            Debug.Log("yo, enemy");
             enemiesInTriggerStack.Push(other.gameObject);
         }
     }
