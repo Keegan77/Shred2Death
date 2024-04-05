@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovementMethods
@@ -62,7 +61,7 @@ public class PlayerMovementMethods
         
     }
 
-    public void OllieJump()
+    public void OllieJump(float overrideForce = 0)
     {
         if (player != null) rb.AddRelativeForce(player.transform.up * playerData.baseJumpForce, ForceMode.Impulse);
     }
