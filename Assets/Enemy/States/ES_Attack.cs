@@ -19,6 +19,7 @@ public class ES_Attack : Enemy_State, iAttack
     {
         base.Enter ();
         StartCoroutine (PlayShot ());
+        
     }
 
     public override void Exit ()
@@ -26,6 +27,12 @@ public class ES_Attack : Enemy_State, iAttack
         base.Exit ();
         StopAllCoroutines ();
         bulletInfo.CancelShot ();
+
+    }
+
+    public override void machineUpdate ()
+    {
+        e.transform.rotation = Quaternion.LookRotation (Enemy.playerReference.transform.position - e.transform.position, Vector3.up);
     }
     #endregion
 
@@ -39,5 +46,8 @@ public class ES_Attack : Enemy_State, iAttack
         }
 
         e.stateMachine.transitionState (e.stateMachine.statePrevious);
+
+        bulletInfo.returnTokens ();
+
     }
 }

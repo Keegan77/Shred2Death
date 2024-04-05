@@ -8,6 +8,8 @@ using UnityEngine;
 /// <summary>
 /// Enemy State Machine controls the behavior of enemies. If they are in state X, they will move like this and use these senses.
 /// Statemachine handles the switching of states and serves as in interface to the Enemy Script.
+/// 
+/// Additionally, it handles as a storage for important information used by states, such as directional goals and timers.
 /// </summary>
 public class Enemy_StateMachine : MonoBehaviour
 {
@@ -24,13 +26,14 @@ public class Enemy_StateMachine : MonoBehaviour
     public Enemy_State stateEntry;
 
 
-
     [Header("Control Parameters")]
 
     [Tooltip("Interval in seconds between AI updates")]
     [Min(0.1f)]
     public float aiFrequency = 1f;
     float aiTimeKeeper = 0f;
+
+    
 
     //updateEnabled controls whether or not the stateMachien will run AI checks.
     public bool aiUpdateEnabled
@@ -40,8 +43,11 @@ public class Enemy_StateMachine : MonoBehaviour
     }
     private bool _aiUpdateEnabled = true;
 
-    
-
+    /// <summary>
+    /// Some states will need to keep track of time.
+    /// 
+    /// </summary>
+    public float timerCurrentState;
 
     [Header ("Navigation")]
     public Vector3 travelPoint;
@@ -53,8 +59,12 @@ public class Enemy_StateMachine : MonoBehaviour
     public void machineUpdate ()
     {
         stateCurrent.machineUpdate ();
+        timerCurrentState += Time.deltaTime;
     }
 
+    /// <summary>
+    /// Handles timers that 
+    /// </summary>
     public void machinePhysics ()
     {
         stateCurrent.machinePhysics ();
@@ -74,6 +84,8 @@ public class Enemy_StateMachine : MonoBehaviour
 
     public void transitionState (Enemy_State s)
     {
+        timerCurrentState = 0;
+
         Debug.Log ("Transitioning state to: " + s);
         stateCurrent.Exit ();
 

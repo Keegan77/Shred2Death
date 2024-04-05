@@ -66,11 +66,13 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     public void reserveTokens ()
     {
         tokens -= tokenCost;
+        Debug.Log ($"<color=#329DF6>BulletToken</color>: Tokens reserved. {tokens} remaining");
     }
 
     public void returnTokens ()
     {
         tokens += tokenCost;
+        Debug.Log ($"<color=#329DF6>BulletToken</color>: Tokens returned. {tokens} remaining");
     }
 
     #region Aiming and shooting

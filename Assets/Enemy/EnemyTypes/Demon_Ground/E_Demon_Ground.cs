@@ -33,18 +33,17 @@ public class E_Demon_Ground : Enemy
         //rb.isKinematic = false;
         //rb.useGravity = true;
 
-        //Debug.Log ("Checking agent settings");
-        //Debug.Log (agent.agentTypeID);
+        Debug.Log ("Checking agent settings");
+        Debug.Log (agent.agentTypeID);
         if (agentSettings != null)
         {
             for (int i = 0; i < agentSettings.Length; i++)
             {
-                //Debug.Log (agentSettings[i].agentTypeID);
+                Debug.Log (agentSettings[i].agentTypeID);
                 if (agentSettings[i].agentTypeID == agent.agentTypeID)
                 {
                     //Debug.Log ("Agent Match found");
                     agentIndex = i;
-
                     //Debug.Log (agentSettings[agentIndex].agentClimb);
                     break;
                 }
@@ -54,6 +53,8 @@ public class E_Demon_Ground : Enemy
         {
             Debug.LogError ("No Agent Settings");
         }
+
+        SetRagdollEnabled (false);
     }
 
     private void Awake ()
@@ -71,7 +72,9 @@ public class E_Demon_Ground : Enemy
 
     public override void SetRagdollEnabled (bool en)
     {
-        agent.enabled = en;
+        Debug.Log (agent.enabled);
+        Debug.Log (agent.isOnNavMesh);
+        agent.isStopped = en;
         base.SetRagdollEnabled (en);
     }
 }

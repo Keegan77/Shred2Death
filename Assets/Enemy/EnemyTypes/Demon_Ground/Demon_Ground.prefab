@@ -41,11 +41,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 935309324124658596, guid: fa2e54fb309a52f44b351faa2069306e, type: 3}
       propertyPath: m_Height
-      value: 1.8048656
+      value: 3.443356
       objectReference: {fileID: 0}
     - target: {fileID: 935309324124658596, guid: fa2e54fb309a52f44b351faa2069306e, type: 3}
       propertyPath: m_Radius
-      value: 0.52186453
+      value: 1.721678
       objectReference: {fileID: 0}
     - target: {fileID: 935309324124658596, guid: fa2e54fb309a52f44b351faa2069306e, type: 3}
       propertyPath: m_Center.x
@@ -266,16 +266,8 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1990238580269932758, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
-      propertyPath: timeLeadIn
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1990238580269932758, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: cooldownMin
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1990238580269932758, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
-      propertyPath: timeLeadOut
-      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1990238580269932758, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: attackAnimation
@@ -298,6 +290,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4830959686558768495}
     - target: {fileID: 2616151468426186995, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616151468426186995, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: stateEntry
       value: 
       objectReference: {fileID: 4830959686558768495}
@@ -319,23 +315,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3831898785959713912, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3831898785959713912, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3831898785959713912, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3831898785959713912, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.01
       objectReference: {fileID: 0}
     - target: {fileID: 3831898785959713912, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3831898785959713912, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_LocalPosition.z
@@ -504,7 +500,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationEnter: RUN
   agentUpdateDistance: 4
-  bulletInfo: {fileID: 5653537672990207873}
+  stateAttack: {fileID: 2521084591526766136}
+  timerShotSetting: 3
 --- !u!114 &3843847108236427556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -520,7 +517,7 @@ MonoBehaviour:
   animationEnter: IDLE
   bulletWaitTimeMin: 0
   bulletWaitTimeMax: 1
-  bulletInfo: {fileID: 5653537672990207873}
+  stateAttack: {fileID: 2521084591526766136}
 --- !u!114 &7078634803442072299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -577,7 +574,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   health: 10
   mainRigidBodyDefaultKinematic: 1
-  agent: {fileID: 0}
+  agent: {fileID: 3754971543326130396}
   isInMeleeRange: 0
 --- !u!195 &3754971543326130396
 NavMeshAgent:

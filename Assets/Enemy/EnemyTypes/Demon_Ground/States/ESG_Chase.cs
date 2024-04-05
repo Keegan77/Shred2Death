@@ -18,43 +18,36 @@ public class ESG_Chase : ES_DemonGround
 
 
     [Header ("Projectile")]
-    [SerializeField] Enemy_BulletPattern bulletInfo;
-
-    private bool readyToBullet = true;
+    [SerializeField] ES_Attack stateAttack;
+    [SerializeField] float timerShotSetting = 3;
 
     public override void Enter ()
     {
         base.Enter ();
         eg.agent.SetDestination (Enemy.playerReference.transform.position);
 
-        //StartCoroutine (bulletWait ());
     }
     public override void Exit ()
     {
         base.Exit ();
-        eg.agent.isStopped = false;
-
-        bulletInfo.CancelShot ();
     }
 
     public override void onPlayerSensorDeactivated ()
     {
         //transform.parent.GetComponent<Enemy_StateMachine> ().transitionState (returnState);
-        constantUpdate = false;
     }
 
     public override void onPlayerSensorActivated ()
     {
-        constantUpdate = true;
     }
 
-    //If the player goes too far from the destination point,
-    //calculate a new destination towards the player
-
-    bool constantUpdate = false;
     public override void machinePhysics ()
     {
        
+    }
+    public override void machineUpdate ()
+    {
+        
     }
 
 
@@ -85,14 +78,12 @@ public class ESG_Chase : ES_DemonGround
             }
 
             //If a bullet is ready and the enemy has waited long enough, fire a bullet.
-            if ( bulletInfo.bulletReady && readyToBullet )
+            if ( stateAttack.bulletInfo.bulletReady && e.stateMachine.timerCurrentState > timerShotSetting )
             {
                 Debug.Log ("EnemyPlayingShot On The Run");
-                //eg.agent.isStopped = true;
+                e.stateMachine.transitionState(stateAttack);
+                
 
-                bulletInfo.StartCoroutine (bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject));
-                //eg.animator.Play (bulletInfo.attackAnimation);
-                //StartCoroutine (bulletWait ());
             }
 
         }
@@ -112,7 +103,8 @@ public class ESG_Chase : ES_DemonGround
 
     public override void OnBullet ()
     {
-        bulletInfo.StartCoroutine (bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject));
+        Debug.LogWarning ("Animation tried to call obselete OnBullet");
+        //stateAttack.bulletInfo.StartCoroutine (stateAttack.bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject));
     }
 
     public override void OnAnimationFinished ()

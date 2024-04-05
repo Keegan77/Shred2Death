@@ -128,8 +128,6 @@ public class Enemy : MonoBehaviour, IDamageable
         ragdollBodies = bodyObject.GetComponentsInChildren<Rigidbody> ();
         ragdollColliders = bodyObject.GetComponentsInChildren<Collider> ();
 
-        SetRagdollEnabled (false);
-
     }
 
     public virtual void SetRagdollEnabled (bool en)

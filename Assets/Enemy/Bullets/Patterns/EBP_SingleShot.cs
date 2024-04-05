@@ -19,7 +19,7 @@ public class EBP_SingleShot : Enemy_BulletPattern
         SpawnBullet (LeadShot(target, muzzle, bulletObject), muzzle);
 
 
-        yield return new WaitForSeconds (timeLeadOut);
+        yield return new WaitForSeconds (timeLeadOut - timeLeadIn);
         bulletReady = true;
         bulletPlaying = false;
     }
