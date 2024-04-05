@@ -18,6 +18,7 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private PlayerHUD playerHUD;
         [SerializeField] private PlayerHealth health;
         [SerializeField] private Camera cam;
+        [SerializeField] private PlayerRagdollHandler ragdollHandler;
         
     #endregion
 
@@ -61,6 +62,7 @@ public class PlayerBase : MonoBehaviour
         public PlayerGrindState grindState;
         public PlayerDriftState driftState;
         public PlayerNosediveState nosediveState;
+        public PlayerDeathState deathState;
         public PlayerDropinState dropinState;
         public GameObject grindRailFollower;
     #endregion
@@ -120,8 +122,7 @@ public class PlayerBase : MonoBehaviour
             if (!timerRanOut) playerHUD.ToggleGamePaused();
         };
     }
-
-    //private void OnCollisionStay(Collision other) => stateMachine.currentState.StateCollisionEnter(other);
+    
 
     private void OnCollisionEnter(Collision other)
     {
@@ -245,6 +246,11 @@ public class PlayerBase : MonoBehaviour
 
     #region Helper Methods, Getters, & Setters
     
+    public PlayerRagdollHandler GetRagdollHandler()
+    {
+        return ragdollHandler;
+    }
+    
     public Camera GetPlayerCamera()
     {
         return cam;
@@ -364,6 +370,7 @@ public class PlayerBase : MonoBehaviour
         grindState = new PlayerGrindState(this, stateMachine);
         driftState = new PlayerDriftState(this, stateMachine);
         nosediveState = new PlayerNosediveState(this, stateMachine);
+        deathState = new PlayerDeathState(this, stateMachine);
         dropinState = new PlayerDropinState(this, stateMachine);
         stateMachine.Init(airborneState);
     }

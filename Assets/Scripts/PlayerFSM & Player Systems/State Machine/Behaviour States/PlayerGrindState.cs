@@ -17,18 +17,20 @@ public class PlayerGrindState : PlayerState
         inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => JumpOffRail()});
     }
     private SplineFollower sFollower;
+    private Coroutine lerpRigRoutine;
     
     public override void Enter()
     {
         base.Enter();
         player.particlePlayer.PlayParticle();
+        totalInputRotation = 0;
         player.GetComboHandler().SetPauseComboDrop(true);
-        /*player.proceduralRigController.StartCoroutine(
+        lerpRigRoutine = player.proceduralRigController.StartCoroutine(
             player.proceduralRigController.LerpWeightToValue
                                                  (player.proceduralRigController.legRig,
                                                      0,
                                                      .1f)
-        );*/
+        );
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Grind");
         lerping = true;
         List<AudioClip> grindImpacts = SFXContainerSingleton.Instance.grindImpactNoises;
@@ -48,15 +50,11 @@ public class PlayerGrindState : PlayerState
     public override void Exit()
     {
         UnsubscribeInputs();
+        if (lerpRigRoutine != null) player.StopCoroutine(lerpRigRoutine);
         player.particlePlayer.StopParticle();
         player.GetComboHandler().SetPauseComboDrop(false);
         ActionEvents.StopLoopAudio?.Invoke();
-        player.proceduralRigController.StartCoroutine(
-            player.proceduralRigController.LerpWeightToValue
-            (player.proceduralRigController.legRig,
-                1,
-                .1f)
-        );
+        player.proceduralRigController.SetWeightToValue(player.proceduralRigController.legRig, 1);
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Grind Reverse");
     }
     private void SetUpSplineFollower()
@@ -90,7 +88,7 @@ public class PlayerGrindState : PlayerState
         
 
         
-        sFollower.SetPercent(player.GetSplineCompletionPercent());
+        sFollower.SetPercent(player.GetSplineCompletionPercent()); // moves the spline follower to be where the player jumped on
         
         if (dotProduct > 0) // if the product is positive, that means we are moving in the direction of the spline
         {
@@ -105,14 +103,22 @@ public class PlayerGrindState : PlayerState
         
         if (!isClosed)
         {
-            jumpOffEndOfRailCoroutine = player.StartCoroutine(JumpOffEndOfRail());
+            jumpOffEndOfRailCoroutine = player.StartCoroutine(QueueEndRailDismount());
         }
     }
 
-    private IEnumerator JumpOffEndOfRail()
+    private IEnumerator QueueEndRailDismount()
     {
-        yield return new WaitUntil(() => sFollower.result.percent == 1 || sFollower.result.percent == 0);
-        JumpOffRail();
+        if (sFollower.direction == Spline.Direction.Forward)
+        {
+            yield return new WaitUntil(() => sFollower.result.percent == 1);
+            JumpOffRail();
+        }
+        else
+        {
+            yield return new WaitUntil(() => sFollower.result.percent == 0);
+            JumpOffRail();
+        }
     }
     
     private void JumpOffRail()
@@ -130,7 +136,7 @@ public class PlayerGrindState : PlayerState
         //player.OllieJump();
         stateMachine.SwitchState(player.airborneState);
     }
-    
+    private float totalInputRotation = 0f;
     public override void LogicUpdate()
     {
         base.LogicUpdate();
@@ -138,9 +144,21 @@ public class PlayerGrindState : PlayerState
         ModifyFollowSpeed();
         
         player.transform.position = sFollower.result.position + new Vector3(0, grindPosOffset, 0);
-        //player.transform.rotation = Quaternion.Euler(0, sFollower.result.rotation.eulerAngles.y + jumpedOnOrientation.eulerAngles.y, 0);
-        GrindTurn(player.playerData.grindTurnSharpness);
-        
+        // Calculate the grind turn
+        float grindTurn = player.playerData.grindTurnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime;
+
+        // Accumulate the grind turn into totalInputRotation
+        totalInputRotation += grindTurn;
+
+        // Get the rotation from the grind rail and add the rotation when the player jumped on the rail
+        float railRotation = sFollower.result.rotation.eulerAngles.y + jumpedOnOrientation.eulerAngles.y;
+
+        // Add the totalInputRotation to the rail rotation
+        float totalRotation = railRotation + totalInputRotation;
+
+        // Apply the total rotation to the player
+        player.transform.rotation = Quaternion.Euler(0, totalRotation, 0);
+
     }
 
     private void GrindTurn(float turnSharpness)

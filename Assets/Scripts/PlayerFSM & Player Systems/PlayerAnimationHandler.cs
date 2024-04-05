@@ -37,7 +37,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         {
             /*if (interruptState)
                 if (trickCoroutine != null) StopCoroutine(trickCoroutine);*/
-            animator.SetTrigger(trick.animTriggerName);
+            
             trickCoroutine = StartCoroutine(TrickAnimationSequence(trick));
         }
     }
@@ -54,12 +54,17 @@ public class PlayerAnimationHandler : MonoBehaviour
         {
             interruptState = false;
         }*/
-
-        yield return new WaitForSeconds(.1f);
+        if (trick.skipAnim)
+        {
+            if (trick.customMethod != null) trick.customMethod.Invoke(player);
+            ActionEvents.OnTrickPerformed?.Invoke(trick);
+            ActionEvents.OnTrickCompletion?.Invoke(trick);
+            // stop coroutine
+            yield break;
+        }
         
-        var currentClipInfo = animator.GetCurrentAnimatorClipInfo(0); // 0 refers to the base animation layer
+        animator.SetTrigger(trick.animTriggerName);
         trickBeingPerformed = true;
-        Debug.Log(currentClipInfo[0].clip.name);
         
         ActionEvents.OnTrickPerformed?.Invoke(trick);
         
@@ -67,7 +72,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         player.proceduralRigController.SetWeightToValue(player.proceduralRigController.legRig, 0);
         
         //yield return new WaitForSeconds(currentClipInfo[0].clip.length);
-        yield return new WaitUntil(() => currentClipInfo[0].clip.name == "Shreddy_Skatepose");
+        yield return new WaitForSeconds(trick.animTime);
         
         trickBeingPerformed = false;
         

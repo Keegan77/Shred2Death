@@ -16,12 +16,12 @@ public static class TrickMaps
     private static InputAction DPadRIGHT = InputRouting.Instance.input.PlayerTricks.DpadRIGHT;
     
     #region Trick Creation
-    static Trick Ollie        = new Trick("Idle", 5, 3, .2f, jumpTrick, CustomTrickMethods.OllieFunc, canBeInterrupted:true); //less ammo bc it's the basic trick & you're always jumping around
-    static Trick PopShuvIt    = new Trick("PopShoveIt", 10, 5, .2f, DPadLEFT, CustomTrickMethods.GeneralTrickFunc);
+    static Trick Ollie        = new Trick("Idle", 5, 3, .2f, jumpTrick, 0, CustomTrickMethods.OllieFunc, canBeInterrupted:true, skipAnim:true); //less ammo bc it's the basic trick & you're always jumping around
+    static Trick PopShuvIt    = new Trick("PopShoveIt", 10, 5, .2f, DPadLEFT, 1.2f, CustomTrickMethods.GeneralTrickFunc);
     
-    static Trick Backflip     = new Trick("Kickflip", 20, 5, .2f, DPadLEFT, CustomTrickMethods.GeneralTrickFunc);
-    static Trick Kickflip     = new Trick("Kickflip", 10, 6, .2f, DPadRIGHT, CustomTrickMethods.GeneralTrickFunc);
-    static Trick Heelflip     = new Trick("Hellflip", 10, 6, .2f, DPadDOWN, CustomTrickMethods.GeneralTrickFunc);
+    static Trick Backflip     = new Trick("Kickflip", 20, 5, .2f, DPadLEFT, .875f,CustomTrickMethods.GeneralTrickFunc);
+    static Trick Kickflip     = new Trick("Kickflip", 10, 6, .2f, DPadRIGHT, .875f,CustomTrickMethods.GeneralTrickFunc);
+    static Trick Heelflip     = new Trick("Hellflip", 10, 6, .2f, DPadDOWN, .875f,CustomTrickMethods.GeneralTrickFunc);
     #endregion 
     
     
@@ -38,6 +38,9 @@ public static class TrickMaps
 public class Trick
 {
     public string animTriggerName { get; }
+    
+    public float animTime { get; }
+    
     public float stylePoints { get; }
     
     public float ammoBonus { get; }
@@ -48,6 +51,8 @@ public class Trick
     
     public bool canBeInterrupted { get; }
     
+    public bool skipAnim { get; }
+    
     public CustomTrickMethods.TrickMethod customMethod { get; }
 
     public Trick(string animTriggerName,
@@ -55,8 +60,10 @@ public class Trick
                  int ammoBonus,
                  float multiplierIncrease,
                  InputAction trickAction,
+                 float animTime,
                  CustomTrickMethods.TrickMethod customMethod = null,
-                 bool canBeInterrupted = false)
+                 bool canBeInterrupted = false,
+                 bool skipAnim = false)
     {
         this.animTriggerName = animTriggerName;
         this.stylePoints = stylePoints;
@@ -64,6 +71,8 @@ public class Trick
         this.customMethod = customMethod;
         this.ammoBonus = ammoBonus;
         this.multiplierIncrease = multiplierIncrease;
+        this.animTime = animTime;
+        this.skipAnim = skipAnim;
         this.canBeInterrupted = canBeInterrupted;
     }
 }
