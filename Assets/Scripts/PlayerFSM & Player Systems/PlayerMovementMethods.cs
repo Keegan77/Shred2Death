@@ -43,7 +43,6 @@ public class PlayerMovementMethods
         
         if (isFacingUpward) return;
         
-        
         Quaternion localTargetRotation = Quaternion.Inverse(player.transform.rotation) * player.GetOrientationHandler().targetRotation;
         // we inverse the player's rotation to get the rotation difference between the player's current rotation and the target rotation
         
@@ -55,6 +54,10 @@ public class PlayerMovementMethods
         
         // Apply force in the direction of forwardAfterRotation
         rb.AddForce(player.transform.forward * movementSpeed, ForceMode.Acceleration);
+        
+        //stop local horizontal forces by setting the local x and z velocity to 0. need to convert world velocity to local
+        //velocity to do this
+        rb.SetLocalAxisVelocity(Vector3.right, 0);
         
         
     }
