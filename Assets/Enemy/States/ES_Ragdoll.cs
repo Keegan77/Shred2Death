@@ -59,16 +59,13 @@ public class ES_Ragdoll : Enemy_State
 
         if (Physics.Raycast(objectRagdollTarget.transform.position, Vector3.down, out hit, 5, LayerMask.GetMask ("Ground")) )
         {
-            Debug.Log (transform.position);
-            Debug.Log (transform.localPosition);
-            Debug.Log (hit.point);
             e.transform.position = hit.point;
             objectRagdollTarget.transform.localPosition = offsetRagdollTarget;
 
         }
         else
         {
-            Debug.Log ("Raycast not found");
+            Debug.Log ("ES_Ragdoll: Raycast not found", this);
         }
 
 
@@ -83,7 +80,7 @@ public class ES_Ragdoll : Enemy_State
     /// </summary>
     public override void AIUpdate ()
     {
-        base.AIUpdate ();
+        //base.AIUpdate ();
 
         if ( ragdollStationary )
         {
