@@ -15,7 +15,6 @@ public class PlayerMovementMethods
     float turnSmoothVelocity;
     private float timeElapsed;
 
-    private float baseSpeed;
     public PlayerMovementMethods(PlayerBase player, Rigidbody rb, PlayerData playerData, Transform inputTurningTransform)
     {
         this.rb = rb;
@@ -23,7 +22,6 @@ public class PlayerMovementMethods
         this.player = player;
         this.inputTurningTransform = inputTurningTransform;
         
-        baseSpeed = playerData.baseMovementSpeed;
     }
     
     /// <summary>
@@ -83,7 +81,9 @@ public class PlayerMovementMethods
             player.transform.Rotate(0,
                 turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 
                 0, Space.Self);
-        }*/
+        }*/ //keeping this comment here as a reference to what turning used to look like. Drift state needs this, so im
+        //keeping this here as an example of how it was when the drift state was being implemented.
+        
         CalculateTurnSharpness();
         float turnSmoothTime = .5f;
         
@@ -131,6 +131,8 @@ public class PlayerMovementMethods
     {
         timeElapsed = Mathf.Clamp01(timeElapsed);
         
+        Debug.Log(InputRouting.Instance.GetMoveInput().magnitude);
+        
         if (InputRouting.Instance.GetMoveInput().magnitude > 0)
         {
             timeElapsed += Time.deltaTime;
@@ -152,13 +154,22 @@ public class PlayerMovementMethods
         // Get the rotation around the x-axis, ranging from -90 to 90
         
         //movementSpeed = baseSpeed + offset;
+
+        if (currentlyBoosting)
+        {
+            movementSpeed = playerData.baseBoostSpeed;
+            return;
+        }
         
-        movementSpeed = Mathf.Lerp(playerData.minSpeed, playerData.baseMovementSpeed, timeElapsed / playerData.accelTime) + offset;
+        movementSpeed = Mathf.Lerp(playerData.minSpeed, playerData.baseMovementSpeed, 
+            playerData.accelerationCurve.Evaluate(InputRouting.Instance.GetMoveInput().magnitude)) + offset;
 
         if (InputRouting.Instance.GetBrakeInput())
         {
             movementSpeed = movementSpeed / 2;
         }
+        
+        
         
     }
 
@@ -191,7 +202,7 @@ public class PlayerMovementMethods
             rechargeBoostCoroutine = null;
         }
         
-        baseSpeed = playerData.baseBoostSpeed;
+        
         if (currentlyBoosting) return;
         boostTimerCoroutine = player.StartCoroutine(BoostTimer());
     }
@@ -206,7 +217,7 @@ public class PlayerMovementMethods
             currentlyBoosting = false;
             boostTimerCoroutine = null;
         }
-        baseSpeed = playerData.baseMovementSpeed;
+        movementSpeed = playerData.baseMovementSpeed;
         if (currentlyRecharging) return;
         rechargeBoostCoroutine = player.StartCoroutine(RechargeBoost());
     }
@@ -214,6 +225,7 @@ public class PlayerMovementMethods
     private IEnumerator BoostTimer()
     {
         currentlyBoosting = true;
+        movementSpeed = playerData.baseBoostSpeed;
         while (boostTimer < playerData.boostDuration)
         {
             boostTimer += Time.deltaTime;

@@ -144,7 +144,6 @@ public class PlayerHalfpipeState : PlayerState
 
         // Convert the y velocity to a percentage between -30 and 30
         float t = Mathf.InverseLerp(30, -30, yVelocity);
-        Debug.Log(t);
         // Calculate the target rotation
         Quaternion targetRot = Quaternion.LookRotation(Vector3.down, player.transform.up);
 
