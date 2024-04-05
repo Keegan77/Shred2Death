@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon_Ground (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -207,6 +211,10 @@ PrefabInstance:
     - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_Name
       value: Demon_Ground (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalScale.x
@@ -281,6 +289,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon_Ground (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -354,6 +366,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon_Ground (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -426,6 +442,10 @@ PrefabInstance:
     - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_Name
       value: Demon_Ground (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalScale.x
@@ -1248,6 +1268,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994688242}
   m_CullTransparentMesh: 1
+--- !u!1001 &1034384221
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3863117735863748923, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 80d6a8c53af1bc347b2a0d0b076eccc0, type: 2}
+    - target: {fileID: 6099138700552046101, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099138700552046101, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099138700552046101, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099138700552046101, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099138700552046101, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099138700552046101, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099138700552046101, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099138700552046101, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099138700552046101, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099138700552046101, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9049215859306727272, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
+      propertyPath: m_Name
+      value: NavMesh
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
 --- !u!1 &1098798533
 GameObject:
   m_ObjectHideFlags: 0
@@ -1392,6 +1473,10 @@ PrefabInstance:
     - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_Name
       value: Demon_Ground (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalScale.x
@@ -1715,6 +1800,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon_Ground (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -1787,6 +1876,10 @@ PrefabInstance:
     - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_Name
       value: Demon_Ground (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalScale.x
@@ -2072,18 +2165,6 @@ PrefabInstance:
       value: Demon_Ground
       objectReference: {fileID: 0}
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.01
       objectReference: {fileID: 0}
@@ -2122,10 +2203,6 @@ PrefabInstance:
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2247,6 +2324,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon_Ground (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -2330,3 +2411,4 @@ SceneRoots:
   - {fileID: 67492932}
   - {fileID: 1995944221}
   - {fileID: 867033753}
+  - {fileID: 1034384221}
