@@ -32,7 +32,12 @@ public class ES_Attack : Enemy_State, iAttack
 
     public override void machineUpdate ()
     {
-        e.transform.rotation = Quaternion.LookRotation (Enemy.playerReference.transform.position - e.transform.position, Vector3.up);
+        Vector3 lookTarget = new Vector3 (
+            Enemy.playerReference.transform.position.x,
+            transform.position.y,
+            Enemy.playerReference.transform.position.z
+            );
+        e.transform.rotation = Quaternion.LookRotation (lookTarget, Vector3.up);
     }
     #endregion
 
