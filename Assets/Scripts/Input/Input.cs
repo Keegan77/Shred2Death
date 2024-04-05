@@ -1434,6 +1434,34 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Debug"",
+            ""id"": ""228b0f7a-0dcc-40d5-9669-8792ad6af962"",
+            ""actions"": [
+                {
+                    ""name"": ""InitiateDeath"",
+                    ""type"": ""Button"",
+                    ""id"": ""40ab9526-7d2a-4012-bdb4-278fcb93b43d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""cd7a0a7c-c505-4628-b947-d074398a6c5c"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InitiateDeath"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1537,6 +1565,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_PlayerTricks_DpadDOWN = m_PlayerTricks.FindAction("DpadDOWN", throwIfNotFound: true);
         m_PlayerTricks_DpadLEFT = m_PlayerTricks.FindAction("DpadLEFT", throwIfNotFound: true);
         m_PlayerTricks_DpadRIGHT = m_PlayerTricks.FindAction("DpadRIGHT", throwIfNotFound: true);
+        // Debug
+        m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
+        m_Debug_InitiateDeath = m_Debug.FindAction("InitiateDeath", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1964,6 +1995,52 @@ public partial class @Input: IInputActionCollection2, IDisposable
         }
     }
     public PlayerTricksActions @PlayerTricks => new PlayerTricksActions(this);
+
+    // Debug
+    private readonly InputActionMap m_Debug;
+    private List<IDebugActions> m_DebugActionsCallbackInterfaces = new List<IDebugActions>();
+    private readonly InputAction m_Debug_InitiateDeath;
+    public struct DebugActions
+    {
+        private @Input m_Wrapper;
+        public DebugActions(@Input wrapper) { m_Wrapper = wrapper; }
+        public InputAction @InitiateDeath => m_Wrapper.m_Debug_InitiateDeath;
+        public InputActionMap Get() { return m_Wrapper.m_Debug; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DebugActions set) { return set.Get(); }
+        public void AddCallbacks(IDebugActions instance)
+        {
+            if (instance == null || m_Wrapper.m_DebugActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_DebugActionsCallbackInterfaces.Add(instance);
+            @InitiateDeath.started += instance.OnInitiateDeath;
+            @InitiateDeath.performed += instance.OnInitiateDeath;
+            @InitiateDeath.canceled += instance.OnInitiateDeath;
+        }
+
+        private void UnregisterCallbacks(IDebugActions instance)
+        {
+            @InitiateDeath.started -= instance.OnInitiateDeath;
+            @InitiateDeath.performed -= instance.OnInitiateDeath;
+            @InitiateDeath.canceled -= instance.OnInitiateDeath;
+        }
+
+        public void RemoveCallbacks(IDebugActions instance)
+        {
+            if (m_Wrapper.m_DebugActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IDebugActions instance)
+        {
+            foreach (var item in m_Wrapper.m_DebugActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_DebugActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public DebugActions @Debug => new DebugActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -2049,5 +2126,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnDpadDOWN(InputAction.CallbackContext context);
         void OnDpadLEFT(InputAction.CallbackContext context);
         void OnDpadRIGHT(InputAction.CallbackContext context);
+    }
+    public interface IDebugActions
+    {
+        void OnInitiateDeath(InputAction.CallbackContext context);
     }
 }

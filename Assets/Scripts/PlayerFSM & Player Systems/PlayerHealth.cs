@@ -12,9 +12,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private float timer;
     [SerializeField] float regenHealthCooldown;
     [SerializeField] float healthRegenerationSpeed;
+    private PlayerBase player;
 
     private void Start()
     {
+        player = FindObjectOfType<PlayerBase>();
         currentHealth = maxHealth;
     }
     
@@ -57,7 +59,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         playerHUD.subMenuContainer.SetActive(true);
         playerHUD.widgetContainer.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
-        playerHUD.openMenu(playerHUD.menuGameOver);
+        player.stateMachine.SwitchState(player.deathState);
+        //playerHUD.openMenu(playerHUD.menuGameOver);
         Time.timeScale = 0;
     }
 }

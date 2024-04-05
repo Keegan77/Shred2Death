@@ -1412,6 +1412,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Debug",
+            "id": "228b0f7a-0dcc-40d5-9669-8792ad6af962",
+            "actions": [
+                {
+                    "name": "InitiateDeath",
+                    "type": "Button",
+                    "id": "40ab9526-7d2a-4012-bdb4-278fcb93b43d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "cd7a0a7c-c505-4628-b947-d074398a6c5c",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InitiateDeath",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

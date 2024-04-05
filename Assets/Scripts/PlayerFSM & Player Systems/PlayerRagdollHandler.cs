@@ -31,7 +31,7 @@ public class PlayerRagdollHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        InputRouting.Instance.input.Player.Brake.performed += ctx => player.stateMachine.SwitchState(player.deathState);
+        InputRouting.Instance.input.Debug.InitiateDeath.performed += ctx => player.stateMachine.SwitchState(player.deathState);
     }
 
     private void OnDisable()
@@ -52,15 +52,16 @@ public class PlayerRagdollHandler : MonoBehaviour
         ragdollEnabled = true;
         colliderToDisable.enabled = false;
         animatorToDisable.enabled = false;
-        
+        skateboardDisable.GetComponent<SkinnedMeshRenderer>().enabled = false;
         
         Vector3 cachedPos = skateboardDisable.transform.position;
         Quaternion cachedRot = skateboardDisable.transform.rotation;
-        skateboardDisable.GetComponent<SkinnedMeshRenderer>().enabled = false;
-        GameObject newGuy = Instantiate(newSkateboard, cachedPos + new Vector3(0, .25f, 0), cachedRot);
-        Rigidbody newRb = newGuy.transform.AddComponent<Rigidbody>();
         Vector3 cachedVel = player.rb.velocity;
-        newRb.velocity = cachedVel;
+        
+        GameObject skateboardDoll = Instantiate(newSkateboard, cachedPos + new Vector3(0, .25f, 0), cachedRot);
+        Rigidbody boardDollRb = skateboardDoll.transform.AddComponent<Rigidbody>();
+        
+        boardDollRb.velocity = cachedVel;
         //skateboard.transform.position = cachedPos + new Vector3(0, 5.43f, 0);
         playerRig.transform.parent = null;
         
@@ -74,6 +75,7 @@ public class PlayerRagdollHandler : MonoBehaviour
         }
         Destroy(player.GetComponent<ConstantForce>());
         Destroy(player.rb);
+        Destroy(FindObjectOfType<GunfireHandler>());
     }
     
     private void FindRagdollLimbs()
