@@ -57,10 +57,10 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 12.63
   highlightsStart:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   highlightsEnd:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 2.01
 --- !u!114 &-6903347596482227333
 MonoBehaviour:
@@ -147,7 +147,7 @@ MonoBehaviour:
   master:
     m_OverrideState: 1
     m_Value:
-      <length>k__BackingField: 2
+      <length>k__BackingField: 3
       m_Loop: 0
       m_ZeroValue: 0
       m_Range: 1
@@ -155,7 +155,7 @@ MonoBehaviour:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
-          time: 0.06906557
+          time: 0.060686015
           value: 0
           inSlope: 1
           outSlope: 1
@@ -164,8 +164,17 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.88740563
-          value: 0.9109508
+          time: 0.2823219
+          value: 0.23803125
+          inSlope: 1.1318918
+          outSlope: 1.1318918
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.8894737
+          value: 0.92178774
           inSlope: 1
           outSlope: 1
           tangentMode: 0
@@ -392,7 +401,7 @@ MonoBehaviour:
   active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 0
   neutralHDRRangeReductionMode:
     m_OverrideState: 0
     m_Value: 2
@@ -491,7 +500,7 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 0.49
+    m_Value: -0.28
   contrast:
     m_OverrideState: 1
     m_Value: 100

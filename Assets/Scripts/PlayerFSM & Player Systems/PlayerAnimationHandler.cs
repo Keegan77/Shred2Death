@@ -10,7 +10,6 @@ public class PlayerAnimationHandler : MonoBehaviour
 {
     [SerializeField] Animator animator;
     [SerializeField] PlayerBase player;
-    private Queue<string> behaviourAnimationQueue = new Queue<string>();
     private bool trickBeingPerformed;
     private bool interruptState;
 
@@ -28,56 +27,16 @@ public class PlayerAnimationHandler : MonoBehaviour
 
     private void PlayBehaviourAnimation(string triggerName)
     {
-        if (behaviourAnimationQueue.Contains(triggerName)) return;
-        
-        behaviourAnimationQueue.Enqueue(triggerName);
-        if (behaviourAnimationQueue.Count == 1)
-        {
-            animator.SetTrigger(triggerName);
-            StartCoroutine(BehaviourStateAnimationSequencer(triggerName));
-        }
-    }
-    
-    public void DebugQueueElements()
-    {
-        Debug.Log("Current queue elements:");
-        foreach (string triggerName in behaviourAnimationQueue)
-        {
-            Debug.Log(triggerName);
-        }
-    }
-    
-    
-    private IEnumerator BehaviourStateAnimationSequencer(string triggerName)
-    {
-        //DebugQueueElements();
-        yield return null; // waits a frame so the clip info is properly updated with the new clip
-        var currentClipInfo = animator.GetCurrentAnimatorClipInfo(0); // 0 refers to the base animation layer
-        yield return new WaitForSeconds(currentClipInfo[0].clip.length);
-        PlayNextAnimation();
-    }
-    
-    private void PlayNextAnimation()
-    {
-        if (behaviourAnimationQueue.Count > 0)
-        {
-            behaviourAnimationQueue.Dequeue();
-            if (behaviourAnimationQueue.Count > 0)
-            {
-                string nextTriggerName = behaviourAnimationQueue.Peek();
-                animator.SetTrigger(nextTriggerName);
-                StartCoroutine(BehaviourStateAnimationSequencer(nextTriggerName));
-            }
-        }
+        animator.SetTrigger(triggerName);
     }
 
     private Coroutine trickCoroutine;
     private void TryTrickAnimation(Trick trick)
     {
-        if (!trickBeingPerformed || interruptState)
+        if (!trickBeingPerformed)
         {
-            if (interruptState)
-                if (trickCoroutine != null) StopCoroutine(trickCoroutine);
+            /*if (interruptState)
+                if (trickCoroutine != null) StopCoroutine(trickCoroutine);*/
             animator.SetTrigger(trick.animTriggerName);
             trickCoroutine = StartCoroutine(TrickAnimationSequence(trick));
         }
@@ -86,7 +45,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     private IEnumerator TrickAnimationSequence(Trick trick)
     {
         //assumes the trigger was set the frame before this coroutine was started
-        yield return null; // waits a frame so the clip info is properly updated with the new clip
+        /*yield return null; // waits a frame so the clip info is properly updated with the new clip
         if (trick.canBeInterrupted)
         {
             interruptState = true;
@@ -94,34 +53,26 @@ public class PlayerAnimationHandler : MonoBehaviour
         else
         {
             interruptState = false;
-        }
+        }*/
 
-        yield return null;
+        yield return new WaitForSeconds(.1f);
         
         var currentClipInfo = animator.GetCurrentAnimatorClipInfo(0); // 0 refers to the base animation layer
         trickBeingPerformed = true;
+        Debug.Log(currentClipInfo[0].clip.name);
         
         ActionEvents.OnTrickPerformed?.Invoke(trick);
         
         if (trick.customMethod != null) trick.customMethod.Invoke(player);
-        player.proceduralRigController.StartCoroutine(
-            player.proceduralRigController.LerpWeightToValue
-            (player.proceduralRigController.legRig,
-                0,
-                .05f)
-        );
+        player.proceduralRigController.SetWeightToValue(player.proceduralRigController.legRig, 0);
         
-        yield return new WaitForSeconds(currentClipInfo[0].clip.length);
+        //yield return new WaitForSeconds(currentClipInfo[0].clip.length);
+        yield return new WaitUntil(() => currentClipInfo[0].clip.name == "Shreddy_Skatepose");
         
         trickBeingPerformed = false;
         
         ActionEvents.OnTrickCompletion?.Invoke(trick);
-        player.proceduralRigController.StartCoroutine(
-            player.proceduralRigController.LerpWeightToValue
-            (player.proceduralRigController.legRig,
-                1,
-                .05f)
-        );
+        player.proceduralRigController.SetWeightToValue(player.proceduralRigController.legRig, 1);
         
     }
     
