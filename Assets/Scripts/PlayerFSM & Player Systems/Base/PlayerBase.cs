@@ -24,7 +24,9 @@ public class PlayerBase : MonoBehaviour
 
     #region Public Component References
         [Header("Public Component References")]
-        public ParticleStatePlayer particlePlayer;
+        public ParticleStatePlayer grindSparksParticlePlayer;
+
+        public ParticleStatePlayer playerSpeedLines;
 
         public PlayerCapsuleFloater capsuleFloater;
         public Rigidbody rb;

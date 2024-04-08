@@ -228,6 +228,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &538016232
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 538016233}
+  m_Layer: 0
+  m_Name: Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &538016233
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538016232}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.5703, y: 4.575679, z: 0.26248407}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &991264379
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -384,8 +415,8 @@ Transform:
   m_GameObject: {fileID: 1104538804}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.1923, y: -0.54, z: 26.3377}
-  m_LocalScale: {x: 238.87411, y: 9.3969, z: 239.90442}
+  m_LocalPosition: {x: 33.2879, y: -0.54, z: 109.0603}
+  m_LocalScale: {x: 339.84622, y: 9.3969, z: 405.3425}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -766,105 +797,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3737361078982848290, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: NoiseModule.damping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737361078982848290, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: NoiseModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737361078982848290, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: RotationModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737361078982848290, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: NoiseModule.strength.scalar
-      value: 2.26
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737361078982848290, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: RotationModule.curve.scalar
-      value: 1.1723377
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737361078982848290, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: RotationModule.separateAxes
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737361078982848290, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 1.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737361078982848290, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: NoiseModule.scrollSpeed.scalar
-      value: -3.09
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737361078982848290, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737361078982848290, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: InitialModule.startSize.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737361078982848290, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: InitialModule.startSizeY.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737361078982848290, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: InitialModule.startSizeZ.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4148608768320020075, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
       propertyPath: m_Name
       value: Player & Camera
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826341022881360796, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: NoiseModule.damping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826341022881360796, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: NoiseModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826341022881360796, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: RotationModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826341022881360796, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: NoiseModule.strength.scalar
-      value: 2.26
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826341022881360796, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: RotationModule.curve.scalar
-      value: 1.1723377
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826341022881360796, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: RotationModule.separateAxes
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826341022881360796, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 1.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826341022881360796, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: NoiseModule.scrollSpeed.scalar
-      value: -3.09
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826341022881360796, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826341022881360796, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: InitialModule.startSize.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826341022881360796, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: InitialModule.startSizeY.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826341022881360796, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: InitialModule.startSizeZ.minMaxState
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -988,3 +923,4 @@ SceneRoots:
   - {fileID: 2048727050}
   - {fileID: 991264379}
   - {fileID: 1296108241}
+  - {fileID: 538016233}

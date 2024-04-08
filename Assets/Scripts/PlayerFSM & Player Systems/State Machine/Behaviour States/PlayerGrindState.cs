@@ -22,7 +22,7 @@ public class PlayerGrindState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        player.particlePlayer.PlayParticle();
+        player.grindSparksParticlePlayer.PlayParticle();
         totalInputRotation = 0;
         player.GetComboHandler().SetPauseComboDrop(true);
         lerpRigRoutine = player.proceduralRigController.StartCoroutine(
@@ -51,7 +51,7 @@ public class PlayerGrindState : PlayerState
     {
         UnsubscribeInputs();
         if (lerpRigRoutine != null) player.StopCoroutine(lerpRigRoutine);
-        player.particlePlayer.StopParticle();
+        player.grindSparksParticlePlayer.StopParticle();
         player.GetComboHandler().SetPauseComboDrop(false);
         ActionEvents.StopLoopAudio?.Invoke();
         player.proceduralRigController.SetWeightToValue(player.proceduralRigController.legRig, 1);

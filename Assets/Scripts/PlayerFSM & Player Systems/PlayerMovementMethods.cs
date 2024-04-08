@@ -139,8 +139,6 @@ public class PlayerMovementMethods
     {
         timeElapsed = Mathf.Clamp01(timeElapsed);
         
-        Debug.Log(InputRouting.Instance.GetMoveInput().magnitude);
-        
         if (InputRouting.Instance.GetMoveInput().magnitude > 0)
         {
             timeElapsed += Time.deltaTime;
