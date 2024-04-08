@@ -89,20 +89,20 @@ public class PlayerBase : MonoBehaviour
     {
         stateMachine.currentState.StateTriggerEnter(other);
         
-        /*if (other.CompareTag("Ramp90"))
+        if (other.CompareTag("Ramp90"))
         {
             orientationHandler.ChangePivot(transform, chestPivot.position);
-            playerData.grindPositioningOffset = 3.38f;
-        }*/
+            //playerData.grindPositioningOffset = 3.38f;
+        }
     }
     private void OnTriggerExit(Collider other)
     {
         stateMachine.currentState.StateTriggerExit(other);
-        /*if (other.CompareTag("Ramp90"))
+        if (other.CompareTag("Ramp90"))
         {
             orientationHandler.ChangePivot(transform, originPivot.position);
-            playerData.grindPositioningOffset = .2f;
-        }*/
+            //playerData.grindPositioningOffset = .2f;
+        }
     }
     
     
