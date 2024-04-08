@@ -17,6 +17,6 @@ public class PlayerJetStreamController : MonoBehaviour
     private void Update()
     {
         float t = Mathf.InverseLerp(50, 100, rb.velocity.magnitude);
-        jetStream.duration = Mathf.Lerp(0, 40, speedLinesRateOverTime.Evaluate(t));
+        //jetStream.duration = Mathf.Lerp(0, 40, speedLinesRateOverTime.Evaluate(t));
     }
 }
