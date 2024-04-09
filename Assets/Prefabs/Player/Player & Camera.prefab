@@ -418,8 +418,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
   m_LocalPosition: {x: 0.1589989, y: 0.015000224, z: -0.50199986}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1218377979584906701}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -432,15 +432,15 @@ ParticleSystem:
   m_GameObject: {fileID: 1221072785490029427}
   serializedVersion: 8
   lengthInSec: 5
-  simulationSpeed: 1
+  simulationSpeed: 2
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
-  playOnAwake: 1
+  prewarm: 0
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -613,7 +613,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0, b: 0.15838766, a: 1}
+      maxColor: {r: 1, g: 0, b: 0.13793135, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1890,7 +1890,7 @@ ParticleSystem:
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -2698,7 +2698,7 @@ ParticleSystem:
     z:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.22
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -5550,6 +5550,7 @@ GameObject:
   - component: {fileID: 4216492802562461432}
   - component: {fileID: 7156684046601958127}
   - component: {fileID: 232063552348150291}
+  - component: {fileID: 7137432248057568789}
   m_Layer: 12
   m_Name: PlayerContainer
   m_TagString: Player
@@ -5641,8 +5642,7 @@ MonoBehaviour:
   health: {fileID: 4262805175918256464}
   cam: {fileID: 5912513470888662147}
   ragdollHandler: {fileID: 232063552348150291}
-  grindSparksParticlePlayer: {fileID: 5484122730297747241}
-  playerSpeedLines: {fileID: 208276305059678032}
+  particleManager: {fileID: 7137432248057568789}
   capsuleFloater: {fileID: 4216492802562461432}
   rb: {fileID: 6967465418630592810}
   inputTurningTransform: {fileID: 6264741664780971715}
@@ -5780,6 +5780,23 @@ MonoBehaviour:
   player: {fileID: 1464697803107471213}
   ragdollLimbs: []
   ragdollEnabled: 0
+--- !u!114 &7137432248057568789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064705740951400791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0200865bc0e443a48b1e7ca47972c2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jetStreams:
+  - {fileID: 5826341022881360796}
+  - {fileID: 3737361078982848290}
+  playerSpeedLines: {fileID: 5049212134781364262}
+  playerGrindSparks: {fileID: 539114658522279743}
 --- !u!1 &2449074291578262128
 GameObject:
   m_ObjectHideFlags: 0
@@ -10730,23 +10747,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.0031814575
+      time: 0
       value: 0
-      inSlope: -0.027927227
-      outSlope: -0.027927227
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.25990623
-    - serializedVersion: 3
-      time: 0.7326547
-      value: 0.3782429
-      inSlope: 1.5743468
-      outSlope: 1.5743468
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.19124743
+      outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
@@ -10935,8 +10943,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
   m_LocalPosition: {x: -0.14700085, y: 0.015000224, z: -0.50199986}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1218377979584906701}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10949,15 +10957,15 @@ ParticleSystem:
   m_GameObject: {fileID: 3981396973825286149}
   serializedVersion: 8
   lengthInSec: 5
-  simulationSpeed: 1
+  simulationSpeed: 2
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
-  playOnAwake: 1
+  prewarm: 0
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -11130,7 +11138,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0, b: 0.15838766, a: 1}
+      maxColor: {r: 1, g: 0, b: 0.13793135, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -12407,7 +12415,7 @@ ParticleSystem:
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -13215,7 +13223,7 @@ ParticleSystem:
     z:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.22
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -17555,7 +17563,7 @@ Transform:
   m_GameObject: {fileID: 7727584351548442478}
   serializedVersion: 2
   m_LocalRotation: {x: -0.9985709, y: 0.00000003755936, z: 0.000000045621228, w: -0.053443592}
-  m_LocalPosition: {x: -0.07, y: 4.6, z: 2.186}
+  m_LocalPosition: {x: 0.09, y: 4.6, z: 2.19}
   m_LocalScale: {x: 2.54, y: 2.5399995, z: 2.5399995}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -18316,7 +18324,6 @@ GameObject:
   - component: {fileID: 2812652373972665247}
   - component: {fileID: 5049212134781364262}
   - component: {fileID: 3041256394475559025}
-  - component: {fileID: 208276305059678032}
   m_Layer: 0
   m_Name: Player Speed Lines Particle
   m_TagString: Untagged
@@ -23135,18 +23142,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &208276305059678032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8927503272614567613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 052a0307a4fdc4344b77ffcb66da3a50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8968250417404740083
 GameObject:
   m_ObjectHideFlags: 0
@@ -26268,31 +26263,20 @@ PrefabInstance:
       propertyPath: InitialModule.startSpeed.scalar
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7791084897034250463, guid: 5e80c6afe8445b947b3720077ccd63de, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1877078777023806846, guid: 5e80c6afe8445b947b3720077ccd63de, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5484122730297747241}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e80c6afe8445b947b3720077ccd63de, type: 3}
---- !u!1 &8171947208453896862 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1877078777023806846, guid: 5e80c6afe8445b947b3720077ccd63de, type: 3}
+--- !u!198 &539114658522279743 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7791084897034250463, guid: 5e80c6afe8445b947b3720077ccd63de, type: 3}
   m_PrefabInstance: {fileID: 7738362302181541856}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5484122730297747241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8171947208453896862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 052a0307a4fdc4344b77ffcb66da3a50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &8819352051317972985 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1225135732128323609, guid: 5e80c6afe8445b947b3720077ccd63de, type: 3}
