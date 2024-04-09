@@ -467,6 +467,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7785432053934259893, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2521084591526766136}
+    - targetCorrespondingSourceObject: {fileID: 7785432053934259893, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4762498758265315376}
   m_SourcePrefab: {fileID: 100100000, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
 --- !u!1 &4170527639866061282 stripped
 GameObject:
@@ -550,6 +553,20 @@ MonoBehaviour:
   animationEnter: FIREBALL
   _muzzlePoint: {fileID: 8292320557013803432}
   _bulletInfo: {fileID: 5653537672990207873}
+--- !u!114 &4762498758265315376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4170527639866061282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a1d18c4dfb272c468555613cef66673, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationEnter: BONK
+  stateNext: {fileID: 5363906235961485691}
 --- !u!1 &5324938368301081438 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2021591513531018249, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
