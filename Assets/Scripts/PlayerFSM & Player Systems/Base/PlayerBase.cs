@@ -13,12 +13,12 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private Transform checkForBowlRaycastPoint;
         [SerializeField] private Transform extensionRaycastPoint;
         [SerializeField] private Transform chestPivot, originPivot;
-        [SerializeField] private SlopeOrientationHandler orientationHandler;
-        [SerializeField] private TrickComboHandler comboHandler;
+        private SlopeOrientationHandler orientationHandler;
+        private TrickComboHandler comboHandler;
         [SerializeField] private PlayerHUD playerHUD;
         [SerializeField] private PlayerHealth health;
         [SerializeField] private Camera cam;
-        [SerializeField] private PlayerRagdollHandler ragdollHandler;
+        private PlayerRagdollHandler ragdollHandler;
         
     #endregion
 
@@ -65,12 +65,21 @@ public class PlayerBase : MonoBehaviour
         public PlayerDeathState deathState;
         public PlayerDropinState dropinState;
         public GameObject grindRailFollower;
+        
+        
+        
     #endregion
 
     #region Unity Methods
     private void Awake()
     {
         StateMachineSetup();
+        orientationHandler = GetComponent<SlopeOrientationHandler>();
+        comboHandler = GetComponent<TrickComboHandler>();
+        ragdollHandler = GetComponent<PlayerRagdollHandler>();
+        particleManager = GetComponent<PlayerParticleManager>();
+        capsuleFloater = GetComponent<PlayerCapsuleFloater>();
+        
         movement = new PlayerMovementMethods(this, rb, playerData, inputTurningTransform);
     }
     
