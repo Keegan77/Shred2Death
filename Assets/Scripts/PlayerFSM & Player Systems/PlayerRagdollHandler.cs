@@ -67,6 +67,7 @@ public class PlayerRagdollHandler : MonoBehaviour
         }
         Destroy(player.GetComponent<ConstantForce>());
         Destroy(player.rb);
+        Destroy(FindObjectOfType<GunSwitcher>());
         Destroy(FindObjectOfType<GunfireHandler>());
     }
     

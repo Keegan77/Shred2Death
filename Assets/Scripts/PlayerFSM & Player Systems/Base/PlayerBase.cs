@@ -24,7 +24,7 @@ public class PlayerBase : MonoBehaviour
 
     #region Public Component References
         [Header("Public Component References")]
-        public ParticleStatePlayer particlePlayer;
+        public PlayerParticleManager particleManager;
 
         public PlayerCapsuleFloater capsuleFloater;
         public Rigidbody rb;
@@ -87,20 +87,20 @@ public class PlayerBase : MonoBehaviour
     {
         stateMachine.currentState.StateTriggerEnter(other);
         
-        /*if (other.CompareTag("Ramp90"))
+        if (other.CompareTag("Ramp90"))
         {
             orientationHandler.ChangePivot(transform, chestPivot.position);
-            playerData.grindPositioningOffset = 3.38f;
-        }*/
+            //playerData.grindPositioningOffset = 3.38f;
+        }
     }
     private void OnTriggerExit(Collider other)
     {
         stateMachine.currentState.StateTriggerExit(other);
-        /*if (other.CompareTag("Ramp90"))
+        if (other.CompareTag("Ramp90"))
         {
             orientationHandler.ChangePivot(transform, originPivot.position);
-            playerData.grindPositioningOffset = .2f;
-        }*/
+            //playerData.grindPositioningOffset = .2f;
+        }
     }
     
     
@@ -127,10 +127,9 @@ public class PlayerBase : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         stateMachine.currentState.StateCollisionEnter(other);
-        if (other.gameObject.CompareTag("BurnDamage"))
+        if (other.gameObject.CompareTag("BurnDamageFireWall"))
         {
             movement.DoBurnForce(other.contacts[0].point, 10);
-            // Calculate the direction from the player to the point of collisio
         }
     }
 
