@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerNosediveState : PlayerState
+public class PlayerNosediveState : BehaviourState
 {
     public PlayerNosediveState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSkatingState : PlayerState
+public class PlayerSkatingState : BehaviourState
 {
     private PlayerMovementMethods movementMethods;
     private BowlMeshGenerator test;

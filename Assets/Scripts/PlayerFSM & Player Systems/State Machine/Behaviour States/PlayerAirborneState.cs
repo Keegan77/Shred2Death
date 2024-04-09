@@ -4,7 +4,7 @@ using Dreamteck.Splines;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerAirborneState : PlayerState
+public class PlayerAirborneState : BehaviourState
 {
     private bool coolingDown;
     private Coroutine coolDownCoroutine;

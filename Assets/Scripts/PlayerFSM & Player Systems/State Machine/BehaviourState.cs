@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerState
+public class BehaviourState
 {
     protected PlayerBase player;
     protected PlayerStateMachine stateMachine;
@@ -19,7 +19,7 @@ public class PlayerState
     
     protected Dictionary<InputAction, InputActionEvents> inputActions; // holds our input actions and their respective events
     
-    protected PlayerState(PlayerBase player, PlayerStateMachine stateMachine)
+    protected BehaviourState(PlayerBase player, PlayerStateMachine stateMachine)
     {
         this.player = player;
         this.stateMachine = stateMachine;
