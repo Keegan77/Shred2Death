@@ -18,16 +18,22 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     //There's multiple things that determine whether a bullet is ready,
     //One of which is a key per bullet pattern that dictates whether or not its on cooldown.
     private bool _bulletReady = true;
-    public bool bulletReady { get { return isBulletReady(); } protected set { _bulletReady = value; } }
-    
+    public bool bulletReady { get { return _bulletReady == true && tokenCost < tokens; } protected set { _bulletReady = value; } }
+    public bool bulletPlaying = false;
 
     [Header("Basic Info")]
     public GameObject bulletObject;
     public string attackAnimation;
 
     [Header ("Parameters")]
+    //When playing the bullet, how long do we need to 
+    public float timeLeadIn;
+    public float timeLeadOut;
+
     protected static int tokens = 50;
     [SerializeField] protected int tokenCost = 1;
+
+    public float bulletCooldown = 3;
 
 
     /// <summary>
@@ -44,12 +50,6 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     /// 2) There is a token available
     /// </summary>
     /// <returns>true if an enemy is cleared to shoot</returns>
-    bool isBulletReady ()
-    {
-        return
-            //All of these are true
-            _bulletReady == true && tokenCost < tokens;
-    }
 
     /// <summary>
     /// If the shot is cancelled for whatever reason, 
@@ -57,10 +57,22 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     /// </summary>
     public void CancelShot ()
     {
-        if (!_bulletReady)
+        if (bulletPlaying)
         {
             tokens += tokenCost;
         }
+    }
+
+    public void reserveTokens ()
+    {
+        tokens -= tokenCost;
+        Debug.Log ($"<color=#329DF6>BulletToken</color>: Tokens reserved. {tokens} remaining");
+    }
+
+    public void returnTokens ()
+    {
+        tokens += tokenCost;
+        Debug.Log ($"<color=#329DF6>BulletToken</color>: Tokens returned. {tokens} remaining");
     }
 
     #region Aiming and shooting
@@ -85,8 +97,6 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
         #endregion
 
     }
-
-
 
     //TODO: The slope based off the player's velocity would be a good thing to look at for more accurate shots
     //TODO: Refactor bullets to replace with bullet patterns. Parameter I should be removed.

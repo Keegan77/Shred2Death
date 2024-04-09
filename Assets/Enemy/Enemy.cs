@@ -80,6 +80,7 @@ public class Enemy : MonoBehaviour, IDamageable
         if (health <= 0 && !isDead) 
         {
             isDead = true;
+            stateMachine.aiUpdateEnabled = false;
 
             rb.detectCollisions = false;
             GetComponent<CapsuleCollider> ().enabled = false;
@@ -87,16 +88,25 @@ public class Enemy : MonoBehaviour, IDamageable
             DissolvingController d = transform.Find("Body").GetComponent<DissolvingController>();
 
             d.StartCoroutine (d.Dissolve ());
-            SetRagdollEnabled (true);
+            stateMachine.transitionState (stateMachine.statesObject.GetComponent<ES_Ragdoll> ());
         }
     }
 
     public void DeathFinished ()
     {
         Debug.Log ("Enemy Dead");
-
-        waveManager.removeEnemy ();
-        Destroy (gameObject);
+        try
+        {
+            waveManager.removeEnemy ();
+        }
+        catch
+        {
+            Debug.LogWarning ($"{name} ({GetInstanceID()}) could not be removed from a waveManager");
+        }
+        finally
+        {
+            Destroy (gameObject);
+        }
     }
 
     #endregion
@@ -119,11 +129,9 @@ public class Enemy : MonoBehaviour, IDamageable
         ragdollBodies = bodyObject.GetComponentsInChildren<Rigidbody> ();
         ragdollColliders = bodyObject.GetComponentsInChildren<Collider> ();
 
-        SetRagdollEnabled (false);
-
     }
 
-    public void SetRagdollEnabled (bool en)
+    public virtual void SetRagdollEnabled (bool en)
     {
         animator.enabled = !en;
 

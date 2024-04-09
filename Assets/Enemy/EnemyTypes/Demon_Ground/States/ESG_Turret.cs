@@ -16,21 +16,19 @@ public class ESG_Turret : ES_DemonGround
     [Header ("Turret")]
     [SerializeField] protected float bulletWaitTimeMin = 0f;
     [SerializeField] protected float bulletWaitTimeMax = 1f;
-    [SerializeField] protected Enemy_BulletPattern bulletInfo;
+    [SerializeField] protected ES_Attack stateAttack;
     #endregion
 
 
     public override void Enter ()
     {
         base.Enter ();
-
-        eg.agent.isStopped = true;
+        eg.agent.ResetPath ();
     }
 
     public override void Exit ()
     {
         base.Exit ();
-        eg.agent.isStopped = false;
     }
 
     public override void machinePhysics ()
@@ -40,29 +38,23 @@ public class ESG_Turret : ES_DemonGround
 
     public override void AIUpdate ()
     {
-        if ( bulletInfo.bulletReady && !isAnimationPlaying )
-        {
-            FireBullet ();
-        }
-    }
-
-    void FireBullet ()
-    {
         if (Enemy.playerReference.isOnNavMesh && !eg.isInMeleeRange)
         {
             eg.stateMachine.transitionState (GetComponent<ESG_Chase> ());
+            return;
         }
-        else
+        if ( stateAttack.bulletInfo.bulletReady )
         {
-            isAnimationPlaying = true;
-            eg.animator.Play (bulletInfo.attackAnimation);
+            //FireBullet ();
+            e.stateMachine.transitionState (stateAttack);
         }
     }
 
     public override void OnBullet ()
     {
+        Debug.LogWarning ("<color=red>Calling obselete function OnBullet", this);
         //bulletInfo.spawnBullet (Enemy.playerObject.transform.position, eg.muzzleObject);
-        bulletInfo.StartCoroutine (bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject));
+        //bulletInfo.StartCoroutine (bulletInfo.PlayShot (Enemy.playerReference.gameObject, eg.muzzleObject));
     }
 
     public override void OnAnimationFinished ()

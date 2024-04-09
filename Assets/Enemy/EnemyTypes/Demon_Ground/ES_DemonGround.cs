@@ -21,12 +21,16 @@ public abstract class ES_DemonGround : Enemy_State
     {
         base.Enter ();
         eg.animator.Play (animationEnter);
+        Debug.Log (eg.agent.isOnNavMesh);
+        Debug.Log (eg.agent.enabled);
+        eg.agent.isStopped = false;
     }
 
     public override void Exit ()
     {
         base.Exit ();
         eg.agentPath.ClearCorners ();
+        eg.agent.isStopped = true;
     }
     #endregion
 
@@ -53,7 +57,7 @@ public abstract class ES_DemonGround : Enemy_State
         }
         else
         {
-            Debug.LogWarning ($"{name}: Could not find path to point, ending MTP");
+            Debug.LogWarning ($"{name}: Could not find path to point, ending MTP", this);
 
             OnDestinationFailed ();
             yield break;

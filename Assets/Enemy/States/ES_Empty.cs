@@ -4,13 +4,8 @@ using UnityEngine;
 
 public class ES_Empty : Enemy_State
 {
-    private void Awake ()
+    public override void onPlayerSensorActivated ()
     {
-        e = transform.parent.GetComponent<Enemy>();
-    }
-
-    public override void AIUpdate ()
-    {
-
+        e.stateMachine.transitionState (GetComponent<ESG_Chase> ());
     }
 }

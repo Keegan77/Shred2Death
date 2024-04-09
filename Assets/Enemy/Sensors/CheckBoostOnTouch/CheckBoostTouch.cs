@@ -10,9 +10,15 @@ public class CheckBoostTouch : Sensor
 {
     private void OnTriggerEnter (Collider other)
     {
-        //if ( other.CompareTag ("Player") && Enemy.playerReference.playerbase.movement)
-        //{
+        if (other.CompareTag ("Player") && other.GetComponentInParent<PlayerBase> () != null)
+        {
+            Debug.Log (Enemy.playerReference.playerbase.movement.currentlyBoosting);
 
-        //}
+            if (Enemy.playerReference.playerbase.movement.currentlyBoosting)
+            {
+                Activate ();
+            }
+
+        }
     }
 }

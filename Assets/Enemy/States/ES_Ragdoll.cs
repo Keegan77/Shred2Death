@@ -53,8 +53,6 @@ public class ES_Ragdoll : Enemy_State
     public override void Exit ()
     {
         ragdollStationary = false;
-        e.SetRagdollEnabled (false);
-
         RaycastHit hit;
 
         if (Physics.Raycast(objectRagdollTarget.transform.position, Vector3.down, out hit, 5, LayerMask.GetMask ("Ground")) )
@@ -68,7 +66,7 @@ public class ES_Ragdoll : Enemy_State
             Debug.Log ("ES_Ragdoll: Raycast not found", this);
         }
 
-
+        e.SetRagdollEnabled (false);
         base.Exit ();
     }
 

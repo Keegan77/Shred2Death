@@ -10,8 +10,9 @@ using UnityEngine.AI;
 /// </summary>
 public class E_Demon_Ground : Enemy
 {
-    [NonSerialized] public NavMeshAgent agent; //NavMeshAgent refuses to load in time and now I have to serialize it. Hate.
-    [NonSerialized] public NavMeshPath agentPath;
+    [Header("Navigation")]
+    public NavMeshAgent agent; //NavMeshAgent refuses to load in time and now I have to serialize it. Hate.
+    public NavMeshPath agentPath;
 
     //agentSettings will be set by the navmesh present in the level.
     [NonSerialized] public static NavMeshBuildSettings[] agentSettings;
@@ -32,18 +33,17 @@ public class E_Demon_Ground : Enemy
         //rb.isKinematic = false;
         //rb.useGravity = true;
 
-        //Debug.Log ("Checking agent settings");
-        //Debug.Log (agent.agentTypeID);
+        Debug.Log ("Checking agent settings");
+        Debug.Log (agent.agentTypeID);
         if (agentSettings != null)
         {
             for (int i = 0; i < agentSettings.Length; i++)
             {
-                //Debug.Log (agentSettings[i].agentTypeID);
+                Debug.Log (agentSettings[i].agentTypeID);
                 if (agentSettings[i].agentTypeID == agent.agentTypeID)
                 {
                     //Debug.Log ("Agent Match found");
                     agentIndex = i;
-
                     //Debug.Log (agentSettings[agentIndex].agentClimb);
                     break;
                 }
@@ -53,6 +53,8 @@ public class E_Demon_Ground : Enemy
         {
             Debug.LogError ("No Agent Settings");
         }
+
+        SetRagdollEnabled (false);
     }
 
     private void Awake ()
@@ -63,14 +65,16 @@ public class E_Demon_Ground : Enemy
     protected override void EnemyGetComponentReferences ()
     {
         base.EnemyGetComponentReferences ();
-        agent = GetComponent<NavMeshAgent> ();
+        //agent = GetComponent<NavMeshAgent> ();
         agentPath = new NavMeshPath ();
         animator = transform.Find ("Body").GetComponent<Animator> ();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void SetRagdollEnabled (bool en)
     {
-        
+        Debug.Log (agent.enabled);
+        Debug.Log (agent.isOnNavMesh);
+        agent.isStopped = en;
+        base.SetRagdollEnabled (en);
     }
 }
