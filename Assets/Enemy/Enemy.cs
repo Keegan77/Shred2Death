@@ -8,7 +8,7 @@ using UnityEngine.AI;
 
 [SelectionBase]
 [RequireComponent(typeof(Enemy_StateMachine))]
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
 {
     #region SCRIPT VARIABLES
     #region Game Objects
@@ -109,6 +109,11 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
+    public void TrickOffEvent (Vector3 playerVel)
+    {
+        stateMachine.transitionState (stateMachine.statesObject.GetComponent<ES_Bonk> ());
+    }
+
     #endregion
 
     #region RAGDOLL PHYSICS
@@ -176,4 +181,5 @@ public class Enemy : MonoBehaviour, IDamageable
 
     }
     #endregion
+
 }
