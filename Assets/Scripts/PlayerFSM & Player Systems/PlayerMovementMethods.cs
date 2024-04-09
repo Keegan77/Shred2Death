@@ -43,7 +43,6 @@ public class PlayerMovementMethods
         
         if (isFacingUpward) return;
         
-        
         Quaternion localTargetRotation = Quaternion.Inverse(player.transform.rotation) * player.GetOrientationHandler().targetRotation;
         // we inverse the player's rotation to get the rotation difference between the player's current rotation and the target rotation
         
@@ -55,6 +54,10 @@ public class PlayerMovementMethods
         
         // Apply force in the direction of forwardAfterRotation
         rb.AddForce(player.transform.forward * movementSpeed, ForceMode.Acceleration);
+        
+        //stop local horizontal forces by setting the local x and z velocity to 0. need to convert world velocity to local
+        //velocity to do this
+        rb.SetLocalAxisVelocity(Vector3.right, 0);
         
         
     }
@@ -98,7 +101,7 @@ public class PlayerMovementMethods
         
     }
 
-    public void DoBurnForce(Vector3 contactPoint, float dmg)
+    public void DoBurnForce(Vector3 contactPoint, float dmg, bool keepHozForces = false)
     {
         if (burnCooldownActive) return;
         Debug.Log("burn dmg");
@@ -113,7 +116,12 @@ public class PlayerMovementMethods
 
         // Normalize the direction
         collisionDirection = collisionDirection.normalized;
-        Vector3 force = new Vector3(collisionDirection.x, -collisionDirection.y, collisionDirection.z);
+        if (keepHozForces)
+        {
+            rb.velocity = Vector3.zero;
+            rb.AddForce(new Vector3(collisionDirection.x, playerData.extraBurnVerticalForce , collisionDirection.z) * playerData.burnForce, ForceMode.Impulse);
+            return;
+        }
 
         // Apply a force in the opposite direction of the collision
         rb.velocity = Vector3.zero;
@@ -130,8 +138,6 @@ public class PlayerMovementMethods
     private void CalculateCurrentSpeed() 
     {
         timeElapsed = Mathf.Clamp01(timeElapsed);
-        
-        Debug.Log(InputRouting.Instance.GetMoveInput().magnitude);
         
         if (InputRouting.Instance.GetMoveInput().magnitude > 0)
         {
@@ -205,6 +211,8 @@ public class PlayerMovementMethods
         
         if (currentlyBoosting) return;
         boostTimerCoroutine = player.StartCoroutine(BoostTimer());
+        player.particleManager.JetStreamActive(true);
+        player.particleManager.playerSpeedLines.Play();
     }
 
     public bool currentlyBoosting;
@@ -214,6 +222,8 @@ public class PlayerMovementMethods
         if (boostTimerCoroutine != null)
         {
             player.StopCoroutine(boostTimerCoroutine);
+            player.particleManager.JetStreamActive(false);
+            player.particleManager.playerSpeedLines.Stop();
             currentlyBoosting = false;
             boostTimerCoroutine = null;
         }

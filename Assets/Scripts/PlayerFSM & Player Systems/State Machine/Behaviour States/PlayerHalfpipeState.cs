@@ -15,7 +15,7 @@ public class PlayerHalfpipeState : PlayerState
         {
             onPerformed = ctx =>
             {
-                player.GetMovementMethods().StartBoost();
+                //player.GetMovementMethods().StartBoost();
                 stateMachine.SwitchState(player.airborneState);
             },
         });

@@ -57,7 +57,5 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         playerHUD.widgetContainer.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         player.stateMachine.SwitchState(player.deathState);
-        //playerHUD.openMenu(playerHUD.menuGameOver);
-        Time.timeScale = 0;
     }
 }

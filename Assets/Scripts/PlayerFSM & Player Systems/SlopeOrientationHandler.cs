@@ -63,50 +63,28 @@ public class SlopeOrientationHandler : MonoBehaviour
     
     /*public void OrientToSlope()
     {
-        float currentYRotation = playerBase.transform.rotation.eulerAngles.y;
-        // Cast raycasts from the position of each wheel
-        // Calculate wheelbase and trackWidth
-        Vector3 frontCenter = (playerBase.forwardLeftRayOrigin + playerBase.forwardRightRayOrigin) / 2;
-        Vector3 backCenter = (playerBase.backLeftRayOrigin + playerBase.backRightRayOrigin) / 2;
-        Vector3 leftCenter = (playerBase.forwardLeftRayOrigin + playerBase.backLeftRayOrigin) / 2;
-        Vector3 rightCenter = (playerBase.forwardRightRayOrigin + playerBase.backRightRayOrigin) / 2;
+        Vector3 p1 = playerBase.forwardLeftSlopeHit.point;
+        Vector3 p2 = playerBase.forwardRightSlopeHit.point;
+        Vector3 p3 = playerBase.backLeftSlopeHit.point;
+        Vector3 p4 = playerBase.backRightSlopeHit.point;
 
-        float wheelbase = Vector3.Distance(frontCenter, backCenter);
-        float trackWidth = Vector3.Distance(leftCenter, rightCenter);
-        // Get the Y position of each raycast hit
-        float frontLeftY = playerBase.forwardLeftSlopeHit.point.y;
-        float frontRightY = playerBase.forwardRightSlopeHit.point.y;
-        float backLeftY = playerBase.backLeftSlopeHit.point.y;
-        float backRightY = playerBase.backRightSlopeHit.point.y;
+        // Calculate two vectors that lie on the plane
+        Vector3 v1 = p2 - p1;
+        Vector3 v2 = p3 - p1;
 
-        // Calculate the difference in Y positions between the front and back wheels, and between the left and right wheels
-        float frontBackDifference = ((backLeftY + backRightY) / 2) - ((frontLeftY + frontRightY) / 2);
-        float leftRightDifference = ((frontRightY + backRightY) / 2) - ((frontLeftY + backLeftY) / 2);
+        // Calculate the normal of the plane
+        Vector3 averageNormal = Vector3.Cross(v1, v2).normalized;
 
-        // Calculate the rotation angles around the X and Z axes
-        float xRotation = Mathf.Atan2(frontBackDifference, wheelbase) * Mathf.Rad2Deg;
-        float zRotation = Mathf.Atan2(leftRightDifference, trackWidth) * Mathf.Rad2Deg;
         // Calculate the target rotation
-        
-        Quaternion targetRotation = Quaternion.identity;
-        //targetRotation *= Quaternion.AngleAxis(xRotation, transform.right);
-        //targetRotation *= Quaternion.AngleAxis(zRotation, transform.forward);
-        targetRotation = Quaternion.Euler(xRotation, currentYRotation, zRotation);
-        
-        //use fromtorotation to get the actual target rotation based on transform.up
-        //targetRotation = Quaternion.FromToRotation(playerBase.transform.up, targetRotation * Vector3.up) * playerBase.transform.rotation;
-        
+        Quaternion targetRotation = Quaternion.FromToRotation(playerBase.transform.up, averageNormal)
+                                    * playerBase.transform.rotation;
 
-        // Apply the target rotation
-        playerBase.transform.rotation = Quaternion.Slerp(playerBase.transform.rotation, targetRotation, Time.fixedDeltaTime * slopeOrientationSpeed);
-        // Apply these rotation angles to the skateboard
-        //playerBase.transform.rotation = Quaternion.Euler(playerBase.transform.rotation.eulerAngles.x, currentYRotation, playerBase.transform.rotation.eulerAngles.z);
-        
-        Debug.Log(xRotation + " " + zRotation);
-        //playerBase.transform.rotation = Quaternion.Euler(xRotation, transform.rotation.eulerAngles.y, zRotation);
+        // Set the rotation directly to the target rotation
+        playerBase.transform.rotation = Quaternion.Slerp(playerBase.transform.rotation, targetRotation,
+            Time.fixedDeltaTime * slopeOrientationSpeed);
     }*/
     
-    /*public void ChangePivot(Transform parentTransform, Vector3 newPivot)
+    public void ChangePivot(Transform parentTransform, Vector3 newPivot)
     {
         Dictionary<Transform, Vector3> cachedChildPositions = new Dictionary<Transform, Vector3>();
         foreach (Transform child in parentTransform)
@@ -120,7 +98,7 @@ public class SlopeOrientationHandler : MonoBehaviour
         {
             childPosition.Key.position = childPosition.Value;
         }
-    }*/
+    }
     
     public void OrientFromExtensions() // should refactor into a coroutine to do this, so we are locked into orienting
     {
