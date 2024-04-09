@@ -64,9 +64,16 @@ public class PlayerBase : MonoBehaviour
         public PlayerNosediveState nosediveState;
         public PlayerDeathState deathState;
         public PlayerDropinState dropinState;
+        
+        public AbilityStateMachine abilityStateMachine { get; private set; }
+        public IntermediaryAbilityState intermediaryAbilityState;
+        public DualieUltimateAbilityState dualieUltimateAbilityState;
+        public ShotgunUltimateAbilityState shotgunUltimateAbilityState;
+        public BoostAbilityState boostAbilityState;
+        
+        
+        
         public GameObject grindRailFollower;
-        
-        
         
     #endregion
 
@@ -85,13 +92,15 @@ public class PlayerBase : MonoBehaviour
     
     private void Update()
     {
-        //Debug.Log(rb.velocity.magnitude);
         stateMachine.currentState.LogicUpdate();
-        //Debug.Log(GetOrientationWithDownward()); 
-        //Debug.Log(GetOrientationWithDownward() - 90);
+        abilityStateMachine.currentAbilityState.LogicUpdate();
+    }
+
+    private void FixedUpdate()
+    {
+        stateMachine.currentState.PhysicsUpdate();
+        abilityStateMachine.currentAbilityState.PhysicsUpdate();
     } 
-    
-    private void FixedUpdate() => stateMachine.currentState.PhysicsUpdate();
     private void OnTriggerEnter(Collider other)
     {
         stateMachine.currentState.StateTriggerEnter(other);
@@ -381,6 +390,15 @@ public class PlayerBase : MonoBehaviour
         deathState = new PlayerDeathState(this, stateMachine);
         dropinState = new PlayerDropinState(this, stateMachine);
         stateMachine.Init(airborneState);
+        
+        abilityStateMachine = new AbilityStateMachine();
+        intermediaryAbilityState = new IntermediaryAbilityState(this, abilityStateMachine);
+        dualieUltimateAbilityState = new DualieUltimateAbilityState(this, abilityStateMachine);
+        shotgunUltimateAbilityState = new ShotgunUltimateAbilityState(this, abilityStateMachine);
+        boostAbilityState = new BoostAbilityState(this, abilityStateMachine);
+        abilityStateMachine.Init(intermediaryAbilityState);
+        
+        
     }
     
 }
