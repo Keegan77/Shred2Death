@@ -211,6 +211,8 @@ public class PlayerMovementMethods
         
         if (currentlyBoosting) return;
         boostTimerCoroutine = player.StartCoroutine(BoostTimer());
+        player.particleManager.JetStreamActive(true);
+        player.particleManager.playerSpeedLines.Play();
     }
 
     public bool currentlyBoosting;
@@ -220,6 +222,8 @@ public class PlayerMovementMethods
         if (boostTimerCoroutine != null)
         {
             player.StopCoroutine(boostTimerCoroutine);
+            player.particleManager.JetStreamActive(false);
+            player.particleManager.playerSpeedLines.Stop();
             currentlyBoosting = false;
             boostTimerCoroutine = null;
         }
