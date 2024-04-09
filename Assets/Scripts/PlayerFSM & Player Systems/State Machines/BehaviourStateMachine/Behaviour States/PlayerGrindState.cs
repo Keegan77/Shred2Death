@@ -14,7 +14,7 @@ public class PlayerGrindState : BehaviourState
     private Quaternion jumpedOnOrientation;
     public PlayerGrindState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
-        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => JumpOffRail()});
+        behaviourInputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => JumpOffRail()});
     }
     private SplineFollower sFollower;
     private Coroutine lerpRigRoutine;

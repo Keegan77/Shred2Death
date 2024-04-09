@@ -9,7 +9,7 @@ public class PlayerNosediveState : BehaviourState
         // put input here
         /*inputActions.Add(InputRouting.Instance.input.Player.Nosedive, new InputActionEvents 
             { onCanceled = ctx => stateMachine.SwitchState(player.airborneState) });*/
-        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
+        behaviourInputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
             { onPerformed = ctx => player.CheckAndSetSpline()});
     }
 

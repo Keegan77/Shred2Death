@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class PlayerState
 {
-    protected Dictionary<InputAction, InputActionEvents> inputActions;
+    protected Dictionary<InputAction, InputActionEvents> behaviourInputActions;
+    protected Dictionary<InputAction, InputActionEvents> abilityInputActions;
 
     public struct InputActionEvents
     {
@@ -15,24 +16,49 @@ public class PlayerState
 
     public PlayerState()
     {
-        inputActions = new Dictionary<InputAction, InputActionEvents>();
+        behaviourInputActions = new Dictionary<InputAction, InputActionEvents>();
+        abilityInputActions = new Dictionary<InputAction, InputActionEvents>();
     }
 
-    protected virtual void SubscribeInputs()
+    protected virtual void SubscribeInputs(bool abilityState = false)
     {
-        foreach (var pair in inputActions)
+        if (!abilityState)
         {
-            if (pair.Value.onPerformed != null) pair.Key.performed += pair.Value.onPerformed;
-            if (pair.Value.onCanceled != null) pair.Key.canceled += pair.Value.onCanceled;
+            foreach (var pair in behaviourInputActions)
+            {
+                if (pair.Value.onPerformed != null) pair.Key.performed += pair.Value.onPerformed;
+                if (pair.Value.onCanceled != null) pair.Key.canceled += pair.Value.onCanceled;
+            }
         }
+        else
+        {
+            foreach (var pair in abilityInputActions)
+            {
+                if (pair.Value.onPerformed != null) pair.Key.performed += pair.Value.onPerformed;
+                if (pair.Value.onCanceled != null) pair.Key.canceled += pair.Value.onCanceled;
+            }
+        
+        }
+
     }
 
-    protected virtual void UnsubscribeInputs()
+    protected virtual void UnsubscribeInputs(bool abilityState = false)
     {
-        foreach (var pair in inputActions)
+        if (!abilityState)
         {
-            if (pair.Value.onPerformed != null) pair.Key.performed -= pair.Value.onPerformed;
-            if (pair.Value.onCanceled != null) pair.Key.canceled -= pair.Value.onCanceled;
+            foreach (var pair in behaviourInputActions)
+            {
+                if (pair.Value.onPerformed != null) pair.Key.performed -= pair.Value.onPerformed;
+                if (pair.Value.onCanceled != null) pair.Key.canceled -= pair.Value.onCanceled;
+            }
+        }
+        else
+        {
+            foreach (var pair in abilityInputActions)
+            {
+                if (pair.Value.onPerformed != null) pair.Key.performed -= pair.Value.onPerformed;
+                if (pair.Value.onCanceled != null) pair.Key.canceled -= pair.Value.onCanceled;
+            }
         }
     }
 }

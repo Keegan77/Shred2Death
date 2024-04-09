@@ -29,7 +29,6 @@ public class PlayerDriftState : BehaviourState
     public override void Enter()
     {
         base.Enter();
-        player.GetMovementMethods().StopBoost();
         timer = 0;
         driftSpeedBoost = 0;
         rotationAmount = player.playerData.driftRotationalOffset;
