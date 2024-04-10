@@ -29,7 +29,7 @@ public abstract class ES_DemonGround : Enemy_State
     public override void Exit ()
     {
         base.Exit ();
-        eg.agentPath.ClearCorners ();
+        eg.agent.ResetPath ();
         eg.agent.isStopped = true;
     }
     #endregion
