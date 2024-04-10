@@ -8,7 +8,7 @@ using UnityEngine.AI;
 
 [SelectionBase]
 [RequireComponent(typeof(Enemy_StateMachine))]
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
 {
     #region SCRIPT VARIABLES
     #region Game Objects
@@ -19,7 +19,11 @@ public class Enemy : MonoBehaviour, IDamageable
 
     [HideInInspector] public Enemy_StateMachine stateMachine;
 
+    /// <summary>
+    /// MuzzleObject is depcreciated don't use it
+    /// </summary>
     [HideInInspector] public GameObject muzzleObject;
+    [HideInInspector] public GameObject sensorsObject;
 
     [HideInInspector] public GameObject bodyObject;
     [HideInInspector] public Animator animator;
@@ -53,6 +57,8 @@ public class Enemy : MonoBehaviour, IDamageable
         muzzleObject = transform.Find ("Body/MuzzlePoint").gameObject;
 
         bodyObject = transform.Find ("Body").gameObject;
+        sensorsObject = transform.Find ("Sensors").gameObject;
+
         animator = bodyObject.GetComponent<Animator> ();
 
         GetRagdollComponents ();
@@ -109,6 +115,11 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
+    public void TrickOffEvent (Vector3 playerVel)
+    {
+        stateMachine.transitionState (stateMachine.statesObject.GetComponent<ES_Bonk> ());
+    }
+
     #endregion
 
     #region RAGDOLL PHYSICS
@@ -118,8 +129,8 @@ public class Enemy : MonoBehaviour, IDamageable
     Collider enemyCollider;
     Rigidbody enemyRigidbody;
 
-    Collider[] ragdollColliders;
-    Rigidbody[] ragdollBodies;
+    public Collider[] ragdollColliders { get; private set; }
+    public Rigidbody[] ragdollBodies { get; private set; }
 
     void GetRagdollComponents ()
     {
@@ -176,4 +187,5 @@ public class Enemy : MonoBehaviour, IDamageable
 
     }
     #endregion
+
 }

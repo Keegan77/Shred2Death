@@ -72,8 +72,6 @@ public class E_Demon_Ground : Enemy
 
     public override void SetRagdollEnabled (bool en)
     {
-        Debug.Log (agent.enabled);
-        Debug.Log (agent.isOnNavMesh);
         agent.isStopped = en;
         base.SetRagdollEnabled (en);
     }

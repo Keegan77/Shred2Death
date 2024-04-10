@@ -15,9 +15,9 @@ public class NMO_AgentMover : MonoBehaviour
 
     private bool _onNavMeshLink = false;
 
-    [SerializeField]
-    private float _jumpDuration = 0.8f;
+    [SerializeField] private float _jumpDuration = 0.8f;
     [SerializeField] private float _jumpWait = 0.0f;
+    [SerializeField] private float _jumpLand = 0.0f;
 
     public UnityEvent OnLand, OnStartJump;
 
@@ -44,10 +44,10 @@ public class NMO_AgentMover : MonoBehaviour
         {
             StartNavMeshLinkMovement();
         }
-        if (_onNavMeshLink)
-        {
-            FaceTarget(_Agent.currentOffMeshLinkData.endPos);
-        }
+        //if ( _onNavMeshLink && transform.position != _Agent.currentOffMeshLinkData.endPos )
+        //{
+        //    FaceTarget(_Agent.currentOffMeshLinkData.endPos);
+        //}
     }
 
     private void StartNavMeshLinkMovement()
@@ -83,16 +83,21 @@ public class NMO_AgentMover : MonoBehaviour
         return distancePlayerToStart > distancePlayerToEnd;
     }
 
+
     private IEnumerator MoveOnOffMeshLink(NMO_Spline spline, bool reverseDirection)
     {
+        Enemy e =  GetComponent<Enemy> ();
+        e.animator.Play ("JUMP");
 
         yield return new WaitForSeconds (_jumpWait);
 
         float currentTime = 0;
         Vector3 agentStartPosition = _Agent.transform.position;
 
-        while (currentTime < _jumpDuration)
+
+        while (currentTime < _jumpDuration )
         {
+
             currentTime += Time.deltaTime;
 
             float amount = Mathf.Clamp01(currentTime / _jumpDuration);
@@ -106,7 +111,12 @@ public class NMO_AgentMover : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        e.animator.Play ("JUMP_LAND");
+        yield return new WaitForSeconds (_jumpLand);
+
         _Agent.CompleteOffMeshLink();
+
+        e.animator.Play (e.stateMachine.stateCurrent.animationEnter);
 
         OnLand?.Invoke();
         yield return new WaitForSeconds(0.1f);
