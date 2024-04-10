@@ -96,7 +96,8 @@ public class GunfireHandler : MonoBehaviour
     
     public void ExecuteGunshot(RaycastHit overrideHit = default)
     {
-        RaycastHit hit = new RaycastHit(); //instantiate our raycast ref
+        RaycastHit hit = new RaycastHit(); //instan
+                                           //tiate our raycast ref
         TrailRenderer trail; // instantiate our gun trail
         
         cameraRecoil.FireRecoil(currentGun.camRecoilX, currentGun.camRecoilY, currentGun.camRecoilZ); // apply recoil
