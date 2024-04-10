@@ -19,7 +19,11 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
 
     [HideInInspector] public Enemy_StateMachine stateMachine;
 
+    /// <summary>
+    /// MuzzleObject is depcreciated don't use it
+    /// </summary>
     [HideInInspector] public GameObject muzzleObject;
+    [HideInInspector] public GameObject sensorsObject;
 
     [HideInInspector] public GameObject bodyObject;
     [HideInInspector] public Animator animator;
@@ -53,6 +57,8 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
         muzzleObject = transform.Find ("Body/MuzzlePoint").gameObject;
 
         bodyObject = transform.Find ("Body").gameObject;
+        sensorsObject = transform.Find ("Sensors").gameObject;
+
         animator = bodyObject.GetComponent<Animator> ();
 
         GetRagdollComponents ();
@@ -123,8 +129,8 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
     Collider enemyCollider;
     Rigidbody enemyRigidbody;
 
-    Collider[] ragdollColliders;
-    Rigidbody[] ragdollBodies;
+    public Collider[] ragdollColliders { get; private set; }
+    public Rigidbody[] ragdollBodies { get; private set; }
 
     void GetRagdollComponents ()
     {

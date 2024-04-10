@@ -21,9 +21,10 @@ public abstract class ES_DemonGround : Enemy_State
     {
         base.Enter ();
         eg.animator.Play (animationEnter);
-        Debug.Log (eg.agent.isOnNavMesh);
-        Debug.Log (eg.agent.enabled);
+
         eg.agent.isStopped = false;
+        eg.agent.updatePosition = true;
+        eg.agent.Warp (transform.position);
     }
 
     public override void Exit ()
