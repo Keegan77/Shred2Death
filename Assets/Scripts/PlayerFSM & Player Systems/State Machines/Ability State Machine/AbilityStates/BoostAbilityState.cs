@@ -6,7 +6,12 @@ public class BoostAbilityState : AbilityState
 {
     public BoostAbilityState(PlayerBase player, AbilityStateMachine stateMachine) : base(player, stateMachine)
     {
-        abilityBannedStateMap[GetType()] = new List<BehaviourState>() { player.halfPipeState } ; // use this syntax to ban states
+        abilityBannedStateMap[GetType()] = new List<BehaviourState>()
+        {
+            player.halfPipeState,
+            player.driftState,
+            player.nosediveState,
+        } ; // use this syntax to ban states
         
         abilityInputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents()
         {
@@ -22,6 +27,7 @@ public class BoostAbilityState : AbilityState
     {
         base.Enter();
         SubscribeInputs(abilityState:true);
+
         Debug.Log("Boost entered");
         player.movement.currentlyBoosting = true;
         if (boostTimer > player.playerData.boostDuration)
@@ -38,6 +44,11 @@ public class BoostAbilityState : AbilityState
         UnsubscribeInputs(abilityState:true);
         player.movement.currentlyBoosting = false;
         StopBoost();
+    }
+    
+    public override void LogicUpdate()
+    {
+        base.LogicUpdate();
     }
     
     public void StartBoost() // subscribe to on input performed boost input

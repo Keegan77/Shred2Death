@@ -8,8 +8,17 @@ public class IntermediaryAbilityState : AbilityState
     {
         abilityInputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents()
         {
-            onPerformed = ctx => stateMachine.SwitchState(player.boostAbilityState)
+            onPerformed = ctx =>
+            {
+                RequestNewState(player.boostAbilityState);
+            },
         });
+    }
+
+    private void RequestNewState(AbilityState state)
+    {
+        if (CurrentStateIsBanned()) return;
+        stateMachine.SwitchState(state);
     }
 
     public override void Enter()
