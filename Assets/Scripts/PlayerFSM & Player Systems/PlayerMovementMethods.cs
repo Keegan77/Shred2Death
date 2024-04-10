@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovementMethods
@@ -16,7 +15,6 @@ public class PlayerMovementMethods
     float turnSmoothVelocity;
     private float timeElapsed;
 
-    private float baseSpeed;
     public PlayerMovementMethods(PlayerBase player, Rigidbody rb, PlayerData playerData, Transform inputTurningTransform)
     {
         this.rb = rb;
@@ -24,7 +22,6 @@ public class PlayerMovementMethods
         this.player = player;
         this.inputTurningTransform = inputTurningTransform;
         
-        baseSpeed = playerData.baseMovementSpeed;
     }
     
     /// <summary>
@@ -46,7 +43,6 @@ public class PlayerMovementMethods
         
         if (isFacingUpward) return;
         
-        
         Quaternion localTargetRotation = Quaternion.Inverse(player.transform.rotation) * player.GetOrientationHandler().targetRotation;
         // we inverse the player's rotation to get the rotation difference between the player's current rotation and the target rotation
         
@@ -59,10 +55,14 @@ public class PlayerMovementMethods
         // Apply force in the direction of forwardAfterRotation
         rb.AddForce(player.transform.forward * movementSpeed, ForceMode.Acceleration);
         
+        //stop local horizontal forces by setting the local x and z velocity to 0. need to convert world velocity to local
+        //velocity to do this
+        rb.SetLocalAxisVelocity(Vector3.right, 0);
+        
         
     }
 
-    public void OllieJump()
+    public void OllieJump(float overrideForce = 0)
     {
         if (player != null) rb.AddRelativeForce(player.transform.up * playerData.baseJumpForce, ForceMode.Impulse);
     }
@@ -84,7 +84,9 @@ public class PlayerMovementMethods
             player.transform.Rotate(0,
                 turnSharpness * InputRouting.Instance.GetMoveInput().x * Time.fixedDeltaTime, 
                 0, Space.Self);
-        }*/
+        }*/ //keeping this comment here as a reference to what turning used to look like. Drift state needs this, so im
+        //keeping this here as an example of how it was when the drift state was being implemented.
+        
         CalculateTurnSharpness();
         float turnSmoothTime = .5f;
         
@@ -99,7 +101,7 @@ public class PlayerMovementMethods
         
     }
 
-    public void DoBurnForce(Vector3 contactPoint, float dmg)
+    public void DoBurnForce(Vector3 contactPoint, float dmg, bool keepHozForces = false)
     {
         if (burnCooldownActive) return;
         Debug.Log("burn dmg");
@@ -114,7 +116,12 @@ public class PlayerMovementMethods
 
         // Normalize the direction
         collisionDirection = collisionDirection.normalized;
-        Vector3 force = new Vector3(collisionDirection.x, -collisionDirection.y, collisionDirection.z);
+        if (keepHozForces)
+        {
+            rb.velocity = Vector3.zero;
+            rb.AddForce(new Vector3(collisionDirection.x, playerData.extraBurnVerticalForce , collisionDirection.z) * playerData.burnForce, ForceMode.Impulse);
+            return;
+        }
 
         // Apply a force in the opposite direction of the collision
         rb.velocity = Vector3.zero;
@@ -153,13 +160,22 @@ public class PlayerMovementMethods
         // Get the rotation around the x-axis, ranging from -90 to 90
         
         //movementSpeed = baseSpeed + offset;
+
+        if (currentlyBoosting)
+        {
+            movementSpeed = playerData.baseBoostSpeed;
+            return;
+        }
         
-        movementSpeed = Mathf.Lerp(playerData.minSpeed, playerData.baseMovementSpeed, timeElapsed / playerData.accelTime) + offset;
+        movementSpeed = Mathf.Lerp(playerData.minSpeed, playerData.baseMovementSpeed, 
+            playerData.accelerationCurve.Evaluate(InputRouting.Instance.GetMoveInput().magnitude)) + offset;
 
         if (InputRouting.Instance.GetBrakeInput())
         {
             movementSpeed = movementSpeed / 2;
         }
+        
+        
         
     }
 
@@ -192,9 +208,11 @@ public class PlayerMovementMethods
             rechargeBoostCoroutine = null;
         }
         
-        baseSpeed = playerData.baseBoostSpeed;
+        
         if (currentlyBoosting) return;
         boostTimerCoroutine = player.StartCoroutine(BoostTimer());
+        player.particleManager.JetStreamActive(true);
+        player.particleManager.playerSpeedLines.Play();
     }
 
     public bool currentlyBoosting;
@@ -204,10 +222,12 @@ public class PlayerMovementMethods
         if (boostTimerCoroutine != null)
         {
             player.StopCoroutine(boostTimerCoroutine);
+            player.particleManager.JetStreamActive(false);
+            player.particleManager.playerSpeedLines.Stop();
             currentlyBoosting = false;
             boostTimerCoroutine = null;
         }
-        baseSpeed = playerData.baseMovementSpeed;
+        movementSpeed = playerData.baseMovementSpeed;
         if (currentlyRecharging) return;
         rechargeBoostCoroutine = player.StartCoroutine(RechargeBoost());
     }
@@ -215,6 +235,7 @@ public class PlayerMovementMethods
     private IEnumerator BoostTimer()
     {
         currentlyBoosting = true;
+        movementSpeed = playerData.baseBoostSpeed;
         while (boostTimer < playerData.boostDuration)
         {
             boostTimer += Time.deltaTime;

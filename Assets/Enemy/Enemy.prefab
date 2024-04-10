@@ -82,8 +82,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df48fa4b01d965c4aab911c6a61768a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statesObject: {fileID: 0}
   stateCurrent: {fileID: 4315941386561823705}
+  statePrevious: {fileID: 0}
   stateEntry: {fileID: 0}
+  aiFrequency: 1
+  timerCurrentState: 0
   travelPoint: {x: 0, y: 0, z: 0}
   travelTarget: {fileID: 0}
 --- !u!54 &3448209998300594400
@@ -180,10 +184,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19db10fa85935ad4f9309669ab81cf46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletPlaying: 0
   bulletObject: {fileID: 4402385133191609772, guid: 582a5e14926ded1428c3e0cdf5ebc948, type: 3}
   attackAnimation: 
-  cooldownMin: 1
-  cooldownMax: 3
+  timeLeadIn: 1.25
+  timeLeadOut: 1.75
+  tokenCost: 1
+  bulletCooldown: 3
 --- !u!1 &7124167519604009635
 GameObject:
   m_ObjectHideFlags: 0

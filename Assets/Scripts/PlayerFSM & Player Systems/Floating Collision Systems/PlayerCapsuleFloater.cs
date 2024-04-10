@@ -30,6 +30,7 @@ public class PlayerCapsuleFloater : MonoBehaviour
         Vector3 downDir = -transform.up;
 
         if (player.stateMachine.currentState == player.airborneState) return;
+        if (player.stateMachine.currentState == player.deathState) return;
         
         //TODO: This method is the reason for the inconsistent jump height bug, needs tweaking
         if (Physics.Raycast(raycastOrigin.position, downDir, out hit, rayLength))

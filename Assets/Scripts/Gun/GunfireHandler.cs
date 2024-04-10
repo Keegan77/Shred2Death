@@ -1,10 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class GunfireHandler : MonoBehaviour
@@ -88,6 +83,7 @@ public class GunfireHandler : MonoBehaviour
         TrailRenderer trail; // instantiate our gun trail
 
         if (currentGun.currentAmmo <= 0) return;
+        
 
         
         cameraRecoil.FireRecoil(currentGun.camRecoilX, currentGun.camRecoilY, currentGun.camRecoilZ); // apply recoil

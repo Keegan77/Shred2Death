@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -6,20 +8,22 @@ using UnityEngine;
 /// <summary>
 /// Enemy State Machine controls the behavior of enemies. If they are in state X, they will move like this and use these senses.
 /// Statemachine handles the switching of states and serves as in interface to the Enemy Script.
+/// 
+/// Additionally, it handles as a storage for important information used by states, such as directional goals and timers.
 /// </summary>
 public class Enemy_StateMachine : MonoBehaviour
 {
     #region VARIABLES
     //[SerializeField] Enemy_State initialState;
 
-    GameObject statesObject;
+    public GameObject statesObject;
 
     [Header("States")]
     public Enemy_State stateCurrent;
+    public Enemy_State statePrevious;
 
     [Tooltip("What state does this enemy enter when they spawn in? Usually set to a move_to_point script")]
     public Enemy_State stateEntry;
-
 
 
     [Header("Control Parameters")]
@@ -29,6 +33,8 @@ public class Enemy_StateMachine : MonoBehaviour
     public float aiFrequency = 1f;
     float aiTimeKeeper = 0f;
 
+    
+
     //updateEnabled controls whether or not the stateMachien will run AI checks.
     public bool aiUpdateEnabled
     {
@@ -37,8 +43,11 @@ public class Enemy_StateMachine : MonoBehaviour
     }
     private bool _aiUpdateEnabled = true;
 
-    
-
+    /// <summary>
+    /// Some states will need to keep track of time.
+    /// 
+    /// </summary>
+    public float timerCurrentState;
 
     [Header ("Navigation")]
     public Vector3 travelPoint;
@@ -50,8 +59,12 @@ public class Enemy_StateMachine : MonoBehaviour
     public void machineUpdate ()
     {
         stateCurrent.machineUpdate ();
+        timerCurrentState += Time.deltaTime;
     }
 
+    /// <summary>
+    /// Handles timers that 
+    /// </summary>
     public void machinePhysics ()
     {
         stateCurrent.machinePhysics ();
@@ -71,9 +84,12 @@ public class Enemy_StateMachine : MonoBehaviour
 
     public void transitionState (Enemy_State s)
     {
+        timerCurrentState = 0;
+
         Debug.Log ("Transitioning state to: " + s);
         stateCurrent.Exit ();
 
+        statePrevious = stateCurrent;
         stateCurrent = s;
 
         stateCurrent.Enter ();

@@ -15,7 +15,7 @@ public class PlayerHalfpipeState : PlayerState
         {
             onPerformed = ctx =>
             {
-                player.GetMovementMethods().StartBoost();
+                //player.GetMovementMethods().StartBoost();
                 stateMachine.SwitchState(player.airborneState);
             },
         });
@@ -24,15 +24,16 @@ public class PlayerHalfpipeState : PlayerState
     private GameObject closestHalfPipe;
     private int rotationIncrementsCompleted;
     private Quaternion initRotation;
+    private Coroutine lerpRigRoutine;
     public override void Enter()
     {
         player.GetComboHandler().SetPauseComboDrop(true);
-        /*player.proceduralRigController.StartCoroutine(
+        lerpRigRoutine = player.proceduralRigController.StartCoroutine(
             player.proceduralRigController.LerpWeightToValue
             (player.proceduralRigController.legRig,
                 0,
                 1f)
-        );*/
+        );
         base.Enter();
         totalRotation = 0f;
         rotationIncrementsCompleted = 0;
@@ -55,12 +56,13 @@ public class PlayerHalfpipeState : PlayerState
     public override void Exit()
     {
         base.Exit();
-        /*player.proceduralRigController.StartCoroutine(
+        if (lerpRigRoutine != null) player.proceduralRigController.StopCoroutine(lerpRigRoutine);
+        player.proceduralRigController.StartCoroutine(
             player.proceduralRigController.LerpWeightToValue
             (player.proceduralRigController.legRig,
                 1,
                 .1f)
-        );*/
+        );
         player.GetComboHandler().SetPauseComboDrop(false);
         Debug.Log($"Total rotation style: {rotationIncrementsCompleted * 180}");
         ActionEvents.OnTrickCompletion?.Invoke(new Trick($"Rotation trick: " +
@@ -68,7 +70,8 @@ public class PlayerHalfpipeState : PlayerState
                                                    rotationIncrementsCompleted * 6,
                                                   2 * rotationIncrementsCompleted,
                                                 0.1f,
-                                                   null));
+                                                   null,
+                                                   0));
 
         player.constantForce.relativeForce = new Vector3(0, 0, 0);
         UnsubscribeInputs();
@@ -141,7 +144,6 @@ public class PlayerHalfpipeState : PlayerState
 
         // Convert the y velocity to a percentage between -30 and 30
         float t = Mathf.InverseLerp(30, -30, yVelocity);
-        Debug.Log(t);
         // Calculate the target rotation
         Quaternion targetRot = Quaternion.LookRotation(Vector3.down, player.transform.up);
 
