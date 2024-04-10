@@ -123,11 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &32965840 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6280210863946982570, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-  m_PrefabInstance: {fileID: 635261053}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &132321030
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,35 +545,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7078634803442072299, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-      propertyPath: stateExit
-      value: 
-      objectReference: {fileID: 964274993}
-    - target: {fileID: 7078634803442072299, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: parentRoot
       value: 
       objectReference: {fileID: 796066022}
-    - target: {fileID: 7078634803442072299, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-      propertyPath: ragdollMeshObject
-      value: 
-      objectReference: {fileID: 32965840}
-    - target: {fileID: 7078634803442072299, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-      propertyPath: ragdollRootObject
-      value: 
-      objectReference: {fileID: 796066022}
-    - target: {fileID: 7078634803442072299, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-      propertyPath: ragdollSeparationObject
-      value: 
-      objectReference: {fileID: 1121587541}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4170527639866061282, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 964274984}
-    - targetCorrespondingSourceObject: {fileID: 4170527639866061282, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 964274993}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
 --- !u!1 &776712740
 GameObject:
@@ -679,8 +652,8 @@ Transform:
   m_GameObject: {fileID: 776712740}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.47, y: 0.6771, z: 0}
-  m_LocalScale: {x: 7.587, y: 14.244606, z: 75.3969}
+  m_LocalPosition: {x: -250.1662, y: 15.5579, z: 0}
+  m_LocalScale: {x: 454.9795, y: 44.00586, z: 75.3969}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -690,77 +663,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6142467476025863925, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
   m_PrefabInstance: {fileID: 635261053}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &964274983 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4170527639866061282, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+--- !u!114 &964274984 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6995417364875992630, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
   m_PrefabInstance: {fileID: 635261053}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &964274984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 964274983}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa92670542e254e409b1c246b34c4c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationEnter: DODGE
-  curvePosition:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.32816547
-      value: 0.76103276
-      inSlope: 1.286246
-      outSlope: 1.286246
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  dodgeDistance: 20
-  dodgeTime: 1.5
---- !u!114 &964274993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 964274983}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b22ce2db9204d04abedc94df5611eb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animationEnter: IDLE
---- !u!1 &1121587541 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 292064468422324115, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-  m_PrefabInstance: {fileID: 635261053}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1374832147
 GameObject:
   m_ObjectHideFlags: 0
