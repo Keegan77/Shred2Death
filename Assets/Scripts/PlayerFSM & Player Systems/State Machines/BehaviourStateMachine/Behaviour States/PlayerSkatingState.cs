@@ -1,27 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSkatingState : PlayerState
+public class PlayerSkatingState : BehaviourState
 {
     private PlayerMovementMethods movementMethods;
     private BowlMeshGenerator test;
     public PlayerSkatingState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
-        inputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
-        {
-            onPerformed = ctx =>
-            {
-                if (player.GetComboHandler().GetStyleLevel() < player.playerData.groundedBoostStyleLevel) return;
-                player.GetMovementMethods().StartBoost();
-            },
-            onCanceled = ctx =>
-            {
-                if (player.GetComboHandler().GetStyleLevel() < player.playerData.groundedBoostStyleLevel) return;
-                player.GetMovementMethods().StopBoost();
-            }
-        });
         
-        inputActions.Add(InputRouting.Instance.input.Player.DropIn, new InputActionEvents
+        behaviourInputActions.Add(InputRouting.Instance.input.Player.DropIn, new InputActionEvents
         {
             onPerformed = ctx =>
             {
@@ -31,10 +18,9 @@ public class PlayerSkatingState : PlayerState
                     stateMachine.SwitchState(player.dropinState);
                 }
             },
-            onCanceled = ctx => player.GetMovementMethods().StopBoost()
         });
         
-        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
+        behaviourInputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
             { 
                 onPerformed = ctx =>
                 {
