@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Dreamteck.Splines;
 using UnityEngine;
 
-public class PlayerGrindState : PlayerState
+public class PlayerGrindState : BehaviourState
 {
     private GameObject followerObj;
     private bool lerping;
@@ -14,7 +14,7 @@ public class PlayerGrindState : PlayerState
     private Quaternion jumpedOnOrientation;
     public PlayerGrindState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
-        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => JumpOffRail()});
+        behaviourInputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => JumpOffRail()});
     }
     private SplineFollower sFollower;
     private Coroutine lerpRigRoutine;

@@ -79,38 +79,10 @@ public class GunfireHandler : MonoBehaviour
     
     private void Fire()
     {
-        RaycastHit hit; //instantiate our raycast ref
-        TrailRenderer trail; // instantiate our gun trail
-
         if (currentGun.currentAmmo <= 0) return;
         
-
+        ExecuteGunshot(); // was seperated to allow for flexibility
         
-        cameraRecoil.FireRecoil(currentGun.camRecoilX, currentGun.camRecoilY, currentGun.camRecoilZ); // apply recoil
-        currentGunRecoilScript.FireRecoil(currentGun.gunRecoilX, currentGun.gunRecoilY, currentGun.gunRecoilZ);
-
-        int randInt = Random.Range(0, currentGun.fireSounds.Count);
-        
-        ActionEvents.PlayerSFXOneShot?.Invoke(currentGun.fireSounds[randInt], currentGun.delayPerAudioClip[randInt]); // play a random fire sound
-        
-        for (int i = 0; i < currentGun.bulletsInOneShot; i++) 
-        {
-            Vector3 direction = GetDirection(); 
-            if (Physics.Raycast(castPoint.position, direction, out hit, currentGun.maxDistance)) //if we hit an object with our bullet
-            {
-                trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity); //start a bullet trail effect
-
-                StartCoroutine(SpawnBullet(trail, hit.point, currentGunTip.position, hit)); //spawn our bullet
-            }
-            else // if we shoot, but we don't hit anything (if we shoot into the air at no objects, 
-                 //we still want to show our bullet trail)
-            {
-                trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity);
-
-                StartCoroutine(SpawnBullet(trail, castPoint.position + direction * (currentGun.maxDistance), currentGunTip.position, hit)); // sets the point of where our raycast would have ended up if it hit anything (point in the air)
-                                   
-            }
-        }
         currentGun.currentAmmo--;
         
         timeSinceLastShot = 0;
@@ -120,10 +92,46 @@ public class GunfireHandler : MonoBehaviour
             currentGunTip = currentGunTip == currentGunTips[0] ? currentGunTips[1] : currentGunTips[0];
             currentGunRecoilScript = currentGunRecoilScript == currentGunRecoilScripts[0] ? currentGunRecoilScripts[1] : currentGunRecoilScripts[0];
         }
-        
-        
-            
     }
+    
+    public void ExecuteGunshot(RaycastHit overrideHit = default)
+    {
+        RaycastHit hit = new RaycastHit(); //instan
+                                           //tiate our raycast ref
+        TrailRenderer trail; // instantiate our gun trail
+        
+        cameraRecoil.FireRecoil(currentGun.camRecoilX, currentGun.camRecoilY, currentGun.camRecoilZ); // apply recoil
+        currentGunRecoilScript.FireRecoil(currentGun.gunRecoilX, currentGun.gunRecoilY, currentGun.gunRecoilZ);
+
+        int randInt = Random.Range(0, currentGun.fireSounds.Count);
+        
+        ActionEvents.PlayerSFXOneShot?.Invoke(currentGun.fireSounds[randInt], currentGun.delayPerAudioClip[randInt]); // play a random fire sound
+        
+        if (overrideHit.point != default) // if we have an override hit point, use that
+        {
+            trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity);
+            StartCoroutine(SpawnBullet(trail, overrideHit.point, currentGunTip.position, overrideHit));
+            return;
+        }
+        
+        for (int i = 0; i < currentGun.bulletsInOneShot; i++) 
+        {
+            Vector3 direction = GetDirection(); 
+            if (Physics.Raycast(castPoint.position, direction, out hit, currentGun.maxDistance)) //if we hit an object with our bullet
+            {
+                trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity); //start a bullet trail effect
+                StartCoroutine(SpawnBullet(trail, hit.point, currentGunTip.position, hit)); //spawn our bullet
+            }
+            else // if we shoot, but we don't hit anything (if we shoot into the air at no objects, 
+                //we still want to show our bullet trail)
+            {
+                trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity);
+                StartCoroutine(SpawnBullet(trail, castPoint.position + direction * (currentGun.maxDistance), currentGunTip.position, hit)); // sets the point of where our raycast would have ended up if it hit anything (point in the air)
+            }
+        }
+        
+    }
+    
     // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator SpawnBullet(TrailRenderer trail, Vector3 hitPos, Vector3 gunTip, RaycastHit hit)
     {
@@ -167,6 +175,11 @@ public class GunfireHandler : MonoBehaviour
     public SceneDataForGun GetCurrentGunSceneData()
     {
         return currentGunSceneData;
+    }
+    
+    public void SetGunTip(Transform tip)
+    {
+        currentGunTip = tip;
     }
 
     public void SetCurrentGun(GunSwitchData switchData) // subscribe to gun switch event

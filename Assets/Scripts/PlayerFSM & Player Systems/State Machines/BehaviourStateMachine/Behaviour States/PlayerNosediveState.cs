@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerNosediveState : PlayerState
+public class PlayerNosediveState : BehaviourState
 {
     public PlayerNosediveState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
         // put input here
         /*inputActions.Add(InputRouting.Instance.input.Player.Nosedive, new InputActionEvents 
             { onCanceled = ctx => stateMachine.SwitchState(player.airborneState) });*/
-        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
+        behaviourInputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
             { onPerformed = ctx => player.CheckAndSetSpline()});
     }
 
