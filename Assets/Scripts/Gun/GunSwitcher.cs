@@ -125,17 +125,29 @@ public class GunSwitcher : MonoBehaviour
     {
         Transform[] transformTargets = switchData.SceneDataForGun.GetAllTargets();
         
-        SetRigTargetPoints(transformTargets); // Here we want to instead get the arm movers and set their targets to the new gun's targets
+        //SetRigTargetPoints(transformTargets); // Here we want to instead get the arm movers and set their targets to the new gun's targets
         gunfireHandler.SetCurrentGun(switchData);
     }
     private void SetRigTargetPoints(Transform[] transformTargets)
     {
-        leftArmMover.data.target = GetTargetByTag(transformTargets, "LeftHandTarget");
-        leftArmMover.data.hint = GetTargetByTag(transformTargets, "LeftHandHint");
-        rightArmMover.data.target = GetTargetByTag(transformTargets, "RightHandTarget");
-        rightArmMover.data.hint = GetTargetByTag(transformTargets, "RightHandHint");
+        Transform leftHandTarget = GetTargetByTag(transformTargets, "LeftHandTarget");
+        Transform leftHandHint = GetTargetByTag(transformTargets, "LeftHandHint");
+        Transform rightHandTarget = GetTargetByTag(transformTargets, "RightHandTarget");
+        Transform rightHandHint = GetTargetByTag(transformTargets, "RightHandHint");
 
-        rigBuilder.Build();
+        void SetProperties(Transform target, Transform newTarget)
+        {
+            target.position = newTarget.position;
+            target.rotation = newTarget.rotation;
+            target.parent = newTarget.parent;
+        }
+        
+        SetProperties(leftArmMover.data.target, leftHandTarget);
+        SetProperties(leftArmMover.data.hint, leftHandHint);
+        SetProperties(rightArmMover.data.target, rightHandTarget);
+        SetProperties(rightArmMover.data.hint, rightHandHint);
+
+        //rigBuilder.Build();
     }
     
     private Transform GetTargetByTag(Transform[] transformTargets, string tag)
