@@ -23,6 +23,8 @@ public class ESG_Dodge : ES_DemonGround
     [Tooltip("How long does it take to start and finish the dodge?")]
     public float dodgeTime;
 
+    Vector3 DodgeDirection;
+
     #endregion
     private void Start ()
     {
@@ -33,6 +35,8 @@ public class ESG_Dodge : ES_DemonGround
     public override void Enter ()
     {
         base.Enter ();
+
+        //Stop any nav agent interference in movement
         eg.agent.ResetPath ();
         eg.agent.isStopped = true;
         eg.agent.updatePosition = false;
@@ -41,6 +45,14 @@ public class ESG_Dodge : ES_DemonGround
         dodgePositionPrevious = 0;
 
         eBody.isKinematic = false;
+
+        //Decide on which way to dodge
+        Rigidbody prb = Enemy.playerReference.GetComponent<Rigidbody>();
+
+            //Compare rotation of player's movement to current rotation of enemy
+        Debug.Log (Mathf.Rad2Deg * Mathf.Atan2 (prb.velocity.x, prb.velocity.z));
+        Debug.Log (Mathf.Rad2Deg * transform.rotation.y);
+        //if ( Mathf.Atan2 (prb.velocity.x, prb.velocity.z));
     }
 
     public override void Exit ()
@@ -60,9 +72,9 @@ public class ESG_Dodge : ES_DemonGround
         float movementMagnitude = curvePosition.Evaluate (e.stateMachine.timerCurrentState / dodgeTime) * dodgeDistance;
         eBody.velocity = transform.right * ((movementMagnitude - dodgePositionPrevious) / Time.deltaTime);
 
-        Debug.Log ($"{movementMagnitude}");
-        Debug.Log ($"<color=red> {movementMagnitude - dodgePositionPrevious} </color>");
-        Debug.Log ($"<color=green> {(movementMagnitude - dodgePositionPrevious) / Time.deltaTime} </color>");
+        //Debug.Log ($"{movementMagnitude}");
+        //Debug.Log ($"<color=red> {movementMagnitude - dodgePositionPrevious} </color>");
+        //Debug.Log ($"<color=green> {(movementMagnitude - dodgePositionPrevious) / Time.deltaTime} </color>");
 
         dodgePositionPrevious = movementMagnitude;
         dodgeTimerPrevious = e.stateMachine.timerCurrentState;

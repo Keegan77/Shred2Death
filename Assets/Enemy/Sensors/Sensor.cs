@@ -13,7 +13,7 @@ public class Sensor : MonoBehaviour
     public UnityEvent OnDeactivate;
     protected virtual void Activate ()
     {
-        Debug.Log ($"{transform.parent.name}: {name} Activated", this);
+        //Debug.Log ($"{transform.parent.name}: {name} Activated", this);
         //transform.parent.parent.GetComponent<Enemy_StateMachine> ().sensorActivated ();
         OnActivate.Invoke();
     }

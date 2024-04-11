@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -500,13 +500,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3196593303963153771, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_Name
       value: Demon_Ground
       objectReference: {fileID: 0}
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 21.3
       objectReference: {fileID: 0}
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalPosition.y
@@ -551,8 +555,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3537965174593583864, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 635261055}
   m_SourcePrefab: {fileID: 100100000, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+--- !u!1 &635261054 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3537965174593583864, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+  m_PrefabInstance: {fileID: 635261053}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &635261055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635261054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bee5efaef17da6e44918332e301132eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+  dodgeRequiredAlignment: 0.706
 --- !u!1 &776712740
 GameObject:
   m_ObjectHideFlags: 0
@@ -902,7 +933,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4148608768320020075, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1203,6 +1234,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Debug_PlayerDummy
       objectReference: {fileID: 0}
+    - target: {fileID: 6632714718895213613, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1307,8 +1342,8 @@ Transform:
   m_GameObject: {fileID: 1988016096}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.9726, z: 0}
-  m_LocalScale: {x: 7.587, y: 6.9452, z: 75.3969}
+  m_LocalPosition: {x: 19.6904, y: -2.9726, z: 0}
+  m_LocalScale: {x: 46.968082, y: 6.9452, z: 75.3969}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1324,7 +1359,7 @@ PrefabInstance:
     - target: {fileID: 3863117735863748923, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: a869054f90d12ec469ba4d8017a2f384, type: 2}
+      objectReference: {fileID: 23800000, guid: 741c3dff9a4600b4c9cb1a287dec9750, type: 2}
     - target: {fileID: 6099138700552046101, guid: 4960efbb475f9c14fbdd195a28791aaa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1392,7 +1427,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2094618043
 MonoBehaviour:
   m_ObjectHideFlags: 0
