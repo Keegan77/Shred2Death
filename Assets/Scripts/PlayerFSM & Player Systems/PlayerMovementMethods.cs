@@ -10,11 +10,12 @@ public class PlayerMovementMethods
     private Transform inputTurningTransform;
     private float movementSpeed;
     public float turnSharpness { get; private set; }
-    private float boostTimer;
+    
     private bool burnCooldownActive;
     float turnSmoothVelocity;
     private float timeElapsed;
-
+    public bool currentlyBoosting;
+    
     public PlayerMovementMethods(PlayerBase player, Rigidbody rb, PlayerData playerData, Transform inputTurningTransform)
     {
         this.rb = rb;
@@ -134,6 +135,8 @@ public class PlayerMovementMethods
         yield return new WaitForSeconds(playerData.burnBounceCooldown);
         burnCooldownActive = false;
     }
+
+
     
     private void CalculateCurrentSpeed() 
     {
@@ -163,7 +166,6 @@ public class PlayerMovementMethods
 
         if (currentlyBoosting)
         {
-            movementSpeed = playerData.baseBoostSpeed;
             return;
         }
         
@@ -196,64 +198,12 @@ public class PlayerMovementMethods
         rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, rb.velocity.y, 0), playerData.deAccelerationSpeed);
     }
     
-    private Coroutine boostTimerCoroutine;
-    private Coroutine rechargeBoostCoroutine;
-    public void StartBoost() // subscribe to on input performed boost input
+    public void SetMovementSpeed(float speed)
     {
-        if (boostTimer > playerData.boostDuration) return;
-        if (rechargeBoostCoroutine != null)
-        {
-            player.StopCoroutine(rechargeBoostCoroutine);
-            currentlyRecharging = false;
-            rechargeBoostCoroutine = null;
-        }
-        
-        
-        if (currentlyBoosting) return;
-        boostTimerCoroutine = player.StartCoroutine(BoostTimer());
-        player.particleManager.JetStreamActive(true);
-        player.particleManager.playerSpeedLines.Play();
-    }
-
-    public bool currentlyBoosting;
-    bool currentlyRecharging;
-    public void StopBoost() // subscribe this to on input canceled boost input cancel
-    {
-        if (boostTimerCoroutine != null)
-        {
-            player.StopCoroutine(boostTimerCoroutine);
-            player.particleManager.JetStreamActive(false);
-            player.particleManager.playerSpeedLines.Stop();
-            currentlyBoosting = false;
-            boostTimerCoroutine = null;
-        }
-        movementSpeed = playerData.baseMovementSpeed;
-        if (currentlyRecharging) return;
-        rechargeBoostCoroutine = player.StartCoroutine(RechargeBoost());
+        movementSpeed = speed;
     }
     
-    private IEnumerator BoostTimer()
-    {
-        currentlyBoosting = true;
-        movementSpeed = playerData.baseBoostSpeed;
-        while (boostTimer < playerData.boostDuration)
-        {
-            boostTimer += Time.deltaTime;
-            yield return null;
-        }
-        currentlyBoosting = false;
-        StopBoost();
-    }
 
-    private IEnumerator RechargeBoost()
-    {
-        currentlyRecharging = true;
-        while (boostTimer > 0)
-        {
-            boostTimer -= Time.deltaTime;
-            yield return null;
-        }
-        currentlyRecharging = false;
-    }
+
     
 }

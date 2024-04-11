@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDropinState : PlayerState
+public class PlayerDropinState : BehaviourState
 {
     public PlayerDropinState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {

@@ -47,10 +47,8 @@ public class EnemyTrickOffHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("yo");
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            Debug.Log("yo, enemy");
             enemiesInTriggerStack.Push(other.gameObject);
         }
     }

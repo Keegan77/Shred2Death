@@ -4,16 +4,16 @@ using Dreamteck.Splines;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerAirborneState : PlayerState
+public class PlayerAirborneState : BehaviourState
 {
     private bool coolingDown;
     private Coroutine coolDownCoroutine;
     public PlayerAirborneState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
-        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
+        behaviourInputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
             { onPerformed = ctx => player.CheckAndSetSpline()});
         
-        inputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
+        behaviourInputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
         {
             onPerformed = ctx =>
             {
@@ -25,7 +25,7 @@ public class PlayerAirborneState : PlayerState
             },
         });
         
-        inputActions.Add(InputRouting.Instance.input.Player.Nosedive, new InputActionEvents 
+        behaviourInputActions.Add(InputRouting.Instance.input.Player.Nosedive, new InputActionEvents 
             { onPerformed = ctx => stateMachine.SwitchState(player.nosediveState) });
     }
     

@@ -18,6 +18,7 @@ public class CameraSpeedLinesController : MonoBehaviour
 
     private void Update()
     {
+        if (player.stateMachine.currentState == player.deathState) return;
         var emission = speedLines.emission;
         float t = Mathf.InverseLerp(50, 100, rb.velocity.magnitude);
         emission.rateOverTime = Mathf.Lerp(0, 40, speedLinesRateOverTime.Evaluate(t));
