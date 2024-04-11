@@ -18,6 +18,7 @@ public class Sensor_DodgeRadius : Sensor
 
     private void OnTriggerEnter (Collider other)
     {
+        Debug.LogWarning (other.GetInstanceID(), other);
         SetPlayerReference p = other.transform.parent.parent.GetComponent<SetPlayerReference>();
 
         if ( other.CompareTag ("Player") && p != null)

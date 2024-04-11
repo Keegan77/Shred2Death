@@ -547,7 +547,7 @@ MonoBehaviour:
   ragdollRootObject: {fileID: 6142467476025863925}
   ragdollSeparationObject: {fileID: 292064468422324115}
   ragdollMeshObject: {fileID: 6280210863946982570}
-  entryVelocity: {x: 0, y: 10, z: 0}
+  entryVelocityInfluence: {x: 0, y: 15, z: 0}
 --- !u!114 &2521084591526766136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -675,8 +675,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 0.52
-  m_Speed: 5
-  m_Acceleration: 3
+  m_Speed: 60
+  m_Acceleration: 999
   avoidancePriority: 50
   m_AngularSpeed: 480
   m_StoppingDistance: 5

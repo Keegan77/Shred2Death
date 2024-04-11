@@ -23,7 +23,7 @@ public class ESG_Dodge : ES_DemonGround
     [Tooltip("How long does it take to start and finish the dodge?")]
     public float dodgeTime;
 
-    Vector3 DodgeDirection;
+    Vector3 DodgeDirection = Vector3.right;
 
     #endregion
     private void Start ()
@@ -32,6 +32,15 @@ public class ESG_Dodge : ES_DemonGround
     }
 
     #region State Machine
+
+    //Compare rotation of player's movement to current rotation of enemy
+    Vector3 epos;
+    Vector3 ppos;
+    Vector3 pvel;
+
+    //Returns the angle left or right of the enemy the player is going
+    float anglePlayerEntry;
+    float dotEnemyFacingPlayer; //returns true if the enemy is facing the player
     public override void Enter ()
     {
         base.Enter ();
@@ -49,10 +58,28 @@ public class ESG_Dodge : ES_DemonGround
         //Decide on which way to dodge
         Rigidbody prb = Enemy.playerReference.GetComponent<Rigidbody>();
 
-            //Compare rotation of player's movement to current rotation of enemy
-        Debug.Log (Mathf.Rad2Deg * Mathf.Atan2 (prb.velocity.x, prb.velocity.z));
-        Debug.Log (Mathf.Rad2Deg * transform.rotation.y);
+        //Compare rotation of player's movement to current rotation of enemy
+        epos = transform.position;
+        ppos = prb.transform.position;
+        pvel = prb.velocity;
+
+        //Returns the angle left or right of the enemy the player is going
+        anglePlayerEntry = Vector3.SignedAngle (pvel, epos - ppos, Vector3.up);
+        dotEnemyFacingPlayer = Vector3.Dot(transform.forward, pvel.normalized); //returns true if the enemy is facing the player
+
+        Debug.Log (epos);
+        Debug.Log (ppos);
+        Debug.Log (pvel);
+
+        Debug.Log (epos - ppos);
+        Debug.Log (anglePlayerEntry);
+        Debug.Log (dotEnemyFacingPlayer);
+
+        DodgeDirection = (anglePlayerEntry > 0 && dotEnemyFacingPlayer <= 0) ? -transform.right : transform.right; 
+
+        //Debug.Break ();
         //if ( Mathf.Atan2 (prb.velocity.x, prb.velocity.z));
+
     }
 
     public override void Exit ()
@@ -70,7 +97,7 @@ public class ESG_Dodge : ES_DemonGround
     public override void machinePhysics ()
     {
         float movementMagnitude = curvePosition.Evaluate (e.stateMachine.timerCurrentState / dodgeTime) * dodgeDistance;
-        eBody.velocity = transform.right * ((movementMagnitude - dodgePositionPrevious) / Time.deltaTime);
+        eBody.velocity = DodgeDirection * ((movementMagnitude - dodgePositionPrevious) / Time.deltaTime);
 
         //Debug.Log ($"{movementMagnitude}");
         //Debug.Log ($"<color=red> {movementMagnitude - dodgePositionPrevious} </color>");
@@ -83,7 +110,7 @@ public class ESG_Dodge : ES_DemonGround
         if (!NavMesh.SamplePosition (transform.position, out hit, 0.5f, eg.agent.areaMask))
         {
             ES_Ragdoll ragdoll = GetComponent<ES_Ragdoll> ();
-            ragdoll.entryVelocity = eBody.velocity;
+            ragdoll.entryVelocityInfluence = eBody.velocity;
             ragdoll.EnterRagdoll (false);
 
         }
