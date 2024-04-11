@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDriftState : PlayerState
+public class PlayerDriftState : BehaviourState
 {
     // Start is called before the first frame update
     public PlayerDriftState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
@@ -29,7 +29,6 @@ public class PlayerDriftState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        player.GetMovementMethods().StopBoost();
         timer = 0;
         driftSpeedBoost = 0;
         rotationAmount = player.playerData.driftRotationalOffset;

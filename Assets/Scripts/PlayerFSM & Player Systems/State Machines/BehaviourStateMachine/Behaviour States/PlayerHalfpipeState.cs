@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHalfpipeState : PlayerState
+public class PlayerHalfpipeState : BehaviourState
 {
     public PlayerHalfpipeState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
-        inputActions.Add(InputRouting.Instance.input.Player.Nosedive, new InputActionEvents 
+        behaviourInputActions.Add(InputRouting.Instance.input.Player.Nosedive, new InputActionEvents 
             { onPerformed = ctx => stateMachine.SwitchState(player.nosediveState) });
         
-        inputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
+        behaviourInputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
             { onPerformed = ctx => player.CheckAndSetSpline()});
-        inputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
+        behaviourInputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents
         {
             onPerformed = ctx =>
             {
@@ -48,8 +48,6 @@ public class PlayerHalfpipeState : PlayerState
         }
         
         //player.StartCoroutine(player.ScaleCapsuleCollider(0.25f)); //EXPERIMENTAL - scales the player's collider to fit the half pipe
-        player.GetMovementMethods().StopBoost();
-        //closestHalfPipe = GetClosestHalfPipe();
         initRotation = player.transform.rotation;
     }
 

@@ -118,24 +118,61 @@ public class GunSwitcher : MonoBehaviour
             model.transform.localScale = Vector3.Lerp(startScale, endScale, curve.Evaluate(timeElapsed / lerpTime));
             yield return null;
         }
-        SetRigTargetPoints(gunfireHandler.GetCurrentGunSceneData().GetAllTargets());
+        
     }
     
     private void HandleOnGunSwitch(GunSwitchData switchData)
     {
         Transform[] transformTargets = switchData.SceneDataForGun.GetAllTargets();
         
-        SetRigTargetPoints(transformTargets); // Here we want to instead get the arm movers and set their targets to the new gun's targets
+        SetRigTargetPoints(transformTargets);
         gunfireHandler.SetCurrentGun(switchData);
     }
     private void SetRigTargetPoints(Transform[] transformTargets)
     {
-        leftArmMover.data.target = GetTargetByTag(transformTargets, "LeftHandTarget");
-        leftArmMover.data.hint = GetTargetByTag(transformTargets, "LeftHandHint");
-        rightArmMover.data.target = GetTargetByTag(transformTargets, "RightHandTarget");
-        rightArmMover.data.hint = GetTargetByTag(transformTargets, "RightHandHint");
+        Transform leftHandTarget = GetTargetByTag(transformTargets, "LeftHandTarget");
+        Transform leftHandHint = GetTargetByTag(transformTargets, "LeftHandHint");
+        Transform rightHandTarget = GetTargetByTag(transformTargets, "RightHandTarget");
+        Transform rightHandHint = GetTargetByTag(transformTargets, "RightHandHint");
 
-        rigBuilder.Build();
+        void SetProperties(Transform target, Transform newTarget)
+        {
+            target.position = newTarget.position;
+            target.rotation = newTarget.rotation;
+            target.parent = newTarget.parent;
+        }
+
+        IEnumerator LerpRigTargetPoints()
+        {
+            float timeElapsed = 0;
+            float lerpTime = .5f;
+            while (timeElapsed < lerpTime)
+            {
+                timeElapsed += Time.deltaTime;
+                float t = timeElapsed / lerpTime;
+                
+                //quick lambda function for lerping position and then rotation
+                Action<Transform, Transform, float> LerpPositionAndRotation = (currentTransform, targetTransform, t) =>
+                {
+                    currentTransform.position = Vector3.Lerp(currentTransform.position,
+                                                             targetTransform.position, t);
+                    currentTransform.rotation = Quaternion.Lerp(currentTransform.rotation,
+                                                                targetTransform.rotation, t);
+                };
+                LerpPositionAndRotation(leftArmMover.data.target, leftHandTarget, t);
+                LerpPositionAndRotation(leftArmMover.data.hint, leftHandHint, t);
+                LerpPositionAndRotation(rightArmMover.data.target, rightHandTarget, t);
+                LerpPositionAndRotation(rightArmMover.data.hint, rightHandHint, t);
+                yield return null;
+            }
+            SetProperties(leftArmMover.data.target, leftHandTarget);
+            SetProperties(leftArmMover.data.hint, leftHandHint);
+            SetProperties(rightArmMover.data.target, rightHandTarget);
+            SetProperties(rightArmMover.data.hint, rightHandHint);
+        }
+        StartCoroutine(LerpRigTargetPoints());
+        //lerp the target and hint to the new gun's target and hint, and then set the properties after the lerp is done (the lerp time should be a fixed value)
+        
     }
     
     private Transform GetTargetByTag(Transform[] transformTargets, string tag)

@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PlayerStateMachine
 {
-    public PlayerState currentState;
-    public void Init(PlayerState startingState)
+    public BehaviourState currentState;
+    public void Init(BehaviourState startingState)
     {
         currentState = startingState;
         currentState.Enter();
     }
     
-    public void SwitchState(PlayerState newState)
+    public void SwitchState(BehaviourState newState)
     {
         currentState.Exit();
         currentState = newState;
