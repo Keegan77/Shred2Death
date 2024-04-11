@@ -7,15 +7,13 @@ public class AbilityState : PlayerState
 {
     protected PlayerBase player;
     protected AbilityStateMachine stateMachine;
-
-    //dictionary to link ability states to the behaviour states that are banned for that state
-    public Dictionary<Type, List<BehaviourState>> abilityBannedStateMap = 
-        new Dictionary<Type, List<BehaviourState>>();
+    public AbilityStateMaps abilityStateMaps;
     
     protected AbilityState(PlayerBase player, AbilityStateMachine stateMachine)
     {
         this.player = player;
         this.stateMachine = stateMachine;
+        abilityStateMaps = new AbilityStateMaps(player);
     }
     
     /// <summary>
@@ -25,12 +23,12 @@ public class AbilityState : PlayerState
     /// <returns>True if the behaviour state is banned from the ability</returns>
     public bool CurrentStateIsBanned()
     {
-        if (!abilityBannedStateMap.ContainsKey(player.abilityStateMachine.currentAbilityState.GetType()))
+        if (!abilityStateMaps.abilityBannedStateMap.ContainsKey(player.abilityStateMachine.currentAbilityState.GetType()))
         {
             return false;
         }
         
-        return abilityBannedStateMap[player.abilityStateMachine.currentAbilityState.GetType()]
+        return abilityStateMaps.abilityBannedStateMap[player.abilityStateMachine.currentAbilityState.GetType()]
             .Contains(player.stateMachine.currentState);
     }
     

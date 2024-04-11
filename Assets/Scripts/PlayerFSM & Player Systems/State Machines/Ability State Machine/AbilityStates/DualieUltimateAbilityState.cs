@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DualieUltimateAbilityState : AbilityState
 {
+    float pointsRequired = 100f;
     public DualieUltimateAbilityState(PlayerBase player, AbilityStateMachine stateMachine) : base(player, stateMachine)
     {
     }
