@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -183,6 +183,7 @@ MonoBehaviour:
   _navMeshLinkData: {fileID: 335903670}
   _heightOffset: 7.35
   _placementOffset: 0.322
+  _jumpDuration: 2
 --- !u!114 &335903670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,6 +539,7 @@ MonoBehaviour:
   _navMeshLinkData: {fileID: 668764507}
   _heightOffset: 6.7
   _placementOffset: 0.474
+  _jumpDuration: 3
 --- !u!114 &668764507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1027,7 +1029,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5547142787326186044, guid: 207108fb796d56542a36b891f8d27842, type: 3}
       propertyPath: m_Center.x
-      value: -18.9
+      value: -54.82
       objectReference: {fileID: 0}
     - target: {fileID: 5547142787326186044, guid: 207108fb796d56542a36b891f8d27842, type: 3}
       propertyPath: m_Center.y
@@ -1574,11 +1576,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3753944540308543792, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -30.331995
+      value: -54.73
       objectReference: {fileID: 0}
     - target: {fileID: 3753944540308543792, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.75
+      value: 11.67
       objectReference: {fileID: 0}
     - target: {fileID: 3753944540308543792, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2016,6 +2018,7 @@ MonoBehaviour:
   _navMeshLinkData: {fileID: 1869586851}
   _heightOffset: 12.37
   _placementOffset: 0.474
+  _jumpDuration: 4
 --- !u!114 &1869586851
 MonoBehaviour:
   m_ObjectHideFlags: 0
