@@ -26,6 +26,10 @@ public class ES_Ragdoll : Enemy_State
 
     [Tooltip("Assign this to the object that will recieve the force of entering the state")]
     public Rigidbody objectRagdollTarget;
+
+    [SerializeField] GameObject ragdollRootObject;
+    [SerializeField] GameObject ragdollSeparationObject;
+    [SerializeField] GameObject ragdollMeshObject;
     #endregion
 
     #region Script Variables
@@ -40,10 +44,17 @@ public class ES_Ragdoll : Enemy_State
     #region StateMachine
     public override void Enter ()
     {
+        e.sensorsObject.SetActive(false);
+
         e.SetRagdollEnabled (true);
         ragdollStationary = false;
 
         base.Enter ();
+
+
+        e.bodyObject.transform.parent = null;
+        ragdollSeparationObject.transform.parent = null;
+
     }
 
 
@@ -52,6 +63,9 @@ public class ES_Ragdoll : Enemy_State
     /// </summary>
     public override void Exit ()
     {
+        ragdollSeparationObject.transform.parent = ragdollRootObject.transform;
+        e.bodyObject.transform.parent = e.transform;
+        
         ragdollStationary = false;
         RaycastHit hit;
 
@@ -66,8 +80,17 @@ public class ES_Ragdoll : Enemy_State
             Debug.Log ("ES_Ragdoll: Raycast not found", this);
         }
 
+        e.sensorsObject.SetActive (true);
+        e.bodyObject.transform.position = e.transform.position;
         e.SetRagdollEnabled (false);
         base.Exit ();
+
+    }
+
+    public override void machinePhysics ()
+    {
+        base.machinePhysics ();
+        e.bodyObject.transform.position = ragdollSeparationObject.transform.position;
     }
 
     /// <summary>
@@ -108,15 +131,28 @@ public class ES_Ragdoll : Enemy_State
     #region SCRIPT FUNCTIONS
     /// <summary>
     /// Invoked by a sensor that checks to see if the player boosts into the enemy.
+    /// 
+    /// Set the entryVelocity ahead of time if launch is false
     /// </summary>
     /// <param name="launch"></param>
+    /// 
+    public Vector3 entryVelocity;
     public void EnterRagdoll (bool launch)
     {
         e.stateMachine.transitionState (this);
 
         if ( launch )
         {
-            objectRagdollTarget.GetComponent<Rigidbody> ().AddForce (new Vector3 (0, 100, -10), ForceMode.VelocityChange);
+            objectRagdollTarget.AddForce (new Vector3 (0, 100, -10), ForceMode.VelocityChange);
+        }
+        else
+        {
+            foreach(Rigidbody rb in e.ragdollBodies)
+            {
+                rb.AddForce (entryVelocity, ForceMode.VelocityChange);
+
+            }
+            Debug.Log (entryVelocity);
         }
 
         Debug.Log ($"{this.name}: Entered Ragdoll State");
