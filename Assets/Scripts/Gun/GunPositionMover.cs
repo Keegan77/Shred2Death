@@ -29,6 +29,10 @@ public class GunPositionMover : MonoBehaviour
                 {
                     originTransform.localPosition = cPoseRef.localPosition;
                     originTransform.localRotation = cPoseRef.localRotation;
+                    if (originTransform.CompareTag("LeftHandTarget") || originTransform.CompareTag("RightHandTarget"))
+                    {
+                        originTransform.GetComponent<Recoil>().ChangeStartLocation(cPoseRef.localEulerAngles);
+                    }
                 }
             }
         }

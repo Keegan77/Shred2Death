@@ -36,6 +36,10 @@ public static class ActionEvents
     public static Action StopLoopAudio;
 
     public static Action LoadBowlMeshes;
+    
+    public static Action<AbilityState> OnAbilityStateSwitch;
+    
+    public static Action IntermediaryAbilityStateEnter;
 
 }
 
