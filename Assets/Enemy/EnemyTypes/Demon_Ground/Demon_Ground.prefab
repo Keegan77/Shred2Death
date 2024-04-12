@@ -31,6 +31,92 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2933471114754438161}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9180721672347012242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3169865845239607814}
+  - component: {fileID: 6734062557448569666}
+  - component: {fileID: 4867250087426646180}
+  m_Layer: 14
+  m_Name: Dodge Range
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3169865845239607814
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9180721672347012242}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6691079794360441263}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6734062557448569666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9180721672347012242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bee5efaef17da6e44918332e301132eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8189151714653380516}
+        m_TargetAssemblyTypeName: Enemy_StateMachine, Assembly-CSharp
+        m_MethodName: transitionState
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 6995417364875992630}
+          m_ObjectArgumentAssemblyTypeName: Enemy_State, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+  dodgeRequiredAlignment: 0.7
+  dodgeRequiredSpeed: 40
+--- !u!135 &4867250087426646180
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9180721672347012242}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 4.35
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1156754660827010158
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53,11 +139,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 935309324124658596, guid: fa2e54fb309a52f44b351faa2069306e, type: 3}
       propertyPath: m_Center.y
-      value: 0.9234724
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 935309324124658596, guid: fa2e54fb309a52f44b351faa2069306e, type: 3}
       propertyPath: m_Center.z
-      value: -0.52436876
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2862863274893085584, guid: fa2e54fb309a52f44b351faa2069306e, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.size
@@ -134,6 +220,10 @@ PrefabInstance:
     - target: {fileID: 6411238377627145910, guid: fa2e54fb309a52f44b351faa2069306e, type: 3}
       propertyPath: m_Name
       value: CheckBoostTouch
+      objectReference: {fileID: 0}
+    - target: {fileID: 6411238377627145910, guid: fa2e54fb309a52f44b351faa2069306e, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -423,7 +513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8770563816318007868, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3437983621280888445, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
@@ -439,6 +529,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 662209884883719928, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6353340657300503639}
+    - targetCorrespondingSourceObject: {fileID: 662209884883719928, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3169865845239607814}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2021591513531018249, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       insertIndex: 2
@@ -623,7 +716,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dodgeDistance: 3
+  dodgeDistance: 10
   dodgeTime: 1.5
 --- !u!114 &4439761718339668230
 MonoBehaviour:
@@ -3255,11 +3348,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5678606453338216988, guid: cae747ea39db587449a0f37169eea7df, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5870824262189814864, guid: cae747ea39db587449a0f37169eea7df, type: 3}
       propertyPath: m_Radius
       value: 4.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 5870824262189814864, guid: cae747ea39db587449a0f37169eea7df, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
