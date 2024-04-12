@@ -9,6 +9,7 @@ public class SceneDataForGun : MonoBehaviour
     [SerializeField] private GameObject[] gunModels;
     [SerializeField] private Transform[] gunTips;
     [SerializeField] private Transform[] allTargets;
+    [SerializeField] private Transform[] abilityTargets;
     [SerializeField] private Recoil[] recoilObjects;
     [SerializeField] private RawImage crosshair;
     
@@ -35,6 +36,11 @@ public class SceneDataForGun : MonoBehaviour
     public Transform[] GetAllTargets()
     {
         return allTargets;
+    }
+    
+    public Transform[] GetAbilityTargets()
+    {
+        return abilityTargets;
     }
     
     public Recoil[] GetRecoilObjects()

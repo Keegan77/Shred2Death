@@ -128,7 +128,7 @@ public class GunSwitcher : MonoBehaviour
         SetRigTargetPoints(transformTargets);
         gunfireHandler.SetCurrentGun(switchData);
     }
-    private void SetRigTargetPoints(Transform[] transformTargets)
+    public void SetRigTargetPoints(Transform[] transformTargets)
     {
         Transform leftHandTarget = GetTargetByTag(transformTargets, "LeftHandTarget");
         Transform leftHandHint = GetTargetByTag(transformTargets, "LeftHandHint");

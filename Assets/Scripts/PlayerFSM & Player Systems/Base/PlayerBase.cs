@@ -26,6 +26,7 @@ public class PlayerBase : MonoBehaviour
         [Header("Public Component References")]
         public PlayerParticleManager particleManager;
         public GunfireHandler gunfireHandler;
+        public GunSwitcher gunSwitcher;
 
         public PlayerCapsuleFloater capsuleFloater;
         public Rigidbody rb;
@@ -320,7 +321,6 @@ public class PlayerBase : MonoBehaviour
         forwardRayEndPoint = forwardRayOrigin + forwardMultByDistance;
         leftRayEndPoint = leftRayOrigin - rightMultByDistance;
         rightRayEndPoint = rightRayOrigin + rightMultByDistance;
-        
     }
     
     public bool CheckGround(string layerName = "Ground")
