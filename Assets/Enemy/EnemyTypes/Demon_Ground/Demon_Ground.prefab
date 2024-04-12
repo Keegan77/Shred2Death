@@ -588,6 +588,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationEnter: WALK
+  agentUpdatePosition: 1
+  agentUpdateRotation: 1
+  agentIsMoving: 1
+  movementSpeed: 30
+  movementAcceleration: 999
+  movementRotation: 360
 --- !u!114 &5363906235961485691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,6 +607,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationEnter: RUN
+  agentUpdatePosition: 1
+  agentUpdateRotation: 1
+  agentIsMoving: 1
+  movementSpeed: 60
+  movementAcceleration: 999
+  movementRotation: 540
   agentUpdateDistance: 4
   stateAttack: {fileID: 2521084591526766136}
   timerShotSetting: 3
@@ -617,6 +629,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationEnter: IDLE
+  agentUpdatePosition: 0
+  agentUpdateRotation: 0
+  agentIsMoving: 0
+  movementSpeed: 1
+  movementAcceleration: 999
+  movementRotation: 100
   bulletWaitTimeMin: 0
   bulletWaitTimeMax: 1
   stateAttack: {fileID: 2521084591526766136}
@@ -683,6 +701,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationEnter: DODGE
+  agentUpdatePosition: 0
+  agentUpdateRotation: 0
+  agentIsMoving: 0
+  movementSpeed: 0
+  movementAcceleration: 999
+  movementRotation: 0
   curvePosition:
     serializedVersion: 2
     m_Curve:
@@ -731,6 +755,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationEnter: IDLE
+  agentUpdatePosition: 1
+  agentUpdateRotation: 1
+  agentIsMoving: 1
+  movementSpeed: 1
+  movementAcceleration: 999
+  movementRotation: 1
 --- !u!1 &5324938368301081438 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2021591513531018249, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
@@ -805,7 +835,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Agent: {fileID: 3754971543326130396}
-  _jumpDuration: 0.8
   _jumpWait: 0.75
   _jumpLand: 1
   OnLand:

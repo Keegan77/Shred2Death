@@ -12,6 +12,8 @@ public class ESG_Dodge : ES_DemonGround
 
     #region Movement Paramaters
 
+    [Header("Dodge Parameters")]
+
     [Tooltip("Adjust the curve to fine tune the pacing of the dodge")]
     public AnimationCurve curvePosition;
     private float dodgeTimerPrevious = 0;
@@ -39,10 +41,7 @@ public class ESG_Dodge : ES_DemonGround
         base.Enter ();
         //Stop any nav agent interference in movement
         eg.agent.ResetPath ();
-        eg.agent.isStopped = true;
-        eg.agent.updatePosition = false;
 
-        eg.agent.enabled = false;
 
         dodgeTimerPrevious = 0;
         dodgePositionPrevious = 0;
@@ -79,7 +78,7 @@ public class ESG_Dodge : ES_DemonGround
     public override void Exit ()
     {
         eg.agent.Warp (transform.position);
-        eg.agent.enabled = true;
+        //eg.agent.enabled = true;
 
         base.Exit ();
 

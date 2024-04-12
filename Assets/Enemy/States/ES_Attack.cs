@@ -36,6 +36,7 @@ public class ES_Attack : Enemy_State, iAttack
             transform.position.y,
             Enemy.playerReference.transform.position.z
             );
+
         e.transform.rotation = Quaternion.LookRotation (lookTarget, Vector3.up);
     }
     #endregion
