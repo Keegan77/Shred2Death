@@ -61,6 +61,8 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
         {
             tokens += tokenCost;
         }
+
+        StopAllCoroutines ();
     }
 
     public void reserveTokens ()

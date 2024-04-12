@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -176,6 +175,17 @@ public class ES_Ragdoll : Enemy_State
     private void Start ()
     {
         offsetRagdollTarget = objectRagdollTarget.transform.localPosition;
+    }
+
+    public void testDestroy ()
+    {
+        Destroy (e.gameObject);
+    }
+    private void OnDestroy ()
+    {
+
+        if (ragdollRootObject) Destroy (ragdollRootObject.transform.parent.gameObject);
+        if (ragdollSeparationObject) Destroy (ragdollSeparationObject);
     }
     #endregion
 }
