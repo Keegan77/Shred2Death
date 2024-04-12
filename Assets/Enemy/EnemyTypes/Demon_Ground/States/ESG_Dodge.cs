@@ -33,22 +33,16 @@ public class ESG_Dodge : ES_DemonGround
 
     #region State Machine
 
-    //Compare rotation of player's movement to current rotation of enemy
-    Vector3 epos;
-    Vector3 ppos;
-    Vector3 pvel;
 
-    //Returns the angle left or right of the enemy the player is going
-    float anglePlayerEntry;
-    float dotEnemyFacingPlayer; //returns true if the enemy is facing the player
     public override void Enter ()
     {
         base.Enter ();
-
         //Stop any nav agent interference in movement
         eg.agent.ResetPath ();
         eg.agent.isStopped = true;
         eg.agent.updatePosition = false;
+
+        eg.agent.enabled = false;
 
         dodgeTimerPrevious = 0;
         dodgePositionPrevious = 0;
@@ -59,33 +53,35 @@ public class ESG_Dodge : ES_DemonGround
         Rigidbody prb = Enemy.playerReference.GetComponent<Rigidbody>();
 
         //Compare rotation of player's movement to current rotation of enemy
-        epos = transform.position;
-        ppos = prb.transform.position;
-        pvel = prb.velocity;
+        Vector3 epos = transform.position;
+        Vector3 ppos = prb.transform.position;
+        Vector3 pvel = prb.velocity;
 
         //Returns the angle left or right of the enemy the player is going
-        anglePlayerEntry = Vector3.SignedAngle (pvel, epos - ppos, Vector3.up);
-        dotEnemyFacingPlayer = Vector3.Dot(transform.forward, pvel.normalized); //returns true if the enemy is facing the player
+        float anglePlayerEntry = Vector3.SignedAngle (pvel, epos - ppos, Vector3.up);
+        float dotEnemyFacingPlayer = Vector3.Dot(transform.forward, pvel.normalized); //returns true if the enemy is facing the player
+        //Debug.Log (epos);
+        //Debug.Log (ppos);
+        //Debug.Log (pvel);
 
-        Debug.Log (epos);
-        Debug.Log (ppos);
-        Debug.Log (pvel);
+        //Debug.Log (epos - ppos);
+        //Debug.Log (anglePlayerEntry);
+        //Debug.Log (dotEnemyFacingPlayer);
 
-        Debug.Log (epos - ppos);
-        Debug.Log (anglePlayerEntry);
-        Debug.Log (dotEnemyFacingPlayer);
-
-        DodgeDirection = (anglePlayerEntry > 0 && dotEnemyFacingPlayer <= 0) ? -transform.right : transform.right; 
-
-        //Debug.Break ();
-        //if ( Mathf.Atan2 (prb.velocity.x, prb.velocity.z));
+        //If coming at the player from behind, dodge based on this angle
+        if (dotEnemyFacingPlayer > 0)
+            DodgeDirection = (anglePlayerEntry > 0) ? transform.right : -transform.right;
+        else 
+            DodgeDirection = (anglePlayerEntry > 0) ? -transform.right : transform.right;
 
     }
 
     public override void Exit ()
     {
-        base.Exit ();
         eg.agent.Warp (transform.position);
+        eg.agent.enabled = true;
+
+        base.Exit ();
 
         eBody.isKinematic = true;
     }
@@ -117,7 +113,7 @@ public class ESG_Dodge : ES_DemonGround
 
         if (e.stateMachine.timerCurrentState > dodgeTime)
         {
-                e.stateMachine.transitionState (GetComponent<ESG_Empty> ());
+                e.stateMachine.transitionState (GetComponent<ESG_Chase> ());
         }
     }
 
