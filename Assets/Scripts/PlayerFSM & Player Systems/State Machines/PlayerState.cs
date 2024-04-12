@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
+[Serializable]
 public class PlayerState
 {
     protected Dictionary<InputAction, InputActionEvents> behaviourInputActions;

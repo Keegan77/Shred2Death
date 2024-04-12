@@ -25,6 +25,7 @@ public class PlayerBase : MonoBehaviour
     #region Public Component References
         [Header("Public Component References")]
         public PlayerParticleManager particleManager;
+        public GunfireHandler gunfireHandler;
 
         public PlayerCapsuleFloater capsuleFloater;
         public Rigidbody rb;

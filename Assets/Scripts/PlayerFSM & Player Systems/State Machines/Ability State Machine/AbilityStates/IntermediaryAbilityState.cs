@@ -13,14 +13,30 @@ public class IntermediaryAbilityState : AbilityState
                 RequestNewState(player.boostAbilityState);
             },
         });
+        abilityInputActions.Add(InputRouting.Instance.input.Player.Ability, new InputActionEvents()
+        {
+            onPerformed = ctx =>
+            {
+                switch (player.gunfireHandler.GetCurrentGunData().name)
+                {
+                    case "Dualies":
+                        RequestNewState(player.dualieUltimateAbilityState);
+                        break;
+                    case "Shotgun":
+                        RequestNewState(player.shotgunUltimateAbilityState);
+                        break;
+                }
+            },
+        });
+        
     }
 
     private void RequestNewState(AbilityState state)
     {
         if (StateIsBanned(player.stateMachine.currentState, state)) return; //if current state banned from next ab state, leave
         if (player.GetComboHandler().GetStylePoints() < abilityStateMaps.abilityStyleCostMap[state.GetType()]) return;
+        // we meet the pre-requisites to enter the next ability
         player.GetComboHandler().DecrementStylePoints(abilityStateMaps.abilityStyleCostMap[state.GetType()]);
-        // we meet the pre-requisites to enter the next state
         stateMachine.SwitchState(state);
     }
 
