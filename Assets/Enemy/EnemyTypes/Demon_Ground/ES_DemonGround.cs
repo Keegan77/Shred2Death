@@ -20,7 +20,8 @@ public abstract class ES_DemonGround : Enemy_State
     public override void Enter ()
     {
         base.Enter ();
-        eg.animator.Play (animationEnter);
+        //eg.animator.Play (animationEnter);
+        eg.animator.CrossFade (animationEnter, 0.3f);
 
         eg.agent.isStopped = false;
         eg.agent.updatePosition = true;

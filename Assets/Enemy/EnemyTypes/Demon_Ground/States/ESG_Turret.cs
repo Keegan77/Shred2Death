@@ -59,8 +59,8 @@ public class ESG_Turret : ES_DemonGround
 
     public override void OnAnimationFinished ()
     {
-        isAnimationPlaying = false;
-        eg.animator.Play (animationIdle);
+        //isAnimationPlaying = false;
+        //eg.animator.Play (animationIdle);
     }
 
     protected override void OnDestinationReached ()

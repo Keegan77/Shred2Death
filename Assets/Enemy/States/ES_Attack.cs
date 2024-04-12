@@ -45,8 +45,11 @@ public class ES_Attack : Enemy_State, iAttack
         if (bulletInfo.bulletReady)
         {
             bulletInfo.reserveTokens ();
-            e.animator.Play (bulletInfo.attackAnimation);
-            yield return bulletInfo.PlayShot (Enemy.playerReference.gameObject, muzzlePoint);
+            //e.animator.Play (bulletInfo.attackAnimation);
+            e.animator.CrossFade (bulletInfo.attackAnimation, 0.3f);
+
+
+            yield return bulletInfo.PlayShot (Enemy.playerReference.aimTarget, Enemy.playerReference.rb, muzzlePoint);
         }
 
         e.stateMachine.transitionState (e.stateMachine.statePrevious);

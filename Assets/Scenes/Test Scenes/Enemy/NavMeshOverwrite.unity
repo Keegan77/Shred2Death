@@ -133,6 +133,16 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6696050697200191110, guid: 65dc3dc83cada7046a83c012bb0e5efe, type: 3}
   m_PrefabInstance: {fileID: 884631919}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &286019584 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6632714718895213613, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
+  m_PrefabInstance: {fileID: 1624166938}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &286019585 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 3720703392505201332, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
+  m_PrefabInstance: {fileID: 1624166938}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &335903667
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,7 +193,7 @@ MonoBehaviour:
   _navMeshLinkData: {fileID: 335903670}
   _heightOffset: 7.35
   _placementOffset: 0.322
-  _jumpDuration: 2
+  _jumpDuration: 0.2
 --- !u!114 &335903670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,7 +549,7 @@ MonoBehaviour:
   _navMeshLinkData: {fileID: 668764507}
   _heightOffset: 6.7
   _placementOffset: 0.474
-  _jumpDuration: 3
+  _jumpDuration: 0.2
 --- !u!114 &668764507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1574,6 +1584,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1252082861283672884, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
+      propertyPath: movementSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3753944540308543792, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -54.73
@@ -1618,6 +1632,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Debug_PlayerDummy
       objectReference: {fileID: 0}
+    - target: {fileID: 6802396995560386535, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 286019585}
+    - target: {fileID: 6802396995560386535, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
+      propertyPath: aimTarget
+      value: 
+      objectReference: {fileID: 286019584}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2018,7 +2040,7 @@ MonoBehaviour:
   _navMeshLinkData: {fileID: 1869586851}
   _heightOffset: 12.37
   _placementOffset: 0.474
-  _jumpDuration: 4
+  _jumpDuration: 0.2
 --- !u!114 &1869586851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2286,6 +2308,10 @@ PrefabInstance:
     - target: {fileID: 4145810974931920499, guid: dd14bdc6b80c6a0418008fa6c45b3983, type: 3}
       propertyPath: m_StartPoint.z
       value: -1.7878268
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976935011587607795, guid: dd14bdc6b80c6a0418008fa6c45b3983, type: 3}
+      propertyPath: _jumpDuration
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7144368866139370130, guid: dd14bdc6b80c6a0418008fa6c45b3983, type: 3}
       propertyPath: m_LocalPosition.x
