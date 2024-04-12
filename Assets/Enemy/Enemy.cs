@@ -102,7 +102,7 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
 
     public void DeathFinished ()
     {
-        Debug.Log ("Enemy Dead");
+        //Debug.Log ("Enemy Dead");
         try
         {
             waveManager.removeEnemy ();
