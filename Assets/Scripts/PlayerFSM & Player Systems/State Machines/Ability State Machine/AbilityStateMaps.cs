@@ -10,34 +10,34 @@ public class AbilityStateMaps
     public AbilityStateMaps(PlayerBase player)
     {
         this.player = player;
-        abilityBannedStateMap = new Dictionary<Type, List<BehaviourState>>
+        abilityBannedStateMap = new Dictionary<Type, List<Type>>
         {
             {
-                typeof(BoostAbilityState), new List<BehaviourState>()
+                typeof(BoostAbilityState), new List<Type>()
                 {
-                    player.halfPipeState,
-                    player.driftState,
-                    player.nosediveState,
-                    player.grindState,
+                    player.halfPipeState.GetType(),
+                    player.driftState.GetType(),
+                    player.nosediveState.GetType(),
+                    player.grindState.GetType(),
                 }
             },
             {
-                typeof(DualieUltimateAbilityState), new List<BehaviourState>()
+                typeof(DualieUltimateAbilityState), new List<Type>()
                 {
-                    player.halfPipeState,
-                    player.driftState,
-                    player.nosediveState,
+                    player.halfPipeState.GetType(),
+                    player.GetType(),
+                    player.nosediveState.GetType(),
                 }
             }
         };
         abilityStyleCostMap = new Dictionary<Type, float>
         {
-            {typeof(BoostAbilityState), 100f},
+            {typeof(BoostAbilityState), 0f},
             {typeof(DualieUltimateAbilityState), 100f},
         };
     }
 
-    public Dictionary<Type, List<BehaviourState>> abilityBannedStateMap;
+    public Dictionary<Type, List<Type>> abilityBannedStateMap;
 
     public Dictionary<Type, float> abilityStyleCostMap;
 }

@@ -21,16 +21,16 @@ public class AbilityState : PlayerState
     /// for banning states, check the constructor of BoostAbilityState.cs
     /// </summary>
     /// <returns>True if the behaviour state is banned from the ability</returns>
-    public bool CurrentStateIsBanned()
+    public bool StateIsBanned(BehaviourState state, AbilityState nextAbilityState)
     {
-        if (!abilityStateMaps.abilityBannedStateMap.ContainsKey(player.abilityStateMachine.currentAbilityState.GetType()))
+        if (!abilityStateMaps.abilityBannedStateMap.ContainsKey(nextAbilityState.GetType()))
         {
             return false;
         }
-        
-        return abilityStateMaps.abilityBannedStateMap[player.abilityStateMachine.currentAbilityState.GetType()]
-            .Contains(player.stateMachine.currentState);
+        return abilityStateMaps.abilityBannedStateMap[nextAbilityState.GetType()]
+            .Contains(state.GetType());
     }
+
     
     public virtual void Enter() { }
 
@@ -38,7 +38,7 @@ public class AbilityState : PlayerState
 
     public virtual void LogicUpdate()
     {
-        if (CurrentStateIsBanned())
+        if (StateIsBanned(player.stateMachine.currentState, stateMachine.currentAbilityState))
         {
             stateMachine.SwitchState(player.intermediaryAbilityState);
         }

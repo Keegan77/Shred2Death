@@ -17,7 +17,7 @@ public class IntermediaryAbilityState : AbilityState
 
     private void RequestNewState(AbilityState state)
     {
-        if (CurrentStateIsBanned()) return;
+        if (StateIsBanned(player.stateMachine.currentState, state)) return; //if current state banned from next ab state, leave
         if (player.GetComboHandler().GetStylePoints() < abilityStateMaps.abilityStyleCostMap[state.GetType()]) return;
         player.GetComboHandler().DecrementStylePoints(abilityStateMaps.abilityStyleCostMap[state.GetType()]);
         // we meet the pre-requisites to enter the next state
