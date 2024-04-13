@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -91,6 +90,7 @@ public class ES_Ragdoll : Enemy_State
     {
         base.machinePhysics ();
         e.bodyObject.transform.position = ragdollSeparationObject.transform.position;
+    
     }
 
     /// <summary>
@@ -103,6 +103,8 @@ public class ES_Ragdoll : Enemy_State
     {
         //base.AIUpdate ();
 
+        ragdollStationary = objectRagdollTarget.velocity.magnitude <= thresholdStationary;
+
         if ( ragdollStationary )
         {
             timerRagdollDown += Time.deltaTime;
@@ -112,47 +114,45 @@ public class ES_Ragdoll : Enemy_State
                 e.stateMachine.transitionState (stateExit);
                 return;
             }
+        }
 
-            if (objectRagdollTarget.velocity.magnitude >= thresholdStationary )
-            {
-                ragdollStationary = false;
-            }
-        }
-        else
-        {
-            if (objectRagdollTarget.velocity.magnitude <= thresholdStationary )
-            {
-                ragdollStationary = true;
-            }
-        }
     }
     #endregion
 
     #region SCRIPT FUNCTIONS
+    public Vector3 entryVelocityInfluence;
+
     /// <summary>
     /// Invoked by a sensor that checks to see if the player boosts into the enemy.
     /// 
-    /// Set the entryVelocity ahead of time if launch is false
+    /// If Launch is false, Set the entryVelocity vector ahead of time
     /// </summary>
     /// <param name="launch"></param>
     /// 
-    public Vector3 entryVelocity;
     public void EnterRagdoll (bool launch)
     {
         e.stateMachine.transitionState (this);
-
+        
         if ( launch )
         {
-            objectRagdollTarget.AddForce (new Vector3 (0, 100, -10), ForceMode.VelocityChange);
+            Rigidbody prb = Enemy.playerReference.GetComponent<Rigidbody> ();
+
+            foreach (Rigidbody rb in e.ragdollBodies)
+            {
+                rb.AddForce (prb.velocity + entryVelocityInfluence, ForceMode.VelocityChange);
+
+            }
+
+            //objectRagdollTarget.AddForce (prb.velocity + entryVelocityInfluence, ForceMode.VelocityChange);
         }
         else
         {
             foreach(Rigidbody rb in e.ragdollBodies)
             {
-                rb.AddForce (entryVelocity, ForceMode.VelocityChange);
+                rb.AddForce (entryVelocityInfluence, ForceMode.VelocityChange);
 
             }
-            Debug.Log (entryVelocity);
+            Debug.Log (entryVelocityInfluence);
         }
 
         Debug.Log ($"{this.name}: Entered Ragdoll State");
@@ -167,6 +167,17 @@ public class ES_Ragdoll : Enemy_State
     private void Start ()
     {
         offsetRagdollTarget = objectRagdollTarget.transform.localPosition;
+    }
+
+    public void testDestroy ()
+    {
+        Destroy (e.gameObject);
+    }
+    private void OnDestroy ()
+    {
+
+        if (ragdollRootObject) Destroy (ragdollRootObject.transform.parent.gameObject);
+        if (ragdollSeparationObject) Destroy (ragdollSeparationObject);
     }
     #endregion
 }

@@ -27,7 +27,6 @@ public class ES_Attack : Enemy_State, iAttack
         base.Exit ();
         StopAllCoroutines ();
         bulletInfo.CancelShot ();
-
     }
 
     public override void machineUpdate ()

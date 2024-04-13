@@ -12,7 +12,7 @@ public class CheckBoostTouch : Sensor
     {
         if (other.CompareTag ("Player") && other.GetComponentInParent<PlayerBase> () != null)
         {
-            Debug.Log (Enemy.playerReference.playerbase.movement.currentlyBoosting);
+            //Debug.Log (Enemy.playerReference.playerbase.movement.currentlyBoosting);
 
             if (Enemy.playerReference.playerbase.movement.currentlyBoosting)
             {
