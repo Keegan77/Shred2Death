@@ -41,10 +41,10 @@ public class Recoil : MonoBehaviour
         transform.localRotation = Quaternion.Euler(currentRotation);
     }
     
-    public void ChangeStartLocation(Vector3 newStartLocation)
+    public void ChangeStartRotation(Vector3 newStartRotation)
     {
         oldStartRotation = startRotation;
-        startRotation = newStartLocation;
+        startRotation = newStartRotation;
     }
     
     public void ResetStartRotation()

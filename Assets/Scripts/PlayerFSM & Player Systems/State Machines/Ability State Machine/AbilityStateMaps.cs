@@ -26,7 +26,6 @@ public class AbilityStateMaps
                 typeof(DualieUltimateAbilityState), new List<Type>()
                 {
                     player.deathState.GetType(),
-                    player.nosediveState.GetType(),
                 }
             },
             {
@@ -42,8 +41,8 @@ public class AbilityStateMaps
         abilityStyleCostMap = new Dictionary<Type, float>
         {
             {typeof(BoostAbilityState), 25f},
-            {typeof(DualieUltimateAbilityState), 0f},
-            {typeof(ShotgunUltimateAbilityState), 0f},
+            {typeof(DualieUltimateAbilityState), 100f},
+            {typeof(ShotgunUltimateAbilityState), 100f},
         };
     }
 

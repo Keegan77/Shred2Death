@@ -13,6 +13,7 @@ public class PlayerState
     {
         public Action<InputAction.CallbackContext> onPerformed;
         public Action<InputAction.CallbackContext> onCanceled;
+        public Action<InputAction.CallbackContext> onStarted;
     }
 
     public PlayerState()
@@ -29,6 +30,7 @@ public class PlayerState
             {
                 if (pair.Value.onPerformed != null) pair.Key.performed += pair.Value.onPerformed;
                 if (pair.Value.onCanceled != null) pair.Key.canceled += pair.Value.onCanceled;
+                if (pair.Value.onStarted != null) pair.Key.started += pair.Value.onStarted;
             }
         }
         else
@@ -37,6 +39,7 @@ public class PlayerState
             {
                 if (pair.Value.onPerformed != null) pair.Key.performed += pair.Value.onPerformed;
                 if (pair.Value.onCanceled != null) pair.Key.canceled += pair.Value.onCanceled;
+                if (pair.Value.onStarted != null) pair.Key.started += pair.Value.onStarted;
             }
         
         }
@@ -51,6 +54,7 @@ public class PlayerState
             {
                 if (pair.Value.onPerformed != null) pair.Key.performed -= pair.Value.onPerformed;
                 if (pair.Value.onCanceled != null) pair.Key.canceled -= pair.Value.onCanceled;
+                if (pair.Value.onStarted != null) pair.Key.started -= pair.Value.onStarted;
             }
         }
         else
@@ -59,6 +63,7 @@ public class PlayerState
             {
                 if (pair.Value.onPerformed != null) pair.Key.performed -= pair.Value.onPerformed;
                 if (pair.Value.onCanceled != null) pair.Key.canceled -= pair.Value.onCanceled;
+                if (pair.Value.onStarted != null) pair.Key.started -= pair.Value.onStarted;
             }
         }
     }

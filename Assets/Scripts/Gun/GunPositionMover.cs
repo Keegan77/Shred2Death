@@ -12,6 +12,11 @@ public class GunPositionMover : MonoBehaviour
 
     private void Start()
     {
+        SaveOriginalTransforms();
+    }
+    
+    private void SaveOriginalTransforms()
+    {
         foreach (var transform in transformsToMove)
         {
             originalPositions.Add(transform, transform.localPosition);
@@ -31,7 +36,7 @@ public class GunPositionMover : MonoBehaviour
                     originTransform.localRotation = cPoseRef.localRotation;
                     if (originTransform.CompareTag("LeftHandTarget") || originTransform.CompareTag("RightHandTarget"))
                     {
-                        originTransform.GetComponent<Recoil>().ChangeStartLocation(cPoseRef.localEulerAngles);
+                        originTransform.GetComponent<Recoil>().ChangeStartRotation(cPoseRef.localEulerAngles);
                     }
                 }
             }
@@ -47,5 +52,6 @@ public class GunPositionMover : MonoBehaviour
             transform.localPosition = originalPositions[transform];
             transform.localRotation = originalRotations[transform];
         }
+        
     }
 }

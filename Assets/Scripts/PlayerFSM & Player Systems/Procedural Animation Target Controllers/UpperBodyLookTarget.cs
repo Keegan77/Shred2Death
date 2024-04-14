@@ -16,6 +16,8 @@ public class UpperBodyLookTarget : MonoBehaviour
 
     private float forwardDot, rightDot;
     
+    bool overrideLook = false;
+    
     private float PlayerCameraDotProduct => Vector3.Dot(playerForwardPoint.forward, cameraForwardPoint.forward);
 
     private void Start()
@@ -24,15 +26,38 @@ public class UpperBodyLookTarget : MonoBehaviour
         currentLookPoint = new GameObject().transform;
     }
 
+    private void OnEnable()
+    {
+        ActionEvents.MakePlayerLookForward += SwitchToForward;
+        ActionEvents.MakePlayerLookMouse += SwitchToCamera;
+    }
+
+    private void OnDisable()
+    {
+        ActionEvents.MakePlayerLookForward -= SwitchToForward;
+        ActionEvents.MakePlayerLookMouse -= SwitchToCamera;
+    }
+    
+    private void SwitchToForward()
+    {
+        overrideLook = true;
+        currentTarget = playerForwardPoint;
+    }
+    
+    private void SwitchToCamera()
+    {
+        overrideLook = false;
+        currentTarget = cameraForwardPoint;
+    }
+    
     private void Update()
     {
         forwardDot = Vector3.Dot(player.transform.forward, cam.forward);
-        
-        
-        //transform.position = currentTarget.position;
+
         LerpToTargetPosition();
         
-        // if slope orientation looking upward or downward
+        if (overrideLook) return;
+
         if (Mathf.Abs(player.GetOrientationWithDownward() - 90) > 30 && player.stateMachine.currentState == player.skatingState) 
         {
             currentTarget = playerForwardPoint; // player looks forward

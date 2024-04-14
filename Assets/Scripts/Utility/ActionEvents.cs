@@ -41,6 +41,10 @@ public static class ActionEvents
     
     public static Action IntermediaryAbilityStateEnter;
 
+    public static Action MakePlayerLookForward;
+    
+    public static Action MakePlayerLookMouse;
+
 }
 
 public struct GunSwitchData

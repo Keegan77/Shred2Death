@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,8 +14,6 @@ public class GunfireHandler : MonoBehaviour
     private bool buttonSet; // true if we've set a button listener (we have a non-automatic weapon)
 
     [SerializeField] private Recoil cameraRecoil;
-
-    
     
     [SerializeField] private TrailRenderer bulletTrail;
     [Header("Transforms")]
@@ -28,9 +27,16 @@ public class GunfireHandler : MonoBehaviour
 
     private Transform currentGunTip;
 
+    private bool fireDisabled = false;
+
+    public bool shootInGunDirection = false; //by default we shoot at the middle point of the camera,
+                                             //extended in the dir of the camera
+    private Vector3 currentGunRecoil;
+
     private void Awake()
     {
         currentGun = startingGun;
+        SetGunRecoil(new Vector3(currentGun.gunRecoilX, currentGun.gunRecoilY, currentGun.gunRecoilZ));
         currentGunSceneData = startingGunSceneData;
         currentGunTips = currentGunSceneData.GetGunTips();
         currentGunRecoilScripts = currentGunSceneData.GetRecoilObjects();
@@ -40,7 +46,7 @@ public class GunfireHandler : MonoBehaviour
 
     private void SetUpGun() // called on start and on gun switch
     {
-        if (buttonSet)
+        if (buttonSet) // if the previous weapon wasn't automatic, this disables that weapon's button input
         {
             DisableFireButtonListeners();
         }
@@ -76,10 +82,16 @@ public class GunfireHandler : MonoBehaviour
         playerHUD.stats.ammoBar.currentValue = Mathf.Lerp(playerHUD.stats.ammoBar.currentValue,
             (currentGun.currentAmmo / currentGun.magCapacity), Time.deltaTime * 5);
     }
+
+    public void DisablePlayerFire(bool disabled)
+    {
+        fireDisabled = disabled;
+    }
     
     private void Fire()
     {
         if (currentGun.currentAmmo <= 0) return;
+        if (fireDisabled) return;
         
         ExecuteGunshot(); // was seperated to allow for flexibility
         
@@ -89,9 +101,19 @@ public class GunfireHandler : MonoBehaviour
         
         if (currentGun.alternateFire)
         {
-            currentGunTip = currentGunTip == currentGunTips[0] ? currentGunTips[1] : currentGunTips[0];
-            currentGunRecoilScript = currentGunRecoilScript == currentGunRecoilScripts[0] ? currentGunRecoilScripts[1] : currentGunRecoilScripts[0];
+            SwitchAlternateFire();
         }
+    }
+
+    public void SetGunRecoil(Vector3 recoil)
+    {
+        currentGunRecoil = recoil;
+    }
+    
+    public void SwitchAlternateFire()
+    {
+        currentGunTip = currentGunTip == currentGunTips[0] ? currentGunTips[1] : currentGunTips[0];
+        currentGunRecoilScript = currentGunRecoilScript == currentGunRecoilScripts[0] ? currentGunRecoilScripts[1] : currentGunRecoilScripts[0];
     }
     
     public void ExecuteGunshot(RaycastHit overrideHit = default)
@@ -101,16 +123,21 @@ public class GunfireHandler : MonoBehaviour
         TrailRenderer trail; // instantiate our gun trail
         
         cameraRecoil.FireRecoil(currentGun.camRecoilX, currentGun.camRecoilY, currentGun.camRecoilZ); // apply recoil
-        currentGunRecoilScript.FireRecoil(currentGun.gunRecoilX, currentGun.gunRecoilY, currentGun.gunRecoilZ);
+        currentGunRecoilScript.FireRecoil(currentGunRecoil.x, currentGunRecoil.y, currentGunRecoil.z);
 
         int randInt = Random.Range(0, currentGun.fireSounds.Count);
         
         ActionEvents.PlayerSFXOneShot?.Invoke(currentGun.fireSounds[randInt], currentGun.delayPerAudioClip[randInt]); // play a random fire sound
+
+        void DoGunCasts(Vector3 hitPos, RaycastHit hit)
+        {
+            trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity);
+            StartCoroutine(SpawnBullet(trail, hitPos, currentGunTip.position, hit));
+        }
         
         if (overrideHit.point != default) // if we have an override hit point, use that
         {
-            trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity);
-            StartCoroutine(SpawnBullet(trail, overrideHit.point, currentGunTip.position, overrideHit));
+            DoGunCasts(overrideHit.point, overrideHit);
             return;
         }
         
@@ -119,14 +146,15 @@ public class GunfireHandler : MonoBehaviour
             Vector3 direction = GetDirection(); 
             if (Physics.Raycast(castPoint.position, direction, out hit, currentGun.maxDistance)) //if we hit an object with our bullet
             {
-                trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity); //start a bullet trail effect
-                StartCoroutine(SpawnBullet(trail, hit.point, currentGunTip.position, hit)); //spawn our bullet
+                DoGunCasts(hit.point, hit);
             }
             else // if we shoot, but we don't hit anything (if we shoot into the air at no objects, 
                 //we still want to show our bullet trail)
             {
-                trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity);
-                StartCoroutine(SpawnBullet(trail, castPoint.position + direction * (currentGun.maxDistance), currentGunTip.position, hit)); // sets the point of where our raycast would have ended up if it hit anything (point in the air)
+                DoGunCasts(castPoint.position + direction * currentGun.maxDistance, hit); // sets the point of
+                                                                                          // where our raycast would
+                                                                                          // have ended up if it hit
+                                                                                          // anything (point in the air)
             }
         }
         
@@ -154,11 +182,18 @@ public class GunfireHandler : MonoBehaviour
         }
         
     }
-    
+    public void ShootFromGunForward(bool enabled)
+    {
+        shootInGunDirection = enabled;
+    }
     
     private Vector3 GetDirection()
     {
         Vector3 direction = castPoint.forward;
+        if (shootInGunDirection)
+        {
+            direction = currentGunTip.forward;
+        }
 
         direction += new Vector3(Random.Range(-currentGun.spreadX, currentGun.spreadX),
                                  Random.Range(-currentGun.spreadY, currentGun.spreadY),

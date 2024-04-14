@@ -27,7 +27,7 @@ public class PlayerBase : MonoBehaviour
         public PlayerParticleManager particleManager;
         public GunfireHandler gunfireHandler;
         public GunSwitcher gunSwitcher;
-
+        public PlayerRootMover rootMover;
         public PlayerCapsuleFloater capsuleFloater;
         public Rigidbody rb;
         public Transform inputTurningTransform, playerModelTransform; // this is public because we want access from our states
