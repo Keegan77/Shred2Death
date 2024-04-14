@@ -25,7 +25,9 @@ public class PlayerBase : MonoBehaviour
     #region Public Component References
         [Header("Public Component References")]
         public PlayerParticleManager particleManager;
-
+        public GunfireHandler gunfireHandler;
+        public GunSwitcher gunSwitcher;
+        public PlayerRootMover rootMover;
         public PlayerCapsuleFloater capsuleFloater;
         public Rigidbody rb;
         public Transform inputTurningTransform, playerModelTransform; // this is public because we want access from our states
@@ -319,7 +321,6 @@ public class PlayerBase : MonoBehaviour
         forwardRayEndPoint = forwardRayOrigin + forwardMultByDistance;
         leftRayEndPoint = leftRayOrigin - rightMultByDistance;
         rightRayEndPoint = rightRayOrigin + rightMultByDistance;
-        
     }
     
     public bool CheckGround(string layerName = "Ground")

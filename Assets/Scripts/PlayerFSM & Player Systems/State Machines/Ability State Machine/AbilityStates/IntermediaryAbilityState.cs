@@ -13,17 +13,38 @@ public class IntermediaryAbilityState : AbilityState
                 RequestNewState(player.boostAbilityState);
             },
         });
+        abilityInputActions.Add(InputRouting.Instance.input.Player.Ability, new InputActionEvents()
+        {
+            onPerformed = ctx =>
+            {
+                switch (player.gunfireHandler.GetCurrentGunData().name)
+                {
+                    case "Dualies":
+                        RequestNewState(player.dualieUltimateAbilityState);
+                        break;
+                    case "Shotgun":
+                        RequestNewState(player.shotgunUltimateAbilityState);
+                        break;
+                }
+            },
+        });
+        
     }
 
     private void RequestNewState(AbilityState state)
     {
-        if (CurrentStateIsBanned()) return;
+        if (StateIsBanned(player.stateMachine.currentState, state)) return; //if current state banned from next ab state, leave
+        if (player.GetComboHandler().GetStylePoints() < abilityStateMaps.abilityStyleCostMap[state.GetType()]) return;
+        // we meet the pre-requisites to enter the next ability
+        player.GetComboHandler().DecrementStylePoints(abilityStateMaps.abilityStyleCostMap[state.GetType()]);
         stateMachine.SwitchState(state);
+        ActionEvents.OnAbilityStateSwitch?.Invoke(state);
     }
 
     public override void Enter()
     {
         base.Enter();
+        ActionEvents.IntermediaryAbilityStateEnter?.Invoke();
         SubscribeInputs(abilityState:true);
         Debug.Log("Intermediary Entered");
     }
