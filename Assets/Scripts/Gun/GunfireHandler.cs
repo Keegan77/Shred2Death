@@ -116,23 +116,32 @@ public class GunfireHandler : MonoBehaviour
         currentGunRecoilScript = currentGunRecoilScript == currentGunRecoilScripts[0] ? currentGunRecoilScripts[1] : currentGunRecoilScripts[0];
     }
     
-    public void ExecuteGunshot(RaycastHit overrideHit = default)
+    public void ExecuteGunshot(RaycastHit overrideHit = default, Vector3 overrideStartPoint = default, bool useRecoil = true, bool useSound = true)
     {
         RaycastHit hit = new RaycastHit(); //instan
                                            //tiate our raycast ref
         TrailRenderer trail; // instantiate our gun trail
-        
-        cameraRecoil.FireRecoil(currentGun.camRecoilX, currentGun.camRecoilY, currentGun.camRecoilZ); // apply recoil
-        currentGunRecoilScript.FireRecoil(currentGunRecoil.x, currentGunRecoil.y, currentGunRecoil.z);
+
+        if (useRecoil)
+        {
+            cameraRecoil.FireRecoil(currentGun.camRecoilX, currentGun.camRecoilY, currentGun.camRecoilZ); // apply recoil
+            currentGunRecoilScript.FireRecoil(currentGunRecoil.x, currentGunRecoil.y, currentGunRecoil.z);
+        }
 
         int randInt = Random.Range(0, currentGun.fireSounds.Count);
         
-        ActionEvents.PlayerSFXOneShot?.Invoke(currentGun.fireSounds[randInt], currentGun.delayPerAudioClip[randInt]); // play a random fire sound
+        if (useSound) 
+            ActionEvents.PlayerSFXOneShot?.Invoke(currentGun.fireSounds[randInt], currentGun.delayPerAudioClip[randInt]); // play a random fire sound
 
         void DoGunCasts(Vector3 hitPos, RaycastHit hit)
         {
-            trail = Instantiate(bulletTrail, currentGunTip.position, Quaternion.identity);
-            StartCoroutine(SpawnBullet(trail, hitPos, currentGunTip.position, hit));
+            var startPoint = currentGunTip.position;
+            if (overrideStartPoint != default)
+            {
+                startPoint = overrideStartPoint;
+            }
+            trail = Instantiate(bulletTrail, startPoint, Quaternion.identity);
+            StartCoroutine(SpawnBullet(trail, hitPos, startPoint, hit));
         }
         
         if (overrideHit.point != default) // if we have an override hit point, use that
