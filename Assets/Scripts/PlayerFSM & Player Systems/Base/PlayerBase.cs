@@ -35,6 +35,7 @@ public class PlayerBase : MonoBehaviour
         public PlayerData playerData;
 
         public RigWeightController proceduralRigController;
+        public GameObject shotgunUltSelectionObj;
         
     #endregion
 
