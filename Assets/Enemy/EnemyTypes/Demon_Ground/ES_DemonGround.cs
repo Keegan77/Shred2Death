@@ -10,6 +10,27 @@ public abstract class ES_DemonGround : Enemy_State
 {
     protected E_Demon_Ground eg;
 
+    [Header ("Navigation Parameters")]
+
+    [SerializeField]
+    bool agentUpdatePosition = true;
+
+    [SerializeField]
+    bool agentUpdateRotation = true;
+
+    [SerializeField]
+    bool agentIsMoving = true;
+
+
+    [SerializeField, Min(0), Tooltip("Top speed of movement")]
+    private int movementSpeed = 1;
+
+    [SerializeField, Min (0), Tooltip ("How fast do they get  up to speed")]
+    private int movementAcceleration = 999;
+
+    [SerializeField, Min (0), Tooltip ("How fast the enemy turns around")]
+    private int movementRotation = 1;
+
     #region STATEMACHINE
     private void Awake ()
     {
@@ -20,17 +41,23 @@ public abstract class ES_DemonGround : Enemy_State
     public override void Enter ()
     {
         base.Enter ();
-        eg.animator.Play (animationEnter);
-        Debug.Log (eg.agent.isOnNavMesh);
-        Debug.Log (eg.agent.enabled);
-        eg.agent.isStopped = false;
+        //eg.animator.Play (animationEnter);
+        eg.animator.CrossFade (animationEnter, 0.3f);
+
+        eg.agent.updatePosition = agentUpdatePosition;
+        eg.agent.updateRotation = agentUpdateRotation;
+        eg.agent.isStopped = !agentIsMoving;
+
+
     }
 
     public override void Exit ()
     {
         base.Exit ();
-        eg.agentPath.ClearCorners ();
+        eg.agent.ResetPath ();
         eg.agent.isStopped = true;
+        eg.agent.updateRotation = false;
+        eg.agent.updatePosition = false;
     }
     #endregion
 

@@ -19,7 +19,7 @@ public class Enemy_State : MonoBehaviour
     protected bool isAnimationPlaying = false;
 
     [Header("Animation")]
-    [SerializeField] protected string animationEnter = "";
+    public string animationEnter = "";
 
     //States will control movement directly.
     //Rigidbody will be set in the start function
@@ -36,13 +36,13 @@ public class Enemy_State : MonoBehaviour
     /// </summary>
     public virtual void Enter ()
     {
-        Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Entered");
+        //Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Entered");
     }
 
     public virtual void Exit ()
     {
         StopAllCoroutines();
-        Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Exited");
+        //Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Exited");
     }
 
     public virtual void machineUpdate ()
@@ -57,7 +57,7 @@ public class Enemy_State : MonoBehaviour
 
     public virtual void AIUpdate ()
     {
-        Debug.Log ($"{e.name} ({GetInstanceID()}): Updating AI", this);
+        //Debug.Log ($"{e.name} ({GetInstanceID()}): Updating AI", this);
     }
 
 

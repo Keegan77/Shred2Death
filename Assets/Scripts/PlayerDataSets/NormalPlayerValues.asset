@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6105942e73b6623429710e49218567bb, type: 3}
   m_Name: NormalPlayerValues
   m_EditorClassIdentifier: 
-  baseMovementSpeed: 250
+  baseMovementSpeed: 200
   groundedBoostStyleLevel: 0
-  baseBoostSpeed: 500
+  baseBoostSpeed: 350
   boostDuration: 5
   baseJumpForce: 25
   deAccelerationSpeed: 0.1
@@ -81,7 +81,7 @@ MonoBehaviour:
   maxNoseDiveVelocity: 700
   noseDiveRotationSpeed: 2
   minGrindSpeed: 30
-  maxGrindSpeed: 100
+  maxGrindSpeed: 150
   grindSpeedAdditive: 15
   grindTurnSharpness: 50
   railSnapTime: 3
@@ -96,7 +96,7 @@ MonoBehaviour:
   lightDriftTime: 0.5
   driftPhaseTime: 2
   slopeRangeWherePlayerCantMove: {x: 80, y: 360}
-  slopedUpSpeedMult: 3
+  slopedUpSpeedMult: 0.5
   slopedDownSpeedMult: 0.5
   minFOV: 0
   maxFOV: 120
