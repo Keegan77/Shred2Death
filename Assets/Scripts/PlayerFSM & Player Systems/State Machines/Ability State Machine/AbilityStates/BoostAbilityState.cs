@@ -6,13 +6,6 @@ public class BoostAbilityState : AbilityState
 {
     public BoostAbilityState(PlayerBase player, AbilityStateMachine stateMachine) : base(player, stateMachine)
     {
-        abilityBannedStateMap[GetType()] = new List<BehaviourState>()
-        {
-            player.halfPipeState,
-            player.driftState,
-            player.nosediveState,
-        } ; // use this syntax to ban states
-        
         abilityInputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents()
         {
             onCanceled = ctx => stateMachine.SwitchState(player.intermediaryAbilityState)

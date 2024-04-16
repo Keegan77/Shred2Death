@@ -23,7 +23,6 @@ public class ESG_Turret : ES_DemonGround
     public override void Enter ()
     {
         base.Enter ();
-        eg.agent.ResetPath ();
     }
 
     public override void Exit ()
@@ -31,6 +30,14 @@ public class ESG_Turret : ES_DemonGround
         base.Exit ();
     }
 
+    public override void machineUpdate ()
+    {
+        Vector3 lookTarget = new Vector3 (
+            Enemy.playerReference.transform.position.x,
+            transform.position.y,
+            Enemy.playerReference.transform.position.z
+            );
+    }
     public override void machinePhysics ()
     {
         
@@ -59,8 +66,8 @@ public class ESG_Turret : ES_DemonGround
 
     public override void OnAnimationFinished ()
     {
-        isAnimationPlaying = false;
-        eg.animator.Play (animationIdle);
+        //isAnimationPlaying = false;
+        //eg.animator.Play (animationIdle);
     }
 
     protected override void OnDestinationReached ()

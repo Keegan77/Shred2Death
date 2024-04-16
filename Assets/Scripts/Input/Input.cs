@@ -145,7 +145,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Brake"",
+                    ""name"": ""Ability"",
                     ""type"": ""Button"",
                     ""id"": ""74081b0d-6f0a-4ccc-92f7-d9e5f0a7ac71"",
                     ""expectedControlType"": ""Button"",
@@ -635,7 +635,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Brake"",
+                    ""action"": ""Ability"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -646,7 +646,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Brake"",
+                    ""action"": ""Ability"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1542,7 +1542,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_Player_AimDownSights = m_Player.FindAction("Aim Down Sights", throwIfNotFound: true);
         m_Player_SwitchGun = m_Player.FindAction("SwitchGun", throwIfNotFound: true);
         m_Player_AirRotation = m_Player.FindAction("AirRotation", throwIfNotFound: true);
-        m_Player_Brake = m_Player.FindAction("Brake", throwIfNotFound: true);
+        m_Player_Ability = m_Player.FindAction("Ability", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1642,7 +1642,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_AimDownSights;
     private readonly InputAction m_Player_SwitchGun;
     private readonly InputAction m_Player_AirRotation;
-    private readonly InputAction m_Player_Brake;
+    private readonly InputAction m_Player_Ability;
     public struct PlayerActions
     {
         private @Input m_Wrapper;
@@ -1660,7 +1660,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         public InputAction @AimDownSights => m_Wrapper.m_Player_AimDownSights;
         public InputAction @SwitchGun => m_Wrapper.m_Player_SwitchGun;
         public InputAction @AirRotation => m_Wrapper.m_Player_AirRotation;
-        public InputAction @Brake => m_Wrapper.m_Player_Brake;
+        public InputAction @Ability => m_Wrapper.m_Player_Ability;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1709,9 +1709,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @AirRotation.started += instance.OnAirRotation;
             @AirRotation.performed += instance.OnAirRotation;
             @AirRotation.canceled += instance.OnAirRotation;
-            @Brake.started += instance.OnBrake;
-            @Brake.performed += instance.OnBrake;
-            @Brake.canceled += instance.OnBrake;
+            @Ability.started += instance.OnAbility;
+            @Ability.performed += instance.OnAbility;
+            @Ability.canceled += instance.OnAbility;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1755,9 +1755,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @AirRotation.started -= instance.OnAirRotation;
             @AirRotation.performed -= instance.OnAirRotation;
             @AirRotation.canceled -= instance.OnAirRotation;
-            @Brake.started -= instance.OnBrake;
-            @Brake.performed -= instance.OnBrake;
-            @Brake.canceled -= instance.OnBrake;
+            @Ability.started -= instance.OnAbility;
+            @Ability.performed -= instance.OnAbility;
+            @Ability.canceled -= instance.OnAbility;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -2101,7 +2101,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnAimDownSights(InputAction.CallbackContext context);
         void OnSwitchGun(InputAction.CallbackContext context);
         void OnAirRotation(InputAction.CallbackContext context);
-        void OnBrake(InputAction.CallbackContext context);
+        void OnAbility(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

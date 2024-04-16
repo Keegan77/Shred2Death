@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class EBP_SingleShot : Enemy_BulletPattern
 {
-    public override IEnumerator PlayShot (GameObject target, GameObject muzzle)
+    public override IEnumerator PlayShot (GameObject target, Rigidbody trb, GameObject muzzle)
     {
 
         yield return new WaitForSeconds (timeLeadIn);
@@ -16,7 +16,9 @@ public class EBP_SingleShot : Enemy_BulletPattern
         bulletReady = false;
 
         //LeadShot(target, muzzle, bulletObject)
-        SpawnBullet (LeadShot(target, muzzle, bulletObject), muzzle);
+        Vector3 targetAim = LeadShot (target, trb, muzzle, bulletObject);
+
+        if (targetAim != Vector3.zero) SpawnBullet (targetAim, muzzle);
 
 
         yield return new WaitForSeconds (timeLeadOut - timeLeadIn);

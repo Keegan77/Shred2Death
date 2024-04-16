@@ -12,6 +12,7 @@ public class ShotgunUltimateAbilityState : AbilityState
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("Shotgun Ultimate Entered");
     }
 
     public override void Exit()

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.Animations.Rigging;
 
 [RequireComponent(typeof(GunfireHandler))]
@@ -14,6 +15,7 @@ public class GunSwitcher : MonoBehaviour
     [SerializeField] TwoBoneIKConstraint leftArmMover,rightArmMover;
     [SerializeField] RigBuilder rigBuilder;
     private bool gunSwitchQueued;
+    [SerializeField] private PlayerBase player;
     
     private void Start()
     {
@@ -27,18 +29,21 @@ public class GunSwitcher : MonoBehaviour
             gun.currentAmmo = gun.magCapacity;
         }
     }
-
+    //todo: make a flag & method that will disable weapon switching (could also be an event like "DisableWeaponSwitch.invoke")
     private void OnEnable()
     {
         InputRouting.Instance.input.Player.SwitchGun.performed += ctx =>
         {
-            StartCoroutine(QueueGunSwitch());
+            if (player.abilityStateMachine.currentAbilityState.GetType() == typeof(IntermediaryAbilityState)) StartCoroutine(QueueGunSwitch());
         };
         ActionEvents.OnGunSwitch += HandleOnGunSwitch;
     }
     private void OnDisable()
     {
-        InputRouting.Instance.input.Player.SwitchGun.performed -= ctx => StartCoroutine(QueueGunSwitch());
+        InputRouting.Instance.input.Player.SwitchGun.performed -= ctx =>
+        {
+            if (player.abilityStateMachine.currentAbilityState.GetType() == typeof(IntermediaryAbilityState)) StartCoroutine(QueueGunSwitch());
+        };
         ActionEvents.OnGunSwitch -= HandleOnGunSwitch;
     }
 
@@ -128,7 +133,7 @@ public class GunSwitcher : MonoBehaviour
         SetRigTargetPoints(transformTargets);
         gunfireHandler.SetCurrentGun(switchData);
     }
-    private void SetRigTargetPoints(Transform[] transformTargets)
+    public void SetRigTargetPoints(Transform[] transformTargets)
     {
         Transform leftHandTarget = GetTargetByTag(transformTargets, "LeftHandTarget");
         Transform leftHandHint = GetTargetByTag(transformTargets, "LeftHandHint");
