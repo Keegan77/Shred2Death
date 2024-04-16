@@ -6,12 +6,13 @@ public class BoostAbilityState : AbilityState
 {
     public BoostAbilityState(PlayerBase player, AbilityStateMachine stateMachine) : base(player, stateMachine)
     {
+        boostTimer = player.playerData.boostDuration;
         abilityInputActions.Add(InputRouting.Instance.input.Player.Boost, new InputActionEvents()
         {
             onCanceled = ctx => stateMachine.SwitchState(player.intermediaryAbilityState)
         });
     }
-    
+
     private float boostTimer;
     private Coroutine boostTimerCoroutine;
     private Coroutine rechargeBoostCoroutine;
@@ -23,7 +24,7 @@ public class BoostAbilityState : AbilityState
 
         Debug.Log("Boost entered");
         player.movement.currentlyBoosting = true;
-        if (boostTimer > player.playerData.boostDuration)
+        if (boostTimer < 0)
         {
             stateMachine.SwitchState(player.intermediaryAbilityState);
             return;
@@ -42,6 +43,12 @@ public class BoostAbilityState : AbilityState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+    }
+    
+    private void UpdateBoostUI()
+    {
+        player.playerHUD.stats.boostMeter.currentValue = Mathf.InverseLerp(0,
+            player.playerData.boostDuration, boostTimer);
     }
     
     public void StartBoost() // subscribe to on input performed boost input
@@ -77,9 +84,10 @@ public class BoostAbilityState : AbilityState
     {
         player.movement.currentlyBoosting = true;
         player.movement.SetMovementSpeed(player.playerData.baseBoostSpeed);
-        while (boostTimer < player.playerData.boostDuration)
+        while (boostTimer > 0)
         {
-            boostTimer += Time.deltaTime;
+            boostTimer -= Time.deltaTime;
+            UpdateBoostUI();
             yield return null;
         }
         stateMachine.SwitchState(player.intermediaryAbilityState);
@@ -88,9 +96,10 @@ public class BoostAbilityState : AbilityState
     private IEnumerator RechargeBoost()
     {
         currentlyRecharging = true;
-        while (boostTimer > 0)
+        while (boostTimer < player.playerData.boostDuration)
         {
-            boostTimer -= Time.deltaTime;
+            boostTimer += Time.deltaTime;
+            UpdateBoostUI();
             yield return null;
         }
         currentlyRecharging = false;
