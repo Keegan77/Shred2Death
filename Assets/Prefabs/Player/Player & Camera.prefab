@@ -5771,6 +5771,8 @@ MonoBehaviour:
   playerModelTransform: {fileID: 6867235279004832454}
   playerData: {fileID: 11400000, guid: 1a3dc727a00a88b4dab330927467122e, type: 2}
   proceduralRigController: {fileID: 6265791741991128856}
+  shotgunUltSpiralTrail: {fileID: 4844433414206397561, guid: 2e45c1f056fe25b4695cff5d53d8be26, type: 3}
+  shotgunUltSelectionCircle: {fileID: 2638539837483808071, guid: 2641be77e07dffb49a0674c798e17665, type: 3}
   constantForce: {fileID: 361494770088818583}
   forwardLeftRayOrigin: {x: 18.37, y: 7.777452, z: 0.6485403}
   forwardRightRayOrigin: {x: 17.67, y: 7.777452, z: 0.6485403}
@@ -5881,6 +5883,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerbase: {fileID: 1464697803107471213}
   isOnNavMesh: 0
+  aimTarget: {fileID: 4941351263233561405}
+  rb: {fileID: 6967465418630592810}
 --- !u!114 &232063552348150291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24180,6 +24184,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: BurnDamage
       objectReference: {fileID: 0}
+    - target: {fileID: 5795069876149704373, guid: 8204e795f862bc14db23677e72352bca, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5795069876149704373, guid: 8204e795f862bc14db23677e72352bca, type: 3}
+      propertyPath: m_Color.g
+      value: 0.2117647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5795069876149704373, guid: 8204e795f862bc14db23677e72352bca, type: 3}
+      propertyPath: m_Color.r
+      value: 0.24962693
+      objectReference: {fileID: 0}
     - target: {fileID: 6079321290244934232, guid: 8204e795f862bc14db23677e72352bca, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -25913,6 +25929,11 @@ ConstantForce:
 --- !u!4 &4893186858062479536 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2426233364906554433, guid: c77bea9c94c12d14f85f1484b349cf4e, type: 3}
+  m_PrefabInstance: {fileID: 7080681029833864433}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4941351263233561405 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2796899378574321612, guid: c77bea9c94c12d14f85f1484b349cf4e, type: 3}
   m_PrefabInstance: {fileID: 7080681029833864433}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &4950675679331046770 stripped
