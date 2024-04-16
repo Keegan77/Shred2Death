@@ -18,23 +18,32 @@ public class Sensor_DodgeRadius : Sensor
 
     private void OnTriggerEnter (Collider other)
     {
-        Debug.LogWarning (other.GetInstanceID(), other);
-        SetPlayerReference p = other.transform.parent.parent.GetComponent<SetPlayerReference>();
+        if (!other.CompareTag ("Player")) return;
 
-        if ( other.CompareTag ("Player") && p != null)
+        Debug.LogWarning (other.GetInstanceID(), other);
+
+        Debug.Log ($"{transform.parent.name}: {name} Entered");
+        SetPlayerReference p = other.GetComponentInParent<SetPlayerReference>();
+        E_Demon_Ground eg = transform.GetComponentInParent<E_Demon_Ground> ();
+        if (p != null && eg.rb.isKinematic)
         {
             Rigidbody prb = p.GetComponent<Rigidbody>();    
-            Debug.Log($"Alignment: {Vector3.Dot(prb.velocity.normalized, (transform.position - p.transform.position).normalized)}");
-            Debug.Log ($"Speed: {prb.velocity.magnitude}");
+            //Debug.Log($"Alignment: {Vector3.Dot(prb.velocity.normalized, (transform.position - p.transform.position).normalized)}");
+            //Debug.Log ($"Speed: {prb.velocity.magnitude}");
 
             if ( prb.velocity.magnitude > dodgeRequiredSpeed
                 && Vector3.Dot (prb.velocity.normalized, (transform.position - p.transform.position).normalized) > dodgeRequiredAlignment
                 )
             {
-                Debug.Log ("Conditions met");
                 Activate ();
             }
-            else Debug.Log ("Conditions not met");
         }
+    }
+
+    private void OnTriggerExit (Collider other)
+    {
+        if (!other.CompareTag ("Player")) return;
+
+        Deactivate ();
     }
 }

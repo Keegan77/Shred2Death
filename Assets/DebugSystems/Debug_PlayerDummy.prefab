@@ -335,7 +335,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb054ba2524518e4883dc8b944ca2bae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerbase: {fileID: 0}
   isOnNavMesh: 0
+  aimTarget: {fileID: 6632714718895213613}
+  rb: {fileID: 3720703392505201332}
 --- !u!114 &1252082861283672884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,7 +354,7 @@ MonoBehaviour:
   movementSpeed: 10
   cameraSensitivity: 8
   useCamera: 1
-  cameraObject: {fileID: 0}
+  lockCameraOnStart: 1
   hud: {fileID: 4641657589535589862}
 --- !u!54 &3720703392505201332
 Rigidbody:

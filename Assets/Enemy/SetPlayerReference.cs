@@ -14,7 +14,9 @@ public class SetPlayerReference : MonoBehaviour
     [HideInInspector] public bool isOnNavMesh = false;
     NavMeshHit hit;
 
-    [NonSerialized] public Vector3 aimOffset = new Vector3 (0, 2, 0);
+    //[NonSerialized] public Vector3 aimOffset = new Vector3 (0, 2, 0);
+    public GameObject aimTarget;
+    public Rigidbody rb;
     
     void Start()
     {

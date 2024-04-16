@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -91,6 +90,7 @@ public class ES_Ragdoll : Enemy_State
     {
         base.machinePhysics ();
         e.bodyObject.transform.position = ragdollSeparationObject.transform.position;
+    
     }
 
     /// <summary>
@@ -103,6 +103,8 @@ public class ES_Ragdoll : Enemy_State
     {
         //base.AIUpdate ();
 
+        ragdollStationary = objectRagdollTarget.velocity.magnitude <= thresholdStationary;
+
         if ( ragdollStationary )
         {
             timerRagdollDown += Time.deltaTime;
@@ -112,19 +114,8 @@ public class ES_Ragdoll : Enemy_State
                 e.stateMachine.transitionState (stateExit);
                 return;
             }
+        }
 
-            if (objectRagdollTarget.velocity.magnitude >= thresholdStationary )
-            {
-                ragdollStationary = false;
-            }
-        }
-        else
-        {
-            if (objectRagdollTarget.velocity.magnitude <= thresholdStationary )
-            {
-                ragdollStationary = true;
-            }
-        }
     }
     #endregion
 
@@ -176,6 +167,17 @@ public class ES_Ragdoll : Enemy_State
     private void Start ()
     {
         offsetRagdollTarget = objectRagdollTarget.transform.localPosition;
+    }
+
+    public void testDestroy ()
+    {
+        Destroy (e.gameObject);
+    }
+    private void OnDestroy ()
+    {
+
+        if (ragdollRootObject) Destroy (ragdollRootObject.transform.parent.gameObject);
+        if (ragdollSeparationObject) Destroy (ragdollSeparationObject);
     }
     #endregion
 }

@@ -8,12 +8,18 @@ public class NMO_NavMeshLinkSpline : MonoBehaviour
 {
     [SerializeField]
     private NMO_Spline _splineVisualization;
+
     [SerializeField]
     private NavMeshLink _navMeshLinkData;
+
     [SerializeField, Min(0.01f)]
     private float _heightOffset = 1;
+
     [SerializeField, Range(0.25f, 0.75f)]
     private float _placementOffset = 0.5f;
+
+    [SerializeField, Min(0.1f)]
+    public float _jumpDuration = 1;
 
 # if UNITY_EDITOR
 
