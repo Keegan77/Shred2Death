@@ -5,7 +5,7 @@ using UnityEngine.Animations.Rigging;
 
 public class RigWeightController : MonoBehaviour
 {
-    public Rig armRig, legRig;
+    public Rig armRig, legRig, headAndChestRig;
     
     public IEnumerator LerpWeightToValue(Rig rig, float targetWeight, float lerpTime)
     {

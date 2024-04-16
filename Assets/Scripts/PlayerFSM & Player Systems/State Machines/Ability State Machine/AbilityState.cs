@@ -7,15 +7,13 @@ public class AbilityState : PlayerState
 {
     protected PlayerBase player;
     protected AbilityStateMachine stateMachine;
-
-    //dictionary to link ability states to the behaviour states that are banned for that state
-    public Dictionary<Type, List<BehaviourState>> abilityBannedStateMap = 
-        new Dictionary<Type, List<BehaviourState>>();
+    public AbilityStateMaps abilityStateMaps;
     
     protected AbilityState(PlayerBase player, AbilityStateMachine stateMachine)
     {
         this.player = player;
         this.stateMachine = stateMachine;
+        abilityStateMaps = new AbilityStateMaps(player);
     }
     
     /// <summary>
@@ -23,16 +21,16 @@ public class AbilityState : PlayerState
     /// for banning states, check the constructor of BoostAbilityState.cs
     /// </summary>
     /// <returns>True if the behaviour state is banned from the ability</returns>
-    public bool CurrentStateIsBanned()
+    public bool StateIsBanned(BehaviourState state, AbilityState nextAbilityState)
     {
-        if (!abilityBannedStateMap.ContainsKey(player.abilityStateMachine.currentAbilityState.GetType()))
+        if (!abilityStateMaps.abilityBannedStateMap.ContainsKey(nextAbilityState.GetType()))
         {
             return false;
         }
-        
-        return abilityBannedStateMap[player.abilityStateMachine.currentAbilityState.GetType()]
-            .Contains(player.stateMachine.currentState);
+        return abilityStateMaps.abilityBannedStateMap[nextAbilityState.GetType()]
+            .Contains(state.GetType());
     }
+
     
     public virtual void Enter() { }
 
@@ -40,7 +38,7 @@ public class AbilityState : PlayerState
 
     public virtual void LogicUpdate()
     {
-        if (CurrentStateIsBanned())
+        if (StateIsBanned(player.stateMachine.currentState, stateMachine.currentAbilityState))
         {
             stateMachine.SwitchState(player.intermediaryAbilityState);
         }

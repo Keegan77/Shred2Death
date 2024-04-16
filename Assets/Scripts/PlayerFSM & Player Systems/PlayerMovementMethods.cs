@@ -171,14 +171,6 @@ public class PlayerMovementMethods
         
         movementSpeed = Mathf.Lerp(playerData.minSpeed, playerData.baseMovementSpeed, 
             playerData.accelerationCurve.Evaluate(InputRouting.Instance.GetMoveInput().magnitude)) + offset;
-
-        if (InputRouting.Instance.GetBrakeInput())
-        {
-            movementSpeed = movementSpeed / 2;
-        }
-        
-        
-        
     }
 
     public void CalculateTurnSharpness()

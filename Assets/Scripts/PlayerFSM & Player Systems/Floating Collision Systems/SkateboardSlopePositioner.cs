@@ -15,7 +15,9 @@ public class SkateboardSlopePositioner : MonoBehaviour
     [SerializeField] private float rayHalfPipeDist;
     private float rayDistance;
     private float skateboardGrindPos = -.76f;
+    float YOffset;
     private bool justHitGround;
+    private bool offsetOverridden;
 
     //[SerializeField] private float raycastZOffsetFromOrigin;
 
@@ -23,18 +25,44 @@ public class SkateboardSlopePositioner : MonoBehaviour
     {
         startingPos = transform.localPosition;
     }
+
+    public void OverrideYOffset(float newOffset)
+    {
+        // lerp y offset
+        StartCoroutine(LerpYOffset(newOffset));
+        offsetOverridden = true;
+    }
+    
+    private IEnumerator LerpYOffset(float newOffset)
+    {
+        float t = 0;
+        float startOffset = YOffset;
+        while (t < 1)
+        {
+            t += Time.deltaTime * 4;
+            YOffset = Mathf.Lerp(startOffset, newOffset, t);
+            yield return null;
+        }
+    }
+    
+    public void ResetOffsetOverride()
+    {
+        StartCoroutine(LerpYOffset(0));
+        offsetOverridden = false;
+    }
     
     private void FixedUpdate()
     {
         SetRayDistances();
         
-        float YOffset;
-        if (player.stateMachine.currentState != player.halfPipeState)
+        
+        if (player.stateMachine.currentState != player.halfPipeState && !offsetOverridden)
         {
+            
             float percentageToNinety = Mathf.Abs(player.GetOrientationWithDownward() - 90) / 90;
             YOffset = Mathf.Lerp(verticalYOffset, horizontalYOffset, percentageToNinety); // YOffset needs to be dynamically changed based on the player's orientation
         }
-        else
+        else if (!offsetOverridden)
         {
             YOffset = horizontalYOffset;
         }

@@ -8,7 +8,6 @@ public class Enemy_RagdollHitbox : MonoBehaviour, IDamageable
 
     private void Start ()
     {
-        Debug.Log (e);
     }
 
     public void TakeDamage (float damage)

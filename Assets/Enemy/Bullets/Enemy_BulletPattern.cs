@@ -42,7 +42,7 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     /// <param name="target"></param>
     /// <param name="muzzle"></param>
     /// <returns></returns>
-    public abstract IEnumerator PlayShot (GameObject target, GameObject muzzle);
+    public abstract IEnumerator PlayShot (GameObject target, Rigidbody trb, GameObject muzzle);
 
     /// <summary>
     /// The bullet being ready depends on more than one condition:
@@ -109,40 +109,40 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     /// <param name="target">GameObject to fire the bullet at</param>
     /// <param name="muzzle">GameObject the bullet spawns at</param>
     /// <returns> The point in space of which the function thinks it should shoot to hit the player</returns>
-    public static Vector3 LeadShot (GameObject target, GameObject muzzle, GameObject bulletObject)
+    public static Vector3 LeadShot (GameObject target, Rigidbody trb, GameObject muzzle, GameObject bulletObject)
     {
         Enemy_Bullet bullet = bulletObject.GetComponent<Enemy_Bullet> ();
 
-        //Get the main player object
-        GameObject p2 = target.transform.gameObject;
+        //Debug.Log (target);
+        //Debug.Log (trb);
+        //Debug.Log (Enemy.playerReference);
 
-        Rigidbody prb = p2.GetComponent<Rigidbody> ();
-        if (prb == null) return Vector3.zero;
 
+        if (trb == null) return target.transform.position;
         //PlayerBase pb = p2.GetComponent<PlayerBase> ();
 
         //float movement = pb.movement.turnSharpness * InputRouting.Instance.GetMoveInput ().x * Time.deltaTime;
         //Debug.Log ($"movement: {movement} | Input: {InputRouting.Instance.GetMoveInput ().x} | Turnspeed: {pb.movement.turnSharpness}");
 
-        if (prb.velocity == Vector3.zero) return prb.transform.position + UnityEngine.Random.insideUnitSphere * bullet.deviation;
+        if (trb.velocity == Vector3.zero) return trb.transform.position + UnityEngine.Random.insideUnitSphere * bullet.deviation;
         //return prb.velocity * ((p.transform.position - e.transform.position).magnitude / speed);
 
         //Forums approach: Not mathmatecally accurate but it gets close
         //https://forum.unity.com/threads/leading-a-target.193445/
 
-        float distance = Vector3.Distance (muzzle.transform.position, prb.transform.position);
+        float distance = Vector3.Distance (muzzle.transform.position, trb.transform.position);
         float travelTime = distance / bullet.speed;
 
 
-        Vector3 intersect = p2.transform.position + prb.velocity.normalized * 5;
-        Vector3 intersect2 = p2.transform.position + prb.velocity.normalized * 10;
+        Vector3 intersect = target.transform.position + trb.velocity.normalized * 5;
+        Vector3 intersect2 = target.transform.position + trb.velocity.normalized * 10;
 
 
 
-        float tp1 = Vector3.Distance (p2.transform.position, intersect) / prb.velocity.magnitude;
+        float tp1 = Vector3.Distance (target.transform.position, intersect) / trb.velocity.magnitude;
         float te1 = Vector3.Distance (muzzle.transform.position, intersect) / bullet.speed;
 
-        float tp2 = Vector3.Distance (p2.transform.position, intersect2) / prb.velocity.magnitude;
+        float tp2 = Vector3.Distance (target.transform.position, intersect2) / trb.velocity.magnitude;
         float te2 = Vector3.Distance (muzzle.transform.position, intersect2) / bullet.speed;
 
 
@@ -163,15 +163,15 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
 
         float compensate = travelTime / (slopeP - slopeE);
 
-        Vector3 intersect3 = target.transform.position + prb.velocity.normalized * compensate;
+        Vector3 intersect3 = target.transform.position + trb.velocity.normalized * compensate;
 
-        float tp3 = Vector3.Distance (target.transform.position, intersect3) / prb.velocity.magnitude;
+        float tp3 = Vector3.Distance (target.transform.position, intersect3) / trb.velocity.magnitude;
         float te3 = Vector3.Distance (muzzle.transform.position, intersect3) / bullet.speed;
 
         //Debug.Log ($"Compensation: {compensate}");
         //Debug.Log ($"Time 3 || Player: {tp3} | Bullet: {te3}");
 
-        return intersect3 + UnityEngine.Random.insideUnitSphere * bullet.deviation + Enemy.playerReference.aimOffset;
+        return intersect3 + UnityEngine.Random.insideUnitSphere * bullet.deviation;
 
     }
 

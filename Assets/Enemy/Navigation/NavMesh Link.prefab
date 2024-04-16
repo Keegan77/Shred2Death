@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 891308010424534000}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6451218, y: -1.0549998, z: -1.6292403}
+  m_LocalPosition: {x: 1, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -78,8 +78,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: -1372625422
-  m_StartPoint: {x: 0, y: 0, z: 0}
-  m_EndPoint: {x: 0, y: 0, z: 0}
+  m_StartPoint: {x: 1, y: 2, z: 0}
+  m_EndPoint: {x: -1, y: 2, z: 0}
   m_Width: 0
   m_CostModifier: -1
   m_Bidirectional: 1
@@ -101,6 +101,7 @@ MonoBehaviour:
   _navMeshLinkData: {fileID: 4145810974931920499}
   _heightOffset: 4.08
   _placementOffset: 0.5
+  _jumpTime: 0.1
 --- !u!1 &6169017364932947045
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +178,7 @@ Transform:
   m_GameObject: {fileID: 6902120794841275521}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.0549998, z: 4.509206}
+  m_LocalPosition: {x: -1, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -208,7 +209,7 @@ Transform:
   m_GameObject: {fileID: 7079948812898846548}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.82256114, y: 4.0799994, z: 1.4399827}
+  m_LocalPosition: {x: 0, y: 6.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
