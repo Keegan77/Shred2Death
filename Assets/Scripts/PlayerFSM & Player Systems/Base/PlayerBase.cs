@@ -3,6 +3,7 @@ using System.Collections;
 using Dreamteck.Splines;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [SelectionBase]
 public class PlayerBase : MonoBehaviour
@@ -35,7 +36,8 @@ public class PlayerBase : MonoBehaviour
         public PlayerData playerData;
 
         public RigWeightController proceduralRigController;
-        public GameObject shotgunUltSelectionObj;
+        public GameObject shotgunUltSpiralTrail;
+        public GameObject shotgunUltSelectionCircle;
         
     #endregion
 
@@ -157,7 +159,7 @@ public class PlayerBase : MonoBehaviour
     private void OnDrawGizmos()
     {
         // Update the ray origin points
-        UpdateRayOriginPoints();
+        //UpdateRayOriginPoints();
 
         
         

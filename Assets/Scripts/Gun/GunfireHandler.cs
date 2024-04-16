@@ -16,8 +16,8 @@ public class GunfireHandler : MonoBehaviour
     [SerializeField] private Recoil cameraRecoil;
     
     [SerializeField] private TrailRenderer bulletTrail;
-    [Header("Transforms")]
-    [SerializeField] private Transform castPoint;
+    [Header("Transforms")] 
+    public Transform castPoint;
     [SerializeField] private Transform forwardFromPlayerPoint;
     [SerializeField] private PlayerHUD playerHUD;
     
@@ -118,8 +118,7 @@ public class GunfireHandler : MonoBehaviour
     
     public void ExecuteGunshot(RaycastHit overrideHit = default, Vector3 overrideStartPoint = default, bool useRecoil = true, bool useSound = true)
     {
-        RaycastHit hit = new RaycastHit(); //instan
-                                           //tiate our raycast ref
+        RaycastHit hit = new RaycastHit(); //instantiate our raycast ref
         TrailRenderer trail; // instantiate our gun trail
 
         if (useRecoil)

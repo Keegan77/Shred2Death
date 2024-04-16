@@ -14,20 +14,55 @@ public class ShotgunUltimateAbilityState : AbilityState
     private float endSelectionGroundY;
     private float diffBetweenStartAndEndY;
     private Vector3 initPos;
+    private GameObject circleTrailParent, circleTrail;
 
     private float sinMagnitude = 3f;
     private float sinDistance;
+
+    private bool shotgunSpotSelected = false;
+    private Vector3 shotgunSpot;
     public ShotgunUltimateAbilityState(PlayerBase player, AbilityStateMachine stateMachine) : base(player, stateMachine)
     {
+        abilityInputActions.Add(InputRouting.Instance.input.Player.Fire, new InputActionEvents()
+        {
+            onPerformed = ctx =>
+            {
+                if (!shotgunSpotSelected)
+                {
+                    shotgunSpotSelected = true;
+                    SetUpCirclingTrails();
+                    for (int i = 0; i < 2; i++)
+                    {
+                        player.StartCoroutine(RainBullets());
+                    }
+                }
+            }
+        });
     }
     public override void Enter()
     {
         base.Enter();
+        SubscribeInputs(abilityState:true);
+        shotgunSpotSelected = false;
         currentLifetime = 0;
+        circleTrailParent = GameObject.Instantiate(player.shotgunUltSelectionCircle, Vector3.zero, Quaternion.identity);
+        foreach (var child in circleTrailParent.GetComponentsInChildren<Transform>())
+        {
+            if (child.gameObject.CompareTag("ChildTrail"))
+            {
+                circleTrail = child.gameObject;
+            }
+        }
+
+        Debug.Log("Shotgun Ultimate Entered");
+    }
+
+    private void SetUpCirclingTrails()
+    {
         selectionObjs.Clear();
         for (int i = 0; i < amtOfSelectionObjs; i++)
         {
-            selectionObjs.Add(GameObject.Instantiate(player.shotgunUltSelectionObj, new Vector3(0, 25, 0),
+            selectionObjs.Add(GameObject.Instantiate(player.shotgunUltSpiralTrail, shotgunSpot + new Vector3(0, 25, 0),
                 Quaternion.identity));
         }
         
@@ -48,12 +83,6 @@ public class ShotgunUltimateAbilityState : AbilityState
         
         diffBetweenStartAndEndY = selectionObjs[0].transform.position.y - endSelectionGroundY;
         initPos = selectionObjs[0].transform.position;
-        Debug.Log("Shotgun Ultimate Entered");
-        
-        for (int i = 0; i < 2; i++)
-        {
-            player.StartCoroutine(RainBullets());
-        }
     }
     
     private Vector3 GetRandomPointInCircle()
@@ -70,7 +99,7 @@ public class ShotgunUltimateAbilityState : AbilityState
         while (currentLifetime < abilityLifetime)
         {
             //var point = pointsInCircle[Random.Range(0, pointsInCircle.Length - 1)];
-            var point = GetRandomPointInCircle();
+            var point = shotgunSpot + GetRandomPointInCircle();
             yield return new WaitForSeconds(.003f);
             if (Physics.Raycast(point, Vector3.down, out RaycastHit hit, 200))
             {
@@ -87,10 +116,12 @@ public class ShotgunUltimateAbilityState : AbilityState
     public override void Exit()
     {
         base.Exit();
+        UnsubscribeInputs(abilityState:true);
         foreach (var obj in selectionObjs)
         {
             GameObject.Destroy(obj);
         }
+        GameObject.Destroy(circleTrailParent);
         selectionObjs.Clear();
         circleTransforms.Clear();
     }
@@ -98,6 +129,17 @@ public class ShotgunUltimateAbilityState : AbilityState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        if (!shotgunSpotSelected)
+        {
+            if (Physics.Raycast(player.gunfireHandler.castPoint.position,
+                              player.gunfireHandler.castPoint.forward,
+                                out RaycastHit hit, 50))
+            {
+                circleTrail.transform.position = hit.point;
+                shotgunSpot = hit.point;
+            }
+            return;
+        }
         currentLifetime += Time.deltaTime;
         for (int i = 0; i < selectionObjs.Count; i++)
         {
