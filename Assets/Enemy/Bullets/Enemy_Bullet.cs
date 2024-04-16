@@ -54,6 +54,7 @@ public abstract class Enemy_Bullet : MonoBehaviour
 
     private void OnTriggerEnter (Collider other)
     {
+        Debug.Log ("<color=red>Bullet</color> Collided with" + other.name, other.gameObject);
         if (other.CompareTag ("Player"))
         {
             if(other.GetComponent<IDamageable>() != null)

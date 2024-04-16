@@ -80,6 +80,7 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     #region Aiming and shooting
     public void SpawnBullet (Vector3 target, GameObject muzzle)
     {
+        Debug.Log ("<color=#329DF6>Bullet Pattern: Bullet Spawned</color>");
         //GameObject eb = Instantiate (bulletObject, muzzle.transform.position, Quaternion.identity);
         GameObject eb = Instantiate (bulletObject, muzzle.transform.position, Quaternion.identity);
 
