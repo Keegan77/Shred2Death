@@ -15,7 +15,7 @@ public class NMO_AgentMover : MonoBehaviour
 
     private bool _onNavMeshLink = false;
 
-    [SerializeField] private float _jumpDuration = 0.8f;
+    //[SerializeField] private float _jumpDuration = 0.8f;
     [SerializeField] private float _jumpWait = 0.0f;
     [SerializeField] private float _jumpLand = 0.0f;
 
@@ -55,14 +55,15 @@ public class NMO_AgentMover : MonoBehaviour
         _onNavMeshLink = true;
         NavMeshLink link = (NavMeshLink)_Agent.navMeshOwner;
         NMO_Spline spline = link.GetComponentInChildren<NMO_Spline> ();
+        NMO_NavMeshLinkSpline linkdata = link.GetComponent<NMO_NavMeshLinkSpline> ();
 
-        PerformJump(link, spline);
+        PerformJump(link, spline, linkdata);
     }
 
-    private void PerformJump(NavMeshLink link, NMO_Spline spline)
+    private void PerformJump(NavMeshLink link, NMO_Spline spline, NMO_NavMeshLinkSpline linkdata)
     {
         bool reverseDirection = CheckIfJumpingFromEndToStart(link);
-        StartCoroutine(MoveOnOffMeshLink(spline, reverseDirection));
+        StartCoroutine(MoveOnOffMeshLink(spline, reverseDirection, linkdata));
 
         OnStartJump?.Invoke();
     }
@@ -84,7 +85,7 @@ public class NMO_AgentMover : MonoBehaviour
     }
 
 
-    private IEnumerator MoveOnOffMeshLink(NMO_Spline spline, bool reverseDirection)
+    private IEnumerator MoveOnOffMeshLink(NMO_Spline spline, bool reverseDirection, NMO_NavMeshLinkSpline linkdata)
     {
         Enemy e =  GetComponent<Enemy> ();
         e.animator.Play ("JUMP");
@@ -95,12 +96,12 @@ public class NMO_AgentMover : MonoBehaviour
         Vector3 agentStartPosition = _Agent.transform.position;
 
 
-        while (currentTime < _jumpDuration )
+        while (currentTime < linkdata._jumpDuration )
         {
 
             currentTime += Time.deltaTime;
 
-            float amount = Mathf.Clamp01(currentTime / _jumpDuration);
+            float amount = Mathf.Clamp01(currentTime / linkdata._jumpDuration);
             amount = reverseDirection ? 1 - amount : amount;
 
             _Agent.transform.position =

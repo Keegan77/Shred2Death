@@ -3,6 +3,7 @@ using System.Collections;
 using Dreamteck.Splines;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [SelectionBase]
 public class PlayerBase : MonoBehaviour
@@ -25,7 +26,9 @@ public class PlayerBase : MonoBehaviour
     #region Public Component References
         [Header("Public Component References")]
         public PlayerParticleManager particleManager;
-
+        public GunfireHandler gunfireHandler;
+        public GunSwitcher gunSwitcher;
+        public PlayerRootMover rootMover;
         public PlayerCapsuleFloater capsuleFloater;
         public Rigidbody rb;
         public Transform inputTurningTransform, playerModelTransform; // this is public because we want access from our states
@@ -33,6 +36,8 @@ public class PlayerBase : MonoBehaviour
         public PlayerData playerData;
 
         public RigWeightController proceduralRigController;
+        public GameObject shotgunUltSpiralTrail;
+        public GameObject shotgunUltSelectionCircle;
         
     #endregion
 
@@ -154,7 +159,7 @@ public class PlayerBase : MonoBehaviour
     private void OnDrawGizmos()
     {
         // Update the ray origin points
-        UpdateRayOriginPoints();
+        //UpdateRayOriginPoints();
 
         
         
@@ -319,7 +324,6 @@ public class PlayerBase : MonoBehaviour
         forwardRayEndPoint = forwardRayOrigin + forwardMultByDistance;
         leftRayEndPoint = leftRayOrigin - rightMultByDistance;
         rightRayEndPoint = rightRayOrigin + rightMultByDistance;
-        
     }
     
     public bool CheckGround(string layerName = "Ground")

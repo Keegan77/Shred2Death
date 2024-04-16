@@ -14,7 +14,6 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
     private bool boostHeld;
     private bool jumpHeld;
     private bool fireHeld;
-    private bool brakeHeld;
     private void Awake()
     {
         if (Instance == null)
@@ -76,11 +75,6 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
         return jumpHeld;
     }
     
-    public bool GetBrakeInput()
-    {
-        return brakeHeld;
-    }
-    
     private void OnEnable()
     {
         input.Enable();
@@ -96,9 +90,6 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
             
         input.Player.Fire.performed += ctx => fireHeld = true;
         input.Player.Fire.canceled += ctx => fireHeld = false;
-        
-        input.Player.Brake.performed += ctx => brakeHeld = true;
-        input.Player.Brake.canceled += ctx => brakeHeld = false;
     }
 
     private void OnDisable()

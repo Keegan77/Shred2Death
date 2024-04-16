@@ -27,7 +27,7 @@ public class TrickComboHandler : MonoBehaviour
     [Tooltip("the time before style points reset to 0")]
     [SerializeField] private float comboDropTime;
     
-    float currentStyleLevel;
+    int currentStyleLevel;
     float currentStylePoints;
     float currentMultiplier = 1; // we should start this at 1 bc we multiply by this. anything under 1 would be a
                                  // negative multiplier
@@ -63,15 +63,24 @@ public class TrickComboHandler : MonoBehaviour
         }
     }
 
-    private void IncrementStylePoints(Trick trick)
+    public void IncrementStylePoints(Trick trick)
     {
         if (currentStyleLevel >= maxStyleLevel) return;
         currentStylePoints += trick.stylePoints * currentMultiplier;
         timeSinceLastTrick = 0;
-        if (currentStylePoints > styleLevelThreshold * (currentStyleLevel + 1))
-        {
-            currentStyleLevel++;
-        }
+        SetCurrentStyleLevel();
+    }
+    
+    private void SetCurrentStyleLevel()
+    {
+        currentStyleLevel = Mathf.FloorToInt(currentStylePoints / styleLevelThreshold);
+    }
+    
+    public void DecrementStylePoints(float points)
+    {
+        currentStylePoints -= points;
+        if (currentStylePoints < 0) currentStylePoints = 0;
+        SetCurrentStyleLevel();
     }
     
 

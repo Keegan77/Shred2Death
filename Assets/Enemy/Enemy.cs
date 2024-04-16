@@ -91,16 +91,18 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
             rb.detectCollisions = false;
             GetComponent<CapsuleCollider> ().enabled = false;
 
-            DissolvingController d = transform.Find("Body").GetComponent<DissolvingController>();
+            DissolvingController d = bodyObject.GetComponent<DissolvingController>();
 
             d.StartCoroutine (d.Dissolve ());
-            stateMachine.transitionState (stateMachine.statesObject.GetComponent<ES_Ragdoll> ());
+
+            if (stateMachine.stateCurrent != stateMachine.statesObject.GetComponent<ES_Ragdoll>())
+                stateMachine.transitionState (stateMachine.statesObject.GetComponent<ES_Ragdoll> ());
         }
     }
 
     public void DeathFinished ()
     {
-        Debug.Log ("Enemy Dead");
+        //Debug.Log ("Enemy Dead");
         try
         {
             waveManager.removeEnemy ();
