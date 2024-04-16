@@ -20,7 +20,7 @@ public class Sensor : MonoBehaviour
 
     protected virtual void Deactivate ()
     {
-        Debug.Log ($"{name} Deactivated", this);
+        Debug.Log ($"{transform.parent.name}: {name} Deactivated", this);
         //transform.parent.parent.GetComponent<Enemy_StateMachine>().sensorDeactivated ();
         OnDeactivate.Invoke();
     }

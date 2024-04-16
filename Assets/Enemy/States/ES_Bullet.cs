@@ -8,6 +8,6 @@ public class ES_Bullet : Enemy_State
 
     public void DebugPlayShot ()
     {  
-        StartCoroutine(pattern.PlayShot(Enemy.playerReference.gameObject, e.muzzleObject));
+        StartCoroutine(pattern.PlayShot(Enemy.playerReference.aimTarget, Enemy.playerReference.rb, e.muzzleObject));
     }
 }
