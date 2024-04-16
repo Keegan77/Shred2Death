@@ -42,7 +42,7 @@ public class AbilityStateMaps
         {
             {typeof(BoostAbilityState), 25f},
             {typeof(DualieUltimateAbilityState), 100f},
-            {typeof(ShotgunUltimateAbilityState), 100f},
+            {typeof(ShotgunUltimateAbilityState), 0f},
         };
     }
 
