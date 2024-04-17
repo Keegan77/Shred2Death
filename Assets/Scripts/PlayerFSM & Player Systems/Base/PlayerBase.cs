@@ -16,7 +16,7 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private Transform chestPivot, originPivot;
         private SlopeOrientationHandler orientationHandler;
         private TrickComboHandler comboHandler;
-        [SerializeField] private PlayerHUD playerHUD;
+        public PlayerHUD playerHUD;
         [SerializeField] private PlayerHealth health;
         [SerializeField] private Camera cam;
         private PlayerRagdollHandler ragdollHandler;
