@@ -60,10 +60,11 @@ public class MultiFillBar : MonoBehaviour
             // Percentage X
             float fillAmount = (meterCurrentValue - (i * fillbarMaxValue)) / fillbarMaxValue;
 
-            // What is X percent of the difference between offsetMin and Max? Offset this to the minimum fill
-            fillAmount = fillAmount * (fillOffsetMax - fillOffsetMin) + fillOffsetMin;
+            /*// What is X percent of the difference between offsetMin and Max? Offset this to the minimum fill
+            fillAmount = fillAmount * (fillOffsetMax - fillOffsetMin) + fillOffsetMin;*/
 
-            img.fillAmount = Mathf.Clamp (fillAmount, fillOffsetMin, fillOffsetMax);
+            //img.fillAmount = Mathf.Clamp (fillAmount, fillOffsetMin, fillOffsetMax);
+            img.fillAmount = fillAmount;
         }
     }
 }

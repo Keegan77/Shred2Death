@@ -442,7 +442,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6196003532289686368}
   - {fileID: 1170023559449493823}
   m_Father: {fileID: 5336834510224855463}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -694,7 +693,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   styleMeter: {fileID: 4499988966973031790}
   healthBar: {fileID: 4615622739582234522}
-  ammoBar: {fileID: 8325791378707205132}
+  boostMeter: {fileID: 8325791378707205132}
   enemyText: {fileID: 3110517921371317361}
 --- !u!1 &6123774316709390662
 GameObject:
@@ -1016,7 +1015,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6418493934604394549}
+  m_Father: {fileID: 7680212767609855096}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1220,6 +1219,7 @@ RectTransform:
   - {fileID: 7801125764662888202}
   - {fileID: 4013406228283966667}
   - {fileID: 3213176164852236618}
+  - {fileID: 6196003532289686368}
   m_Father: {fileID: 2430274444086383877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
