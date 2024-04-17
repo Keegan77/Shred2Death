@@ -654,7 +654,7 @@ MonoBehaviour:
   thresholdStationary: 0.1
   timeRagdollRecovery: 2
   stateExit: {fileID: 5363906235961485691}
-  objectRagdollTarget: {fileID: 4179908008895433842}
+  rigidbodyRagdollTarget: {fileID: 4179908008895433842}
   ragdollRootObject: {fileID: 6142467476025863925}
   ragdollSeparationObject: {fileID: 292064468422324115}
   ragdollMeshObject: {fileID: 6280210863946982570}
@@ -785,7 +785,6 @@ MonoBehaviour:
   bodyObject: {fileID: 0}
   animator: {fileID: 0}
   health: 10
-  mainRigidBodyDefaultKinematic: 1
   agent: {fileID: 3754971543326130396}
   isInMeleeRange: 0
 --- !u!195 &3754971543326130396

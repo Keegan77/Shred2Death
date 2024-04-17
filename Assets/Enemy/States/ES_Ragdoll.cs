@@ -24,20 +24,24 @@ public class ES_Ragdoll : Enemy_State
     public Enemy_State stateExit;
 
     [Tooltip("Assign this to the object that will recieve the force of entering the state")]
-    public Rigidbody objectRagdollTarget;
+    public Rigidbody rigidbodyRagdollTarget;
 
+    [Tooltip("Wha tthe separation object is parented to")]
     [SerializeField] GameObject ragdollRootObject;
+
+    [Tooltip("Game Object that ragdoll joints stem from")]
     [SerializeField] GameObject ragdollSeparationObject;
+
     [SerializeField] GameObject ragdollMeshObject;
     #endregion
 
     #region Script Variables
 
     //When still, how long has the ragdoll been still for?
-    float timerRagdollDown;
+    float timerRagdollDown = 0;
 
-    bool _still;
-    bool ragdollStationary { get { return _still; } set { _still = value; timerRagdollDown = Time.time; } }
+    bool _still = false;
+    bool ragdollStationary { get { return _still; } set { _still = value;} }
     #endregion
 
     #region StateMachine
@@ -47,6 +51,7 @@ public class ES_Ragdoll : Enemy_State
 
         e.SetRagdollEnabled (true);
         ragdollStationary = false;
+        timerRagdollDown = 0;
 
         base.Enter ();
 
@@ -64,20 +69,10 @@ public class ES_Ragdoll : Enemy_State
     {
         ragdollSeparationObject.transform.parent = ragdollRootObject.transform;
         e.bodyObject.transform.parent = e.transform;
+        ragdollRootObject.transform.position = e.transform.position;
         
         ragdollStationary = false;
-        RaycastHit hit;
-
-        if (Physics.Raycast(objectRagdollTarget.transform.position, Vector3.down, out hit, 5, LayerMask.GetMask ("Ground")) )
-        {
-            e.transform.position = hit.point;
-            objectRagdollTarget.transform.localPosition = offsetRagdollTarget;
-
-        }
-        else
-        {
-            Debug.Log ("ES_Ragdoll: Raycast not found", this);
-        }
+        
 
         e.sensorsObject.SetActive (true);
         e.bodyObject.transform.position = e.transform.position;
@@ -90,7 +85,19 @@ public class ES_Ragdoll : Enemy_State
     {
         base.machinePhysics ();
         e.bodyObject.transform.position = ragdollSeparationObject.transform.position;
-    
+
+    }
+
+    public override void machineUpdate ()
+    {
+        if (ragdollStationary)
+        {
+            timerRagdollDown += Time.deltaTime;
+        }
+        else
+        {
+            timerRagdollDown = 0;
+        }
     }
 
     /// <summary>
@@ -103,17 +110,29 @@ public class ES_Ragdoll : Enemy_State
     {
         //base.AIUpdate ();
 
-        ragdollStationary = objectRagdollTarget.velocity.magnitude <= thresholdStationary;
+        ragdollStationary = rigidbodyRagdollTarget.velocity.magnitude <= thresholdStationary;
 
-        if ( ragdollStationary )
+        if (timerRagdollDown >= timeRagdollRecovery )
         {
-            timerRagdollDown += Time.deltaTime;
 
-            if (timerRagdollDown >= timeRagdollRecovery )
+            RaycastHit hit;
+
+            //Debug.Log ("ES_Ragdoll: Raycasting", this);
+            if (Physics.Raycast (rigidbodyRagdollTarget.transform.position, Vector3.down, out hit, 5, LayerMask.GetMask ("Ground")))
             {
+                //Debug.Log ("ES_Ragdoll: Raycast found", this);
+
+                e.transform.position = hit.point;
+                rigidbodyRagdollTarget.transform.localPosition = offsetRagdollTarget;
+
                 e.stateMachine.transitionState (stateExit);
-                return;
             }
+            else
+            {
+                Debug.Log ("ES_Ragdoll: Raycast not found", this);
+                Debug.LogWarning ($"{e} could not get up. It may have to be damaged via script", e);
+            }
+
         }
 
     }
@@ -140,19 +159,9 @@ public class ES_Ragdoll : Enemy_State
             foreach (Rigidbody rb in e.ragdollBodies)
             {
                 rb.AddForce (prb.velocity + entryVelocityInfluence, ForceMode.VelocityChange);
-
             }
 
             //objectRagdollTarget.AddForce (prb.velocity + entryVelocityInfluence, ForceMode.VelocityChange);
-        }
-        else
-        {
-            foreach(Rigidbody rb in e.ragdollBodies)
-            {
-                rb.AddForce (entryVelocityInfluence, ForceMode.VelocityChange);
-
-            }
-            Debug.Log (entryVelocityInfluence);
         }
 
         Debug.Log ($"{this.name}: Entered Ragdoll State");
@@ -166,7 +175,7 @@ public class ES_Ragdoll : Enemy_State
     Vector3 offsetRagdollTarget;
     private void Start ()
     {
-        offsetRagdollTarget = objectRagdollTarget.transform.localPosition;
+        offsetRagdollTarget = rigidbodyRagdollTarget.transform.localPosition;
     }
 
     public void testDestroy ()

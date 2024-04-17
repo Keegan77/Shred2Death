@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
         stateMachine = GetComponent<Enemy_StateMachine> ();
         rb = GetComponent<Rigidbody> ();
 
-        muzzleObject = transform.Find ("Body/MuzzlePoint").gameObject;
+        //muzzleObject = transform.Find ("Body/MuzzlePoint").gameObject;
 
         bodyObject = transform.Find ("Body").gameObject;
         sensorsObject = transform.Find ("Sensors").gameObject;
@@ -125,12 +125,16 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
     #endregion
 
     #region RAGDOLL PHYSICS
-    [Header ("Ragdoll")]
-    public bool mainRigidBodyDefaultKinematic = true;
+    
 
     Collider enemyCollider;
     Rigidbody enemyRigidbody;
 
+    /// <summary>
+    /// TODO: Store the position and rotation of each of the bones
+    /// </summary>
+    public Vector3[] ragdollResetPosition { get; private set; }
+    public Quaternion[] ragdollResetRotation { get; private set; }
     public Collider[] ragdollColliders { get; private set; }
     public Rigidbody[] ragdollBodies { get; private set; }
 
@@ -141,6 +145,19 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
 
         ragdollBodies = bodyObject.GetComponentsInChildren<Rigidbody> ();
         ragdollColliders = bodyObject.GetComponentsInChildren<Collider> ();
+
+        ragdollResetPosition = new Vector3[ragdollBodies.Length];
+        ragdollResetRotation = new Quaternion[ragdollBodies.Length];
+
+        for (int i = 0; i < ragdollBodies.Length; i++)
+        {
+            Debug.Log (ragdollBodies[i].name);
+            ragdollResetPosition[i] = ragdollBodies[i].transform.localPosition;
+            ragdollResetRotation[i] = ragdollBodies[i].transform.localRotation;
+        }
+
+
+        Debug.Log ($"{ enemyCollider} { enemyRigidbody} {ragdollBodies} {ragdollColliders}");
 
     }
 
@@ -160,13 +177,14 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
             //Debug.Log (collider);
             collider.enabled = en;
         }
-
-        if (!en)
-        {
-            rb.isKinematic = mainRigidBodyDefaultKinematic;
-        }
-
         enemyCollider.enabled = !en;
+
+        //When reenabling the ragdoll return each of the limbs to their original position and rotation
+        for (int i = 0; i < ragdollBodies.Length; i++)
+        {
+            ragdollBodies[i].transform.localPosition = ragdollResetPosition[i];
+            ragdollBodies[i].transform.localRotation = ragdollResetRotation[i];
+        }
 
     }
     #endregion
