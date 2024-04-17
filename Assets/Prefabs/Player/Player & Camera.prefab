@@ -5733,7 +5733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &263255452808410670
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16805,8 +16805,9 @@ GameObject:
   - component: {fileID: 5341187335081576114}
   - component: {fileID: 7500648732340850694}
   - component: {fileID: 1958427070296625418}
+  - component: {fileID: 6434376009072417262}
   m_Layer: 0
-  m_Name: Button
+  m_Name: DisplayGrindButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16821,8 +16822,8 @@ RectTransform:
   m_GameObject: {fileID: 4922317582988064651}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.05119823, y: 0.05119823, z: 0.05119823}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3484273345832610543}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16881,6 +16882,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fc48a2c82427b54292594e6d0b63025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6434376009072417262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4922317582988064651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35ce99cbd5758140af385eab57240a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frequency: 10
+  dampingRatio: 0.3
+  minUniformScale: 0
+  maxUniformScale: 0.02
 --- !u!1 &4962034041323734795
 GameObject:
   m_ObjectHideFlags: 0
@@ -24996,6 +25013,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1464697803107471213}
+    - target: {fileID: 4825270911490475076, guid: 8204e795f862bc14db23677e72352bca, type: 3}
+      propertyPath: grindDisplayButton
+      value: 
+      objectReference: {fileID: 4922317582988064651}
     - target: {fileID: 5074007747003130072, guid: 8204e795f862bc14db23677e72352bca, type: 3}
       propertyPath: m_Color.b
       value: 0.2117647

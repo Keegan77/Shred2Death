@@ -256,11 +256,12 @@ public class PlayerBase : MonoBehaviour
 
     public void UpdateGrindRailUI()
     {
+        GrindButtonBehaviour button = playerHUD.grindDisplayButton.GetComponent<GrindButtonBehaviour>();
         if (ReturnSplineDetection().Length != 0)
         {
             SplineSample sample = ReturnSplineDetection()[0].transform.GetComponent<SplineComputer>().Project(transform.position); //insane line of code lmao
-            playerHUD.grindDisplayButton.SetActive(true);
-            playerHUD.grindDisplayButton.transform.position = sample.position + Vector3.up * 2f;
+            button.SetSpringyScale(button.maxUniformScale);
+            button.transform.position = sample.position + Vector3.up * 2f;
         }
         else
         {
@@ -270,7 +271,8 @@ public class PlayerBase : MonoBehaviour
     
     public void DisableGrindRailUI()
     {
-        playerHUD.grindDisplayButton.SetActive(false);
+        GrindButtonBehaviour button = playerHUD.grindDisplayButton.GetComponent<GrindButtonBehaviour>();
+        button.SetSpringyScale(button.minUniformScale);
     }
     
     public void CheckAndSetSpline()
