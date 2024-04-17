@@ -40,6 +40,7 @@ public class PlayerAirborneState : BehaviourState
     public override void Enter()
     {
         base.Enter();
+        player.ResetGrindUI();
         UnsubscribeInputs();
         SubscribeInputs();
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Idle");

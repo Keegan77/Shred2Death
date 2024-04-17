@@ -254,17 +254,35 @@ public class PlayerBase : MonoBehaviour
                                   1 << LayerMask.NameToLayer("Spline"));
     }
 
+
+    private bool ran;
+
+    /// <summary>
+    /// We reset the bool with this because we get janky movement if the bool isnt set to false after detection is false
+    /// </summary>
+    public void ResetGrindUI()
+    {
+        ran = false;
+    }
+    
     public void UpdateGrindRailUI()
     {
-        GrindButtonBehaviour button = playerHUD.grindDisplayButton.GetComponent<GrindButtonBehaviour>();
+        GrindButtonBehaviour grindButton = playerHUD.grindDisplayButton.GetComponent<GrindButtonBehaviour>();
         if (ReturnSplineDetection().Length != 0)
         {
-            SplineSample sample = ReturnSplineDetection()[0].transform.GetComponent<SplineComputer>().Project(transform.position); //insane line of code lmao
-            button.SetSpringyScale(button.maxUniformScale);
-            button.transform.position = sample.position + Vector3.up * 2f;
+            Vector3 cachedPos = ReturnSplineDetection()[0].transform.GetComponent<SplineComputer>()
+                .Project(transform.position).position; //insane line of code lmao
+            if (!ran)
+            {
+                grindButton.SetCurrentPosition(cachedPos + Vector3.up * 2f);
+                ran = true;
+            }
+            grindButton.SetSpringyScale(grindButton.maxUniformScale);
+            grindButton.SetSpringyPosition(cachedPos + Vector3.up * 2f);
         }
         else
         {
+            ran = false;
             DisableGrindRailUI();
         }
     }
