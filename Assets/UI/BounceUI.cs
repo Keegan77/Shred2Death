@@ -11,7 +11,7 @@ public class BounceUI : MonoBehaviour
     [SerializeField] private float frequency;
     [SerializeField] private float dampingRatio;
     
-    [SerializeField] float targetXPosition;
+    public float targetXPosition;
     private float currentXPosition;
     private float vel;
 
@@ -28,7 +28,7 @@ public class BounceUI : MonoBehaviour
     private void Update()
     {
         transform.position = new Vector3(currentXPosition, transform.position.y, transform.position.z);
-        SpringUtils.CalcDampedSpringMotionParams(ref springParams, Time.deltaTime, frequency, dampingRatio);
+        SpringUtils.CalcDampedSpringMotionParams(ref springParams, Time.unscaledDeltaTime, frequency, dampingRatio);
         SpringUtils.UpdateDampedSpringMotion(ref currentXPosition, ref vel, targetXPosition, springParams);
     }
 }
