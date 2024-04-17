@@ -244,11 +244,38 @@ public class PlayerBase : MonoBehaviour
     {
         return splineCompletionPercent;
     }
+
+    public RaycastHit[] ReturnSplineDetection()
+    {
+        return Physics.SphereCastAll(transform.position,
+                                          playerData.grindDetectionRadius,
+                                   transform.forward,
+                                0,
+                                  1 << LayerMask.NameToLayer("Spline"));
+    }
+
+    public void UpdateGrindRailUI()
+    {
+        if (ReturnSplineDetection().Length != 0)
+        {
+            SplineSample sample = ReturnSplineDetection()[0].transform.GetComponent<SplineComputer>().Project(transform.position); //insane line of code lmao
+            playerHUD.grindDisplayButton.SetActive(true);
+            playerHUD.grindDisplayButton.transform.position = sample.position + Vector3.up * 2f;
+        }
+        else
+        {
+            DisableGrindRailUI();
+        }
+    }
+    
+    public void DisableGrindRailUI()
+    {
+        playerHUD.grindDisplayButton.SetActive(false);
+    }
     
     public void CheckAndSetSpline()
     {
-        float radius = 10f;
-        RaycastHit[] hits = Physics.SphereCastAll(transform.position, radius, transform.forward, 0, 1 << LayerMask.NameToLayer("Spline"));
+        RaycastHit[] hits = ReturnSplineDetection();
         
         foreach (RaycastHit hit in hits)
         {

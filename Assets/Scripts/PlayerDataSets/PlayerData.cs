@@ -47,9 +47,11 @@ public class PlayerData : ScriptableObject
     [Tooltip("Max fall speed")]
     public float maxNoseDiveVelocity;
     public float noseDiveRotationSpeed;
-    
-    
-    [Header("Grinding Values")]
+
+
+    [Header("Grinding Values")] 
+    [Tooltip("The radius from the player where grind rails will be detected.")]
+    public float grindDetectionRadius;
     [Tooltip("Grind speed is dependent on the speed of the player when they hit the grind rail. If that speed is under the min speed, the min speed will be used.")]
     public float minGrindSpeed;
     [Tooltip("Grind speed is dependent on the speed of the player when they hit the grind rail. If that speed is over the max speed, the max speed will be used.")]
@@ -63,7 +65,7 @@ public class PlayerData : ScriptableObject
     public float railSnapTime;
     [Tooltip("Radius from the player where the player will detect and snap to the nearest grind rail.")]
     public float railSnapDistance;
-
+    
     
     
     [Header("Drifting Values")] 
