@@ -208,11 +208,17 @@ public class ES_Ragdoll : Enemy_State
     {
         Destroy (e.gameObject);
     }
+    
+    /// <summary>
+    /// Enmies are in the ragdoll state when they die, so their detached objects need to be cleared as well
+    /// </summary>
     private void OnDestroy ()
     {
-
-        if (ragdollRootObject) Destroy (ragdollRootObject.transform.parent.gameObject);
-        if (ragdollSeparationObject) Destroy (ragdollSeparationObject);
+        Debug.Log (ragdollRootObject);
+        Debug.Log (ragdollSeparationObject);
+        if (ragdollRootObject != null) Destroy (ragdollRootObject.gameObject);
+        if (ragdollSeparationObject != null) Destroy (ragdollSeparationObject);
+        if ( e.bodyObject != null ) Destroy (e.bodyObject);
     }
     #endregion
 }

@@ -57,7 +57,7 @@ public class Enemy_State : MonoBehaviour
 
     public virtual void AIUpdate ()
     {
-        Debug.Log ($"{e.name} ({GetInstanceID()}): Updating AI", this);
+        //Debug.Log ($"{e.name} ({GetInstanceID()}): Updating AI", this);
     }
 
 
