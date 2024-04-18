@@ -14,22 +14,19 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
     #region Game Objects
     public static SetPlayerReference playerReference;
 
-    [HideInInspector] public Rigidbody rb;
+    public Rigidbody rb;
    
 
-    [HideInInspector] public Enemy_StateMachine stateMachine;
+    public Enemy_StateMachine stateMachine;
 
-    /// <summary>
-    /// MuzzleObject is depcreciated don't use it
-    /// </summary>
-    [HideInInspector] public GameObject muzzleObject;
-    [HideInInspector] public GameObject sensorsObject;
+    public GameObject sensorsObject;
 
-    [HideInInspector] public GameObject bodyObject;
-    [HideInInspector] public Animator animator;
+    public GameObject bodyObject;
+    public Animator animator;
     #endregion
 
     #region Enemy Stats
+    public int maxHealth { get; private set; }
     public int health;
     bool isDead = false;
     #endregion
@@ -43,7 +40,6 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
     void Awake ()
     {
         EnemyGetComponentReferences ();
-        
     }
 
     /// <summary>
@@ -62,6 +58,9 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
         animator = bodyObject.GetComponent<Animator> ();
 
         GetRagdollComponents ();
+
+        maxHealth = health;
+        //Debug.Log ($"{health} / {maxHealth}");
     }
 
     //After it's spawned, the static variable for agentSettings should exist.
@@ -89,10 +88,9 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
             stateMachine.aiUpdateEnabled = false;
 
             rb.detectCollisions = false;
-            GetComponent<CapsuleCollider> ().enabled = false;
+            GetComponent<Collider> ().enabled = false;
 
             DissolvingController d = bodyObject.GetComponent<DissolvingController>();
-
             d.StartCoroutine (d.Dissolve ());
 
             if (stateMachine.stateCurrent != stateMachine.statesObject.GetComponent<ES_Ragdoll>())
@@ -151,13 +149,13 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
 
         for (int i = 0; i < ragdollBodies.Length; i++)
         {
-            Debug.Log (ragdollBodies[i].name);
+            //Debug.Log (ragdollBodies[i].name);
             ragdollResetPosition[i] = ragdollBodies[i].transform.localPosition;
             ragdollResetRotation[i] = ragdollBodies[i].transform.localRotation;
         }
 
 
-        Debug.Log ($"{ enemyCollider} { enemyRigidbody} {ragdollBodies} {ragdollColliders}");
+        //Debug.Log ($"{ enemyCollider} { enemyRigidbody} {ragdollBodies} {ragdollColliders}");
 
     }
 

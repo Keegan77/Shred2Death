@@ -11,11 +11,20 @@ using UnityEngine;
 public class ES_Ragdoll : Enemy_State
 {
     #region Parameters
+    [Header("Ragdoll Parameters")]
+
     [Tooltip("How fast can the ragdoll be moving to still be considered stationary?")]
     [SerializeField] float thresholdStationary = 0.1f;
 
     [Tooltip("How long will the ragdoll stand still before standing up?")]
     [SerializeField] float timeRagdollRecovery = 2f;
+
+    [Tooltip("If the enemy is in freefall for this long, they will start damaging themselves during AI update")]
+    [SerializeField] float timeRagdollDestroy = 10f;
+    private float timerRagdollDestroy = 0;
+
+    [Range(1, 100), Tooltip("What percentage of the enemy's health do they lose if they are in free fall too long?")]
+    [SerializeField] float damagePercentFreefall = 50;
     #endregion
 
     #region References
@@ -69,6 +78,7 @@ public class ES_Ragdoll : Enemy_State
     {
         ragdollSeparationObject.transform.parent = ragdollRootObject.transform;
         e.bodyObject.transform.parent = e.transform;
+        e.bodyObject.transform.localPosition = Vector3.zero; //Just in case the body object is not one of the nodes referenced by the state
 
         ragdollRootObject.transform.localPosition = offsetRagdollRoot;
         ragdollSeparationObject.transform.localPosition = offsetRagdollSeparation;
@@ -94,9 +104,11 @@ public class ES_Ragdoll : Enemy_State
         if (ragdollStationary)
         {
             timerRagdollDown += Time.deltaTime;
+            timerRagdollDestroy = 0;
         }
         else
         {
+            timerRagdollDestroy += Time.deltaTime;
             timerRagdollDown = 0;
         }
     }
@@ -109,7 +121,7 @@ public class ES_Ragdoll : Enemy_State
     /// </summary>
     public override void AIUpdate ()
     {
-        //base.AIUpdate ();
+        base.AIUpdate ();
 
         ragdollStationary = rigidbodyRagdollTarget.velocity.magnitude <= thresholdStationary;
 
@@ -127,6 +139,7 @@ public class ES_Ragdoll : Enemy_State
                 rigidbodyRagdollTarget.transform.localPosition = offsetRagdollRoot;
 
                 e.stateMachine.transitionState (stateExit);
+                return;
             }
             else
             {
@@ -134,6 +147,14 @@ public class ES_Ragdoll : Enemy_State
                 Debug.LogWarning ($"{e} could not get up. It may have to be damaged via script", e);
             }
 
+        }
+
+        if (timerRagdollDestroy >= timeRagdollDestroy)
+        {
+            float damage = (damagePercentFreefall / 100f) * e.maxHealth;
+            Debug.Log ($"DEAL DAMAGE: {damage} to {e.maxHealth} max health");
+            
+            e.TakeDamage (damage);
         }
 
     }

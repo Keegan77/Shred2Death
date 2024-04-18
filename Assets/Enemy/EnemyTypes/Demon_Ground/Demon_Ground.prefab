@@ -653,6 +653,8 @@ MonoBehaviour:
   animationEnter: 
   thresholdStationary: 0.1
   timeRagdollRecovery: 2
+  timeRagdollDestroy: 10
+  damagePercentFreefall: 100
   stateExit: {fileID: 5363906235961485691}
   rigidbodyRagdollTarget: {fileID: 4179908008895433842}
   ragdollRootObject: {fileID: 6142467476025863925}
@@ -780,7 +782,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   stateMachine: {fileID: 0}
-  muzzleObject: {fileID: 0}
   sensorsObject: {fileID: 0}
   bodyObject: {fileID: 0}
   animator: {fileID: 0}
