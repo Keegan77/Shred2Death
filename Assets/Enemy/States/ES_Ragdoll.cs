@@ -69,13 +69,14 @@ public class ES_Ragdoll : Enemy_State
     {
         ragdollSeparationObject.transform.parent = ragdollRootObject.transform;
         e.bodyObject.transform.parent = e.transform;
-        ragdollRootObject.transform.position = e.transform.position;
+
+        ragdollRootObject.transform.localPosition = offsetRagdollRoot;
+        ragdollSeparationObject.transform.localPosition = offsetRagdollSeparation;
+        ragdollMeshObject.transform.localPosition = offsetRagdollMesh;
         
         ragdollStationary = false;
         
-
         e.sensorsObject.SetActive (true);
-        e.bodyObject.transform.position = e.transform.position;
         e.SetRagdollEnabled (false);
         base.Exit ();
 
@@ -123,7 +124,7 @@ public class ES_Ragdoll : Enemy_State
                 //Debug.Log ("ES_Ragdoll: Raycast found", this);
 
                 e.transform.position = hit.point;
-                rigidbodyRagdollTarget.transform.localPosition = offsetRagdollTarget;
+                rigidbodyRagdollTarget.transform.localPosition = offsetRagdollRoot;
 
                 e.stateMachine.transitionState (stateExit);
             }
@@ -172,10 +173,14 @@ public class ES_Ragdoll : Enemy_State
 
     #region Setup
 
-    Vector3 offsetRagdollTarget;
+    Vector3 offsetRagdollRoot;
+    Vector3 offsetRagdollSeparation;
+    Vector3 offsetRagdollMesh;
     private void Start ()
     {
-        offsetRagdollTarget = rigidbodyRagdollTarget.transform.localPosition;
+        offsetRagdollRoot = ragdollRootObject.transform.localPosition;
+        offsetRagdollSeparation = ragdollSeparationObject.transform.localPosition;
+        offsetRagdollMesh = ragdollMeshObject.transform.localPosition;
     }
 
     public void testDestroy ()
