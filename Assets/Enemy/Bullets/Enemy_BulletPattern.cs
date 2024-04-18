@@ -30,7 +30,7 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     public float timeLeadIn;
     public float timeLeadOut;
 
-    protected static int tokens = 50;
+    protected static int tokens = 20;
     [SerializeField] protected int tokenCost = 1;
 
     public float bulletCooldown = 3;

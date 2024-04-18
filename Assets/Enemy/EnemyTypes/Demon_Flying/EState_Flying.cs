@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// Flying states are for enemies that navigate straight to the player, without a navmesh.
+/// This type of state references a spatial sensor on the enemy as well as functions for moving around using it.
+/// 
+/// Scripts that utilize this functionality are abbreviated ESF_
+/// </summary>
 public class EState_Flying : Enemy_State
 {
     protected Enemy_Flying eFly;
