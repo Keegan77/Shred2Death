@@ -33,8 +33,9 @@ public class PlayerSkatingState : BehaviourState
                 onCanceled = ctx =>
                 {
                     if (!player.CheckGround()) return;
+                    player.SetJumpQueued(true);
                     stateMachine.SwitchState(player.airborneState);
-                    player.GetMovementMethods().OllieJump();
+                    
                 }
             });
         

@@ -635,8 +635,8 @@ MonoBehaviour:
   movementSpeed: 1
   movementAcceleration: 999
   movementRotation: 100
-  bulletWaitTimeMin: 0
-  bulletWaitTimeMax: 1
+  bulletWaitTimeMin: 0.5
+  bulletWaitTimeMax: 2
   stateAttack: {fileID: 2521084591526766136}
 --- !u!114 &7078634803442072299
 MonoBehaviour:
@@ -653,8 +653,10 @@ MonoBehaviour:
   animationEnter: 
   thresholdStationary: 0.1
   timeRagdollRecovery: 2
+  timeRagdollDestroy: 10
+  damagePercentFreefall: 100
   stateExit: {fileID: 5363906235961485691}
-  objectRagdollTarget: {fileID: 4179908008895433842}
+  rigidbodyRagdollTarget: {fileID: 4179908008895433842}
   ragdollRootObject: {fileID: 6142467476025863925}
   ragdollSeparationObject: {fileID: 292064468422324115}
   ragdollMeshObject: {fileID: 6280210863946982570}
@@ -780,12 +782,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   stateMachine: {fileID: 0}
-  muzzleObject: {fileID: 0}
   sensorsObject: {fileID: 0}
   bodyObject: {fileID: 0}
   animator: {fileID: 0}
   health: 10
-  mainRigidBodyDefaultKinematic: 1
   agent: {fileID: 3754971543326130396}
   isInMeleeRange: 0
 --- !u!195 &3754971543326130396
