@@ -40,6 +40,7 @@ public class PlayerAirborneState : BehaviourState
     public override void Enter()
     {
         base.Enter();
+        player.ResetGrindUI();
         UnsubscribeInputs();
         SubscribeInputs();
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Idle");
@@ -55,7 +56,7 @@ public class PlayerAirborneState : BehaviourState
     public override void Exit()
     {
         base.Exit();
-
+        player.DisableGrindRailUI();
         UnsubscribeInputs();
         if (coolDownCoroutine != null)
         {
@@ -67,6 +68,7 @@ public class PlayerAirborneState : BehaviourState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        player.UpdateGrindRailUI();
         if (player.CheckGround() && player.rb.velocity.y < 0f)
         {
             stateMachine.SwitchState(player.skatingState);

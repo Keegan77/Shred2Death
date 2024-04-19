@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
@@ -10,6 +11,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [SerializeField] float regenHealthCooldown;
     [SerializeField] float healthRegenerationSpeed;
     private PlayerBase player;
+    [SerializeField] private Volume postProcessVolume;
 
     private void Start()
     {
@@ -19,7 +21,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     
     private void UpdateHealthUI()
     {
-        playerHUD.stats.healthBar.currentValue = Mathf.Lerp(playerHUD.stats.healthBar.currentValue, currentHealth / maxHealth, Time.deltaTime * 5);
+        float t = Mathf.InverseLerp(maxHealth, 0, currentHealth);
+        postProcessVolume.weight = Mathf.Lerp(.4f, .8f, t);
     }
 
     private void Update()

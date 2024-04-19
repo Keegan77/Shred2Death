@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public static class ActionEvents
 {
@@ -44,6 +45,8 @@ public static class ActionEvents
     public static Action MakePlayerLookForward;
     
     public static Action MakePlayerLookMouse;
+    
+    public static Action<InputAction> FreezeAndWaitForInput;
 
 }
 

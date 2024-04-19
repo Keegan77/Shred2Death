@@ -74,5 +74,10 @@ public class E_Demon_Ground : Enemy
     {
         agent.isStopped = en;
         base.SetRagdollEnabled (en);
+
+        if (!en)
+        {
+            rb.isKinematic = true;
+        }
     }
 }

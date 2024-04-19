@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ES_Flying_EnterArena : EState_Flying
+public class ESF_EnterArena : EState_Flying
 {
     public override void Enter ()
     {
@@ -27,6 +27,11 @@ public class ES_Flying_EnterArena : EState_Flying
         base.machineUpdate ();
     }
 
+
+    /// <summary>
+    /// After spawning and switcing to this state, follow pathpoint nodes of a given spawn point
+    /// </summary>
+    /// <returns></returns>
     IEnumerator EnterArena ()
     {
         Debug.Log ("Entering Arena");

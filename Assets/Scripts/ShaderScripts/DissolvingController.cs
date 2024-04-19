@@ -6,9 +6,9 @@ using UnityEngine.Events;
 
 public class DissolvingController : MonoBehaviour
 {
-    Animator animator;
-    SkinnedMeshRenderer skinnedMeshRenderer;
-    VisualEffect VFXGraph;
+    [SerializeField] Animator animator;
+    [SerializeField] SkinnedMeshRenderer skinnedMeshRenderer;
+    [SerializeField] VisualEffect VFXGraph;
 
     public UnityEvent OnDissolved;
 
@@ -20,9 +20,9 @@ public class DissolvingController : MonoBehaviour
     private Material[] dissolveMaterials;
     void Awake()
     {
-        animator = GetComponent<Animator>();
-        skinnedMeshRenderer = transform.Find("MESH_Demon").GetComponent<SkinnedMeshRenderer>();
-        VFXGraph = transform.Find("ParticlesToAnimatedCharacter").GetComponent<VisualEffect>();
+        //animator = GetComponent<Animator>();
+        //skinnedMeshRenderer = transform.Find("MESH_Demon").GetComponent<SkinnedMeshRenderer>();
+        //VFXGraph = transform.Find("ParticlesToAnimatedCharacter").GetComponent<VisualEffect>();
 
         if(VFXGraph != null)
         {

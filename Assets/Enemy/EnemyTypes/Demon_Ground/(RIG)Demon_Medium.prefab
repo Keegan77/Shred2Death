@@ -204,6 +204,16 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4093495610136247643}
   m_SourcePrefab: {fileID: 100100000, guid: 0a47e77acb376cb4f957cac6e6d1adc8, type: 3}
+--- !u!137 &679567254986835684 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6222398792192972537, guid: 0a47e77acb376cb4f957cac6e6d1adc8, type: 3}
+  m_PrefabInstance: {fileID: 6860152571227607069}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1035473610678054284 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 0a47e77acb376cb4f957cac6e6d1adc8, type: 3}
+  m_PrefabInstance: {fileID: 6860152571227607069}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6049813947417898316 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0a47e77acb376cb4f957cac6e6d1adc8, type: 3}
@@ -221,6 +231,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2719bb2e213b1e4b9ca28a5d16e05a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 1035473610678054284}
+  skinnedMeshRenderer: {fileID: 679567254986835684}
+  VFXGraph: {fileID: 9188511104887978209}
   OnDissolved:
     m_PersistentCalls:
       m_Calls: []
