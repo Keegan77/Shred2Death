@@ -40,6 +40,12 @@ public class PlayerAirborneState : BehaviourState
     public override void Enter()
     {
         base.Enter();
+        if (player.JumpQueued())
+        {
+            player.movement.OllieJump();
+            player.SetJumpQueued(false);
+        }
+        
         player.ResetGrindUI();
         UnsubscribeInputs();
         SubscribeInputs();
