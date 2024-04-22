@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 public class CameraFOVBehaviour : MonoBehaviour
 {
     [SerializeField] PlayerBase player;
-    private Camera camera;
+    [SerializeField] private Camera camera;
     private Rigidbody rb;
     [SerializeField ]float baseFOV;
     [SerializeField] private float FOVChangeSpeed;
@@ -18,7 +18,6 @@ public class CameraFOVBehaviour : MonoBehaviour
     {
         rb = player.GetComponent<Rigidbody>();
         currentFOV = baseFOV;
-        camera = GetComponent<Camera>();
     }
 
     private void Update()
