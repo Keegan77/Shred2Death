@@ -33,7 +33,14 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
 
     [Header ("Components")]
     WaveManager waveManager; //Set by waveManager when the enemy object is instantiated
-    
+
+    [Header ("Audio")]
+    public Enemy_AudioPlayer audioPlayer;
+
+    public AudioClip[] audioHurt;
+    public AudioClip[] audioDeath;
+    public AudioClip[] audioImpact;
+
     #endregion
 
     #region SETUP
@@ -79,10 +86,12 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
     #region SCRIPT FUNCTIONS
 
     public void TakeDamage (float damage)
-    {        
+    {
+        if (isDead) return;
+
         health -= Mathf.FloorToInt(damage);
 
-        if (health <= 0 && !isDead) 
+        if (health <= 0) 
         {
             isDead = true;
             stateMachine.aiUpdateEnabled = false;
@@ -93,8 +102,15 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
             DissolvingController d = bodyObject.GetComponent<DissolvingController>();
             d.StartCoroutine (d.Dissolve ());
 
+            audioPlayer.playClipRandom (audioDeath);
+
             if (stateMachine.stateCurrent != stateMachine.statesObject.GetComponent<ES_Ragdoll>())
                 stateMachine.transitionState (stateMachine.statesObject.GetComponent<ES_Ragdoll> ());
+        }
+
+        else
+        {
+            audioPlayer.playClipRandom (audioHurt);
         }
     }
 
@@ -118,6 +134,7 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
     public void TrickOffEvent (Vector3 playerVel)
     {
         stateMachine.transitionState (stateMachine.statesObject.GetComponent<ES_Bonk> ());
+        audioPlayer.playClipRandom (audioImpact);
     }
 
     #endregion
