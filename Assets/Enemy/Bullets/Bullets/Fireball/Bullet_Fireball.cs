@@ -5,11 +5,9 @@ using UnityEngine;
 [SelectionBase]
 public class Bullet_Fireball : Enemy_Bullet
 {
-    [Header("Fireball")]
-    public float changeThisLater = 0;
-
-    private void FixedUpdate ()
+    public override void StartBullet ()
     {
-        transform.position += transform.forward * speed * Time.deltaTime;
+        base.StartBullet ();
+        GetComponent<Rigidbody> ().velocity = transform.forward * speed;
     }
 }

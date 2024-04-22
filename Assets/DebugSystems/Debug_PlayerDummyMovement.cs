@@ -16,6 +16,7 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
     public float movementSpeed = 1;
     public float cameraSensitivity = 1;
     public bool useCamera = true;
+    public bool controlsEnabled = true;
     private bool cameraKey = true;
     private bool cameraKeyPrev = false;
 
@@ -107,6 +108,8 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
     // Update is called once per frame
     void Update()
     {
+        if (!controlsEnabled) return;
+
         bool clicked = InputRouting.Instance.GetBoostInput ();
         Vector3 rot = cameraRotation * cameraSensitivity * Time.deltaTime;
 
@@ -130,6 +133,9 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
 
     private void FixedUpdate ()
     {
+        if (!controlsEnabled) return;
+
+
         Vector2 mov = InputRouting.Instance.GetMoveInput ();
 
         movement = new Vector3 (mov.x, movementVertical, mov.y);
