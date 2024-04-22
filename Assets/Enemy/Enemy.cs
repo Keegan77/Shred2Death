@@ -91,6 +91,8 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
 
         health -= Mathf.FloorToInt(damage);
 
+        audioPlayer.playClipRandom (audioHurt);
+
         if (health <= 0) 
         {
             isDead = true;
@@ -108,10 +110,6 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
                 stateMachine.transitionState (stateMachine.statesObject.GetComponent<ES_Ragdoll> ());
         }
 
-        else
-        {
-            audioPlayer.playClipRandom (audioHurt);
-        }
     }
 
     public void DeathFinished ()

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -308,6 +308,14 @@ PrefabInstance:
     - target: {fileID: 7388049529503274567, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
       propertyPath: m_Name
       value: Demon_Flying
+      objectReference: {fileID: 0}
+    - target: {fileID: 7640524894542215606, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8037956654049775304, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -657,7 +665,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &225355379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1153,6 +1161,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4678934492838640593, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_Name
       value: Demon_Ground
@@ -1209,11 +1221,26 @@ PrefabInstance:
       propertyPath: animationEnter
       value: IDLE
       objectReference: {fileID: 0}
+    - target: {fileID: 9001343221468808894, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: audioPlayer
+      value: 
+      objectReference: {fileID: 792025867}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+--- !u!114 &792025867 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2710290026305136489, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+  m_PrefabInstance: {fileID: 639093058}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6660b7f816897ea4987520609aca77e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &938865419 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3877128806245623620, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
@@ -1351,7 +1378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4148608768320020075, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4509055033306088753, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1416,10 +1443,6 @@ PrefabInstance:
     - target: {fileID: 5559937304468360954, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 91.214
-      objectReference: {fileID: 0}
-    - target: {fileID: 6067842399422199122, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1694,7 +1717,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1602096596
 MonoBehaviour:
   m_ObjectHideFlags: 0
