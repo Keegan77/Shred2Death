@@ -41,7 +41,7 @@ public class PlayerBase : MonoBehaviour
         
     #endregion
 
-    #region Private class fields
+    #region Class fields
 
     private bool timerRanOut;
         private SplineComputer currentSpline;
@@ -50,6 +50,8 @@ public class PlayerBase : MonoBehaviour
         public ConstantForce constantForce;
         public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit;
 
+        private bool queueJump;
+        
         [HideInInspector]
         public Vector3 forwardLeftRayOrigin, forwardRightRayOrigin, backLeftRayOrigin, backRightRayOrigin;
         [HideInInspector] 
@@ -318,6 +320,16 @@ public class PlayerBase : MonoBehaviour
     public PlayerRagdollHandler GetRagdollHandler()
     {
         return ragdollHandler;
+    }
+
+    public bool JumpQueued()
+    {
+        return queueJump;
+    }
+    
+    public void SetJumpQueued(bool value)
+    {
+        queueJump = value;
     }
     
     public Camera GetPlayerCamera()
