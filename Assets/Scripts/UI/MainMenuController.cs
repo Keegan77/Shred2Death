@@ -12,12 +12,14 @@ public class MainMenuController : MonoBehaviour
              " for the main menu.")]
     [SerializeField] private int backgroundSceneEnvironmentToLoad;
     private SubMenu currentSubMenu;
+    [SerializeField] private List<GameObject> leftSideUIObjects;
+    [SerializeField] private float buttonOffScreenXValue;
+    [SerializeField] private GameObject blackScreenFader;
 
     private void Awake()
     {
         GameManager.instance.SetGameState(GameManager.GameState.MainMenu);
         StartCoroutine(LoadBackgroundScene());
-
     }
     private IEnumerator LoadBackgroundScene()
     {
@@ -26,9 +28,39 @@ public class MainMenuController : MonoBehaviour
         {
             yield return null;
         }
-        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(backgroundSceneEnvironmentToLoad));
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(backgroundSceneEnvironmentToLoad)); // ensures lighting data will be taken from bg scene
         Cursor.lockState = CursorLockMode.None;
     }
+
+    public void StartDisableMenuSequence() //can't call a coroutine from a UI Button click, so this is a workaround
+    {
+        StartCoroutine(SlideOutUI());
+    }
+    
+    private IEnumerator SlideOutUI()
+    {
+        blackScreenFader.SetActive(true);
+        if (currentSubMenu != null)
+        {
+            ChangeSubMenu(currentSubMenu);
+        }
+
+        foreach (var UIElement in leftSideUIObjects)
+        {
+            UIElement.GetComponent<BounceUI>().targetXPosition = buttonOffScreenXValue;
+            //if try get component menu button behaviour
+            if (UIElement.TryGetComponent(out MenuButtonBehaviour menuButtonBehaviour))
+            {
+                menuButtonBehaviour.DisableHover();
+            }
+            yield return new WaitForSeconds(.1f);
+        }
+
+        yield return new WaitForSeconds(1);
+        ActionEvents.FadeToBlack?.Invoke(true, 2);
+        
+    }
+
 
     public void ChangeSubMenu(SubMenu newSubMenu)
     {
