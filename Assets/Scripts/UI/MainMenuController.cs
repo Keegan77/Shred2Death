@@ -14,7 +14,6 @@ public class MainMenuController : MonoBehaviour
     private SubMenu currentSubMenu;
     [SerializeField] private List<GameObject> leftSideUIObjects;
     [SerializeField] private float buttonOffScreenXValue;
-    [SerializeField] private GameObject blackScreenFader;
 
     private void Awake()
     {
@@ -33,16 +32,16 @@ public class MainMenuController : MonoBehaviour
     }
 
     public void StartDisableMenuSequence() //can't call a coroutine from a UI Button click, so this is a workaround
+                                           //(could probably use an async workflow to make this better)
     {
         StartCoroutine(SlideOutUI());
     }
     
     private IEnumerator SlideOutUI()
     {
-        blackScreenFader.SetActive(true);
         if (currentSubMenu != null)
         {
-            ChangeSubMenu(currentSubMenu);
+            ChangeSubMenu(currentSubMenu); // this just gets rid of the current submenu
         }
 
         foreach (var UIElement in leftSideUIObjects)
@@ -57,8 +56,8 @@ public class MainMenuController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1);
-        ActionEvents.FadeToBlack?.Invoke(true, 2);
-        
+        ASyncLoader asyncLoader = FindObjectOfType<ASyncLoader>();
+        asyncLoader.StartCoroutine(asyncLoader.LoadLevelAsync(3));
     }
 
 
