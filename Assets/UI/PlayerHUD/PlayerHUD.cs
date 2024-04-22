@@ -21,6 +21,8 @@ public class PlayerHUD : MonoBehaviour
 
     public GameObject subMenuContainer;
     public GameObject widgetContainer;
+
+    public GameObject grindDisplayButton;
     #endregion
 
     public bool gamePaused = false;
