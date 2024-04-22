@@ -16,13 +16,15 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
     public float movementSpeed = 1;
     public float cameraSensitivity = 1;
     public bool useCamera = true;
-    public bool lockCameraOnStart = true;
     private bool cameraKey = true;
     private bool cameraKeyPrev = false;
 
     GameObject cameraObject;
     GameObject cameraPivot;
     GameObject cameraAnchor;
+
+    [SerializeField] CursorLockMode cameraModeActive;
+    [SerializeField] CursorLockMode cameraModePause;
 
     public PlayerHUD hud;
 
@@ -65,10 +67,8 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
 
         rotationTrack = transform.rotation.eulerAngles;
 
-        if (lockCameraOnStart)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+
+        Cursor.lockState = cameraModeActive;
     }
 
     private void Start ()
@@ -88,6 +88,9 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
     public void pauseGame(bool c)
     {
         hud.ToggleGamePaused ();
+
+        if (c) Cursor.lockState = cameraModePause;
+        else Cursor.lockState = cameraModeActive;
 
         cameraKey = c;
     }

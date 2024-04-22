@@ -16,7 +16,7 @@ public class PlayerBase : MonoBehaviour
         [SerializeField] private Transform chestPivot, originPivot;
         private SlopeOrientationHandler orientationHandler;
         private TrickComboHandler comboHandler;
-        [SerializeField] private PlayerHUD playerHUD;
+        public PlayerHUD playerHUD;
         [SerializeField] private PlayerHealth health;
         [SerializeField] private Camera cam;
         private PlayerRagdollHandler ragdollHandler;
@@ -41,7 +41,7 @@ public class PlayerBase : MonoBehaviour
         
     #endregion
 
-    #region Private class fields
+    #region Class fields
 
     private bool timerRanOut;
         private SplineComputer currentSpline;
@@ -50,6 +50,8 @@ public class PlayerBase : MonoBehaviour
         public ConstantForce constantForce;
         public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit;
 
+        private bool queueJump;
+        
         [HideInInspector]
         public Vector3 forwardLeftRayOrigin, forwardRightRayOrigin, backLeftRayOrigin, backRightRayOrigin;
         [HideInInspector] 
@@ -244,11 +246,58 @@ public class PlayerBase : MonoBehaviour
     {
         return splineCompletionPercent;
     }
+
+    public RaycastHit[] ReturnSplineDetection()
+    {
+        return Physics.SphereCastAll(transform.position,
+                                          playerData.grindDetectionRadius,
+                                   transform.forward,
+                                0,
+                                  1 << LayerMask.NameToLayer("Spline"));
+    }
+
+
+    private bool ran;
+
+    /// <summary>
+    /// We reset the bool with this because we get janky movement if the bool isnt set to false after detection is false
+    /// </summary>
+    public void ResetGrindUI()
+    {
+        ran = false;
+    }
+    
+    public void UpdateGrindRailUI()
+    {
+        GrindButtonBehaviour grindButton = playerHUD.grindDisplayButton.GetComponent<GrindButtonBehaviour>();
+        if (ReturnSplineDetection().Length != 0)
+        {
+            Vector3 cachedPos = ReturnSplineDetection()[0].transform.GetComponent<SplineComputer>()
+                .Project(transform.position).position; //insane line of code lmao
+            if (!ran)
+            {
+                grindButton.SetCurrentPosition(cachedPos + Vector3.up * 2f);
+                ran = true;
+            }
+            grindButton.SetSpringyScale(grindButton.maxUniformScale);
+            grindButton.SetSpringyPosition(cachedPos + Vector3.up * 2f);
+        }
+        else
+        {
+            ran = false;
+            DisableGrindRailUI();
+        }
+    }
+    
+    public void DisableGrindRailUI()
+    {
+        GrindButtonBehaviour button = playerHUD.grindDisplayButton.GetComponent<GrindButtonBehaviour>();
+        button.SetSpringyScale(button.minUniformScale);
+    }
     
     public void CheckAndSetSpline()
     {
-        float radius = 10f;
-        RaycastHit[] hits = Physics.SphereCastAll(transform.position, radius, transform.forward, 0, 1 << LayerMask.NameToLayer("Spline"));
+        RaycastHit[] hits = ReturnSplineDetection();
         
         foreach (RaycastHit hit in hits)
         {
@@ -271,6 +320,16 @@ public class PlayerBase : MonoBehaviour
     public PlayerRagdollHandler GetRagdollHandler()
     {
         return ragdollHandler;
+    }
+
+    public bool JumpQueued()
+    {
+        return queueJump;
+    }
+    
+    public void SetJumpQueued(bool value)
+    {
+        queueJump = value;
     }
     
     public Camera GetPlayerCamera()

@@ -17,12 +17,17 @@ public class ESG_Turret : ES_DemonGround
     [SerializeField] protected float bulletWaitTimeMin = 0f;
     [SerializeField] protected float bulletWaitTimeMax = 1f;
     [SerializeField] protected ES_Attack stateAttack;
+
+
+    private float bulletWait = 0;
     #endregion
 
 
     public override void Enter ()
     {
         base.Enter ();
+
+        bulletWait = Random.Range (bulletWaitTimeMin, bulletWaitTimeMax);
     }
 
     public override void Exit ()
@@ -50,7 +55,7 @@ public class ESG_Turret : ES_DemonGround
             eg.stateMachine.transitionState (GetComponent<ESG_Chase> ());
             return;
         }
-        if ( stateAttack.bulletInfo.bulletReady )
+        if ( stateAttack.bulletInfo.bulletReady && e.stateMachine.timerCurrentState > bulletWait)
         {
             //FireBullet ();
             e.stateMachine.transitionState (stateAttack);

@@ -67,7 +67,6 @@ public class GunfireHandler : MonoBehaviour
 
     private void Update()
     {
-        UpdateAmmoUI();
         timeSinceLastShot += Time.deltaTime;
 
         if (currentGun.automatic && CanShoot() && InputRouting.Instance.GetFireHeld())
@@ -75,12 +74,6 @@ public class GunfireHandler : MonoBehaviour
             Fire();
         } // if the gun is automatic, and we can shoot, and we're holding the fire button, then fire
         
-    }
-    
-    private void UpdateAmmoUI()
-    {
-        playerHUD.stats.ammoBar.currentValue = Mathf.Lerp(playerHUD.stats.ammoBar.currentValue,
-            (currentGun.currentAmmo / currentGun.magCapacity), Time.deltaTime * 5);
     }
 
     public void DisablePlayerFire(bool disabled)
