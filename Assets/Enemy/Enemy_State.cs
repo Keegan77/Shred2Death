@@ -36,13 +36,13 @@ public class Enemy_State : MonoBehaviour
     /// </summary>
     public virtual void Enter ()
     {
-        //Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Entered");
+        Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Entered");
     }
 
     public virtual void Exit ()
     {
         StopAllCoroutines();
-        //Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Exited");
+        Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Exited");
     }
 
     public virtual void machineUpdate ()

@@ -22,6 +22,7 @@ public class EState_Flying : Enemy_State
     }
     private void Awake ()
     {
+        e = transform.parent.GetComponent<Enemy> ();
         eFly = transform.parent.GetComponent<Enemy_Flying>();
     }
 
@@ -29,10 +30,17 @@ public class EState_Flying : Enemy_State
     /// Used by MoveToPoint to determine if the destination has been reached.
     /// </summary>
     /// <returns>True if the enemy is close enough to a stopping point based on Flying Enemy stopping distance</returns>
-    bool isAtPoint (GameObject p)
+    bool isAtObject (GameObject p)
     {
         return Vector3.Distance (transform.position, p.transform.position) <= eFly.movementStoppingDistance;
     }
+
+    bool isAtPoint(Vector3 p, bool stoppingDistance)
+    {
+        if (stoppingDistance) return Vector3.Distance (transform.position, p) <= eFly.movementStoppingDistance;
+        else return Vector3.Distance (transform.position, p) <= 0.1f;
+    }
+
 
     /// <summary>
     /// Move towards the target point
@@ -42,7 +50,7 @@ public class EState_Flying : Enemy_State
     protected IEnumerator MoveToObject (GameObject p)
     {
         RaycastHit hit;
-        while (!isAtPoint (p))
+        while (!isAtObject (p))
         {
             eFly.stateMachine.travelPoint = p.transform.position;
 
@@ -109,6 +117,60 @@ public class EState_Flying : Enemy_State
 
         onPathComplete ();
         Debug.Log ("Path complete", gameObject);
+    }
+
+    protected enum ESF_MoveAnimationType {LINEAR, SPHERICAL, SMOOTHDAMP, MOVETOWARDS}
+    /// <summary>
+    /// Moves the enemy by modifying its velocity by interpolating an internal vector3
+    /// </summary>
+    /// <param name="targetPos"></param>
+    /// <param name="t"></param>
+    /// <param name="moveType"></param>
+    /// <returns></returns>
+    protected IEnumerator MoveAnimation (Vector3 targetPos, float t, ESF_MoveAnimationType moveType)
+    {
+        Vector3 startPos = transform.position;
+        Vector3 currentPos = transform.position;
+        Vector3 previousPos = transform.position;
+
+        float timer = e.stateMachine.timerCurrentState;
+
+        while (!isAtPoint (targetPos, false))
+        {
+            //Move according to the selected movement type.
+            switch (moveType)
+            {
+                case ESF_MoveAnimationType.LINEAR:
+                    currentPos = Vector3.Lerp (startPos, targetPos, (e.stateMachine.timerCurrentState - timer) / t);
+                    break;
+
+                case ESF_MoveAnimationType.SPHERICAL:
+                    currentPos = Vector3.Slerp (startPos, targetPos, (e.stateMachine.timerCurrentState - timer) / t);
+                    break;
+
+                case ESF_MoveAnimationType.SMOOTHDAMP:
+                    Vector3 currentVel = e.rb.velocity;
+                    currentPos = Vector3.SmoothDamp (currentPos, targetPos, ref currentVel, t);
+
+                    break;
+
+                case ESF_MoveAnimationType.MOVETOWARDS: //Uses t as a speed veloicty vector instead of a time to there by.
+                    currentPos = Vector3.MoveTowards (currentPos, targetPos, t * Time.fixedDeltaTime);
+                    break;
+
+                default: //Wait this is just linear interpolation lmao
+                    Debug.LogWarning ($"{this.name} ({e.GetInstanceID()}) chose an incorrect method of interpolation");
+                    currentPos = Vector3.MoveTowards (currentPos, targetPos, Time.fixedDeltaTime * (Vector3.Distance (startPos, targetPos) / t));
+                    break;
+            }
+
+            e.rb.velocity = (currentPos - previousPos) / Time.fixedDeltaTime;
+            previousPos = currentPos;            
+            yield return new WaitForFixedUpdate ();
+        }
+
+        e.rb.velocity = Vector3.zero;
+
     }
 
     protected virtual void onPointReached ()

@@ -214,8 +214,8 @@ public class ES_Ragdoll : Enemy_State
     /// </summary>
     private void OnDestroy ()
     {
-        Debug.Log (ragdollRootObject);
-        Debug.Log (ragdollSeparationObject);
+        //Debug.Log (ragdollRootObject);
+        //Debug.Log (ragdollSeparationObject);
         if (ragdollRootObject != null) Destroy (ragdollRootObject.gameObject);
         if (ragdollSeparationObject != null) Destroy (ragdollSeparationObject);
         if ( e.bodyObject != null ) Destroy (e.bodyObject);
