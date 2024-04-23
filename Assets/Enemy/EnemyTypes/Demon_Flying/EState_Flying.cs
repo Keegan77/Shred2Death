@@ -122,7 +122,8 @@ public class EState_Flying : Enemy_State
     protected enum ESF_MoveAnimationType {LINEAR, SPHERICAL, SMOOTHDAMP, MOVETOWARDS}
     protected enum ESF_MoveAnimationFollowthrough {END, TRANSITION }
     /// <summary>
-    /// Moves the enemy by modifying its velocity by interpolating an internal vector3
+    /// Moves the enemy by modifying its velocity by interpolating an internal vector3.
+    /// Followthrough is not implemented yet.
     /// </summary>
     /// <param name="targetPos"></param>
     /// <param name="t"></param>
@@ -130,12 +131,14 @@ public class EState_Flying : Enemy_State
     /// <returns></returns>
     protected IEnumerator MoveAnimation (Vector3 targetPos, float t, ESF_MoveAnimationType moveType, ESF_MoveAnimationFollowthrough moveEnd = ESF_MoveAnimationFollowthrough.END)
     {
+        //Setup
         Vector3 startPos = transform.position;
         Vector3 currentPos = transform.position;
         Vector3 previousPos = transform.position;
 
         float timer = e.stateMachine.timerCurrentState;
 
+        //While you are in transit to the point, conduct movement calculation based on which type of movement you selected.
         while (!isAtPoint (targetPos, false))
         {
             //Move according to the selected movement type.
