@@ -120,6 +120,7 @@ public class EState_Flying : Enemy_State
     }
 
     protected enum ESF_MoveAnimationType {LINEAR, SPHERICAL, SMOOTHDAMP, MOVETOWARDS}
+    protected enum ESF_MoveAnimationFollowthrough {END, TRANSITION }
     /// <summary>
     /// Moves the enemy by modifying its velocity by interpolating an internal vector3
     /// </summary>
@@ -127,7 +128,7 @@ public class EState_Flying : Enemy_State
     /// <param name="t"></param>
     /// <param name="moveType"></param>
     /// <returns></returns>
-    protected IEnumerator MoveAnimation (Vector3 targetPos, float t, ESF_MoveAnimationType moveType)
+    protected IEnumerator MoveAnimation (Vector3 targetPos, float t, ESF_MoveAnimationType moveType, ESF_MoveAnimationFollowthrough moveEnd = ESF_MoveAnimationFollowthrough.END)
     {
         Vector3 startPos = transform.position;
         Vector3 currentPos = transform.position;
@@ -169,6 +170,7 @@ public class EState_Flying : Enemy_State
             yield return new WaitForFixedUpdate ();
         }
 
+        if (moveEnd == ESF_MoveAnimationFollowthrough.END)
         e.rb.velocity = Vector3.zero;
 
     }

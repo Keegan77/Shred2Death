@@ -7,7 +7,7 @@ public class ES_Empty : Enemy_State
     public override void Enter ()
     {
         base.Enter ();
-        e.animator.Play (animationEnter);
+        e.animator.CrossFade (animationEnter, 0.5f);
     }
     public override void onPlayerSensorActivated ()
     {
