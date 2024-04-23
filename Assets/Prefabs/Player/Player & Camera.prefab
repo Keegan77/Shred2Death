@@ -5669,7 +5669,7 @@ GameObject:
   - component: {fileID: 8812549154700771936}
   - component: {fileID: 2898064273428896419}
   - component: {fileID: 4078372514242500480}
-  - component: {fileID: 3854413852653269389}
+  - component: {fileID: 6818418538146710706}
   m_Layer: 0
   m_Name: Camera Object
   m_TagString: MainCamera
@@ -5796,7 +5796,7 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1325760644815410567}
   m_Enabled: 1
---- !u!114 &3854413852653269389
+--- !u!114 &6818418538146710706
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5808,7 +5808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76dfc43c605a5c541ac30ea20903d409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTransform: {fileID: 890013739572143562}
+  originalParent: {fileID: 0}
   newKeyframe: {fileID: 0}
   cameraSpringCurve:
     serializedVersion: 2
@@ -5835,8 +5835,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   panTime: 3
-  stayAtIvalTime: 5
-  rotationSpeedMult: 2
+  stayAtIvalTime: 2
 --- !u!1 &1400849108064567606
 GameObject:
   m_ObjectHideFlags: 0

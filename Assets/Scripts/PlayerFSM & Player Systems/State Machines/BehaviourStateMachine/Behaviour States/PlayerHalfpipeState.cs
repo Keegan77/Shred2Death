@@ -28,12 +28,12 @@ public class PlayerHalfpipeState : BehaviourState
     public override void Enter()
     {
         player.GetComboHandler().SetPauseComboDrop(true);
-        lerpRigRoutine = player.proceduralRigController.StartCoroutine(
+        /*lerpRigRoutine = player.proceduralRigController.StartCoroutine(
             player.proceduralRigController.LerpWeightToValue
             (player.proceduralRigController.legRig,
                 0,
-                1f)
-        );
+                1f)*/
+        //);
         base.Enter();
         totalRotation = 0f;
         rotationIncrementsCompleted = 0;
@@ -55,12 +55,12 @@ public class PlayerHalfpipeState : BehaviourState
     {
         base.Exit();
         if (lerpRigRoutine != null) player.proceduralRigController.StopCoroutine(lerpRigRoutine);
-        player.proceduralRigController.StartCoroutine(
+        /*player.proceduralRigController.StartCoroutine(
             player.proceduralRigController.LerpWeightToValue
             (player.proceduralRigController.legRig,
                 1,
                 .1f)
-        );
+        );*/
         player.GetComboHandler().SetPauseComboDrop(false);
         Debug.Log($"Total rotation style: {rotationIncrementsCompleted * 180}");
         ActionEvents.OnTrickCompletion?.Invoke(new Trick($"Rotation trick: " +
