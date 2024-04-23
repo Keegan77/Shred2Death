@@ -23,6 +23,13 @@ public class ESF_MeleeAttack : EState_Flying
         base.machineUpdate ();
         Debug.Log (e.animator.GetCurrentAnimatorStateInfo (0).normalizedTime);
     }
+
+    /// <summary>
+    /// Uses moveanimation to play out the motion of the somersault attack.
+    /// 
+    /// TODO: Use sensors to conduct bonking better
+    /// </summary>
+    /// <returns></returns>
     IEnumerator playAttack ()
     {
         e.animator.CrossFade ("PREDIVE", 0.2f);
