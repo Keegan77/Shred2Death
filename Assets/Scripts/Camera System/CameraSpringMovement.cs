@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CameraSpringMovement : MonoBehaviour
 {
-    public Transform targetTransform;
     public Transform newKeyframe;
     public AnimationCurve cameraSpringCurve;
     [SerializeField] private float panTime;
@@ -25,12 +24,13 @@ public class CameraSpringMovement : MonoBehaviour
         Vector3 startPos = transform.position;
         Vector3 startRot = transform.eulerAngles;
 
+        InputRouting.Instance.DisableInput();
         await LerpTransform(startPos, newTransform, Quaternion.Euler(startRot), panTime);
-
         await Task.Delay(TimeSpan.FromSeconds(stayAtIvalTime));
-
         await LerpTransform(newTransform.position, cachedParent, newTransform.rotation, panTime);
-
+        //making use of await to chain sequences one after the other in a clean matter
+        
+        InputRouting.Instance.EnableInput();
         transform.parent = cachedParent;
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
