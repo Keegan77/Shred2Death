@@ -37,9 +37,17 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
     [Header ("Audio")]
     public Enemy_AudioPlayer audioPlayer;
 
+    [Tooltip("What sounds play when damaging the enemies?")]
     public AudioClip[] audioHurt;
+
+    [Tooltip("What sounds play when enemies die?")]
     public AudioClip[] audioDeath;
+
+    [Tooltip("What sounds play when you boost into enemies?")]
     public AudioClip[] audioImpact;
+
+    [Tooltip("When enemies attack what audio do they play")]
+    public AudioClip[] audioAttack;
 
     #endregion
 

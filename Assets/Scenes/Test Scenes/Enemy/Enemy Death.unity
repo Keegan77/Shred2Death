@@ -309,14 +309,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon_Flying
       objectReference: {fileID: 0}
-    - target: {fileID: 7640524894542215606, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
-      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8037956654049775304, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1221,26 +1213,11 @@ PrefabInstance:
       propertyPath: animationEnter
       value: IDLE
       objectReference: {fileID: 0}
-    - target: {fileID: 9001343221468808894, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-      propertyPath: audioPlayer
-      value: 
-      objectReference: {fileID: 792025867}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
---- !u!114 &792025867 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2710290026305136489, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
-  m_PrefabInstance: {fileID: 639093058}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6660b7f816897ea4987520609aca77e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &938865419 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3877128806245623620, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}

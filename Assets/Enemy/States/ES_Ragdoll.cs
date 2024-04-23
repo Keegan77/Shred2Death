@@ -174,7 +174,7 @@ public class ES_Ragdoll : Enemy_State
     {
         e.stateMachine.transitionState (this);
         
-        if ( launch )
+        if ( launch ) //Player has crashed in to the enemy
         {
             Rigidbody prb = Enemy.playerReference.GetComponent<Rigidbody> ();
 
@@ -183,7 +183,7 @@ public class ES_Ragdoll : Enemy_State
                 rb.AddForce (prb.velocity + entryVelocityInfluence, ForceMode.VelocityChange);
             }
 
-            //objectRagdollTarget.AddForce (prb.velocity + entryVelocityInfluence, ForceMode.VelocityChange);
+            e.audioPlayer.playClipRandom (e.audioImpact);
         }
 
         Debug.Log ($"{this.name}: Entered Ragdoll State");

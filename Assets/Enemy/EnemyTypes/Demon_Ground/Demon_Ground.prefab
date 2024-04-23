@@ -570,6 +570,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4439761718339668230}
   m_SourcePrefab: {fileID: 100100000, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+--- !u!114 &2710290026305136489 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8104011568459114558, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+  m_PrefabInstance: {fileID: 6191281801883471703}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5324938368301081438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6660b7f816897ea4987520609aca77e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4170527639866061282 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7785432053934259893, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
@@ -786,7 +797,7 @@ MonoBehaviour:
   bodyObject: {fileID: 0}
   animator: {fileID: 0}
   health: 10
-  audioPlayer: {fileID: 0}
+  audioPlayer: {fileID: 2710290026305136489}
   audioHurt:
   - {fileID: 8300000, guid: ec0478df33c40f84a8e6fe9f22860ac5, type: 3}
   - {fileID: 8300000, guid: 78b84f8471455a74dacda64769ccc054, type: 3}
@@ -800,10 +811,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b0a49925735eed241b7465b6f97169e3, type: 3}
   - {fileID: 8300000, guid: 330e412bd5248a14d989906dc2057a18, type: 3}
   - {fileID: 8300000, guid: bb7a2e1d62f035a42bdb82f837c54e2a, type: 3}
-  audioHowl:
-  - {fileID: 8300000, guid: dd08a368efa4a804fb296a7eabc20924, type: 3}
-  - {fileID: 8300000, guid: 310bb2c19f4bc624793349cd041baaa9, type: 3}
-  - {fileID: 8300000, guid: b6af7d523e22d1747b6d5d5f1e7d6835, type: 3}
+  audioAttack: []
   agent: {fileID: 3754971543326130396}
   isInMeleeRange: 0
 --- !u!195 &3754971543326130396
@@ -1249,10 +1257,6 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2822475599566732991, guid: 0e8004b24d195c04aac7727ee10e6024, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2822793767103833933, guid: 0e8004b24d195c04aac7727ee10e6024, type: 3}
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}

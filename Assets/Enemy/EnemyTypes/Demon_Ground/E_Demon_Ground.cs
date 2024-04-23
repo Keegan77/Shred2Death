@@ -10,8 +10,6 @@ using UnityEngine.AI;
 /// </summary>
 public class E_Demon_Ground : Enemy
 {
-    //More Audio
-    public AudioClip[] audioHowl;
 
     [Header("Navigation")]
     public NavMeshAgent agent; //NavMeshAgent refuses to load in time and now I have to serialize it. Hate.
