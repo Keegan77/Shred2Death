@@ -460,6 +460,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48948dfe9d76b07488dacd46a7955fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &943672931314679124
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5309783269794116608}
+  m_Layer: 0
+  m_Name: CameraPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5309783269794116608
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943672931314679124}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.9985709, y: 0.00000003755936, z: 0.000000045621228, w: -0.053443592}
+  m_LocalPosition: {x: 0.0000022638767, y: -1.4385583, z: -0.4998182}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8330630566567621077}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1012578297502768333
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,6 +642,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 10.68}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6867235279004832454}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1179849950077949821
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8853046211188916556}
+  m_Layer: 12
+  m_Name: CameraPosForAir
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8853046211188916556
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179849950077949821}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.000000007450581, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.037999153, y: -0.20218277, z: 0.12846097}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6274,9 +6336,9 @@ MonoBehaviour:
   rb: {fileID: 6967465418630592810}
   rayLength: 2.77
   standingRideHeight: 2.5
-  crouchingRideHeight: 2
+  crouchingRideHeight: 2.1
   rideSpringStrength: 100
-  rideSpringDamper: 10
+  rideSpringDamper: 13
   raycastOrigin: {fileID: 581445647682060572}
 --- !u!114 &7156684046601958127
 MonoBehaviour:
@@ -17972,7 +18034,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f1ac8bef696e94c857de7a9149d743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  originPoint: {fileID: 5186222654821778583}
+  originPoint: {fileID: 5309783269794116608}
+  airOriginPoint: {fileID: 8853046211188916556}
+  player: {fileID: 1464697803107471213}
+  smoothTime: 0.075
+  dampY: 0
 --- !u!114 &2980305608424936420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18442,6 +18508,7 @@ Transform:
   - {fileID: 3116460577395118049}
   - {fileID: 595914952623207707}
   - {fileID: 1763954516614702768}
+  - {fileID: 8853046211188916556}
   m_Father: {fileID: 6264741664780971715}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &3996957137588570977
@@ -18464,9 +18531,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2.988474
+  m_Height: 3.3734126
   m_Direction: 1
-  m_Center: {x: 0, y: -0.6736617, z: 0}
+  m_Center: {x: 0, y: -0.86613107, z: 0}
 --- !u!114 &4262805175918256464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25505,6 +25572,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -7935349426307070684, guid: c77bea9c94c12d14f85f1484b349cf4e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1218377979584906701}
+    - targetCorrespondingSourceObject: {fileID: -7935349426307070684, guid: c77bea9c94c12d14f85f1484b349cf4e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5309783269794116608}
     - targetCorrespondingSourceObject: {fileID: -6504732885555842970, guid: c77bea9c94c12d14f85f1484b349cf4e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6965101918389034779}
