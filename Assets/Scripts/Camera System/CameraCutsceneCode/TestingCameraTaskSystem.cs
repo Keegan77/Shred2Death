@@ -13,16 +13,15 @@ public class TestingCameraTaskSystem : GameplayCutsceneBase
 
     private IEnumerator Start()
     {
-        originalParent = transform.parent;
         yield return new WaitForSeconds(3);
         List<IEnumerator> cameraTasks = new List<IEnumerator>();
-        Vector3 startPos = transform.position;
-        Quaternion startRot = transform.rotation;
+        Vector3 startPos = Helpers.MainCamera.transform.position;
+        Quaternion startRot = Helpers.MainCamera.transform.rotation;
 
         cameraTasks.Add(LerpTransform(startPos, startRot, newKeyframe, panTime, cameraSpringCurve));
         cameraTasks.Add(new WaitForSecondsRealtime(stayAtIvalTime));
-        cameraTasks.Add(LerpTransform(newKeyframe.position, newKeyframe.rotation, originalParent, panTime, cameraSpringCurve));
+        cameraTasks.Add(LerpTransform(newKeyframe.position, newKeyframe.rotation, GetOriginalParent(), panTime, cameraSpringCurve));
 
-        yield return ExecuteCameraTasks(cameraTasks, false, false);
+        yield return ExecuteCameraTasks(cameraTasks);
     }
 }

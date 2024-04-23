@@ -5,10 +5,14 @@ using UnityEngine;
 
 public class GameplayCutsceneBase : MonoBehaviour
 {
-    [HideInInspector] public Transform originalParent;
-    private void Start()
+     private Transform originalParent;
+    private void Awake()
     {
-        originalParent = transform.parent;
+        originalParent = Helpers.MainCamera.transform.parent;
+    }
+    public Transform GetOriginalParent()
+    {
+        return originalParent;
     }
     
     /// <summary>
@@ -24,16 +28,16 @@ public class GameplayCutsceneBase : MonoBehaviour
     {
         if (disableInput) InputRouting.Instance.DisableInput(); //stops player input during cutscene
         if (freezeTime) BulletTimeManager.Instance.ChangeBulletTime(0f); // freezes player for cutscene
-        transform.parent = null;
+        Helpers.MainCamera.transform.parent = null;
         foreach (var task in cameraTasks)
         {
             yield return task;
         }
         if (disableInput) InputRouting.Instance.EnableInput();
         if (freezeTime) BulletTimeManager.Instance.ChangeBulletTime(1f);
-        transform.parent = originalParent;
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
+        Helpers.MainCamera.transform.parent = originalParent;
+        Helpers.MainCamera.transform.localPosition = Vector3.zero;
+        Helpers.MainCamera.transform.localRotation = Quaternion.identity;
     }
 
     /// <summary>
@@ -54,10 +58,10 @@ public class GameplayCutsceneBase : MonoBehaviour
         while (t < 1)
         {
             t += Time.unscaledDeltaTime / panTime;
-            transform.position = Vector3.LerpUnclamped(startPos,
+            Helpers.MainCamera.transform.position = Vector3.LerpUnclamped(startPos,
                                                        endTransform.position,
                                                        motionCurve?.Evaluate(t) ?? t);
-            transform.rotation = Quaternion.LerpUnclamped(startRot, 
+            Helpers.MainCamera.transform.rotation = Quaternion.LerpUnclamped(startRot, 
                                                           endTransform.rotation, 
                                                           motionCurve?.Evaluate(t) ?? t);
             yield return null;
