@@ -1,39 +1,50 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class CameraSpringMovement : MonoBehaviour
 {
-    SpringUtils.tDampedSpringMotionParams springParamsHoz;
-    SpringUtils.tDampedSpringMotionParams springParamsVert;
-
-    [SerializeField] private float frequencyHoz, frequencyVert;
-    [SerializeField] private float dampingRatioHoz, dampingRatioVert;
-    
     public Transform targetTransform;
-    private float currentXPosition, currentYPosition, currentZPosition;
-    private float velX, velY, velZ;
+    public Transform newKeyframe;
+    public AnimationCurve cameraSpringCurve;
+    [SerializeField] private float panTime;
+    [SerializeField] private float stayAtIvalTime;
+    [SerializeField] private float rotationSpeedMult;
 
-    private void Awake()
+    private IEnumerator Start()
     {
-        springParamsHoz = new SpringUtils.tDampedSpringMotionParams();
-        springParamsVert = new SpringUtils.tDampedSpringMotionParams();
+        yield return new WaitForSeconds(5);
+        MoveCameraToNewTransformOverTime(newKeyframe, panTime, stayAtIvalTime);
     }
 
-    private void Start()
+    public async Task MoveCameraToNewTransformOverTime(Transform newTransform, float panTime, float stayAtIvalTime)
     {
-        currentXPosition = transform.position.x;
+        Transform cachedParent = transform.parent.transform;
+        transform.parent = null;
+        Vector3 startPos = transform.position;
+        Vector3 startRot = transform.eulerAngles;
+
+        await LerpTransform(startPos, newTransform, Quaternion.Euler(startRot), panTime);
+
+        await Task.Delay(TimeSpan.FromSeconds(stayAtIvalTime));
+
+        await LerpTransform(newTransform.position, cachedParent, newTransform.rotation, panTime);
+
+        transform.parent = cachedParent;
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
     }
-    
-    private void Update()
+
+    private async Task LerpTransform(Vector3 startPos, Transform endTransform, Quaternion startRot, float panTime)
     {
-        transform.position = new Vector3(targetTransform.position.x, currentYPosition, targetTransform.position.z);
-        transform.rotation = targetTransform.rotation;
-        SpringUtils.CalcDampedSpringMotionParams(ref springParamsHoz, Time.unscaledDeltaTime, frequencyHoz, dampingRatioHoz);
-        SpringUtils.CalcDampedSpringMotionParams(ref springParamsVert, Time.unscaledDeltaTime, frequencyVert, dampingRatioVert);
-        
-        SpringUtils.UpdateDampedSpringMotion(ref currentXPosition, ref velX, targetTransform.position.x, springParamsHoz);
-        SpringUtils.UpdateDampedSpringMotion(ref currentYPosition, ref velY, targetTransform.position.y, springParamsVert);
-        SpringUtils.UpdateDampedSpringMotion(ref currentZPosition, ref velZ, targetTransform.position.z, springParamsHoz);
+        float t = 0;
+        while (t < 1)
+        {
+            t += Time.deltaTime / panTime;
+            transform.position = Vector3.LerpUnclamped(startPos, endTransform.position, cameraSpringCurve.Evaluate(t));
+            transform.rotation = Quaternion.LerpUnclamped(startRot, endTransform.rotation, cameraSpringCurve.Evaluate(t));
+            await Task.Yield();
+        }
     }
 }
