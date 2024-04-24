@@ -33,6 +33,12 @@ public static class ActionEvents
     public static Action MakePlayerLookMouse;
     public static Action<InputAction> FreezeAndWaitForInput;
     #endregion
+
+    #region Cutscene Events
+    public static Action StartedGameplayCutscene;
+    public static Action EndedGameplayCutscene;
+    #endregion
+    
     #region UI Events
     public static Action<bool, float> FadeToBlack;
     #endregion

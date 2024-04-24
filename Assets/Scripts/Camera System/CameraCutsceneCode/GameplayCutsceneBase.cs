@@ -21,11 +21,17 @@ public class GameplayCutsceneBase : MonoBehaviour
     /// <param name="disableInput"></param>
     /// <param name="freezeTime"></param>
     /// <returns></returns>
-    public IEnumerator ExecuteCameraTasks(List<IEnumerator> cameraTasks, bool disableInput = true, bool freezeTime = true)
+    public IEnumerator ExecuteCameraTasks(List<IEnumerator> cameraTasks, bool disableInput = true, bool freezeTime = true, float cameraFov = 40)
     {
+        ActionEvents.StartedGameplayCutscene?.Invoke();
         if (disableInput) InputRouting.Instance.DisableInput(); //stops player input during cutscene
         if (freezeTime) BulletTimeManager.Instance.ChangeBulletTime(0f); // freezes player for cutscene
         Helpers.MainCamera.transform.parent = null;
+        if (cameraFov != 40)
+        {
+            Debug.Log("CHANGING FOV");
+            Helpers.MainCamera.fieldOfView = cameraFov;
+        }
         foreach (var task in cameraTasks)
         {
             yield return task;
@@ -36,6 +42,7 @@ public class GameplayCutsceneBase : MonoBehaviour
         Helpers.MainCamera.transform.parent = originalParent;
         Helpers.MainCamera.transform.localPosition = Vector3.zero;
         Helpers.MainCamera.transform.localRotation = Quaternion.identity;
+        ActionEvents.EndedGameplayCutscene?.Invoke();
     }
 
     /// <summary>
@@ -83,6 +90,6 @@ public class GameplayCutsceneBase : MonoBehaviour
         if (!forwardOnSpline) sFollower.SetPercent(100);
         sFollower.useUnscaledTime = true;
         sFollower.Rebuild();
-        yield return new WaitUntil(() => forwardOnSpline ? sFollower.result.percent >= 1 : sFollower.result.percent <= 0);
+        yield return new WaitUntil(() => forwardOnSpline ? sFollower.result.percent >= .99f : sFollower.result.percent <= 0.01f);
     }
 }

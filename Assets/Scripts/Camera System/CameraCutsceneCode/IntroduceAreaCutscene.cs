@@ -23,11 +23,18 @@ public class IntroduceAreaCutscene : GameplayCutsceneBase
         }
         
     }
+
+    private IEnumerator Start()
+    {
+        yield return new WaitForSeconds(3);
+        StartCoroutine(ExecuteCameraTasks(cameraTasks, true, false, cameraFov:80));
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (cutscenePlayed) return;
         cutscenePlayed = true;
-        StartCoroutine(ExecuteCameraTasks(cameraTasks, true, false));
+        StartCoroutine(ExecuteCameraTasks(cameraTasks, true, false, cameraFov:80));
         Debug.Log("Cutscene played");
     }
 }

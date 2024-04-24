@@ -13,16 +13,31 @@ public class CameraFOVBehaviour : MonoBehaviour
     [SerializeField] private float FOVChangeSpeed;
     private float currentFOV;
     private float magnitude;
+    bool dynamicFOV;
     
     private void Start()
     {
         rb = player.GetComponent<Rigidbody>();
         currentFOV = baseFOV;
+        dynamicFOV = true;
+    }
+
+    private void OnEnable()
+    {
+        ActionEvents.StartedGameplayCutscene += delegate { dynamicFOV = false; };
+        ActionEvents.EndedGameplayCutscene += delegate { dynamicFOV = true; };
+    }
+
+    private void OnDisable()
+    {
+        ActionEvents.StartedGameplayCutscene -= delegate { dynamicFOV = false; };
+        ActionEvents.EndedGameplayCutscene -= delegate { dynamicFOV = true; };
     }
 
     private void Update()
     {
         if (rb == null) return;
+        if (!dynamicFOV) return;
         magnitude = Mathf.Lerp(magnitude, rb.velocity.magnitude / 1.5f, FOVChangeSpeed * Time.unscaledDeltaTime);
         //Debug.Log(rb.velocity.magnitude);
         if (magnitude != 0)
