@@ -6,11 +6,7 @@ using UnityEngine;
 
 public class GameplayCutsceneBase : MonoBehaviour
 {
-     private Transform originalParent;
-    private void Awake()
-    {
-        originalParent = Helpers.MainCamera.transform.parent;
-    }
+     [SerializeField] private Transform originalParent;
     public Transform GetOriginalParent()
     {
         return originalParent;
@@ -36,6 +32,7 @@ public class GameplayCutsceneBase : MonoBehaviour
         }
         if (disableInput) InputRouting.Instance.EnableInput();
         if (freezeTime) BulletTimeManager.Instance.ChangeBulletTime(1f);
+        Debug.Log("FINISHED MOVIE");
         Helpers.MainCamera.transform.parent = originalParent;
         Helpers.MainCamera.transform.localPosition = Vector3.zero;
         Helpers.MainCamera.transform.localRotation = Quaternion.identity;
@@ -52,12 +49,18 @@ public class GameplayCutsceneBase : MonoBehaviour
     /// <param name="panTime"></param>
     /// <param name="motionCurve"></param>
     /// <returns>Coroutine</returns>
-    public IEnumerator LerpTransform(Vector3 startPos, Quaternion startRot, Transform endTransform, float panTime,
-                                     AnimationCurve motionCurve = null)
+    public IEnumerator MoveCameraToTransform(Vector3 startPos, Quaternion startRot, Transform endTransform, float panTime,
+                                     AnimationCurve motionCurve = null, bool instantCut = false)
     {
         float t = 0;
         while (t < 1)
         {
+            if (instantCut)
+            {
+                Helpers.MainCamera.transform.position = endTransform.position;
+                Helpers.MainCamera.transform.rotation = endTransform.rotation;
+                yield break;
+            }
             t += Time.unscaledDeltaTime / panTime;
             Helpers.MainCamera.transform.position = Vector3.LerpUnclamped(startPos,
                                                        endTransform.position,
@@ -80,6 +83,6 @@ public class GameplayCutsceneBase : MonoBehaviour
         if (!forwardOnSpline) sFollower.SetPercent(100);
         sFollower.useUnscaledTime = true;
         sFollower.Rebuild();
-        yield return new WaitUntil(() => forwardOnSpline ? sFollower.result.percent >= .99f : sFollower.result.percent <= .01f);
+        yield return new WaitUntil(() => forwardOnSpline ? sFollower.result.percent >= 1 : sFollower.result.percent <= 0);
     }
 }
