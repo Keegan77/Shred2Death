@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,7 @@ public class PlayerHUD : MonoBehaviour
     public GameObject widgetContainer;
 
     public GameObject grindDisplayButton;
+    private Canvas playerCanvas;
     #endregion
 
     public bool gamePaused = false;
@@ -33,6 +35,29 @@ public class PlayerHUD : MonoBehaviour
         subMenuContainer = transform.Find("SubMenus").gameObject;
         widgetContainer = transform.Find("Widgets").gameObject;
         subMenuContainer.SetActive(false);
+        playerCanvas = GetComponent<Canvas>();
+    }
+
+    private void OnEnable()
+    {
+        ActionEvents.TurnOffPlayerUI += TurnOffUI;
+        ActionEvents.TurnOnPlayerUI += TurnOnUI;
+    }
+
+    private void OnDisable()
+    {
+        ActionEvents.TurnOffPlayerUI -= TurnOffUI;
+        ActionEvents.TurnOnPlayerUI -= TurnOnUI;
+    }
+
+    private void TurnOffUI()
+    {
+        playerCanvas.enabled = false;
+    }
+    
+    private void TurnOnUI()
+    {
+        playerCanvas.enabled = true;
     }
 
     #region active HUD

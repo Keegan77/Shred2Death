@@ -41,6 +41,8 @@ public static class ActionEvents
     
     #region UI Events
     public static Action<bool, float> FadeToBlack;
+    public static Action TurnOffPlayerUI;
+    public static Action TurnOnPlayerUI;
     #endregion
 }
 

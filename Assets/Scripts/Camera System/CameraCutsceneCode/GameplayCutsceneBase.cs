@@ -24,6 +24,7 @@ public class GameplayCutsceneBase : MonoBehaviour
     public IEnumerator ExecuteCameraTasks(List<IEnumerator> cameraTasks, bool disableInput = true, bool freezeTime = true, float cameraFov = 40)
     {
         ActionEvents.StartedGameplayCutscene?.Invoke();
+        ActionEvents.TurnOffPlayerUI?.Invoke();
         if (disableInput) InputRouting.Instance.DisableInput(); //stops player input during cutscene
         if (freezeTime) BulletTimeManager.Instance.ChangeBulletTime(0f); // freezes player for cutscene
         Helpers.MainCamera.transform.parent = null;
@@ -43,6 +44,7 @@ public class GameplayCutsceneBase : MonoBehaviour
         Helpers.MainCamera.transform.localPosition = Vector3.zero;
         Helpers.MainCamera.transform.localRotation = Quaternion.identity;
         ActionEvents.EndedGameplayCutscene?.Invoke();
+        ActionEvents.TurnOnPlayerUI?.Invoke();
     }
 
     /// <summary>
