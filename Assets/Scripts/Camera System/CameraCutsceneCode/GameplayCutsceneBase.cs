@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Dreamteck.Splines;
 using UnityEngine;
 
 public class GameplayCutsceneBase : MonoBehaviour
@@ -66,5 +67,19 @@ public class GameplayCutsceneBase : MonoBehaviour
                                                           motionCurve?.Evaluate(t) ?? t);
             yield return null;
         }
+    }
+    
+    public IEnumerator MoveCameraOnSpline(SplineFollower sFollower, bool rotateWithSpline = true, bool forwardOnSpline = true)
+    {
+        Helpers.MainCamera.transform.parent = sFollower.gameObject.transform;
+        Helpers.MainCamera.transform.localPosition = Vector3.zero;
+        Helpers.MainCamera.transform.localRotation = Quaternion.identity;
+        
+        sFollower.enabled = true;
+        sFollower.direction = forwardOnSpline ? Spline.Direction.Forward : Spline.Direction.Backward;
+        if (!forwardOnSpline) sFollower.SetPercent(100);
+        sFollower.useUnscaledTime = true;
+        sFollower.Rebuild();
+        yield return new WaitUntil(() => forwardOnSpline ? sFollower.result.percent >= .99f : sFollower.result.percent <= .01f);
     }
 }
