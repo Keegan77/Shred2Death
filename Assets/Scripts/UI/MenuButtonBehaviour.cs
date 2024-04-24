@@ -9,6 +9,7 @@ public class MenuButtonBehaviour : MonoBehaviour
 
     public float restingPos;
     public float selectedPos;
+    
     private bool disableHover;
     
     private void Start()

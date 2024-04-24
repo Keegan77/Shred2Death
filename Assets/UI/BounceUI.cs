@@ -19,6 +19,7 @@ public class BounceUI : MonoBehaviour
     private float vel;
 
     public bool isMask;
+    [SerializeField] bool useCurrentAsStarting = true;
 
     private void Awake()
     {
@@ -27,6 +28,12 @@ public class BounceUI : MonoBehaviour
 
     private void Start()
     {
+        if (useCurrentAsStarting)
+        {
+            targetXPosition = transform.position.x;
+            startingXPosition = transform.position.x;
+            return;
+        }
         targetXPosition = startingXPosition;
         currentXPosition = startingXPosition;
     }
