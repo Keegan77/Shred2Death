@@ -20,11 +20,11 @@ public class TestingCameraTaskSystem : GameplayCutsceneBase
         Vector3 startPos = Helpers.MainCamera.transform.position;
         Quaternion startRot = Helpers.MainCamera.transform.rotation;
 
-        cameraTasks.Add(MoveCameraToTransform(startPos, startRot, splineFollower.transform, panTime, cameraSpringCurve));
+        /*cameraTasks.Add(MoveCameraToTransform(startPos, startRot, splineFollower.transform, panTime, cameraSpringCurve));
         cameraTasks.Add(MoveCameraOnSpline(splineFollower, forwardOnSpline:false));
         //cameraTasks.Add(new WaitForSecondsRealtime(stayAtIvalTime));
         cameraTasks.Add(MoveCameraToTransform(splineFollower.transform.position, splineFollower.transform.rotation,
-                              GetOriginalParent(), panTime, cameraSpringCurve));
+                              GetOriginalParent(), panTime, cameraSpringCurve));*/
 
         yield return ExecuteCameraTasks(cameraTasks);
     }

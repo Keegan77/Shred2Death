@@ -56,9 +56,12 @@ public class GameplayCutsceneBase : MonoBehaviour
     /// <param name="panTime"></param>
     /// <param name="motionCurve"></param>
     /// <returns>Coroutine</returns>
-    public IEnumerator MoveCameraToTransform(Vector3 startPos, Quaternion startRot, Transform endTransform, float panTime,
-                                     AnimationCurve motionCurve = null, bool instantCut = false)
+    public IEnumerator MoveCameraToTransform(Transform startTransform, Transform endTransform, float panTime,
+                                     AnimationCurve motionCurve = null, bool instantCut = false, bool useCurrentPos = false, float fov = default)
     {
+        Vector3 startPos = Helpers.MainCamera.transform.position;
+        Quaternion startRot = Helpers.MainCamera.transform.rotation;
+        if (fov != default) Helpers.MainCamera.fieldOfView = fov;
         float t = 0;
         while (t < 1)
         {
@@ -69,27 +72,39 @@ public class GameplayCutsceneBase : MonoBehaviour
                 yield break;
             }
             t += Time.unscaledDeltaTime / panTime;
-            Helpers.MainCamera.transform.position = Vector3.LerpUnclamped(startPos,
+            Helpers.MainCamera.transform.position = Vector3.LerpUnclamped(useCurrentPos ? startPos : startTransform.position,
                                                        endTransform.position,
                                                        motionCurve?.Evaluate(t) ?? t);
-            Helpers.MainCamera.transform.rotation = Quaternion.LerpUnclamped(startRot, 
+            Helpers.MainCamera.transform.rotation = Quaternion.LerpUnclamped(useCurrentPos ? startRot : startTransform.rotation, 
                                                           endTransform.rotation, 
                                                           motionCurve?.Evaluate(t) ?? t);
             yield return null;
         }
     }
     
-    public IEnumerator MoveCameraOnSpline(SplineFollower sFollower, bool rotateWithSpline = true, bool forwardOnSpline = true)
+    public IEnumerator MoveCameraOnSpline(SplineFollower sFollower, Transform lookAt = null, bool forwardOnSpline = true, float fov = default)
     {
         Helpers.MainCamera.transform.parent = sFollower.gameObject.transform;
         Helpers.MainCamera.transform.localPosition = Vector3.zero;
         Helpers.MainCamera.transform.localRotation = Quaternion.identity;
         
+        
+        if (fov != default) Helpers.MainCamera.fieldOfView = fov;
         sFollower.enabled = true;
         sFollower.direction = forwardOnSpline ? Spline.Direction.Forward : Spline.Direction.Backward;
         if (!forwardOnSpline) sFollower.SetPercent(100);
         sFollower.useUnscaledTime = true;
         sFollower.Rebuild();
-        yield return new WaitUntil(() => forwardOnSpline ? sFollower.result.percent >= .99f : sFollower.result.percent <= 0.01f);
+        
+        while (forwardOnSpline ? sFollower.result.percent < .99f : sFollower.result.percent > 0.01f)
+        {
+            if (lookAt != null)
+            {
+                Debug.Log("LOOKING AT");
+                Helpers.MainCamera.transform.LookAt(lookAt);
+            }
+            yield return null;
+        }
+        Helpers.MainCamera.transform.parent = null;
     }
 }
