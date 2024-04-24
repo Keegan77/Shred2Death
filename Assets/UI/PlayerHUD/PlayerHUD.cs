@@ -29,6 +29,7 @@ public class PlayerHUD : MonoBehaviour
 
     public bool gamePaused = false;
     float currentTimeScale = 1;
+    private GameObject[] children;
 
     private void Awake()
     {
@@ -49,15 +50,39 @@ public class PlayerHUD : MonoBehaviour
         ActionEvents.TurnOffPlayerUI -= TurnOffUI;
         ActionEvents.TurnOnPlayerUI -= TurnOnUI;
     }
+    
+    public List<GameObject> GetAllChildren(GameObject parent)
+    {
+        List<GameObject> result = new List<GameObject>();
+        for (int i = 0; i < parent.transform.childCount; i++)
+        {
+            if (parent.transform.GetChild(i).gameObject.CompareTag("SkipUIDeactivate")) continue;
+            result.Add(parent.transform.GetChild(i).gameObject);
+        }
+        return result;
+    }
 
     private void TurnOffUI()
     {
-        playerCanvas.enabled = false;
+        foreach (GameObject menuComponent in GetAllChildren(gameObject))
+        {
+            if (menuComponent == gameObject) return;
+            menuComponent.SetActive(false);
+        }
     }
     
     private void TurnOnUI()
     {
-        playerCanvas.enabled = true;
+        foreach (GameObject menuComponent in GetAllChildren(gameObject))
+        {
+            if (menuComponent == gameObject) return;
+            menuComponent.SetActive(true);
+        }
+    }
+
+    private IEnumerator StartAreaIntroductionText()
+    {
+        yield return null;
     }
 
     #region active HUD
