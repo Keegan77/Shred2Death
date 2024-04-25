@@ -88,5 +88,10 @@ public class MainMenuController : MonoBehaviour
         PlayerPrefs.SetFloat("Sensitivity", newSens);
         Debug.Log("Sensitivity saved as " + newSens);
     }
+    
+    public void ExitApplication()
+    {
+        Application.Quit();
+    }
 
 }
