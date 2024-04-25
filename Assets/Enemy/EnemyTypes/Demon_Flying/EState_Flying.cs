@@ -19,6 +19,7 @@ public class EState_Flying : Enemy_State
     // Start is called before the first frame update
     void Start()
     {
+
     }
     private void Awake ()
     {
@@ -55,7 +56,9 @@ public class EState_Flying : Enemy_State
             eFly.stateMachine.travelPoint = p.transform.position;
 
             //transform.parent.LookAt(e.stateMachine.travelPoint);
-            transform.parent.LookAt(new Vector3(p.transform.position.x, transform.position.y, p.transform.position.z));
+            //transform.parent.LookAt(new Vector3(p.transform.position.x, transform.position.y, p.transform.position.z));
+            //e.transform.LookAt (e.transform.TransformPoint (e.rb.velocity));
+            e.transform.LookAt (new Vector3 (e.rb.velocity.x, e.transform.position.y, e.rb.velocity.z));
 
             movementAvoidance = Vector3.MoveTowards (
                     movementAvoidance,
@@ -101,7 +104,7 @@ public class EState_Flying : Enemy_State
 
 
 
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
 
         onPointReached ();

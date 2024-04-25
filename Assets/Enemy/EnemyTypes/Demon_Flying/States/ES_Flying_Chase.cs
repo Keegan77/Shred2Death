@@ -21,5 +21,6 @@ public class ES_Flying_Chase : EState_Flying
     {
         base.onPointReached ();
         Debug.Log ($"{name}: Reached point and will melee the player now.");
+        e.stateMachine.transitionState (GetComponent<ESF_MeleeAttack> ());
     }
 }

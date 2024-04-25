@@ -44,11 +44,20 @@ public class ESF_EnterArena : EState_Flying
         }
 
         yield return MoveToObject (eFly.stateMachine.travelTarget.transform.GetChild(2).gameObject);
+
+        onPathComplete ();
     }
 
     public override void onPlayerSensorActivated ()
     {
+        Debug.Log ("Aggro time");
         base.onPlayerSensorActivated ();
         eFly.stateMachine.transitionState (GetComponent<ES_Flying_Chase> ());
+    }
+
+    protected override void onPathComplete ()
+    {
+        base.onPathComplete ();
+        e.stateMachine.transitionState (GetComponent<ES_Flying_Chase> ());
     }
 }

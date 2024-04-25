@@ -30,6 +30,6 @@ public class Enemy_Flying : Enemy
 
     public override void TrickOffEvent (Vector3 playerVel)
     {
-        stateMachine.statesObject.GetComponent<ES_Ragdoll> ().EnterRagdoll (new Vector3 (0, -5, 0));
+        stateMachine.statesObject.GetComponent<ES_Ragdoll> ().EnterRagdoll (new Vector3 (0, -5, 0), true);
     }
 }

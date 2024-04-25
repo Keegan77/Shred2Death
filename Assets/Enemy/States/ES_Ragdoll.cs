@@ -61,6 +61,7 @@ public class ES_Ragdoll : Enemy_State
         e.SetRagdollEnabled (true);
         ragdollStationary = false;
         timerRagdollDown = 0;
+        e.animator.enabled = false;
 
         base.Enter ();
 
@@ -88,6 +89,7 @@ public class ES_Ragdoll : Enemy_State
         
         e.sensorsObject.SetActive (true);
         e.SetRagdollEnabled (false);
+        e.animator.enabled = true;
         base.Exit ();
 
     }
@@ -188,13 +190,13 @@ public class ES_Ragdoll : Enemy_State
     /// If the enemy is tricked off of and enters ragdoll state with a custom influence.
     /// </summary>
     /// <param name="launchParams"></param>
-    public void EnterRagdoll(Vector3 launchParams)
+    public void EnterRagdoll(Vector3 launchParams, bool playImpact)
     {
         e.stateMachine.transitionState (this);
 
         PushRagdoll (launchParams);
 
-        e.audioPlayer.playClipRandom (e.audioImpact);
+        if (playImpact) e.audioPlayer.playClipRandom (e.audioImpact);
     }
 
     void PushRagdoll(Vector3 v)

@@ -105,8 +105,8 @@ public class ESG_Dodge : ES_DemonGround
         if (!NavMesh.SamplePosition (transform.position, out hit, 0.5f, eg.agent.areaMask))
         {
             ES_Ragdoll ragdoll = GetComponent<ES_Ragdoll> ();
-            ragdoll.entryVelocityInfluence = eBody.velocity;
-            ragdoll.EnterRagdoll (false);
+            //ragdoll.entryVelocityInfluence = eBody.velocity;
+            ragdoll.EnterRagdoll (e.rb.velocity, false);
 
         }
 

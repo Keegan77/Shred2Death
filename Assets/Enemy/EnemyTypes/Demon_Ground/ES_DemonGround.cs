@@ -40,6 +40,7 @@ public abstract class ES_DemonGround : Enemy_State
 
     public override void Enter ()
     {
+        eg.agent.Warp (transform.position);
         base.Enter ();
         //eg.animator.Play (animationEnter);
         eg.animator.CrossFade (animationEnter, 0.3f);
@@ -53,6 +54,7 @@ public abstract class ES_DemonGround : Enemy_State
 
     public override void Exit ()
     {
+        eg.agent.Warp (transform.position);
         base.Exit ();
         eg.agent.ResetPath ();
         eg.agent.isStopped = true;

@@ -9,8 +9,4 @@ public class ES_Empty : Enemy_State
         base.Enter ();
         e.animator.CrossFade (animationEnter, 0.5f);
     }
-    public override void onPlayerSensorActivated ()
-    {
-        e.stateMachine.transitionState (GetComponent<ESG_Chase> ());
-    }
 }
