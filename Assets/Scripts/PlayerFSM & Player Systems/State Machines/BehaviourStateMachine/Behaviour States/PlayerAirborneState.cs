@@ -42,6 +42,7 @@ public class PlayerAirborneState : BehaviourState
         base.Enter();
         if (player.JumpQueued())
         {
+            player.rb.velocity = new Vector3(player.rb.velocity.x, 0, player.rb.velocity.z);
             player.movement.OllieJump();
             player.SetJumpQueued(false);
         }

@@ -107,4 +107,15 @@ public class InputRouting : MonoBehaviour // Singleton which inherits it's DoNot
         input.Player.Fire.canceled -= ctx => fireHeld = false;
         input.Disable();
     }
+    
+    public void DisableInput()
+    {
+        input.Disable();
+    }
+    
+    public void EnableInput()
+    {
+        input.Enable();
+    }
+    
 }

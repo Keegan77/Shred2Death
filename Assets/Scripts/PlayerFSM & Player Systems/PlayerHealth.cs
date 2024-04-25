@@ -22,7 +22,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private void UpdateHealthUI()
     {
         float t = Mathf.InverseLerp(maxHealth, 0, currentHealth);
-        postProcessVolume.weight = Mathf.Lerp(.4f, .8f, t);
+        //postProcessVolume.weight = Mathf.Lerp(.4f, .8f, t);
     }
 
     private void Update()
