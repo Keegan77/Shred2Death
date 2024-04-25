@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -31,7 +32,7 @@ public static class ActionEvents
     public static Action IntermediaryAbilityStateEnter;
     public static Action MakePlayerLookForward;
     public static Action MakePlayerLookMouse;
-    public static Action<InputAction> FreezeAndWaitForInput;
+    public static Action<InputAction, GameObject> FreezeAndWaitForInput;
     #endregion
 
     #region Cutscene Events
