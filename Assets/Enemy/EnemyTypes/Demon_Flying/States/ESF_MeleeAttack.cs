@@ -61,6 +61,10 @@ public class ESF_MeleeAttack : EState_Flying
         StartCoroutine (playBonk ());
     }
 
+    /// <summary>
+    /// Called by onAttackCollided. cancels the attack animation into a recoil movement.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator playBonk ()
     {
         meleeSensor.SetActive (false);

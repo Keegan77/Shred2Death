@@ -27,4 +27,9 @@ public class Enemy_Flying : Enemy
 
         s_Spatial = transform.Find("Sensors/SpatialOrientation").GetComponent<Sensor_Spatial>();
     }
+
+    public override void TrickOffEvent (Vector3 playerVel)
+    {
+        stateMachine.statesObject.GetComponent<ES_Ragdoll> ().EnterRagdoll (new Vector3 (0, -5, 0));
+    }
 }

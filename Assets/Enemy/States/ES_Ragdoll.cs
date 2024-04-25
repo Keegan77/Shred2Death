@@ -176,17 +176,35 @@ public class ES_Ragdoll : Enemy_State
         
         if ( launch ) //Player has crashed in to the enemy
         {
-            Rigidbody prb = Enemy.playerReference.GetComponent<Rigidbody> ();
-
-            foreach (Rigidbody rb in e.ragdollBodies)
-            {
-                rb.AddForce (prb.velocity + entryVelocityInfluence, ForceMode.VelocityChange);
-            }
+            PushRagdoll (entryVelocityInfluence);
 
             e.audioPlayer.playClipRandom (e.audioImpact);
         }
 
         Debug.Log ($"{this.name}: Entered Ragdoll State");
+    }
+
+    /// <summary>
+    /// If the enemy is tricked off of and enters ragdoll state with a custom influence.
+    /// </summary>
+    /// <param name="launchParams"></param>
+    public void EnterRagdoll(Vector3 launchParams)
+    {
+        e.stateMachine.transitionState (this);
+
+        PushRagdoll (launchParams);
+
+        e.audioPlayer.playClipRandom (e.audioImpact);
+    }
+
+    void PushRagdoll(Vector3 v)
+    {
+        Rigidbody prb = Enemy.playerReference.GetComponent<Rigidbody> ();
+
+        foreach (Rigidbody rb in e.ragdollBodies)
+        {
+            rb.AddForce (prb.velocity + v, ForceMode.VelocityChange);
+        }
     }
 
 

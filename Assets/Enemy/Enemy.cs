@@ -137,7 +137,7 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
         }
     }
 
-    public void TrickOffEvent (Vector3 playerVel)
+    public virtual void TrickOffEvent (Vector3 playerVel)
     {
         stateMachine.transitionState (stateMachine.statesObject.GetComponent<ES_Bonk> ());
         audioPlayer.playClipRandom (audioImpact);
