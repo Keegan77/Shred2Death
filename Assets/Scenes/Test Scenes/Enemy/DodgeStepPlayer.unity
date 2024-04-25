@@ -538,6 +538,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon_Ground
       objectReference: {fileID: 0}
+    - target: {fileID: 6734062557448569666, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: dodgeRequiredSpeed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalPosition.x
       value: 19.7
@@ -577,6 +581,10 @@ PrefabInstance:
     - target: {fileID: 6973395600968241967, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6995417364875992630, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: dodgeDistance
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 9001343221468808894, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: health
@@ -1030,6 +1038,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2471127484050268314, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471127484050268314, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471127484050268314, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3737361078982848290, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.m_ColorSpace
       value: -1
@@ -1053,6 +1073,10 @@ PrefabInstance:
     - target: {fileID: 6967465418630592810, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
       propertyPath: m_CollisionDetection
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9073618624655354908, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 29.059343
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
