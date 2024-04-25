@@ -52,14 +52,15 @@ public class GameplayCutsceneBase : MonoBehaviour
     /// the list of tasks to be executed in ExecuteCameraTasks, and fill in params. An optional animation curve can be
     /// added to smooth movement.
     /// </summary>
-    /// <param name="startPos"></param>
-    /// <param name="startRot"></param>
-    /// <param name="endTransform"></param>
-    /// <param name="panTime"></param>
-    /// <param name="motionCurve"></param>
-    /// <returns>Coroutine</returns>
+    /// <param name="startTransform">Transform to start at. Uses current camera transform if null.</param>
+    /// <param name="endTransform">The transform you want to end up at. Do not set to null.</param>
+    /// <param name="panTime">The amount of time to go from transform A to transform B.</param>
+    /// <param name="motionCurve">If used, will evaluate the movement of the camera over the motion curve.</param>
+    /// <param name="instantCut">If set to true, this will instantly snap the camera to the end transform.</param>
+    /// <param name="fov">If used, will override the camera FOV to a new value on start.</param>
+    /// <returns></returns>
     public IEnumerator MoveCameraToTransform(Transform startTransform, Transform endTransform, float panTime,
-                                     AnimationCurve motionCurve = null, bool instantCut = false, bool useCurrentPos = false, float fov = default)
+                                     AnimationCurve motionCurve = null, bool instantCut = false, float fov = default)
     {
         Vector3 startPos = Helpers.MainCamera.transform.position;
         Quaternion startRot = Helpers.MainCamera.transform.rotation;
@@ -74,10 +75,10 @@ public class GameplayCutsceneBase : MonoBehaviour
                 yield break;
             }
             t += Time.unscaledDeltaTime / panTime;
-            Helpers.MainCamera.transform.position = Vector3.LerpUnclamped(useCurrentPos ? startPos : startTransform.position,
+            Helpers.MainCamera.transform.position = Vector3.LerpUnclamped(startTransform == null ? startPos : startTransform.position,
                                                        endTransform.position,
                                                        motionCurve?.Evaluate(t) ?? t);
-            Helpers.MainCamera.transform.rotation = Quaternion.LerpUnclamped(useCurrentPos ? startRot : startTransform.rotation, 
+            Helpers.MainCamera.transform.rotation = Quaternion.LerpUnclamped(startTransform == null ? startRot : startTransform.rotation, 
                                                           endTransform.rotation, 
                                                           motionCurve?.Evaluate(t) ?? t);
             yield return null;
