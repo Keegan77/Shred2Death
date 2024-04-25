@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Dreamteck.Splines.Primitives;
 using UnityEngine;
 
@@ -12,8 +13,13 @@ public class BounceUI : MonoBehaviour
     [SerializeField] private float dampingRatio;
     
     public float targetXPosition;
+    public float startingXPosition;
+    public float endingXPosition;
     private float currentXPosition;
     private float vel;
+
+    public bool isMask;
+    [SerializeField] bool useCurrentAsStarting = true;
 
     private void Awake()
     {
@@ -22,9 +28,33 @@ public class BounceUI : MonoBehaviour
 
     private void Start()
     {
-        currentXPosition = transform.position.x;
+        if (useCurrentAsStarting)
+        {
+            targetXPosition = transform.position.x;
+            startingXPosition = transform.position.x;
+            return;
+        }
+        targetXPosition = startingXPosition;
+        currentXPosition = startingXPosition;
+    }
+
+    private void OnEnable()
+    {
+        if (isMask) ActionEvents.StartedGameplayCutscene += BounceIn;
+    }
+
+    private void OnDisable()
+    {
+        if (isMask) ActionEvents.StartedGameplayCutscene -= BounceIn;
     }
     
+    private async void BounceIn()
+    {
+        targetXPosition = endingXPosition;
+        await Task.Delay(TimeSpan.FromSeconds(7));
+        targetXPosition = startingXPosition;
+    }
+
     private void Update()
     {
         transform.position = new Vector3(currentXPosition, transform.position.y, transform.position.z);

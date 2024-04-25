@@ -83,10 +83,6 @@ public class PlayerGrindState : BehaviourState
 
         // calculates the dot product of the player's velocity and the spline sample forward to determine if the player is moving forward or backward
         float dotProduct = Vector3.Dot(playerForward, splineTangent);
-
-        // Set the SplineFollower to move forward or backward based on the dot product
-        
-
         
         sFollower.SetPercent(player.GetSplineCompletionPercent()); // moves the spline follower to be where the player jumped on
         
