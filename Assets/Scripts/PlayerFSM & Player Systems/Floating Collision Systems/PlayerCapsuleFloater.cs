@@ -32,7 +32,6 @@ public class PlayerCapsuleFloater : MonoBehaviour
         if (player.stateMachine.currentState == player.airborneState) return;
         if (player.stateMachine.currentState == player.deathState) return;
         
-        //TODO: This method is the reason for the inconsistent jump height bug, needs tweaking
         if (Physics.Raycast(raycastOrigin.position, downDir, out hit, rayLength))
         {
             Vector3 vel = rb.velocity;
@@ -43,7 +42,7 @@ public class PlayerCapsuleFloater : MonoBehaviour
             //locally downward, rayDirVel will be a large positive number. If it's moving locally upwards,
             //it will be a large negative number.
             
-            float x = hit.distance - currentRideHeight; //this mag determines how much spring force strength we need to apply
+            float x = (hit.distance - currentRideHeight); //this mag determines how much spring force strength we need to apply
             
             float springForce = (x * rideSpringStrength) - (rayDirVel * rideSpringDamper);
             
