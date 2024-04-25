@@ -8,5 +8,14 @@ using UnityEngine.Events;
 /// </summary>
 public class Sensor_MeleeDive : Sensor
 {
+    [SerializeField] UnityEvent playerHit;
+    private void OnTriggerEnter (Collider other)
+    {
+        Activate ();
 
+        if (other.CompareTag ("Player"))
+        {
+            playerHit.Invoke ();
+        }
+    }
 }
