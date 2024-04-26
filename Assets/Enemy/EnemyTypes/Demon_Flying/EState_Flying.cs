@@ -132,9 +132,6 @@ public class EState_Flying : Enemy_State
     /// <param name="moveType"></param>
     /// <returns></returns>
     /// 
-
-
-
     protected IEnumerator MoveAnimation (Vector3 targetPos, ESF_MovementOptions options)
     {
         //Setup
@@ -183,6 +180,19 @@ public class EState_Flying : Enemy_State
 
     }
 
+    protected IEnumerator TrackPlayer ()
+    {
+        while (true)
+        {
+            //e.transform.LookAt (new Vector3 (Enemy.playerReference.transform.position.x, e.transform.position.y, Enemy.playerReference.transform.position.z));
+            e.transform.LookAt (Enemy.playerReference.transform.position, Vector3.up);
+
+            yield return new WaitForFixedUpdate ();
+        }
+        
+    }
+
+
     protected virtual void onPointReached ()
     {
 
@@ -201,6 +211,8 @@ public class EState_Flying : Enemy_State
         public AnimationCurve curve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(1,1));
         [Min(0.1f)] public float t = 1;
 
+        [Tooltip("Vector given to the target you want to move to should you need it in code.")]
+        public Vector3 moveTarget = Vector3.zero;
 
     }
 }

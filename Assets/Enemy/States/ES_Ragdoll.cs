@@ -58,7 +58,10 @@ public class ES_Ragdoll : Enemy_State
     {
         e.sensorsObject.SetActive(false);
 
+        Vector3 spd = e.rb.velocity;
         e.SetRagdollEnabled (true);
+        PushRagdoll (spd);
+
         ragdollStationary = false;
         timerRagdollDown = 0;
 

@@ -42,9 +42,13 @@ public class ESF_MeleeAttack : EState_Flying
     /// <returns></returns>
     IEnumerator playAttack ()
     {
+        Coroutine tracker = StartCoroutine (TrackPlayer ());
+
         e.animator.CrossFade ("PREDIVE", 0.2f);
-        yield return MoveAnimation (transform.TransformPoint (0, 1, -1), attackStartup);
-        
+        yield return MoveAnimation (transform.TransformPoint (attackStartup.moveTarget), attackStartup);
+        yield return new WaitUntil (() => e.animator.GetCurrentAnimatorStateInfo (0).normalizedTime >= 1f);
+
+        StopCoroutine (tracker);
 
         e.animator.CrossFade ("DIVE", 0.2f);
         meleeSensor.SetActive (true);
@@ -71,7 +75,7 @@ public class ESF_MeleeAttack : EState_Flying
         StopCoroutine (playAttack ());
 
         e.animator.CrossFade ("DIVEBONK", 0.2f); yield return new WaitForEndOfFrame ();
-        yield return MoveAnimation (transform.TransformPoint (0, 0, -5), attackRebound);
+        yield return MoveAnimation (transform.TransformPoint (attackRebound.moveTarget), attackRebound);
 
         yield return new WaitUntil (() => e.animator.GetCurrentAnimatorStateInfo (0).normalizedTime > 1);
         e.stateMachine.transitionState (exitState);

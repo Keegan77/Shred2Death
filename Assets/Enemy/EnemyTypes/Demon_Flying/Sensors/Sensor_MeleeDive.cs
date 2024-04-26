@@ -9,12 +9,24 @@ using UnityEngine.Events;
 public class Sensor_MeleeDive : Sensor
 {
     [SerializeField] UnityEvent playerHit;
+
+    [Min(0)]
+    [SerializeField] float damage = 18f;
     private void OnTriggerEnter (Collider other)
     {
         Activate ();
 
         if (other.CompareTag ("Player"))
         {
+            if (other.GetComponent<IDamageable>() != null)
+            {
+                other.GetComponent<IDamageable> ().TakeDamage (damage);
+            }
+            else
+            {
+                Debug.LogWarning ($"{gameObject}: Player iDamageable not found");
+            }
+
             playerHit.Invoke ();
         }
     }
