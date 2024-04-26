@@ -13,7 +13,7 @@ public class TutorialTrigger : MonoBehaviour
         if (other.isTrigger) return;
         if (popUpShown) return;
         popUpShown = true;
-        ActionEvents.FreezeAndWaitForInput?.Invoke(tutorialAction, triggerTextObject);
         
+        ActionEvents.FreezeAndWaitForInput?.Invoke(tutorialAction, triggerTextObject);
     }
 }
