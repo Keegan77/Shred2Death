@@ -18,7 +18,6 @@ public class ESG_Empty : ES_DemonGround
     {
         base.Enter ();
         e.animator.Play (animationEnter);
-        e.animator.enabled = false;
     }
 
 }

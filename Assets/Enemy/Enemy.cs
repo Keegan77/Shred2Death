@@ -187,24 +187,34 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
         animator.enabled = !en;
 
         enemyCollider.enabled = false;
+        rb.Sleep ();
 
         foreach (Rigidbody rigidbody in ragdollBodies)
         {
             //Debug.Log (rigidbody);
             rigidbody.isKinematic = !en;
+
+            if (en) rigidbody.WakeUp ();
+            else rigidbody.Sleep ();
         }
         foreach (Collider collider in ragdollColliders)
         {
             //Debug.Log (collider);
             collider.enabled = en;
         }
+
         enemyCollider.enabled = !en;
 
         //When reenabling the ragdoll return each of the limbs to their original position and rotation
-        for (int i = 0; i < ragdollBodies.Length; i++)
+        if (!en)
         {
-            ragdollBodies[i].transform.localPosition = ragdollResetPosition[i];
-            ragdollBodies[i].transform.localRotation = ragdollResetRotation[i];
+            for (int i = 0; i < ragdollBodies.Length; i++)
+            {
+                ragdollBodies[i].transform.localPosition = ragdollResetPosition[i];
+                ragdollBodies[i].transform.localRotation = ragdollResetRotation[i];
+            }
+
+            rb.WakeUp ();
         }
 
     }

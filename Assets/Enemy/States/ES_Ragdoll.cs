@@ -61,14 +61,11 @@ public class ES_Ragdoll : Enemy_State
         e.SetRagdollEnabled (true);
         ragdollStationary = false;
         timerRagdollDown = 0;
-        e.animator.enabled = false;
-
-        base.Enter ();
-
 
         e.bodyObject.transform.parent = null;
         ragdollSeparationObject.transform.parent = null;
 
+        base.Enter ();
     }
 
 
@@ -77,6 +74,9 @@ public class ES_Ragdoll : Enemy_State
     /// </summary>
     public override void Exit ()
     {
+        e.animator.enabled = true;
+
+
         ragdollSeparationObject.transform.parent = ragdollRootObject.transform;
         e.bodyObject.transform.parent = e.transform;
         e.bodyObject.transform.localPosition = Vector3.zero; //Just in case the body object is not one of the nodes referenced by the state
@@ -89,7 +89,6 @@ public class ES_Ragdoll : Enemy_State
         
         e.sensorsObject.SetActive (true);
         e.SetRagdollEnabled (false);
-        e.animator.enabled = true;
         base.Exit ();
 
     }

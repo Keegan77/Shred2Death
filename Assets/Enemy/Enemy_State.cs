@@ -18,7 +18,7 @@ public class Enemy_State : MonoBehaviour
     //Is the enemy currently playing an animation?
     protected bool isAnimationPlaying = false;
 
-    [Header("Animation")]
+    [Header ("Animation")]
     public string animationEnter = "";
 
     //States will control movement directly.
@@ -28,7 +28,7 @@ public class Enemy_State : MonoBehaviour
 
     private void Awake ()
     {
-        e = transform.parent.GetComponent<Enemy>();
+        e = transform.parent.GetComponent<Enemy> ();
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ public class Enemy_State : MonoBehaviour
 
     public virtual void Exit ()
     {
-        StopAllCoroutines();
+        StopAllCoroutines ();
         Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Exited");
     }
 
@@ -84,6 +84,22 @@ public class Enemy_State : MonoBehaviour
         isAnimationPlaying = false;
     }
 
+    #endregion
+
+    #region CONTEXT MENU
+    [ContextMenu ("EnterState")]
+    public void EnterState ()
+    {
+        if (Application.isPlaying)
+            e.stateMachine.transitionState (this);
+    }
+
+    [ContextMenu ("PlayAnimation")]
+    public void PlayAnimation ()
+    {
+        if (Application.isPlaying)
+            e.animator.Play (animationEnter);
+    }
     #endregion
 
     #region COROUTINES
