@@ -60,7 +60,7 @@ public class GameplayCutsceneBase : MonoBehaviour
     /// <param name="fov">If used, will override the camera FOV to a new value on start.</param>
     /// <returns></returns>
     public IEnumerator MoveCameraToTransform(Transform startTransform, Transform endTransform, float panTime,
-                                     AnimationCurve motionCurve = null, bool instantCut = false, float fov = default)
+                                     AnimationCurve motionCurve = null,float rotationMultiplier = 1, bool instantCut = false, float fov = default)
     {
         Vector3 startPos = Helpers.MainCamera.transform.position;
         Quaternion startRot = Helpers.MainCamera.transform.rotation;
@@ -80,7 +80,7 @@ public class GameplayCutsceneBase : MonoBehaviour
                                                        motionCurve?.Evaluate(t) ?? t);
             Helpers.MainCamera.transform.rotation = Quaternion.LerpUnclamped(startTransform == null ? startRot : startTransform.rotation, 
                                                           endTransform.rotation, 
-                                                          motionCurve?.Evaluate(t) ?? t);
+                                                          motionCurve?.Evaluate(t * rotationMultiplier) ?? t * rotationMultiplier);
             yield return null;
         }
     }
