@@ -50,17 +50,12 @@ public class IntroduceAreaCutscene : GameplayCutsceneBase
         //the last camera zoom
     }
 
-    private IEnumerator Start()
-    {
-        yield return new WaitForSeconds(3);
-        areaTextObj.text = areaName;
-        StartCoroutine(ExecuteCameraTasks(cameraTasks, true, false, cameraFov:80));
-    }
-
     private void OnTriggerEnter(Collider other)
     {
+        if (!other.CompareTag("Player")) return;
         if (cutscenePlayed) return;
         cutscenePlayed = true;
+        areaTextObj.text = areaName;
         StartCoroutine(ExecuteCameraTasks(cameraTasks, true, false, cameraFov:80));
         Debug.Log("Cutscene played");
     }
