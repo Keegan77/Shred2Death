@@ -43,7 +43,7 @@ public class ESF_EnterArena : EState_Flying
             yield return MoveToObject (eFly.stateMachine.travelTarget.transform.GetChild(1).GetChild (i).gameObject);
         }
 
-        yield return MoveToObject (eFly.stateMachine.travelTarget.transform.GetChild(2).gameObject);
+        //yield return MoveToObject (eFly.stateMachine.travelTarget.transform.GetChild(2).gameObject);
 
         onPathComplete ();
     }

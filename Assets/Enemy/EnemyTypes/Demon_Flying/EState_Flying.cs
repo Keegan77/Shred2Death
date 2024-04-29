@@ -58,7 +58,7 @@ public class EState_Flying : Enemy_State
             //transform.parent.LookAt(e.stateMachine.travelPoint);
             //transform.parent.LookAt(new Vector3(p.transform.position.x, transform.position.y, p.transform.position.z));
             //e.transform.LookAt (e.transform.TransformPoint (e.rb.velocity));
-            e.transform.LookAt (new Vector3 (e.rb.velocity.x, e.transform.position.y, e.rb.velocity.z));
+            e.transform.LookAt (e.transform.position + e.rb.velocity);
 
             movementAvoidance = Vector3.MoveTowards (
                     movementAvoidance,
@@ -195,12 +195,12 @@ public class EState_Flying : Enemy_State
 
     protected virtual void onPointReached ()
     {
-
+        if (stateDebugLogging) Debug.Log ($"<color=#ffff00>{e.name}</color> (<color=#ffff00>{e.GetInstanceID()}</color>) onPointReached", this);
     }
 
     protected virtual void onPathComplete ()
     {
-
+        if (stateDebugLogging) Debug.Log ($"< color =#ffff00>{e.name}</color> (<color=#ffff00>{e.GetInstanceID ()}</color>)", this);
     }
 
 

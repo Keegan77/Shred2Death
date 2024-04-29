@@ -93,16 +93,16 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
         if (c) Cursor.lockState = cameraModePause;
         else Cursor.lockState = cameraModeActive;
 
-        cameraKey = c;
+        cameraKey = !c;
     }
 
     private void OnEnable ()
     {
-        InputRouting.Instance.input.UI.Pause.started += ctx => pauseGame(!cameraKey);
+        InputRouting.Instance.input.UI.Pause.performed += ctx => pauseGame(cameraKey);
     }
     private void OnDisable ()
     {
-        InputRouting.Instance.input.UI.Pause.started -= ctx => pauseGame (!cameraKey);
+        InputRouting.Instance.input.UI.Pause.performed -= ctx => pauseGame (cameraKey);
     }
 
     // Update is called once per frame

@@ -18,6 +18,9 @@ public class Enemy_StateMachine : MonoBehaviour
 
     public GameObject statesObject;
 
+    [Header ("Debugging")]
+    [SerializeField] private bool debugEnabled = false;
+
     [Header("States")]
     public Enemy_State stateCurrent;
     public Enemy_State statePrevious;
@@ -86,7 +89,7 @@ public class Enemy_StateMachine : MonoBehaviour
     {
         timerCurrentState = 0;
 
-        Debug.Log ("Transitioning state to: " + s);
+        if (debugEnabled) Debug.Log ($"<color=#ffff00>{name}</color> (<color=#ffff00>{GetInstanceID ()}</color>) State transition <color=#00ff00>{stateCurrent}</color> to <color=#00ff00>{s}</color>", this);
         stateCurrent.Exit ();
 
         statePrevious = stateCurrent;

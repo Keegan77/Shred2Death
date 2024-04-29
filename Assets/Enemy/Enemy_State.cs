@@ -18,8 +18,13 @@ public class Enemy_State : MonoBehaviour
     //Is the enemy currently playing an animation?
     protected bool isAnimationPlaying = false;
 
+    [Header ("Debugging")]
+    [SerializeField] protected bool stateDebugLogging;
+
     [Header ("Animation")]
     public string animationEnter = "";
+    [SerializeField, Range (0, 1)] float crossFadeTime = 0.5f;
+    [SerializeField] bool playOnEnter = false;
 
     //States will control movement directly.
     //Rigidbody will be set in the start function
@@ -36,13 +41,14 @@ public class Enemy_State : MonoBehaviour
     /// </summary>
     public virtual void Enter ()
     {
-        Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Entered");
+        if(stateDebugLogging) Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Entered");
+        if (playOnEnter) e.animator.CrossFade (animationEnter, crossFadeTime);
     }
 
     public virtual void Exit ()
     {
         StopAllCoroutines ();
-        Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Exited");
+        if (stateDebugLogging) Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Exited");
     }
 
     public virtual void machineUpdate ()
