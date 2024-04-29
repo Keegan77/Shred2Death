@@ -30,6 +30,7 @@ public class EnemyTrickOffHandler : MonoBehaviour
             IDamageable damageable;
             ITrickOffable trickOffable;
             
+            if (enemy.gameObject == null) return;
             if (enemy.TryGetComponent<IDamageable>(out damageable))
             {
                 damageable.TakeDamage(trickDamage);

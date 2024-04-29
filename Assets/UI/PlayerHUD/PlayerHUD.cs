@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,16 +24,65 @@ public class PlayerHUD : MonoBehaviour
     public GameObject widgetContainer;
 
     public GameObject grindDisplayButton;
+    private Canvas playerCanvas;
     #endregion
 
     public bool gamePaused = false;
     float currentTimeScale = 1;
+    private GameObject[] children;
 
     private void Awake()
     {
         subMenuContainer = transform.Find("SubMenus").gameObject;
         widgetContainer = transform.Find("Widgets").gameObject;
         subMenuContainer.SetActive(false);
+        playerCanvas = GetComponent<Canvas>();
+    }
+
+    private void OnEnable()
+    {
+        ActionEvents.TurnOffPlayerUI += TurnOffUI;
+        ActionEvents.TurnOnPlayerUI += TurnOnUI;
+    }
+
+    private void OnDisable()
+    {
+        ActionEvents.TurnOffPlayerUI -= TurnOffUI;
+        ActionEvents.TurnOnPlayerUI -= TurnOnUI;
+    }
+    
+    public List<GameObject> GetAllChildren(GameObject parent)
+    {
+        List<GameObject> result = new List<GameObject>();
+        for (int i = 0; i < parent.transform.childCount; i++)
+        {
+            if (parent.transform.GetChild(i).gameObject.CompareTag("SkipUIDeactivate")) continue;
+            result.Add(parent.transform.GetChild(i).gameObject);
+        }
+        return result;
+    }
+
+    private void TurnOffUI()
+    {
+        foreach (GameObject menuComponent in GetAllChildren(gameObject))
+        {
+            if (menuComponent == gameObject) return;
+            menuComponent.SetActive(false);
+        }
+    }
+    
+    private void TurnOnUI()
+    {
+        foreach (GameObject menuComponent in GetAllChildren(gameObject))
+        {
+            if (menuComponent == gameObject) return;
+            menuComponent.SetActive(true);
+        }
+    }
+
+    private IEnumerator StartAreaIntroductionText()
+    {
+        yield return null;
     }
 
     #region active HUD

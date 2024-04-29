@@ -1,53 +1,50 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public static class ActionEvents
 {
-    public static Action<Type> OnBehaviourStateSwitch;
-
     #region Trick Events
     public static Action<Trick> OnTrickRequested;  // will be invoked when the player presses the trick input
     public static Action<Trick> OnTrickPerformed;  // invoked if while trick input was pressed, player was free for a trick
     public static Action<Trick> OnTrickCompletion; // invoked on trick animation completion
-    
-    #endregion
-
     public static Action<float> AddToStylePoints; //invoke when we want to add to style points without tricking
+    #endregion
     #region Enemy Events
     public static Action OnEnemyKilled; //eventually should be populated with enemy data like how tricks are
                                         //this data should include the enemy's style value increase
                                         //& multiplier increase
     #endregion
-
     #region Gun Related Events
-    // create a struct so i can return a variable with GunData and then also SceneDataForGun
-
-    
     public static Action<GunSwitchData> OnGunSwitch; //invoked when the player switches guns    
-    
+    #endregion
+    #region Audio Events
+    public static Action<AudioClip, float> PlayerSFXOneShot;
+    public static Action<AudioClip> PlayLoopAudio;
+    public static Action StopLoopAudio;
+    #endregion
+    #region Misc. Player Events
+    public static Action<string> OnPlayBehaviourAnimation;
+    public static Action<Type> OnBehaviourStateSwitch;
+    public static Action LoadBowlMeshes; //pertains to player because only the player can interact with these
+    public static Action<AbilityState> OnAbilityStateSwitch;
+    public static Action IntermediaryAbilityStateEnter;
+    public static Action MakePlayerLookForward;
+    public static Action MakePlayerLookMouse;
+    public static Action<InputAction, GameObject> FreezeAndWaitForInput;
     #endregion
 
-    public static Action<string> OnPlayBehaviourAnimation;
-
-    public static Action<AudioClip, float> PlayerSFXOneShot;
-
-    public static Action<AudioClip> PlayLoopAudio;
+    #region Cutscene Events
+    public static Action StartedGameplayCutscene;
+    public static Action EndedGameplayCutscene;
+    #endregion
     
-    public static Action StopLoopAudio;
-
-    public static Action LoadBowlMeshes;
-    
-    public static Action<AbilityState> OnAbilityStateSwitch;
-    
-    public static Action IntermediaryAbilityStateEnter;
-
-    public static Action MakePlayerLookForward;
-    
-    public static Action MakePlayerLookMouse;
-    
-    public static Action<InputAction> FreezeAndWaitForInput;
-
+    #region UI Events
+    public static Action<bool, float> FadeToBlack;
+    public static Action TurnOffPlayerUI;
+    public static Action TurnOnPlayerUI;
+    #endregion
 }
 
 public struct GunSwitchData

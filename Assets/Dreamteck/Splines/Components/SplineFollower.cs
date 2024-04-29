@@ -7,6 +7,7 @@ namespace Dreamteck.Splines
     [AddComponentMenu("Dreamteck/Splines/Users/Spline Follower")]
     public class SplineFollower : SplineTracer
     {
+        public bool useUnscaledTime = false;
         public enum FollowMode { Uniform, Time }
         public enum Wrap { Default, Loop, PingPong }
         [HideInInspector]
@@ -186,10 +187,10 @@ namespace Dreamteck.Splines
                         UnclipPercent(ref percent);
                     }
                     float speed = _speedModifier.GetSpeed(Mathf.Abs(_followSpeed), percent);
-                    Move(Time.deltaTime * speed); break;
+                    Move( (useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime) * speed); break;
                 case FollowMode.Time:
                     if (_followDuration == 0.0) Move(0.0);
-                    else Move((double)Time.deltaTime / _followDuration);
+                    else Move((double)(useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime) / _followDuration);
                     break;
             }
         }
