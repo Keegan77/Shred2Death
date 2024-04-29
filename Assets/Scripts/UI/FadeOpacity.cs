@@ -9,16 +9,6 @@ public class FadeOpacity : MonoBehaviour
 {
     private Image blackScreen;
 
-    private void Awake() //do not destroy on load
-    {
-        DontDestroyOnLoad(gameObject);
-        
-        if (FindObjectsOfType(GetType()).Length > 1)
-        {
-            Destroy(gameObject);
-        }
-    }
-
     private void OnEnable()
     {
         ActionEvents.FadeToBlack += FadeToBlack;
