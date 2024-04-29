@@ -64,26 +64,46 @@ public class WaveManager : MonoBehaviour
         }
         else
         {
+            //for each wave:
             for (int w = 0; w < waves.Length; w++)
             {
+                //if there are no rows, the wave is not valid
                 if (waves[w].getEnemies().Length == 0)
                 {
                     Debug.LogError($"Arena {gameObject.name} Wave {w} on {gameObject.name} is empty");
                     isValid = false;
                 }
+                //if there are rows: 
                 else
                 {
-                    for (int e = 0; e < waves[w].getEnemies().Length; e++)
+                    //For each row in the wave:
+                    for (int r = 0; r < waves[w].getEnemies ().Length; r++)
                     {
-                        if (waves[w].getEnemies()[e].enemy == null)
+                        //if no enemies are set to spawn
+                        if (waves[w].getEnemies ()[r].count < 1)
                         {
-                            Debug.LogError($"Arena {gameObject.name} Wave {w} Group {e} has no enemy set");
+                            Debug.LogWarning ($"<color=#ffff00>Arena</color> <color=#00ff00>{gameObject.name}</color> Wave {w} Group {r} has a count of 0. Setting to 1", gameObject);
+                            waves[w].getEnemies ()[r].count = 1;
+                        }
+
+                        //if no interval is set
+                        if (waves[w].getEnemies()[r].interval < 1)
+                        {
+                            Debug.LogWarning ($"<color=#ffff00>Arena</color> <color=#00ff00>{gameObject.name}</color> Wave {w} Group {r} has an interval of 0. Setting to 1", gameObject);
+                            waves[w].getEnemies ()[r].interval = 1;
+                        }
+
+                        //if the enemy is not set
+                        if (waves[w].getEnemies()[r].enemy == null)
+                        {
+                            Debug.LogError($"<color=#ffff00>Arena</color> <color=#00ff00>{gameObject.name}</color> Wave {w} Group {r} has no enemy set");
                             isValid = false;
                         }
 
-                        if (waves[w].getEnemies()[e].spawnPoint == null)
+                        //if there is no spawn point set
+                        if (waves[w].getEnemies()[r].spawnPoint == null)
                         {
-                            Debug.LogError($"Arena {gameObject.name} Wave {w} Group {e} has no spawn point set");
+                            Debug.LogError($"<color=#ffff00>Arena</color> <color=#00ff00>{gameObject.name}</color> Wave {w} Group {r} has no spawn point set");
                             isValid = false;
                         }
                     }
@@ -108,6 +128,13 @@ public class WaveManager : MonoBehaviour
     }
 
     //Play through the opening events and then begin the first wave.
+    [ContextMenu("Begin Encounter")]
+    public void devBeginEncounter ()
+    {
+        if (!Application.isPlaying) return;
+        StartCoroutine (beginEncounter ());
+    }
+
     IEnumerator beginEncounter ()
     {
         //Play the opening events of the arena
@@ -164,8 +191,9 @@ public class WaveManager : MonoBehaviour
             
             Enemy_StateMachine esm = e.GetComponent<Enemy_StateMachine>();
 
-            esm.travelTarget = row.spawnPoint.transform.GetChild (2).gameObject;
-            esm.travelPoint = row.spawnPoint.transform.GetChild (2).position;
+            //Set the travel target of the enemy to the spawnpoint object.
+            esm.travelTarget = row.spawnPoint.gameObject;
+            esm.travelPoint = row.spawnPoint.transform.position;
 
             //Hopefully the NavMeshAgent is loaded after instantiation
             //e.GetComponent<Enemy>().agent = e.gameObject.GetComponent<NavMeshAgent> (); 

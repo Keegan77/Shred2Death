@@ -47,8 +47,8 @@ public class EState_Flying : Enemy_State
     protected IEnumerator MoveToObject (GameObject p)
     {
         RaycastHit hit;
-        movementAvoidance = transform.forward;
-        movementDirection = transform.forward;
+        //movementAvoidance = transform.forward;
+        //movementDirection = transform.forward;
         while (!isAtObject (p))
         {
             eFly.stateMachine.travelPoint = p.transform.position;
@@ -56,7 +56,8 @@ public class EState_Flying : Enemy_State
             //transform.parent.LookAt(e.stateMachine.travelPoint);
             //transform.parent.LookAt(new Vector3(p.transform.position.x, transform.position.y, p.transform.position.z));
             //e.transform.LookAt (e.transform.TransformPoint (e.rb.velocity));
-            e.transform.LookAt (e.transform.position + e.rb.velocity);
+            //e.transform.LookAt (e.transform.position + e.rb.velocity);
+            e.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(e.rb.velocity), eFly.movementTurnSpeed * Time.deltaTime) ;
 
             movementAvoidance = Vector3.MoveTowards (
                     movementAvoidance,
@@ -77,7 +78,7 @@ public class EState_Flying : Enemy_State
             //If it is, move in that direction but with obstacle avoidance.
             if ( Physics.SphereCast (
                     transform.position,
-                    1,
+                    eFly.s_Spatial.sensorWidth,
                     p.transform.position - transform.position,
                     out hit,
                     eFly.s_Spatial.sensorLength,

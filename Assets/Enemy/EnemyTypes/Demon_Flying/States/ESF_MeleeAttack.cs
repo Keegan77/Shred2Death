@@ -19,6 +19,9 @@ public class ESF_MeleeAttack : EState_Flying
     }
     public override void Exit ()
     {
+        movementDirection = transform.forward;
+        movementAvoidance = transform.forward;
+
         meleeSensor.SetActive (false);
         e.rb.velocity = transform.forward;
         base.Exit ();
@@ -76,10 +79,11 @@ public class ESF_MeleeAttack : EState_Flying
         StopCoroutine (playAttack ());
 
         e.animator.CrossFade ("DIVEBONK", 0.2f);
-        //yield return new WaitForEndOfFrame ();
+        yield return new WaitForEndOfFrame ();
         yield return MoveAnimation (transform.TransformPoint (attackRebound.moveTarget), attackRebound);
         //yield return new WaitUntil (() => e.animator.GetCurrentAnimatorStateInfo (0).normalizedTime > 1);
         //yield return new WaitForFixedUpdate ();
+
         e.stateMachine.transitionState (exitState);
     }
 }

@@ -37,7 +37,7 @@ public class ESF_EnterArena : EState_Flying
     {
         Debug.Log ("Entering Arena");
 
-        yield return MoveToObject(eFly.stateMachine.travelTarget.transform.GetChild(0).gameObject);
+        //yield return MoveToObject(eFly.stateMachine.travelTarget.transform.GetChild(0).gameObject);
 
         for (int i = 0 ; i < eFly.stateMachine.travelTarget.transform.GetChild(1).childCount; i++)
         {
