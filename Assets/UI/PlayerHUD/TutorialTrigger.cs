@@ -1,15 +1,19 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class TutorialTrigger : MonoBehaviour
 {
     [SerializeField] InputAction tutorialAction;
+    [SerializeField] private GameObject triggerTextObject;
+    private bool popUpShown;
     private void OnTriggerEnter(Collider other)
     {
         if (other.isTrigger) return;
-        ActionEvents.FreezeAndWaitForInput?.Invoke(tutorialAction);
+        if (popUpShown) return;
+        popUpShown = true;
+        ActionEvents.FreezeAndWaitForInput?.Invoke(tutorialAction, triggerTextObject);
+        
     }
 }
