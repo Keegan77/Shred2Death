@@ -7,6 +7,7 @@ public class ESF_EnterArena : EState_Flying
 {
     public override void Enter ()
     {
+        base.Enter ();
         //StartCoroutine (MoveToObject (e.stateMachine.travelTarget.transform.parent.gameObject));
         StartCoroutine(EnterArena ());
     }

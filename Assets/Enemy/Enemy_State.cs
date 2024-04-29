@@ -41,14 +41,15 @@ public class Enemy_State : MonoBehaviour
     /// </summary>
     public virtual void Enter ()
     {
-        if(stateDebugLogging) Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Entered");
+        if(stateDebugLogging) Debug.Log ($"<Color=#ffff00>{e.name}</color> (<color=#ffff00>{e.gameObject.GetInstanceID ()})</color>: <Color=#00ff00>{this}</color> Entered");
         if (playOnEnter) e.animator.CrossFade (animationEnter, crossFadeTime);
+
     }
 
     public virtual void Exit ()
     {
         StopAllCoroutines ();
-        if (stateDebugLogging) Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Exited");
+        if (stateDebugLogging) Debug.Log ($"<Color=#ffff00>{e.name}</color> (<color=#ffff00>{e.gameObject.GetInstanceID ()})</color>: <Color=#00ff00>{this}</color> Exited");
     }
 
     public virtual void machineUpdate ()

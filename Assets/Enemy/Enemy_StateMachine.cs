@@ -89,7 +89,7 @@ public class Enemy_StateMachine : MonoBehaviour
     {
         timerCurrentState = 0;
 
-        if (debugEnabled) Debug.Log ($"<color=#ffff00>{name}</color> (<color=#ffff00>{GetInstanceID ()}</color>) State transition <color=#00ff00>{stateCurrent}</color> to <color=#00ff00>{s}</color>", this);
+        if (debugEnabled) Debug.Log ($"<color=#ffff00>{name}</color> (<color=#ffff00>{gameObject.GetInstanceID ()}</color>) State transition <color=#00ff00>{stateCurrent}</color> to <color=#00ff00>{s}</color>", this);
         stateCurrent.Exit ();
 
         statePrevious = stateCurrent;

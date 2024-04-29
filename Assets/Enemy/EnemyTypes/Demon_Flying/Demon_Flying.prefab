@@ -2302,19 +2302,8 @@ MonoBehaviour:
       m_Calls: []
   playerHit:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3877128806245623620}
-        m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
-        m_MethodName: TakeDamage
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 18
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  damage: 18
 --- !u!54 &4488987691688333030
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2432,6 +2421,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3478605188637716333}
     - target: {fileID: 2616151468426186995, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+      propertyPath: debugEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616151468426186995, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: statesObject
       value: 
       objectReference: {fileID: 1622092007772898555}
@@ -2498,6 +2491,10 @@ PrefabInstance:
     - target: {fileID: 3831898785959713912, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4315941386561823705, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+      propertyPath: playOnEnter
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4315941386561823705, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: animationEnter
@@ -2576,7 +2573,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64371f03525d7c4eaba70943cb90f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: FLAP
+  crossFadeTime: 0.5
+  playOnEnter: 1
 --- !u!114 &481761429703839798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2589,7 +2589,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f11147b1050d1945b2aa6e041c21fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: FLAP
+  crossFadeTime: 0.5
+  playOnEnter: 1
+  meleeRange: 0
 --- !u!114 &2538806387186148791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2602,7 +2606,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8deb32a2b6aef1740885f4641eb90785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: 
+  crossFadeTime: 0.5
+  playOnEnter: 0
   thresholdStationary: 0.1
   timeRagdollRecovery: 2
   timeRagdollDestroy: 10
@@ -2625,9 +2632,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9219e9512214da547903c1a95e17b5bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: 
+  crossFadeTime: 0.5
+  playOnEnter: 0
   meleeSensor: {fileID: 3283102703338723895}
-  exitState: {fileID: 4714407827837393303}
+  exitState: {fileID: 481761429703839798}
   attackStartup:
     type: 0
     curve:
@@ -2655,6 +2665,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     t: 1
+    moveTarget: {x: 0, y: 2, z: -5}
   attackDive:
     type: 3
     curve:
@@ -2682,6 +2693,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     t: 15
+    moveTarget: {x: 0, y: 0, z: 0}
   attackRebound:
     type: 0
     curve:
@@ -2709,6 +2721,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     t: 0.6
+    moveTarget: {x: 0, y: 0, z: -5}
 --- !u!114 &4714407827837393303 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4315941386561823705, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}

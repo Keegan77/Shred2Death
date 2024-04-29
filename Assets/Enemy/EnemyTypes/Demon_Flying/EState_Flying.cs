@@ -16,11 +16,7 @@ public class EState_Flying : Enemy_State
     protected Vector3 movementAvoidance = Vector3.zero;
     protected Vector3 movementDirection = Vector3.zero;
 
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
     private void Awake ()
     {
         e = transform.parent.GetComponent<Enemy> ();
@@ -51,6 +47,8 @@ public class EState_Flying : Enemy_State
     protected IEnumerator MoveToObject (GameObject p)
     {
         RaycastHit hit;
+        movementAvoidance = transform.forward;
+        movementDirection = transform.forward;
         while (!isAtObject (p))
         {
             eFly.stateMachine.travelPoint = p.transform.position;
@@ -108,11 +106,11 @@ public class EState_Flying : Enemy_State
         }
 
         onPointReached ();
-        Debug.Log ("Arrived at point", gameObject);
     }
 
     protected IEnumerator MoveThroughPath (GameObject [] points)
     {
+
         foreach (GameObject g in points)
         {
             yield return MoveToObject (g);
@@ -139,7 +137,7 @@ public class EState_Flying : Enemy_State
         Vector3 currentPos = transform.position;
         Vector3 previousPos = transform.position;
 
-        float timer = e.stateMachine.timerCurrentState;
+        float timer = 0;
 
         //While you are in transit to the point, conduct movement calculation based on which type of movement you selected.
         while (!isAtPoint (targetPos, false))
@@ -148,11 +146,11 @@ public class EState_Flying : Enemy_State
             switch (options.type)
             {
                 case ESF_MoveAnimationType.LINEAR:
-                    currentPos = Vector3.Lerp (startPos, targetPos, options.curve.Evaluate((e.stateMachine.timerCurrentState - timer) / options.t));
+                    currentPos = Vector3.Lerp (startPos, targetPos, options.curve.Evaluate((timer) / options.t));
                     break;
 
                 case ESF_MoveAnimationType.SPHERICAL:
-                    currentPos = Vector3.Slerp (startPos, targetPos, options.curve.Evaluate((e.stateMachine.timerCurrentState - timer) / options.t));
+                    currentPos = Vector3.Slerp (startPos, targetPos, options.curve.Evaluate((timer) / options.t));
                     break;
 
                 case ESF_MoveAnimationType.SMOOTHDAMP:
@@ -174,6 +172,7 @@ public class EState_Flying : Enemy_State
             e.rb.velocity = (currentPos - previousPos) / Time.fixedDeltaTime;
             previousPos = currentPos;            
             yield return new WaitForFixedUpdate ();
+            timer += Time.fixedDeltaTime;
         }
 
         e.rb.velocity = Vector3.zero;
@@ -195,12 +194,12 @@ public class EState_Flying : Enemy_State
 
     protected virtual void onPointReached ()
     {
-        if (stateDebugLogging) Debug.Log ($"<color=#ffff00>{e.name}</color> (<color=#ffff00>{e.GetInstanceID()}</color>) onPointReached", this);
+        if (stateDebugLogging) Debug.Log ($"<color=#ffff00>{e.name}</color> (<color=#ffff00>{e.gameObject.GetInstanceID()}</color>) onPointReached", this);
     }
 
     protected virtual void onPathComplete ()
     {
-        if (stateDebugLogging) Debug.Log ($"< color =#ffff00>{e.name}</color> (<color=#ffff00>{e.GetInstanceID ()}</color>)", this);
+        if (stateDebugLogging) Debug.Log ($"<color=#ffff00>{e.name}</color> (<color=#ffff00>{e.gameObject.GetInstanceID ()}</color>)", this);
     }
 
 

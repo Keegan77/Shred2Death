@@ -11,6 +11,7 @@ public class ES_Flying_Chase : EState_Flying
     [SerializeField] float meleeRange;
     public override void Enter ()
     {
+        base.Enter ();
         StartCoroutine (MoveToObject (Enemy.playerReference.gameObject));
     }
 
@@ -21,7 +22,7 @@ public class ES_Flying_Chase : EState_Flying
     protected override void onPointReached ()
     {
         base.onPointReached ();
-        if (stateDebugLogging) Debug.Log ($"<color=#ffff00>{e.name}</color> (<color=#ffff00>{e.GetInstanceID ()}</color>): Reached point and will melee the player now.");
+        if (stateDebugLogging) Debug.Log ($"<color=#ffff00>{e.name}</color> (<color=#ffff00>{e.gameObject.GetInstanceID ()}</color>): Reached point and will melee the player now.");
         e.stateMachine.transitionState (GetComponent<ESF_MeleeAttack> ());
     }
 }
