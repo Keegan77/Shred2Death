@@ -65,7 +65,8 @@ public class TrickHandler : MonoBehaviour
         {
             if (trickActions.TryGetValue(trick, out var action))
             {
-                trick.trickAction.performed -= action;
+                if (trick.useOnRelease) trick.trickAction.canceled -= action;
+                else trick.trickAction.performed -= action;
                 trickActions.Remove(trick);
             }
         }

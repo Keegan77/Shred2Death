@@ -19,9 +19,9 @@ public static class TrickMaps
     static Trick Ollie        = new Trick("Ollie", 5, 3, .2f, jumpTrick, .833f, CustomTrickMethods.OllieFunc, canBeInterrupted:true, useOnRelease:true); //less ammo bc it's the basic trick & you're always jumping around
     static Trick PopShuvIt    = new Trick("PopShoveIt", 10, 5, .2f, DPadLEFT, 1.2f, CustomTrickMethods.GeneralTrickFunc);
     
-    static Trick Backflip     = new Trick("Kickflip", 20, 5, .2f, DPadLEFT, .875f,CustomTrickMethods.GeneralTrickFunc);
+    static Trick Backflip     = new Trick("Kickflip", 20, 5, .2f, DPadUP, .875f,CustomTrickMethods.GeneralTrickFunc);
     static Trick Kickflip     = new Trick("Kickflip", 10, 6, .2f, DPadRIGHT, .875f,CustomTrickMethods.GeneralTrickFunc);
-    static Trick Heelflip     = new Trick("Hellflip", 10, 6, .2f, DPadDOWN, .875f,CustomTrickMethods.GeneralTrickFunc);
+    static Trick Heelflip     = new Trick("Heelflip", 10, 6, .2f, DPadDOWN, .875f,CustomTrickMethods.GeneralTrickFunc);
     #endregion 
     
     
