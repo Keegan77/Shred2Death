@@ -16,7 +16,7 @@ public static class TrickMaps
     private static InputAction DPadRIGHT = InputRouting.Instance.input.PlayerTricks.DpadRIGHT;
     
     #region Trick Creation
-    static Trick Ollie        = new Trick("Idle", 5, 3, .2f, jumpTrick, 0, CustomTrickMethods.OllieFunc, canBeInterrupted:true, skipAnim:true); //less ammo bc it's the basic trick & you're always jumping around
+    static Trick Ollie        = new Trick("Ollie", 5, 3, .2f, jumpTrick, .833f, CustomTrickMethods.OllieFunc, canBeInterrupted:true, useOnRelease:true); //less ammo bc it's the basic trick & you're always jumping around
     static Trick PopShuvIt    = new Trick("PopShoveIt", 10, 5, .2f, DPadLEFT, 1.2f, CustomTrickMethods.GeneralTrickFunc);
     
     static Trick Backflip     = new Trick("Kickflip", 20, 5, .2f, DPadLEFT, .875f,CustomTrickMethods.GeneralTrickFunc);
@@ -52,6 +52,7 @@ public class Trick
     public bool canBeInterrupted { get; }
     
     public bool skipAnim { get; }
+    public bool useOnRelease { get; }
     
     public CustomTrickMethods.TrickMethod customMethod { get; }
 
@@ -63,7 +64,8 @@ public class Trick
                  float animTime,
                  CustomTrickMethods.TrickMethod customMethod = null,
                  bool canBeInterrupted = false,
-                 bool skipAnim = false)
+                 bool skipAnim = false,
+                 bool useOnRelease = false)
     {
         this.animTriggerName = animTriggerName;
         this.stylePoints = stylePoints;
@@ -74,5 +76,6 @@ public class Trick
         this.animTime = animTime;
         this.skipAnim = skipAnim;
         this.canBeInterrupted = canBeInterrupted;
+        this.useOnRelease = useOnRelease;
     }
 }
