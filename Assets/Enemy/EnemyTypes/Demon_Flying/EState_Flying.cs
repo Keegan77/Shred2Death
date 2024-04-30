@@ -141,7 +141,7 @@ public class EState_Flying : Enemy_State
         float timer = 0;
 
         //While you are in transit to the point, conduct movement calculation based on which type of movement you selected.
-        while (!isAtPoint (targetPos, false))
+        while (Vector3.Distance(currentPos, targetPos) > 0.1f)
         {
             //Move according to the selected movement type.
             switch (options.type)
