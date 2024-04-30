@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -265,6 +265,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2538806387186148791, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: animationEnter
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5738745389299541558, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.65
@@ -332,7 +336,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &127780378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1153,6 +1157,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4678934492838640593, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5324938368301081438, guid: 33eb26b91b38126438554ba18926ab84, type: 3}
       propertyPath: m_Name
       value: Demon_Ground
@@ -1341,6 +1349,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -27.456898
       objectReference: {fileID: 0}
+    - target: {fileID: 2471127484050268314, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471127484050268314, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471127484050268314, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
     - target: {fileID: 3232156835177424414, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
       propertyPath: m_Name
       value: Player & Camera
@@ -1417,9 +1437,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 91.214
       objectReference: {fileID: 0}
-    - target: {fileID: 6067842399422199122, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
-      propertyPath: m_Enabled
-      value: 0
+    - target: {fileID: 7386356016226595517, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7386356016226595517, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.9031356
+      objectReference: {fileID: 0}
+    - target: {fileID: 7386356016226595517, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.7015003
+      objectReference: {fileID: 0}
+    - target: {fileID: 9073618624655354908, guid: fccfee0254de8ec44b8b9d7db16d9ad6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 29.059343
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

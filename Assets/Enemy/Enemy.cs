@@ -33,7 +33,22 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
 
     [Header ("Components")]
     WaveManager waveManager; //Set by waveManager when the enemy object is instantiated
-    
+
+    [Header ("Audio")]
+    public Enemy_AudioPlayer audioPlayer;
+
+    [Tooltip("What sounds play when damaging the enemies?")]
+    public AudioClip[] audioHurt;
+
+    [Tooltip("What sounds play when enemies die?")]
+    public AudioClip[] audioDeath;
+
+    [Tooltip("What sounds play when you boost into enemies?")]
+    public AudioClip[] audioImpact;
+
+    [Tooltip("When enemies attack what audio do they play")]
+    public AudioClip[] audioAttack;
+
     #endregion
 
     #region SETUP
@@ -79,10 +94,14 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
     #region SCRIPT FUNCTIONS
 
     public void TakeDamage (float damage)
-    {        
+    {
+        if (isDead) return;
+
         health -= Mathf.FloorToInt(damage);
 
-        if (health <= 0 && !isDead) 
+        audioPlayer.playClipRandom (audioHurt);
+
+        if (health <= 0) 
         {
             isDead = true;
             stateMachine.aiUpdateEnabled = false;
@@ -93,9 +112,12 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
             DissolvingController d = bodyObject.GetComponent<DissolvingController>();
             d.StartCoroutine (d.Dissolve ());
 
+            audioPlayer.playClipRandom (audioDeath);
+
             if (stateMachine.stateCurrent != stateMachine.statesObject.GetComponent<ES_Ragdoll>())
                 stateMachine.transitionState (stateMachine.statesObject.GetComponent<ES_Ragdoll> ());
         }
+
     }
 
     public void DeathFinished ()
@@ -115,9 +137,10 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
         }
     }
 
-    public void TrickOffEvent (Vector3 playerVel)
+    public virtual void TrickOffEvent (Vector3 playerVel)
     {
         stateMachine.transitionState (stateMachine.statesObject.GetComponent<ES_Bonk> ());
+        audioPlayer.playClipRandom (audioImpact);
     }
 
     #endregion
@@ -164,24 +187,34 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
         animator.enabled = !en;
 
         enemyCollider.enabled = false;
+        rb.Sleep ();
 
         foreach (Rigidbody rigidbody in ragdollBodies)
         {
             //Debug.Log (rigidbody);
             rigidbody.isKinematic = !en;
+
+            if (en) rigidbody.WakeUp ();
+            else rigidbody.Sleep ();
         }
         foreach (Collider collider in ragdollColliders)
         {
             //Debug.Log (collider);
             collider.enabled = en;
         }
+
         enemyCollider.enabled = !en;
 
         //When reenabling the ragdoll return each of the limbs to their original position and rotation
-        for (int i = 0; i < ragdollBodies.Length; i++)
+        if (!en)
         {
-            ragdollBodies[i].transform.localPosition = ragdollResetPosition[i];
-            ragdollBodies[i].transform.localRotation = ragdollResetRotation[i];
+            for (int i = 0; i < ragdollBodies.Length; i++)
+            {
+                ragdollBodies[i].transform.localPosition = ragdollResetPosition[i];
+                ragdollBodies[i].transform.localRotation = ragdollResetRotation[i];
+            }
+
+            rb.WakeUp ();
         }
 
     }
