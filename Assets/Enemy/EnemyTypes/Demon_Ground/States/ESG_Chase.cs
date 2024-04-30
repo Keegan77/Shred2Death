@@ -57,6 +57,7 @@ public class ESG_Chase : ES_DemonGround
 
         if ( eg.isInMeleeRange )
         {
+            Debug.Log ("YIPEEEEEEE");
             eg.stateMachine.transitionState (GetComponent<ESG_Turret> ());
             return;
         }
@@ -64,8 +65,8 @@ public class ESG_Chase : ES_DemonGround
         //Did the player move far enough away from the previous destination?
         if (playerDestinationOffset.magnitude > agentUpdateDistance)
         {
-            eg.agent.SetDestination (Enemy.playerReference.transform.position);
-            Debug.Log ("Resetting Path");
+            eg.agent.SetDestination (Enemy.playerReference.navMeshPing.position);
+            //Debug.Log ("Resetting Path");
         }
 
         if ( !isAnimationPlaying )
@@ -80,7 +81,7 @@ public class ESG_Chase : ES_DemonGround
             //If a bullet is ready and the enemy has waited long enough, fire a bullet.
             if ( stateAttack.bulletInfo.bulletReady && e.stateMachine.timerCurrentState > timerShotSetting )
             {
-                Debug.Log ("EnemyPlayingShot On The Run");
+                //Debug.Log ("EnemyPlayingShot On The Run");
                 e.stateMachine.transitionState(stateAttack);
                 
 
