@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1361481164075612443}
   - component: {fileID: 1618607193204370591}
   - component: {fileID: 2925104491661930336}
+  - component: {fileID: 2382259387051653832}
   m_Layer: 0
   m_Name: MESH_TableSeat
   m_TagString: Untagged
@@ -106,3 +107,24 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 439318864736599956, guid: a8a7f68bd901f964abb5fdaa54219d48, type: 3}
+--- !u!65 &2382259387051653832
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2249367957986966467}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.916914, y: 1.5511376, z: 1.2910033}
+  m_Center: {x: -0.0000014305115, y: -0.7755688, z: -0.6454986}
