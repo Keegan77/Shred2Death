@@ -10,6 +10,12 @@ public class ESF_MeleeAttack : EState_Flying
 
     [SerializeField] GameObject meleeSensor; //Radius sensor that makes the flying enemy bonk
     [SerializeField] Enemy_State exitState;
+
+    [Header ("Sound Effects")]
+    [SerializeField] AudioClip[] audioPredive;
+    [SerializeField] AudioClip[] audioDive;
+    [SerializeField] AudioClip[] audioBonk;
+
     #endregion
 
     public override void Enter ()
@@ -49,12 +55,14 @@ public class ESF_MeleeAttack : EState_Flying
         Coroutine tracker = StartCoroutine (TrackPlayer ());
 
         e.animator.CrossFade ("PREDIVE", 0.2f);
+        e.audioPlayer.playClipRandom (audioPredive);
         yield return MoveAnimation (transform.TransformPoint (attackStartup.moveTarget), attackStartup);
         yield return new WaitUntil (() => e.animator.GetCurrentAnimatorStateInfo (0).normalizedTime >= 1f);
 
         StopCoroutine (tracker);
 
         e.animator.CrossFade ("DIVE", 0.2f);
+        e.audioPlayer.playClipRandom (audioDive);
         meleeSensor.SetActive (true);
         yield return MoveAnimation (Enemy.playerReference.aimTarget.transform.position, attackDive);
 
@@ -79,6 +87,8 @@ public class ESF_MeleeAttack : EState_Flying
         StopCoroutine (playAttack ());
 
         e.animator.CrossFade ("DIVEBONK", 0.2f);
+        e.audioPlayer.playClipRandom (audioBonk);
+
         yield return new WaitForEndOfFrame ();
         yield return MoveAnimation (transform.TransformPoint (attackRebound.moveTarget), attackRebound);
         //yield return new WaitUntil (() => e.animator.GetCurrentAnimatorStateInfo (0).normalizedTime > 1);

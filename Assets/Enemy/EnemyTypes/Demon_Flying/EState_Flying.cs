@@ -57,8 +57,9 @@ public class EState_Flying : Enemy_State
             //transform.parent.LookAt(new Vector3(p.transform.position.x, transform.position.y, p.transform.position.z));
             //e.transform.LookAt (e.transform.TransformPoint (e.rb.velocity));
             //e.transform.LookAt (e.transform.position + e.rb.velocity);
-            e.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(e.rb.velocity), eFly.movementTurnSpeed * Time.deltaTime) ;
-
+            //e.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(e.rb.velocity), eFly.movementTurnSpeed * Time.deltaTime) ;
+            e.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(p.transform.position - e.transform.position), eFly.movementTurnSpeed * Time.deltaTime) ;
+            
             movementAvoidance = Vector3.MoveTowards (
                     movementAvoidance,
                     eFly.s_Spatial.pingResult.normalized,
@@ -77,7 +78,7 @@ public class EState_Flying : Enemy_State
             //Check to see if the path to the destination is blocked.
             //If it is, move in that direction but with obstacle avoidance.
             if ( Physics.SphereCast (
-                    transform.position,
+                    e.sensorsObject.transform.position,
                     eFly.s_Spatial.sensorWidth,
                     p.transform.position - transform.position,
                     out hit,

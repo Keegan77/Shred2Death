@@ -2244,6 +2244,71 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7039716468754415267, guid: 65dc3dc83cada7046a83c012bb0e5efe, type: 3}
   m_PrefabInstance: {fileID: 2033641178}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &890647116
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3877128806245623620, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: movementSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738745389299541558, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 73
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738745389299541558, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 31.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738745389299541558, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -29.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738745389299541558, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9999619
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738745389299541558, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.008161792
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738745389299541558, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.0000042127076
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738745389299541558, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.0030917935
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738745389299541558, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0.935
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738745389299541558, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -0.002
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738745389299541558, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.354
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829659100458379965, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: travelTarget
+      value: 
+      objectReference: {fileID: 848566156}
+    - target: {fileID: 7388049529503274567, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
+      propertyPath: m_Name
+      value: Flying Enemy (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7a321dd9dc3ccfd47813f3b51b74bab4, type: 3}
 --- !u!1 &892893273
 GameObject:
   m_ObjectHideFlags: 0
@@ -3714,7 +3779,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1252082861283672884, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
       propertyPath: useCamera
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1252082861283672884, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
       propertyPath: cameraObject
@@ -3725,8 +3790,12 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1252082861283672884, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
+      propertyPath: controlsEnabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1252082861283672884, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
       propertyPath: cameraModeActive
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1252082861283672884, guid: c15f61ac84ac40a48acfae61bf65eb7f, type: 3}
       propertyPath: cameraSensitivity
@@ -3914,7 +3983,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1618555202
 Transform:
   m_ObjectHideFlags: 0
@@ -5341,6 +5410,7 @@ SceneRoots:
   - {fileID: 600959195}
   - {fileID: 1126615393}
   - {fileID: 1658602609}
+  - {fileID: 890647116}
   - {fileID: 82290022}
   - {fileID: 467596429}
   - {fileID: 1325315243}
