@@ -21,10 +21,12 @@ public class GameplayCutsceneBase : MonoBehaviour
     /// <param name="disableInput"></param>
     /// <param name="freezeTime"></param>
     /// <returns></returns>
-    public IEnumerator ExecuteCameraTasks(List<IEnumerator> cameraTasks, bool disableInput = true, bool freezeTime = true, float cameraFov = 40)
+    public IEnumerator ExecuteCameraTasks(List<IEnumerator> cameraTasks, bool disableInput = true, bool freezeTime = false, float cameraFov = 40, bool showZoneTitle = false)
     {
         ActionEvents.StartedGameplayCutscene?.Invoke();
         ActionEvents.TurnOffPlayerUI?.Invoke();
+        
+        if (showZoneTitle) ActionEvents.ShowZoneTitle?.Invoke();
         if (disableInput) InputRouting.Instance.DisableInput(); //stops player input during cutscene
         if (freezeTime) BulletTimeManager.Instance.ChangeBulletTime(0f); // freezes player for cutscene
         Helpers.MainCamera.transform.parent = null;

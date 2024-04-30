@@ -37,7 +37,10 @@ public static class ActionEvents
 
     #region Cutscene Events
     public static Action StartedGameplayCutscene;
+    public static Action ShowZoneTitle;
     public static Action EndedGameplayCutscene;
+    public static Action<bool> CameraPlayerLock;
+    public static Action<int, float> LoadNewSceneEvent;
     #endregion
     
     #region UI Events

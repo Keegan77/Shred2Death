@@ -27,7 +27,7 @@ public class PlayerAnimationHandler : MonoBehaviour
 
     private void PlayBehaviourAnimation(string triggerName)
     {
-        animator.SetTrigger(triggerName);
+        animator.CrossFade(triggerName, 0.1f);
     }
 
     private Coroutine trickCoroutine;
@@ -63,7 +63,7 @@ public class PlayerAnimationHandler : MonoBehaviour
             yield break;
         }
         
-        animator.SetTrigger(trick.animTriggerName);
+        animator.CrossFade(trick.animTriggerName, 0.1f);
         trickBeingPerformed = true;
         
         ActionEvents.OnTrickPerformed?.Invoke(trick);

@@ -78,7 +78,6 @@ public class PlayerGrindState : BehaviourState
         Vector3 splineTangent = sample.forward;
 
         
-        if (player.rb.velocity.magnitude < 15) sFollower.followSpeed = 15;
         SetBaseFollowSpeed();
 
         // calculates the dot product of the player's velocity and the spline sample forward to determine if the player is moving forward or backward
@@ -157,6 +156,7 @@ public class PlayerGrindState : BehaviourState
 
     }
 
+    //deprecated
     private void GrindTurn(float turnSharpness)
     {
         player.transform.Rotate(0,
@@ -187,6 +187,15 @@ public class PlayerGrindState : BehaviourState
     {
         baseSpeed = Mathf.Clamp(player.rb.velocity.magnitude, player.playerData.minGrindSpeed, player.playerData.maxGrindSpeed);
         currentSpeed = baseSpeed;
+
+        if (player.grindSpeedOverride)
+        {
+            sFollower.followSpeed = player.overrideSpeed;
+            currentSpeed = player.overrideSpeed;
+            baseSpeed = player.overrideSpeed;
+            player.grindSpeedOverride = false;
+            return;
+        }
         sFollower.followSpeed = currentSpeed;
     }
     
