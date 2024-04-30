@@ -6727,7 +6727,7 @@ ConstantForce:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2064705740951400791}
   m_Enabled: 1
-  m_Force: {x: 0, y: -20, z: 0}
+  m_Force: {x: 0, y: -35, z: 0}
   m_RelativeForce: {x: 0, y: 0, z: 0}
   m_Torque: {x: 0, y: 0, z: 0}
   m_RelativeTorque: {x: 0, y: 0, z: 0}
@@ -6763,7 +6763,8 @@ MonoBehaviour:
   proceduralRigController: {fileID: 6265791741991128856}
   shotgunUltSpiralTrail: {fileID: 4844433414206397561, guid: 2e45c1f056fe25b4695cff5d53d8be26, type: 3}
   shotgunUltSelectionCircle: {fileID: 2638539837483808071, guid: 2641be77e07dffb49a0674c798e17665, type: 3}
-  constantForce: {fileID: 361494770088818583}
+  grindSpeedOverride: 0
+  overrideSpeed: 0
   forwardLeftRayOrigin: {x: 18.37, y: 7.777452, z: 0.6485403}
   forwardRightRayOrigin: {x: 17.67, y: 7.777452, z: 0.6485403}
   backLeftRayOrigin: {x: 18.37, y: 7.777452, z: 2.3085403}
@@ -6946,7 +6947,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -14.9, y: 192.6}
+  m_AnchoredPosition: {x: -14.9, y: 239.50978}
   m_SizeDelta: {x: 83.5165, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &2449074291578262128
@@ -12399,8 +12400,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1674682598053905434}
   m_HandleRect: {fileID: 7386356016226595517}
   m_Direction: 2
-  m_Value: 0.19585617
-  m_Size: 0.20163533
+  m_Value: -0.0000015927129
+  m_Size: 0.20109986
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -18767,8 +18768,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5500818764040030136}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0444195, y: 0.8980778, z: -0.09331861, w: -0.42752177}
-  m_LocalPosition: {x: 4.097785, y: 4.3801875, z: -2.9008327}
+  m_LocalRotation: {x: 0.044419546, y: -0.8980777, z: 0.09331869, w: 0.42752185}
+  m_LocalPosition: {x: 4.097762, y: 4.3801875, z: -2.900777}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18806,16 +18807,16 @@ MonoBehaviour:
     useClippedPercent: 0
     keys: []
   _clipFromSample:
-    position: {x: -747.4222, y: -30.069426, z: -847.74945}
-    up: {x: 0.66862035, y: 0.16603486, z: -0.72480917}
-    forward: {x: 0.7420852, y: -0.032451943, z: 0.6695197}
+    position: {x: 13.940552, y: 10.050573, z: 0.6721124}
+    up: {x: -0.7248071, y: 0.16603486, z: -0.6686224}
+    forward: {x: 0.6695218, y: -0.032451943, z: -0.7420832}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 1
     percent: 0
   _clipToSample:
-    position: {x: -747.3509, y: -29.312855, z: -839.367}
-    up: {x: 0.6389301, y: 0.24527922, z: 0.7290821}
-    forward: {x: -0.65055764, y: 0.15004687, z: 0.74448717}
+    position: {x: 22.32296, y: 10.807142, z: 0.60089326}
+    up: {x: 0.72908384, y: 0.24527922, z: -0.6389279}
+    forward: {x: 0.74448514, y: 0.15004687, z: 0.6505597}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 1
     percent: 1
@@ -18860,16 +18861,16 @@ MonoBehaviour:
   targetRigidbody2D: {fileID: 0}
   targetTransform: {fileID: 4321146321647856417}
   _result:
-    position: {x: -747.4222, y: -30.069426, z: -847.74945}
-    up: {x: 0.66862035, y: 0.16603486, z: -0.72480917}
-    forward: {x: 0.7420852, y: -0.032451943, z: 0.6695197}
+    position: {x: 13.940552, y: 10.050573, z: 0.6721124}
+    up: {x: -0.7248071, y: 0.16603486, z: -0.6686224}
+    forward: {x: 0.6695218, y: -0.032451943, z: -0.7420832}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 1
     percent: 0
   _finalResult:
-    position: {x: -747.4222, y: -30.069426, z: -847.74945}
-    up: {x: 0.66862035, y: 0.16603486, z: -0.72480917}
-    forward: {x: 0.7420852, y: -0.032451943, z: 0.6695197}
+    position: {x: 13.940552, y: 10.050573, z: 0.6721124}
+    up: {x: -0.7248071, y: 0.16603486, z: -0.6686224}
+    forward: {x: 0.6695218, y: -0.032451943, z: -0.7420832}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 1
     percent: 0
