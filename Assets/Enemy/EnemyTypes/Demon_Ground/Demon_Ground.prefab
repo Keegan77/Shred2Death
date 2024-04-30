@@ -337,7 +337,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1514673884385965190, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1680058047500229003, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_LocalScale.x
@@ -602,7 +602,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff2bd6215fd8aa7428bcab91b0f58bf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: WALK
+  crossFadeTime: 0.5
+  playOnEnter: 0
   agentUpdatePosition: 1
   agentUpdateRotation: 1
   agentIsMoving: 1
@@ -621,7 +624,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f082e1821199afb418d5d06de876e725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: RUN
+  crossFadeTime: 0.5
+  playOnEnter: 0
   agentUpdatePosition: 1
   agentUpdateRotation: 1
   agentIsMoving: 1
@@ -643,7 +649,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e546128d2b3e2498defe5a2d4eec5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: IDLE
+  crossFadeTime: 0.5
+  playOnEnter: 0
   agentUpdatePosition: 0
   agentUpdateRotation: 0
   agentIsMoving: 0
@@ -665,7 +674,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8deb32a2b6aef1740885f4641eb90785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: 
+  crossFadeTime: 0.5
+  playOnEnter: 0
   thresholdStationary: 0.1
   timeRagdollRecovery: 2
   timeRagdollDestroy: 10
@@ -688,7 +700,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f011804972954d8459907a928a2476f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: FIREBALL
+  crossFadeTime: 0.5
+  playOnEnter: 0
   _muzzlePoint: {fileID: 8292320557013803432}
   _bulletInfo: {fileID: 5653537672990207873}
 --- !u!114 &4762498758265315376
@@ -703,7 +718,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a1d18c4dfb272c468555613cef66673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: BONK
+  crossFadeTime: 0.5
+  playOnEnter: 0
   stateNext: {fileID: 5363906235961485691}
 --- !u!114 &6995417364875992630
 MonoBehaviour:
@@ -717,7 +735,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa92670542e254e409b1c246b34c4c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: DODGE
+  crossFadeTime: 0.5
+  playOnEnter: 0
   agentUpdatePosition: 0
   agentUpdateRotation: 0
   agentIsMoving: 0
@@ -771,7 +792,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b22ce2db9204d04abedc94df5611eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: IDLE
+  crossFadeTime: 0.5
+  playOnEnter: 0
   agentUpdatePosition: 0
   agentUpdateRotation: 0
   agentIsMoving: 0
@@ -3583,11 +3607,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5870824262189814864, guid: cae747ea39db587449a0f37169eea7df, type: 3}
       propertyPath: m_Radius
-      value: 4.08
+      value: 22.83
       objectReference: {fileID: 0}
     - target: {fileID: 5870824262189814864, guid: cae747ea39db587449a0f37169eea7df, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5870824262189814864, guid: cae747ea39db587449a0f37169eea7df, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5870824262189814864, guid: cae747ea39db587449a0f37169eea7df, type: 3}
+      propertyPath: m_LocalIdentfierInFile
+      value: 3363711050628002996
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

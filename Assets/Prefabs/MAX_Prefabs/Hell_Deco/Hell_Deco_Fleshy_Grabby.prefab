@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7215080684264999764}
+  - component: {fileID: 1694010369607521231}
   m_Layer: 0
   m_Name: Hell_Deco_Fleshy_Grabby
   m_TagString: Untagged
@@ -45,6 +46,27 @@ Transform:
   - {fileID: 2043640497651204247}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1694010369607521231
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095312148327149007}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 7.6745253
+  m_Center: {x: 3.7434092, y: -4.560854, z: -2.3120432}
 --- !u!1001 &119960998860848110
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -363,7 +385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1752821683047508117, guid: fda0ec3d6e9876b4f8521a1d3d562af8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0018081665
+      value: -0.4
       objectReference: {fileID: 0}
     - target: {fileID: 1752821683047508117, guid: fda0ec3d6e9876b4f8521a1d3d562af8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -371,7 +393,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1752821683047508117, guid: fda0ec3d6e9876b4f8521a1d3d562af8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.0824585
+      value: 2.42
       objectReference: {fileID: 0}
     - target: {fileID: 1752821683047508117, guid: fda0ec3d6e9876b4f8521a1d3d562af8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1029,11 +1051,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1752821683047508117, guid: fda0ec3d6e9876b4f8521a1d3d562af8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.246929
+      value: 7.45
       objectReference: {fileID: 0}
     - target: {fileID: 1752821683047508117, guid: fda0ec3d6e9876b4f8521a1d3d562af8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.911024
+      value: -7.04
       objectReference: {fileID: 0}
     - target: {fileID: 1752821683047508117, guid: fda0ec3d6e9876b4f8521a1d3d562af8, type: 3}
       propertyPath: m_LocalPosition.z
