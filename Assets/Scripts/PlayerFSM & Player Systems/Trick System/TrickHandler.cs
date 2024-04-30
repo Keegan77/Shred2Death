@@ -46,7 +46,15 @@ public class TrickHandler : MonoBehaviour
         foreach (var trick in currentTricks)
         {
             Action<InputAction.CallbackContext> action = ctx => DoTrick(trick);
-            trick.trickAction.performed += action;
+            if (trick.useOnRelease)
+            {
+                trick.trickAction.canceled += action;
+            }
+            else
+            {
+                trick.trickAction.performed += action;
+            }
+            
             trickActions[trick] = action;
         }
     }
@@ -57,7 +65,8 @@ public class TrickHandler : MonoBehaviour
         {
             if (trickActions.TryGetValue(trick, out var action))
             {
-                trick.trickAction.performed -= action;
+                if (trick.useOnRelease) trick.trickAction.canceled -= action;
+                else trick.trickAction.performed -= action;
                 trickActions.Remove(trick);
             }
         }

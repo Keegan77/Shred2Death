@@ -57,7 +57,7 @@ public class MainMenuController : MonoBehaviour
 
         yield return new WaitForSeconds(1);
         ASyncLoader asyncLoader = FindObjectOfType<ASyncLoader>();
-        asyncLoader.StartCoroutine(asyncLoader.LoadLevelAsync(3));
+        ActionEvents.LoadNewSceneEvent?.Invoke(3, 1.0f);
     }
 
 

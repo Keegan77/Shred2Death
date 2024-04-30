@@ -21,10 +21,12 @@ public class GameplayCutsceneBase : MonoBehaviour
     /// <param name="disableInput"></param>
     /// <param name="freezeTime"></param>
     /// <returns></returns>
-    public IEnumerator ExecuteCameraTasks(List<IEnumerator> cameraTasks, bool disableInput = true, bool freezeTime = true, float cameraFov = 40)
+    public IEnumerator ExecuteCameraTasks(List<IEnumerator> cameraTasks, bool disableInput = true, bool freezeTime = false, float cameraFov = 40, bool showZoneTitle = false)
     {
         ActionEvents.StartedGameplayCutscene?.Invoke();
         ActionEvents.TurnOffPlayerUI?.Invoke();
+        
+        if (showZoneTitle) ActionEvents.ShowZoneTitle?.Invoke();
         if (disableInput) InputRouting.Instance.DisableInput(); //stops player input during cutscene
         if (freezeTime) BulletTimeManager.Instance.ChangeBulletTime(0f); // freezes player for cutscene
         Helpers.MainCamera.transform.parent = null;
@@ -60,7 +62,7 @@ public class GameplayCutsceneBase : MonoBehaviour
     /// <param name="fov">If used, will override the camera FOV to a new value on start.</param>
     /// <returns></returns>
     public IEnumerator MoveCameraToTransform(Transform startTransform, Transform endTransform, float panTime,
-                                     AnimationCurve motionCurve = null, bool instantCut = false, float fov = default)
+                                     AnimationCurve motionCurve = null,float rotationMultiplier = 1, bool instantCut = false, float fov = default)
     {
         Vector3 startPos = Helpers.MainCamera.transform.position;
         Quaternion startRot = Helpers.MainCamera.transform.rotation;
@@ -80,7 +82,7 @@ public class GameplayCutsceneBase : MonoBehaviour
                                                        motionCurve?.Evaluate(t) ?? t);
             Helpers.MainCamera.transform.rotation = Quaternion.LerpUnclamped(startTransform == null ? startRot : startTransform.rotation, 
                                                           endTransform.rotation, 
-                                                          motionCurve?.Evaluate(t) ?? t);
+                                                          motionCurve?.Evaluate(t * rotationMultiplier) ?? t * rotationMultiplier);
             yield return null;
         }
     }

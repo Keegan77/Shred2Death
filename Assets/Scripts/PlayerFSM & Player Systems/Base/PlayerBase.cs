@@ -38,6 +38,9 @@ public class PlayerBase : MonoBehaviour
         public RigWeightController proceduralRigController;
         public GameObject shotgunUltSpiralTrail;
         public GameObject shotgunUltSelectionCircle;
+
+        public bool grindSpeedOverride;
+        public float overrideSpeed;
         
     #endregion
 
@@ -169,10 +172,10 @@ public class PlayerBase : MonoBehaviour
         Gizmos.color = Color.red;
 
         // Draw raycasts for CheckGround()
-        Gizmos.DrawLine(backLeftRayOrigin, backLeftRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
+        /*Gizmos.DrawLine(backLeftRayOrigin, backLeftRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
         Gizmos.DrawLine(backRightRayOrigin, backRightRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
         Gizmos.DrawLine(forwardLeftRayOrigin, forwardLeftRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
-        Gizmos.DrawLine(forwardRightRayOrigin, forwardRightRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
+        Gizmos.DrawLine(forwardRightRayOrigin, forwardRightRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);*/
         
         Gizmos.color = Color.blue;
         
@@ -215,8 +218,6 @@ public class PlayerBase : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(rayOrigin, rayDirection * rayLength);
-        
-        
     }
     
 #endregion
@@ -310,6 +311,12 @@ public class PlayerBase : MonoBehaviour
                 stateMachine.SwitchState(grindState);
             }
         }
+    }
+    
+    public void OverrideGrindSpeed(float speed)
+    {
+        overrideSpeed = speed;
+        grindSpeedOverride = true;
     }
 
 

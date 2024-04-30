@@ -16,13 +16,16 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
     public float movementSpeed = 1;
     public float cameraSensitivity = 1;
     public bool useCamera = true;
-    public bool lockCameraOnStart = true;
+    public bool controlsEnabled = true;
     private bool cameraKey = true;
     private bool cameraKeyPrev = false;
 
     GameObject cameraObject;
     GameObject cameraPivot;
     GameObject cameraAnchor;
+
+    [SerializeField] CursorLockMode cameraModeActive;
+    [SerializeField] CursorLockMode cameraModePause;
 
     public PlayerHUD hud;
 
@@ -65,10 +68,8 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
 
         rotationTrack = transform.rotation.eulerAngles;
 
-        if (lockCameraOnStart)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+
+        Cursor.lockState = cameraModeActive;
     }
 
     private void Start ()
@@ -89,21 +90,26 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
     {
         hud.ToggleGamePaused ();
 
-        cameraKey = c;
+        if (c) Cursor.lockState = cameraModePause;
+        else Cursor.lockState = cameraModeActive;
+
+        cameraKey = !c;
     }
 
     private void OnEnable ()
     {
-        InputRouting.Instance.input.UI.Pause.started += ctx => pauseGame(!cameraKey);
+        InputRouting.Instance.input.UI.Pause.performed += ctx => pauseGame(cameraKey);
     }
     private void OnDisable ()
     {
-        InputRouting.Instance.input.UI.Pause.started -= ctx => pauseGame (!cameraKey);
+        InputRouting.Instance.input.UI.Pause.performed -= ctx => pauseGame (cameraKey);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!controlsEnabled) return;
+
         bool clicked = InputRouting.Instance.GetBoostInput ();
         Vector3 rot = cameraRotation * cameraSensitivity * Time.deltaTime;
 
@@ -127,6 +133,9 @@ public class Debug_PlayerDummyMovement : MonoBehaviour, IDamageable
 
     private void FixedUpdate ()
     {
+        if (!controlsEnabled) return;
+
+
         Vector2 mov = InputRouting.Instance.GetMoveInput ();
 
         movement = new Vector3 (mov.x, movementVertical, mov.y);

@@ -2,12 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Dreamteck.Splines;
+using TMPro;
 using UnityEngine;
 
 public class IntroduceAreaCutscene : GameplayCutsceneBase
 {
     private bool cutscenePlayed;
     List<IEnumerator> cameraTasks;
+    [SerializeField] private TextMeshProUGUI areaTextObj;
+    [SerializeField] private string areaName;
     [SerializeField] private SplineFollower[] splinesToFollow;
     [Tooltip("Sometimes, you want a camera to look at an object instead of looking in the direction of the spline. " +
              "Add the index of the spline from splinesToFollow that you want to look at an object, and these indices will" +
@@ -47,17 +50,13 @@ public class IntroduceAreaCutscene : GameplayCutsceneBase
         //the last camera zoom
     }
 
-    private IEnumerator Start()
-    {
-        yield return new WaitForSeconds(3);
-        StartCoroutine(ExecuteCameraTasks(cameraTasks, true, false, cameraFov:80));
-    }
-
     private void OnTriggerEnter(Collider other)
     {
+        if (!other.CompareTag("Player")) return;
         if (cutscenePlayed) return;
         cutscenePlayed = true;
-        StartCoroutine(ExecuteCameraTasks(cameraTasks, true, false, cameraFov:80));
+        areaTextObj.text = areaName;
+        StartCoroutine(ExecuteCameraTasks(cameraTasks, true, false, cameraFov:80, showZoneTitle:true));
         Debug.Log("Cutscene played");
     }
 }

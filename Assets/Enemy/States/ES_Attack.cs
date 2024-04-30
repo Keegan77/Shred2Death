@@ -18,6 +18,8 @@ public class ES_Attack : Enemy_State, iAttack
     public override void Enter ()
     {
         base.Enter ();
+
+        Debug.Log(bulletInfo.bulletReady);
         StartCoroutine (PlayShot ());
         
     }
@@ -43,6 +45,7 @@ public class ES_Attack : Enemy_State, iAttack
 
     public IEnumerator PlayShot ()
     {
+
         if (bulletInfo.bulletReady)
         {
             bulletInfo.reserveTokens ();

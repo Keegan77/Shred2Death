@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class UIButtonMessageController : MonoBehaviour
 {
     [SerializeField] private BounceUI messagePopUp;
+    [SerializeField] private float showingPopUp;
+    [SerializeField] private float hidingPopUp;
     private bool buttonPressed;
     private void OnEnable()
     {
@@ -18,19 +21,22 @@ public class UIButtonMessageController : MonoBehaviour
         ActionEvents.FreezeAndWaitForInput -= StartFreezeCoroutine;
     }
 
-    private void StartFreezeCoroutine(InputAction inputAction)
+    private void StartFreezeCoroutine(InputAction inputAction, GameObject textForPopUp)
     {
-        StartCoroutine(WaitForInput(inputAction));
+        StartCoroutine(WaitForInput(inputAction, textForPopUp));
     } 
     
-    private IEnumerator WaitForInput(InputAction inputAction)
+    private IEnumerator WaitForInput(InputAction inputAction, GameObject textForPopUp)
     {
-        Time.timeScale = 0;
-        messagePopUp.targetXPosition = 190;
+        BulletTimeManager.Instance.ChangeBulletTime(0);
+        textForPopUp.SetActive(true);
+        messagePopUp.targetXPosition = showingPopUp;
         inputAction.Enable();
         yield return new WaitUntil(() => inputAction.triggered);
-        messagePopUp.targetXPosition = -190;
+        messagePopUp.targetXPosition = hidingPopUp;
         Time.timeScale = 1;
         inputAction.Disable();
+        yield return new WaitForSeconds(1);
+        textForPopUp.SetActive(false);
     }
 }

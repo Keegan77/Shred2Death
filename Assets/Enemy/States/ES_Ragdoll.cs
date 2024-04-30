@@ -58,16 +58,17 @@ public class ES_Ragdoll : Enemy_State
     {
         e.sensorsObject.SetActive(false);
 
+        Vector3 spd = e.rb.velocity;
         e.SetRagdollEnabled (true);
+        PushRagdoll (spd);
+
         ragdollStationary = false;
         timerRagdollDown = 0;
-
-        base.Enter ();
-
 
         e.bodyObject.transform.parent = null;
         ragdollSeparationObject.transform.parent = null;
 
+        base.Enter ();
     }
 
 
@@ -76,6 +77,9 @@ public class ES_Ragdoll : Enemy_State
     /// </summary>
     public override void Exit ()
     {
+        e.animator.enabled = true;
+
+
         ragdollSeparationObject.transform.parent = ragdollRootObject.transform;
         e.bodyObject.transform.parent = e.transform;
         e.bodyObject.transform.localPosition = Vector3.zero; //Just in case the body object is not one of the nodes referenced by the state
@@ -174,19 +178,37 @@ public class ES_Ragdoll : Enemy_State
     {
         e.stateMachine.transitionState (this);
         
-        if ( launch )
+        if ( launch ) //Player has crashed in to the enemy
         {
-            Rigidbody prb = Enemy.playerReference.GetComponent<Rigidbody> ();
+            PushRagdoll (entryVelocityInfluence);
 
-            foreach (Rigidbody rb in e.ragdollBodies)
-            {
-                rb.AddForce (prb.velocity + entryVelocityInfluence, ForceMode.VelocityChange);
-            }
-
-            //objectRagdollTarget.AddForce (prb.velocity + entryVelocityInfluence, ForceMode.VelocityChange);
+            e.audioPlayer.playClipRandom (e.audioImpact);
         }
 
         Debug.Log ($"{this.name}: Entered Ragdoll State");
+    }
+
+    /// <summary>
+    /// If the enemy is tricked off of and enters ragdoll state with a custom influence.
+    /// </summary>
+    /// <param name="launchParams"></param>
+    public void EnterRagdoll(Vector3 launchParams, bool playImpact)
+    {
+        e.stateMachine.transitionState (this);
+
+        PushRagdoll (launchParams);
+
+        if (playImpact) e.audioPlayer.playClipRandom (e.audioImpact);
+    }
+
+    void PushRagdoll(Vector3 v)
+    {
+        Rigidbody prb = Enemy.playerReference.GetComponent<Rigidbody> ();
+
+        foreach (Rigidbody rb in e.ragdollBodies)
+        {
+            rb.AddForce (prb.velocity + v, ForceMode.VelocityChange);
+        }
     }
 
 
@@ -214,8 +236,8 @@ public class ES_Ragdoll : Enemy_State
     /// </summary>
     private void OnDestroy ()
     {
-        Debug.Log (ragdollRootObject);
-        Debug.Log (ragdollSeparationObject);
+        //Debug.Log (ragdollRootObject);
+        //Debug.Log (ragdollSeparationObject);
         if (ragdollRootObject != null) Destroy (ragdollRootObject.gameObject);
         if (ragdollSeparationObject != null) Destroy (ragdollSeparationObject);
         if ( e.bodyObject != null ) Destroy (e.bodyObject);

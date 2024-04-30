@@ -28,12 +28,12 @@ public class BounceScrollUI : MonoBehaviour
 
     private void OnEnable()
     {
-        ActionEvents.StartedGameplayCutscene += BounceIn;
+        ActionEvents.ShowZoneTitle += BounceIn;
     }
 
     private void OnDisable()
     {
-        ActionEvents.StartedGameplayCutscene -= BounceIn;
+        ActionEvents.ShowZoneTitle -= BounceIn;
     }
     
     private async void BounceIn()
