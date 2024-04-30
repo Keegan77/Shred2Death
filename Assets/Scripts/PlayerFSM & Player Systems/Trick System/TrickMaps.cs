@@ -16,7 +16,7 @@ public static class TrickMaps
     private static InputAction DPadRIGHT = InputRouting.Instance.input.PlayerTricks.DpadRIGHT;
     
     #region Trick Creation
-    static Trick Ollie        = new Trick("Ollie", 5, 3, .2f, jumpTrick, .833f, CustomTrickMethods.OllieFunc, canBeInterrupted:true, useOnRelease:true); //less ammo bc it's the basic trick & you're always jumping around
+    static Trick Ollie        = new Trick("None", 5, 3, .2f, jumpTrick, .833f, CustomTrickMethods.OllieFunc, canBeInterrupted:true, useOnRelease:true); //less ammo bc it's the basic trick & you're always jumping around
     static Trick PopShuvIt    = new Trick("PopShoveIt", 10, 5, .2f, DPadLEFT, 1.2f, CustomTrickMethods.GeneralTrickFunc);
     
     static Trick Backflip     = new Trick("Kickflip", 20, 5, .2f, DPadUP, .875f,CustomTrickMethods.GeneralTrickFunc);
