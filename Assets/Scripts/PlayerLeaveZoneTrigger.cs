@@ -11,6 +11,7 @@ public class PlayerLeaveZoneTrigger : MonoBehaviour
     private float cachedFov;
     private Vector3 cachedPos;
     [SerializeField] private float timeAfterTriggerEnterToFadeOut;
+    [SerializeField] private int buildIndexToGoTo;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && !leftZone)
