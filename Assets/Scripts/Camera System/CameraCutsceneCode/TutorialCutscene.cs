@@ -22,7 +22,7 @@ public class TutorialCutscene : GameplayCutsceneBase
         //cameraTasks.Add(MoveCameraToTransform(null,));
         cameraTasks.Add(MoveCameraOnSpline(sequentialSplines[0]));
         cameraTasks.Add(MoveCameraToTransform(null, GetOriginalParent(), 2f, easeOut, fov:35, rotationMultiplier:1));
-        yield return StartCoroutine(ExecuteCameraTasks(cameraTasks, disableInput:true, freezeTime:false));
+        yield return StartCoroutine(ExecuteCameraTasks(cameraTasks, disableInput:true, freezeTime:false, showZoneTitle:true));
         ActionEvents.FreezeAndWaitForInput?.Invoke(tutorialAction, startingText);
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerForceGrindCheckTrigger : MonoBehaviour
 {
     private bool triggered;
+    [SerializeField] float grindSpeed;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -12,6 +13,7 @@ public class PlayerForceGrindCheckTrigger : MonoBehaviour
         {
             triggered = true;
             PlayerBase player = other.gameObject.GetComponentInParent<PlayerBase>();
+            player.OverrideGrindSpeed(grindSpeed);
             player.CheckAndSetSpline();
         }
     }

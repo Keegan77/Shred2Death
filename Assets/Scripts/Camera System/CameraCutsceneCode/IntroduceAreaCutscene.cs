@@ -56,7 +56,7 @@ public class IntroduceAreaCutscene : GameplayCutsceneBase
         if (cutscenePlayed) return;
         cutscenePlayed = true;
         areaTextObj.text = areaName;
-        StartCoroutine(ExecuteCameraTasks(cameraTasks, true, false, cameraFov:80));
+        StartCoroutine(ExecuteCameraTasks(cameraTasks, true, false, cameraFov:80, showZoneTitle:true));
         Debug.Log("Cutscene played");
     }
 }
