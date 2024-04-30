@@ -14,7 +14,7 @@ public class ESG_MoveTowardsPoint : ES_DemonGround
 
         //eGround.agent.SetDestination (eGround.stateMachine.travelPoint);
         //eGround.agent.CalculatePath (eGround.stateMachine.travelPoint, eGround.agentPath);
-        StartCoroutine (MoveToPoint (eg.stateMachine.travelPoint, animationEnter));
+        StartCoroutine (MoveToPoint (eg.stateMachine.travelTarget.transform.GetChild(2).position, animationEnter));
 
     }
 

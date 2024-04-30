@@ -20,7 +20,7 @@ public class Sensor_DodgeRadius : Sensor
     {
         if (!other.CompareTag ("Player")) return;
 
-        Debug.LogWarning (other.GetInstanceID(), other);
+        //Debug.LogWarning (other.GetInstanceID(), other);
 
         Debug.Log ($"{transform.parent.name}: {name} Entered");
         SetPlayerReference p = other.GetComponentInParent<SetPlayerReference>();

@@ -38,6 +38,9 @@ public class PlayerBase : MonoBehaviour
         public RigWeightController proceduralRigController;
         public GameObject shotgunUltSpiralTrail;
         public GameObject shotgunUltSelectionCircle;
+
+        public bool grindSpeedOverride;
+        public float overrideSpeed;
         
     #endregion
 
@@ -308,6 +311,12 @@ public class PlayerBase : MonoBehaviour
                 stateMachine.SwitchState(grindState);
             }
         }
+    }
+    
+    public void OverrideGrindSpeed(float speed)
+    {
+        overrideSpeed = speed;
+        grindSpeedOverride = true;
     }
 
 

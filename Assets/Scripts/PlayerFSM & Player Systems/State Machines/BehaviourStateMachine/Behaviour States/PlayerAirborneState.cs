@@ -50,7 +50,7 @@ public class PlayerAirborneState : BehaviourState
         player.ResetGrindUI();
         UnsubscribeInputs();
         SubscribeInputs();
-        ActionEvents.OnPlayBehaviourAnimation?.Invoke("Idle");
+        //ActionEvents.OnPlayBehaviourAnimation?.Invoke("Idle");
         comboHandler = player.gameObject.GetComponent<TrickComboHandler>();
     }
     

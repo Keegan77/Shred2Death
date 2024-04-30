@@ -37,9 +37,10 @@ public class Sensor_Raycast : Sensor
 
         Debug.DrawLine (
                     transform.position,
-                    (transform.position - transform.parent.position).normalized * raycastLength + transform.parent.position,
+                    (transform.position - transform.parent.position).normalized * raycastLength + transform.position,
                     colorResult
                     );
+        
 
         return pingResult;
     }

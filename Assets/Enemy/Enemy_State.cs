@@ -18,8 +18,13 @@ public class Enemy_State : MonoBehaviour
     //Is the enemy currently playing an animation?
     protected bool isAnimationPlaying = false;
 
-    [Header("Animation")]
+    [Header ("Debugging")]
+    [SerializeField] protected bool stateDebugLogging;
+
+    [Header ("Animation")]
     public string animationEnter = "";
+    [SerializeField, Range (0, 1)] float crossFadeTime = 0.5f;
+    [SerializeField] bool playOnEnter = false;
 
     //States will control movement directly.
     //Rigidbody will be set in the start function
@@ -28,7 +33,7 @@ public class Enemy_State : MonoBehaviour
 
     private void Awake ()
     {
-        e = transform.parent.GetComponent<Enemy>();
+        e = transform.parent.GetComponent<Enemy> ();
     }
 
     /// <summary>
@@ -36,13 +41,15 @@ public class Enemy_State : MonoBehaviour
     /// </summary>
     public virtual void Enter ()
     {
-        //Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Entered");
+        if(stateDebugLogging) Debug.Log ($"<Color=#ffff00>{e.name}</color> (<color=#ffff00>{e.gameObject.GetInstanceID ()})</color>: <Color=#00ff00>{this}</color> Entered");
+        if (playOnEnter) e.animator.CrossFade (animationEnter, crossFadeTime);
+
     }
 
     public virtual void Exit ()
     {
-        StopAllCoroutines();
-        //Debug.Log ($"{e.name} ({GetInstanceID ()}): {this} Exited");
+        StopAllCoroutines ();
+        if (stateDebugLogging) Debug.Log ($"<Color=#ffff00>{e.name}</color> (<color=#ffff00>{e.gameObject.GetInstanceID ()})</color>: <Color=#00ff00>{this}</color> Exited");
     }
 
     public virtual void machineUpdate ()
@@ -84,6 +91,22 @@ public class Enemy_State : MonoBehaviour
         isAnimationPlaying = false;
     }
 
+    #endregion
+
+    #region CONTEXT MENU
+    [ContextMenu ("EnterState")]
+    public void EnterState ()
+    {
+        if (Application.isPlaying)
+            e.stateMachine.transitionState (this);
+    }
+
+    [ContextMenu ("PlayAnimation")]
+    public void PlayAnimation ()
+    {
+        if (Application.isPlaying)
+            e.animator.Play (animationEnter);
+    }
     #endregion
 
     #region COROUTINES
