@@ -19,7 +19,7 @@ public class ES_Attack : Enemy_State, iAttack
     {
         base.Enter ();
 
-        Debug.Log(bulletInfo.bulletReady);
+        //Debug.Log(bulletInfo.bulletReady);
         StartCoroutine (PlayShot ());
         
     }
