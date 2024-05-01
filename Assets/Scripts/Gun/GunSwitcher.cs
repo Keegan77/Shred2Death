@@ -28,6 +28,7 @@ public class GunSwitcher : MonoBehaviour
         {
             gun.currentAmmo = gun.magCapacity;
         }
+        player.playerHUD.SetAmmoUI(gunfireHandler.GetCurrentGunData().currentAmmo);
     }
     //todo: make a flag & method that will disable weapon switching (could also be an event like "DisableWeaponSwitch.invoke")
     private void OnEnable()
@@ -96,7 +97,6 @@ public class GunSwitcher : MonoBehaviour
         switchData.SceneDataForGun = GetCurrentGunSceneData(switchData.GunData);
         SetModels(switchData.SceneDataForGun.GetGunModels(), true);
         
-        
         ActionEvents.OnGunSwitch?.Invoke(switchData);
         gunSwitchQueued = false;
     }
@@ -132,6 +132,7 @@ public class GunSwitcher : MonoBehaviour
         
         SetRigTargetPoints(transformTargets);
         gunfireHandler.SetCurrentGun(switchData);
+        player.playerHUD.SwitchAmmoBar(player.gunfireHandler.GetCurrentGunData().currentAmmo, switchData.GunData);
     }
     public void SetRigTargetPoints(Transform[] transformTargets)
     {

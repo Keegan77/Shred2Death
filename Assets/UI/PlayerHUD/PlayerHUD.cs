@@ -39,6 +39,18 @@ public class PlayerHUD : MonoBehaviour
         playerCanvas = GetComponent<Canvas>();
     }
 
+    private void Start()
+    {
+        SwitchAmmoBar(player.gunfireHandler.GetCurrentGunData().currentAmmo, player.gunfireHandler.startingGun);
+    }
+    
+    public void SwitchAmmoBar(float currentAmmo, GunData newGun)
+    {
+        stats.ammoBar.currentValue = currentAmmo;
+        stats.ammoBar.maxValue = newGun.magCapacity;
+        cur = currentAmmo;
+    }
+
     private void OnEnable()
     {
         ActionEvents.TurnOffPlayerUI += TurnOffUI;
@@ -50,7 +62,12 @@ public class PlayerHUD : MonoBehaviour
         ActionEvents.TurnOffPlayerUI -= TurnOffUI;
         ActionEvents.TurnOnPlayerUI -= TurnOnUI;
     }
-    
+
+    private void Update()
+    {
+        stats.ammoBar.currentValue = Mathf.Lerp(stats.ammoBar.currentValue, cur, Time.deltaTime * 5);
+    }
+
     public List<GameObject> GetAllChildren(GameObject parent)
     {
         List<GameObject> result = new List<GameObject>();
@@ -79,11 +96,7 @@ public class PlayerHUD : MonoBehaviour
             menuComponent.SetActive(true);
         }
     }
-
-    private IEnumerator StartAreaIntroductionText()
-    {
-        yield return null;
-    }
+    
 
     #region active HUD
     public void SetCrosshair(UnityEngine.UI.RawImage c)
@@ -94,6 +107,13 @@ public class PlayerHUD : MonoBehaviour
         }
 
         c.gameObject.SetActive(true);
+    }
+
+    private float cur;
+    public void SetAmmoUI(float currentAmmo)
+    {
+        stats.ammoBar.maxValue =  player.gunfireHandler.GetCurrentGunData().magCapacity;
+        cur = currentAmmo;
     }
     #endregion
 

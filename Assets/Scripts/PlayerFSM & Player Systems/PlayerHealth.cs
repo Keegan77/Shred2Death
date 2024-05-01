@@ -30,7 +30,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         float t = Mathf.InverseLerp(maxHealth, 0, currentHealth);
         float cur = 0;
-        cur = Mathf.Lerp(0, 1, t);
+        cur = Mathf.Lerp(0, .9f, t);
         if (cur > .1f)
         {
             cur += (Mathf.Sin(Time.time * pulseSpeed) + 1) * pulseDistanceDivisor;
