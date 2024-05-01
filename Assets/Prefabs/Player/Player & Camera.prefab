@@ -7128,7 +7128,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -14.9, y: 239.50966}
+  m_AnchoredPosition: {x: -14.9, y: 0.0000076293945}
   m_SizeDelta: {x: 83.5165, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &2449074291578262128
@@ -12581,8 +12581,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1674682598053905434}
   m_HandleRect: {fileID: 7386356016226595517}
   m_Direction: 2
-  m_Value: -0.0000010830448
-  m_Size: 0.20163116
+  m_Value: 0.9999999
+  m_Size: 0.20163533
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -20392,6 +20392,7 @@ GameObject:
   - component: {fileID: 223253776922416852}
   - component: {fileID: 7327457525134235075}
   - component: {fileID: 2806297028771333499}
+  - component: {fileID: 3573328231452434876}
   m_Layer: 5
   m_Name: SpeedNeedle
   m_TagString: Untagged
@@ -20456,6 +20457,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3573328231452434876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6847124824014174390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee2c19341ca8ab44bb60a1104fd139c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minRotation: 78.69
+  maxRotation: -29.9
+  player: {fileID: 1464697803107471213}
+  maxSpeed: 120
 --- !u!1 &7035387300022996955
 GameObject:
   m_ObjectHideFlags: 0
@@ -27217,7 +27234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3085417128497701430, guid: 8204e795f862bc14db23677e72352bca, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3428500823108065482, guid: 8204e795f862bc14db23677e72352bca, type: 3}
       propertyPath: m_Name
