@@ -299,7 +299,7 @@ public class PlayerBase : MonoBehaviour
     public void CheckAndSetSpline()
     {
         RaycastHit[] hits = ReturnSplineDetection();
-        
+        Debug.Log("checked");
         foreach (RaycastHit hit in hits)
         {
             SplineComputer hitSpline = hit.collider.GetComponent<SplineComputer>();

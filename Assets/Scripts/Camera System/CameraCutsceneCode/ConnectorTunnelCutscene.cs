@@ -6,7 +6,6 @@ using UnityEngine;
 public class ConnectorTunnelCutscene : GameplayCutsceneBase
 {
     List<IEnumerator> cameraTasks = new List<IEnumerator>();
-
     [SerializeField]
     float stallTime = 5;
     [SerializeField] Transform[] goToTransforms;
