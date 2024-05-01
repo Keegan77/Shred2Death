@@ -28,12 +28,7 @@ public class PlayerHalfpipeState : BehaviourState
     public override void Enter()
     {
         player.GetComboHandler().SetPauseComboDrop(true);
-        /*lerpRigRoutine = player.proceduralRigController.StartCoroutine(
-            player.proceduralRigController.LerpWeightToValue
-            (player.proceduralRigController.legRig,
-                0,
-                1f)*/
-        //);
+
         base.Enter();
         totalRotation = 0f;
         rotationIncrementsCompleted = 0;
@@ -55,12 +50,6 @@ public class PlayerHalfpipeState : BehaviourState
     {
         base.Exit();
         if (lerpRigRoutine != null) player.proceduralRigController.StopCoroutine(lerpRigRoutine);
-        /*player.proceduralRigController.StartCoroutine(
-            player.proceduralRigController.LerpWeightToValue
-            (player.proceduralRigController.legRig,
-                1,
-                .1f)
-        );*/
         player.GetComboHandler().SetPauseComboDrop(false);
         Debug.Log($"Total rotation style: {rotationIncrementsCompleted * 180}");
         ActionEvents.OnTrickCompletion?.Invoke(new Trick($"Rotation trick: " +
@@ -71,14 +60,13 @@ public class PlayerHalfpipeState : BehaviourState
                                                    null,
                                                    0));
 
-        player.constantForce.relativeForce = new Vector3(0, 0, 0);
+        //player.constantForce.relativeForce = new Vector3(0, 0, 0);
         UnsubscribeInputs();
         player.GetOrientationHandler().ResetOrientationSpeed();
         foreach (var extrusionMesh in MeshContainerSingleton.Instance.extrusionMeshObjects)
         {
             extrusionMesh.GetComponent<MeshCollider>().enabled = false;
         }
-        //player.StartCoroutine(player.ScaleCapsuleCollider(player.GetOriginalColliderRadius()));
     }
     
     public override void LogicUpdate()
@@ -108,11 +96,11 @@ public class PlayerHalfpipeState : BehaviourState
 
         if (player.CheckGround("BowlMesh"))
         {
-            player.constantForce.relativeForce = new Vector3(0, -5, 0);
+            //player.constantForce.relativeForce = new Vector3(0, -5, 0);
         }
         else
         {
-            player.constantForce.relativeForce = new Vector3(0, 0, 0);
+            //player.constantForce.relativeForce = new Vector3(0, 0, 0);
         }
         
         //player.rb.SetLocalAxisVelocity(player..up, 0);
@@ -141,7 +129,7 @@ public class PlayerHalfpipeState : BehaviourState
         float yVelocity = player.rb.velocity.y;
 
         // Convert the y velocity to a percentage between -30 and 30
-        float t = Mathf.InverseLerp(30, -30, yVelocity);
+        float t = Mathf.InverseLerp(40, -40, yVelocity);
         // Calculate the target rotation
         Quaternion targetRot = Quaternion.LookRotation(Vector3.down, player.transform.up);
 

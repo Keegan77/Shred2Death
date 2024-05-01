@@ -72,7 +72,7 @@ public class PlayerSkatingState : BehaviourState
         if (kickOffCoroutine != null) player.StopCoroutine(kickOffCoroutine);
         player.proceduralRigController.SetWeightToValue(player.proceduralRigController.legRig, 1);
         
-        player.constantForce.relativeForce = new Vector3(0, 0, 0);
+        //player.constantForce.relativeForce = new Vector3(0, 0, 0);
         player.capsuleFloater.SetRideHeight(player.capsuleFloater.standingRideHeight);
         base.Exit();
     }
@@ -108,7 +108,7 @@ public class PlayerSkatingState : BehaviourState
 
         if (player.CheckGround())
         {
-            player.constantForce.relativeForce = new Vector3(0, -20, 0);
+            //player.constantForce.relativeForce = new Vector3(0, -20, 0);
         }
     }
     
