@@ -49,6 +49,7 @@ public class PlayerHUD : MonoBehaviour
         stats.ammoBar.currentValue = currentAmmo;
         stats.ammoBar.maxValue = newGun.magCapacity;
         cur = currentAmmo;
+        stats.ammoText.text = $"{currentAmmo}";
     }
 
     private void OnEnable()
@@ -114,6 +115,7 @@ public class PlayerHUD : MonoBehaviour
     {
         stats.ammoBar.maxValue =  player.gunfireHandler.GetCurrentGunData().magCapacity;
         cur = currentAmmo;
+        stats.ammoText.text = $"{currentAmmo}";
     }
     #endregion
 

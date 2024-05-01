@@ -45,6 +45,7 @@ public class PlayerAirborneState : BehaviourState
             player.rb.velocity = new Vector3(player.rb.velocity.x, 0, player.rb.velocity.z);
             player.movement.OllieJump();
             ActionEvents.OnPlayBehaviourAnimation?.Invoke("Ollie");
+            ActionEvents.OnTrickCompletion?.Invoke(TrickMaps.Ollie);
             player.proceduralRigController.StartCoroutine(player.proceduralRigController.SetWeightToValueForSeconds(player.proceduralRigController.legRig, 0, .88f));
             player.SetJumpQueued(false);
         }
