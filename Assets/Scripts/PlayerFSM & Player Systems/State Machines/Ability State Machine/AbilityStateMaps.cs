@@ -40,8 +40,8 @@ public class AbilityStateMaps
         abilityStyleCostMap = new Dictionary<Type, float>
         {
             {typeof(BoostAbilityState), 0f},
-            {typeof(DualieUltimateAbilityState), 0f},
-            {typeof(ShotgunUltimateAbilityState), 0f},
+            {typeof(DualieUltimateAbilityState), 200f},
+            {typeof(ShotgunUltimateAbilityState), 300f},
         };
     }
 

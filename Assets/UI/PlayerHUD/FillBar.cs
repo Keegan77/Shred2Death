@@ -17,6 +17,6 @@ public class FillBar : MonoBehaviour
     {
         float fillAmount = currentValue / maxValue;
 
-        img.fillAmount = Mathf.Clamp (fillAmount, 0, 1);
+        img.fillAmount = Mathf.Clamp (fillAmount, 0, maxValue);
     }
 }
