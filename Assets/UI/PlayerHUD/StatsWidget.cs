@@ -11,9 +11,7 @@ public class StatsWidget : MonoBehaviour
 {
     [Tooltip("Update the meterCurrentValue directly. The bar will fill on its own")]
     public MultiFillBar styleMeter;
-
-    [Tooltip("Update the currentValue of this bar. The bar will fill on its own")]
-    public FillBar healthBar;
+    
     [FormerlySerializedAs("ammoBar")] [Tooltip("Update the currentValue of this bar. The bar will fill on its own")]
     public FillBar boostMeter;
 
