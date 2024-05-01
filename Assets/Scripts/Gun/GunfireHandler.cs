@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 public class GunfireHandler : MonoBehaviour
 {
     private float timeSinceLastShot;
-    [SerializeField] private GunData startingGun; 
+     public GunData startingGun; 
     private GunData currentGun;
     [SerializeField] private SceneDataForGun startingGunSceneData;
     private SceneDataForGun currentGunSceneData;
@@ -91,6 +91,8 @@ public class GunfireHandler : MonoBehaviour
         currentGun.currentAmmo--;
         
         timeSinceLastShot = 0;
+        
+        playerHUD.SetAmmoUI(currentGun.currentAmmo);
         
         if (currentGun.alternateFire)
         {
@@ -255,6 +257,8 @@ public class GunfireHandler : MonoBehaviour
     private void IncreaseAmmo(Trick trick)
     {
         currentGun.currentAmmo += trick.ammoBonus;
+        playerHUD.SetAmmoUI(currentGun.currentAmmo);
+        
         if (currentGun.currentAmmo > currentGun.magCapacity) currentGun.currentAmmo = currentGun.magCapacity;
     }
 

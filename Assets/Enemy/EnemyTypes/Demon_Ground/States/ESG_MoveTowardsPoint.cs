@@ -14,7 +14,7 @@ public class ESG_MoveTowardsPoint : ES_DemonGround
 
         //eGround.agent.SetDestination (eGround.stateMachine.travelPoint);
         //eGround.agent.CalculatePath (eGround.stateMachine.travelPoint, eGround.agentPath);
-        StartCoroutine (MoveToPoint (eg.stateMachine.travelPoint, animationEnter));
+        StartCoroutine (MoveToPoint (eg.stateMachine.travelTarget.transform.GetChild(2).position, animationEnter));
 
     }
 
@@ -24,16 +24,16 @@ public class ESG_MoveTowardsPoint : ES_DemonGround
     /// </summary>
     public override void machinePhysics ()
     {
-        Vector3 distanceToDestination = eg.stateMachine.travelPoint - transform.position;
+        //Vector3 distanceToDestination = eg.stateMachine.travelPoint - transform.position;
 
-        if (distanceToDestination.magnitude <= eg.agent.stoppingDistance)
-        {
-            Debug.Log ("Transition requirement met");
-            Debug.Log (eg.agent.destination);
-            Debug.Log (transform.position);
-            Debug.Log(distanceToDestination.magnitude);
-            eg.stateMachine.transitionState(GetComponent<ESG_Chase>());
-        }
+        //if (distanceToDestination.magnitude <= eg.agent.stoppingDistance)
+        //{
+        //    Debug.Log ("Transition requirement met");
+        //    Debug.Log (eg.agent.destination);
+        //    Debug.Log (transform.position);
+        //    Debug.Log(distanceToDestination.magnitude);
+        //    eg.stateMachine.transitionState(GetComponent<ESG_Chase>());
+        //}
     }
 
     public override void onPlayerSensorActivated ()

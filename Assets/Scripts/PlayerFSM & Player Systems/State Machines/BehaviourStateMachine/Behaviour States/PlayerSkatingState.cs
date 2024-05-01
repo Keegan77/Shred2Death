@@ -72,7 +72,7 @@ public class PlayerSkatingState : BehaviourState
         if (kickOffCoroutine != null) player.StopCoroutine(kickOffCoroutine);
         player.proceduralRigController.SetWeightToValue(player.proceduralRigController.legRig, 1);
         
-        player.constantForce.relativeForce = new Vector3(0, 0, 0);
+        //player.constantForce.relativeForce = new Vector3(0, 0, 0);
         player.capsuleFloater.SetRideHeight(player.capsuleFloater.standingRideHeight);
         base.Exit();
     }
@@ -108,7 +108,7 @@ public class PlayerSkatingState : BehaviourState
 
         if (player.CheckGround())
         {
-            player.constantForce.relativeForce = new Vector3(0, -20, 0);
+            //player.constantForce.relativeForce = new Vector3(0, -20, 0);
         }
     }
     
@@ -119,7 +119,7 @@ public class PlayerSkatingState : BehaviourState
         player.proceduralRigController.SetWeightToValue(player.proceduralRigController.legRig, 0); // turns off procedural legs to show real anim data
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("StandingOffShredboard");
         yield return new WaitUntil(() => player.rb.velocity.magnitude > .1f);
-        ActionEvents.OnPlayBehaviourAnimation?.Invoke("KickOff");
+        ActionEvents.OnPlayBehaviourAnimation?.Invoke("RollingKickOff");
         slopePositioner.ResetOffsetOverride();
         yield return new WaitForSeconds(1); // this is the length of the kick off animation
         player.proceduralRigController.SetWeightToValue(player.proceduralRigController.legRig, 1); // turns on procedural legs after anim

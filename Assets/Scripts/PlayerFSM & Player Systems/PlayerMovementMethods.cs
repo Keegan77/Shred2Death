@@ -15,6 +15,7 @@ public class PlayerMovementMethods
     float turnSmoothVelocity;
     private float timeElapsed;
     public bool currentlyBoosting;
+    private bool autoMove;
     
     public PlayerMovementMethods(PlayerBase player, Rigidbody rb, PlayerData playerData, Transform inputTurningTransform)
     {
@@ -136,7 +137,10 @@ public class PlayerMovementMethods
         burnCooldownActive = false;
     }
 
-
+    public void ToggleAutoMove(bool state)
+    {
+        autoMove = state;
+    }
     
     private void CalculateCurrentSpeed() 
     {
@@ -170,7 +174,7 @@ public class PlayerMovementMethods
         }
         
         movementSpeed = Mathf.Lerp(playerData.minSpeed, playerData.baseMovementSpeed, 
-            playerData.accelerationCurve.Evaluate(InputRouting.Instance.GetMoveInput().magnitude)) + offset;
+            autoMove ? 1 : playerData.accelerationCurve.Evaluate(InputRouting.Instance.GetMoveInput().magnitude)) + offset;
     }
 
     public void CalculateTurnSharpness()

@@ -10,19 +10,22 @@ using UnityEngine.Events;
 /// </summary>
 public class Sensor_Spatial : Sensor
 {
-    [Header("Spatial Sensor")]
+    [Header ("Spatial Sensor")]
     public LayerMask maskRaycast;
 
-    [Range(2, 5)]
-    [Tooltip("How many points for each face will this sensor be made with?")]
+    [Range (2, 5)]
+    [Tooltip ("How many points for each face will this sensor be made with?")]
     [SerializeField] int sensorResolution = 3;
 
-    [Range(1, 10)] //10 is way overkill but eh
-    [Tooltip("How far will the sensors look for obstacles?")]
+    [Min(1)]
+    [Tooltip ("How far will the sensors look for obstacles?")]
     public float sensorLength = 1;
 
-    [Range  (1, 10)]
-    [Tooltip("How hard do the sensors push away from obstacles they run into?")]
+    [Tooltip ("How wide is a forward facing ping? (used in movement coroutines)"), Min(0.1f)]
+    public float sensorWidth = 1;
+
+    [Min (0)]
+    [Tooltip("How hard do the sensors push away from obstacles they run into? Resulting push is based on the sensor's length and how far away it hits a wall.")]
     public float sensorStrength = 1;
 
     [Header("Output")]
@@ -89,9 +92,10 @@ public class Sensor_Spatial : Sensor
     /// <returns>True if any one of the sensors have been tripped</returns>
     public override bool Ping()
     {
-        return updateSpatialSensor (true) == Vector3.zero ? false : true;
+        return updateSpatialSensor (false) == Vector3.zero ? false : true;
     }
 
+    [ContextMenu("Ping Sensor")]
     public void buttonPing()
     {
         Ping();
@@ -107,6 +111,7 @@ public class Sensor_Spatial : Sensor
     {
         pingResult = Vector3.zero;
 
+        //for each band of the sensor
         for (int b = 0; b < (useFull ? sensorResolution : Mathf.Ceil ((float)sensorResolution / 2)); b++)
         {
             //Debug.Log (transform.GetChild(b).name);
@@ -115,15 +120,25 @@ public class Sensor_Spatial : Sensor
                 //Debug.Log (sense.name);
                 if (sense.Ping ())
                 {
+
+                    Vector3 hitResult = (sense.hit.point - sense.transform.position);
+                    hitResult = hitResult.normalized * ((1 - hitResult.magnitude / sensorLength) * sensorStrength);
+                    
                     //pingResult -= sense.transform.position - transform.position;
-                    pingResult -= (sense.hit.point - transform.position) / sensorLength * sensorStrength;
+                    pingResult -= hitResult;
+
+                    Debug.DrawLine (
+                    sense.transform.position,
+                    hitResult + sense.transform.position,
+                    Color.yellow
+                    );
                 }
 
             }
         }
 
 
-        Debug.DrawLine (transform.position, transform.position + pingResult.normalized * sensorLength, Color.yellow);
+        Debug.DrawLine (transform.position, transform.position + pingResult, Color.green);
 
         return pingResult;
     }

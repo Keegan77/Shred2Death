@@ -11,8 +11,8 @@ public class SetPlayerReference : MonoBehaviour
 {
     public PlayerBase playerbase = null;
 
-    [HideInInspector] public bool isOnNavMesh = false;
-    NavMeshHit hit;
+    public bool isOnNavMesh = false;
+    public NavMeshHit navMeshPing;
 
     //[NonSerialized] public Vector3 aimOffset = new Vector3 (0, 2, 0);
     public GameObject aimTarget;
@@ -31,7 +31,22 @@ public class SetPlayerReference : MonoBehaviour
 
     private bool SampleIsOnNavMesh ()
     {
-        return NavMesh.SamplePosition(transform.position, out hit, 2, NavMesh.AllAreas);
+        RaycastHit rc;
+        //if (Physics.Raycast(transform.position + new Vector3(0, 1f, 0), Vector3.down, out rc, 1000, LayerMask.NameToLayer("Ground")))
+        if (Physics.Raycast(transform.position + new Vector3(0, 1f, 0), Vector3.down, out rc, 1000))
+        {
+            //Debug.Log ("Player is above something");
+            //Debug.Log (rc.collider);
+            //Debug.Log (rc.collider.name);
+            return NavMesh.SamplePosition(rc.point, out navMeshPing, 2, NavMesh.AllAreas);
+
+        }
+        else 
+        {
+            //Debug.Log (rc.collider);
+            //Debug.Log ("Player is not on Navmesh"); 
+            return false;  
+        }
     }
 
 }

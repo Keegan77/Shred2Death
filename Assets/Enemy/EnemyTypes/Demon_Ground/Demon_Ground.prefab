@@ -335,6 +335,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1514673884385965190, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1680058047500229003, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -398,7 +402,7 @@ PrefabInstance:
     - target: {fileID: 2616151468426186995, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: stateCurrent
       value: 
-      objectReference: {fileID: 7930438919017360526}
+      objectReference: {fileID: 4439761718339668230}
     - target: {fileID: 2949882392928239577, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -461,7 +465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3872104577493689534, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3914164700328918350, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
       propertyPath: m_Enabled
@@ -570,6 +574,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4439761718339668230}
   m_SourcePrefab: {fileID: 100100000, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+--- !u!114 &2710290026305136489 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8104011568459114558, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
+  m_PrefabInstance: {fileID: 6191281801883471703}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5324938368301081438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6660b7f816897ea4987520609aca77e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4170527639866061282 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7785432053934259893, guid: db9fcd6e5e789014b8d3679cfa3a40be, type: 3}
@@ -587,7 +602,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff2bd6215fd8aa7428bcab91b0f58bf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: WALK
+  crossFadeTime: 0.5
+  playOnEnter: 0
   agentUpdatePosition: 1
   agentUpdateRotation: 1
   agentIsMoving: 1
@@ -606,7 +624,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f082e1821199afb418d5d06de876e725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: RUN
+  crossFadeTime: 0.5
+  playOnEnter: 0
   agentUpdatePosition: 1
   agentUpdateRotation: 1
   agentIsMoving: 1
@@ -628,7 +649,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e546128d2b3e2498defe5a2d4eec5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: IDLE
+  crossFadeTime: 0.5
+  playOnEnter: 0
   agentUpdatePosition: 0
   agentUpdateRotation: 0
   agentIsMoving: 0
@@ -650,7 +674,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8deb32a2b6aef1740885f4641eb90785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: 
+  crossFadeTime: 0.5
+  playOnEnter: 0
   thresholdStationary: 0.1
   timeRagdollRecovery: 2
   timeRagdollDestroy: 10
@@ -673,7 +700,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f011804972954d8459907a928a2476f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: FIREBALL
+  crossFadeTime: 0.5
+  playOnEnter: 0
   _muzzlePoint: {fileID: 8292320557013803432}
   _bulletInfo: {fileID: 5653537672990207873}
 --- !u!114 &4762498758265315376
@@ -688,7 +718,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a1d18c4dfb272c468555613cef66673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: BONK
+  crossFadeTime: 0.5
+  playOnEnter: 0
   stateNext: {fileID: 5363906235961485691}
 --- !u!114 &6995417364875992630
 MonoBehaviour:
@@ -702,7 +735,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa92670542e254e409b1c246b34c4c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: DODGE
+  crossFadeTime: 0.5
+  playOnEnter: 0
   agentUpdatePosition: 0
   agentUpdateRotation: 0
   agentIsMoving: 0
@@ -756,7 +792,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b22ce2db9204d04abedc94df5611eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDebugLogging: 0
   animationEnter: IDLE
+  crossFadeTime: 0.5
+  playOnEnter: 0
   agentUpdatePosition: 0
   agentUpdateRotation: 0
   agentIsMoving: 0
@@ -786,6 +825,21 @@ MonoBehaviour:
   bodyObject: {fileID: 0}
   animator: {fileID: 0}
   health: 10
+  audioPlayer: {fileID: 2710290026305136489}
+  audioHurt:
+  - {fileID: 8300000, guid: ec0478df33c40f84a8e6fe9f22860ac5, type: 3}
+  - {fileID: 8300000, guid: 78b84f8471455a74dacda64769ccc054, type: 3}
+  - {fileID: 8300000, guid: 586de7d2ed8cdff4dac2e77564d98f9e, type: 3}
+  - {fileID: 8300000, guid: f7001e01f5f68f6439523d2cb45aa54f, type: 3}
+  audioDeath:
+  - {fileID: 8300000, guid: aa824975d8c019b419076476490048ff, type: 3}
+  - {fileID: 8300000, guid: 1146696b355a82249aa528095504563b, type: 3}
+  - {fileID: 8300000, guid: e73708a791133c84d92df89230e73dda, type: 3}
+  audioImpact:
+  - {fileID: 8300000, guid: b0a49925735eed241b7465b6f97169e3, type: 3}
+  - {fileID: 8300000, guid: 330e412bd5248a14d989906dc2057a18, type: 3}
+  - {fileID: 8300000, guid: bb7a2e1d62f035a42bdb82f837c54e2a, type: 3}
+  audioAttack: []
   agent: {fileID: 3754971543326130396}
   isInMeleeRange: 0
 --- !u!195 &3754971543326130396
@@ -1231,10 +1285,6 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2822475599566732991, guid: 0e8004b24d195c04aac7727ee10e6024, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2822793767103833933, guid: 0e8004b24d195c04aac7727ee10e6024, type: 3}
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
@@ -2268,7 +2318,7 @@ CapsuleCollider:
   m_Radius: 0.18
   m_Height: 1.48
   m_Direction: 1
-  m_Center: {x: 0, y: 0.78, z: 0}
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!54 &1073800926040070677
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2940,7 +2990,7 @@ CharacterJoint:
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: -5.820766e-11, y: 0.3947308, z: 0.049135283}
   serializedVersion: 2
-  m_SwingAxis: {x: 0, y: 0, z: 1}
+  m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
     spring: 0
     damper: 0
@@ -2949,18 +2999,18 @@ CharacterJoint:
     bounciness: 0
     contactDistance: 0
   m_HighTwistLimit:
-    limit: 20
+    limit: 70
     bounciness: 0
     contactDistance: 0
   m_SwingLimitSpring:
     spring: 0
     damper: 0
   m_Swing1Limit:
-    limit: 10
+    limit: 40
     bounciness: 0
     contactDistance: 0
   m_Swing2Limit:
-    limit: 0
+    limit: 40
     bounciness: 0
     contactDistance: 0
   m_EnableProjection: 0
@@ -2969,7 +3019,7 @@ CharacterJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 0
+  m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!114 &3261415549520920614
@@ -3012,7 +3062,7 @@ CapsuleCollider:
   m_Radius: 0.17
   m_Height: 0.81
   m_Direction: 1
-  m_Center: {x: 0, y: -0.18, z: 0}
+  m_Center: {x: 0, y: -0.13, z: 0}
 --- !u!54 &5080178543639743340
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3050,31 +3100,31 @@ CharacterJoint:
   m_ConnectedBody: {fileID: 6174465423872375566}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
-  m_Axis: {x: 0, y: 0, z: 1}
+  m_Axis: {x: 0, y: 1.02, z: 1}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0.7317525, y: 0.80362344, z: -0.009128287}
   serializedVersion: 2
-  m_SwingAxis: {x: 0, y: 0, z: 1}
+  m_SwingAxis: {x: 0, y: -1, z: 0}
   m_TwistLimitSpring:
     spring: 0
     damper: 0
   m_LowTwistLimit:
-    limit: 23.32368
+    limit: -1.9661268
     bounciness: 0
     contactDistance: 0
   m_HighTwistLimit:
-    limit: 175.86588
+    limit: 177
     bounciness: 0
     contactDistance: 0
   m_SwingLimitSpring:
     spring: 0
     damper: 0
   m_Swing1Limit:
-    limit: 84.52467
+    limit: 103.1183
     bounciness: 0
     contactDistance: 0
   m_Swing2Limit:
-    limit: 3
+    limit: 14.3321705
     bounciness: 0
     contactDistance: 0
   m_EnableProjection: 0
@@ -3083,7 +3133,7 @@ CharacterJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 0
+  m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!114 &2943255019101842705
@@ -3126,7 +3176,7 @@ CapsuleCollider:
   m_Radius: 0.18
   m_Height: 1.48
   m_Direction: 1
-  m_Center: {x: 0, y: -0.78, z: 0}
+  m_Center: {x: 0, y: -0.73, z: 0}
 --- !u!54 &4145304111424491417
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3278,31 +3328,31 @@ CharacterJoint:
   m_ConnectedBody: {fileID: 6174465423872375566}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
-  m_Axis: {x: 0, y: 0, z: -1}
+  m_Axis: {x: 0, y: 0.5, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.7317524, y: 0.803627, z: -0.009128019}
+  m_ConnectedAnchor: {x: -0.7317524, y: 0.803627, z: -0.009128004}
   serializedVersion: 2
-  m_SwingAxis: {x: 0, y: 0, z: -1}
+  m_SwingAxis: {x: 1, y: 1, z: 0}
   m_TwistLimitSpring:
     spring: 0
     damper: 0
   m_LowTwistLimit:
-    limit: -38.118237
+    limit: -42.759663
     bounciness: 0
     contactDistance: 0
   m_HighTwistLimit:
-    limit: 126.13089
+    limit: 116.54312
     bounciness: 0
     contactDistance: 0
   m_SwingLimitSpring:
     spring: 0
     damper: 0
   m_Swing1Limit:
-    limit: 30.38703
+    limit: 119.677376
     bounciness: 0
     contactDistance: 0
   m_Swing2Limit:
-    limit: 36.801613
+    limit: 8.172445
     bounciness: 0
     contactDistance: 0
   m_EnableProjection: 0
@@ -3311,7 +3361,7 @@ CharacterJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 0
+  m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!114 &6136067138342931296
@@ -3557,11 +3607,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5870824262189814864, guid: cae747ea39db587449a0f37169eea7df, type: 3}
       propertyPath: m_Radius
-      value: 4.08
+      value: 22.83
       objectReference: {fileID: 0}
     - target: {fileID: 5870824262189814864, guid: cae747ea39db587449a0f37169eea7df, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5870824262189814864, guid: cae747ea39db587449a0f37169eea7df, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5870824262189814864, guid: cae747ea39db587449a0f37169eea7df, type: 3}
+      propertyPath: m_LocalIdentfierInFile
+      value: 3363711050628002996
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

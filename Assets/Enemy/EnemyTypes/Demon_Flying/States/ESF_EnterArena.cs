@@ -7,6 +7,7 @@ public class ESF_EnterArena : EState_Flying
 {
     public override void Enter ()
     {
+        base.Enter ();
         //StartCoroutine (MoveToObject (e.stateMachine.travelTarget.transform.parent.gameObject));
         StartCoroutine(EnterArena ());
     }
@@ -36,19 +37,28 @@ public class ESF_EnterArena : EState_Flying
     {
         Debug.Log ("Entering Arena");
 
-        yield return MoveToObject(eFly.stateMachine.travelTarget.transform.GetChild(0).gameObject);
+        //yield return MoveToObject(eFly.stateMachine.travelTarget.transform.GetChild(0).gameObject);
 
         for (int i = 0 ; i < eFly.stateMachine.travelTarget.transform.GetChild(1).childCount; i++)
         {
             yield return MoveToObject (eFly.stateMachine.travelTarget.transform.GetChild(1).GetChild (i).gameObject);
         }
 
-        yield return MoveToObject (eFly.stateMachine.travelTarget.transform.GetChild(2).gameObject);
+        //yield return MoveToObject (eFly.stateMachine.travelTarget.transform.GetChild(2).gameObject);
+
+        onPathComplete ();
     }
 
     public override void onPlayerSensorActivated ()
     {
+        Debug.Log ("Aggro time");
         base.onPlayerSensorActivated ();
         eFly.stateMachine.transitionState (GetComponent<ES_Flying_Chase> ());
+    }
+
+    protected override void onPathComplete ()
+    {
+        base.onPathComplete ();
+        e.stateMachine.transitionState (GetComponent<ES_Flying_Chase> ());
     }
 }

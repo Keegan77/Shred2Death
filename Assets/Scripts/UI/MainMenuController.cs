@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
     [SerializeField] private SubMenu[] subMenus;
+    [FormerlySerializedAs("backgroundSceneEnvironmentToLoad")]
     [Tooltip("Corresponds to the index of the scene you would like to use as the background environment" +
              " for the main menu.")]
-    [SerializeField] private int backgroundSceneEnvironmentToLoad;
+    [SerializeField] private int[] backgroundSceneEnvironmentsToLoad;
     private SubMenu currentSubMenu;
     [SerializeField] private List<GameObject> leftSideUIObjects;
     [SerializeField] private float buttonOffScreenXValue;
@@ -22,12 +24,13 @@ public class MainMenuController : MonoBehaviour
     }
     private IEnumerator LoadBackgroundScene()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(backgroundSceneEnvironmentToLoad, LoadSceneMode.Additive);
+        int rand = UnityEngine.Random.Range(0, backgroundSceneEnvironmentsToLoad.Length);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(backgroundSceneEnvironmentsToLoad[rand], LoadSceneMode.Additive);
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
-        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(backgroundSceneEnvironmentToLoad)); // ensures lighting data will be taken from bg scene
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(backgroundSceneEnvironmentsToLoad[rand])); // ensures lighting data will be taken from bg scene
         Cursor.lockState = CursorLockMode.None;
     }
 
@@ -57,7 +60,7 @@ public class MainMenuController : MonoBehaviour
 
         yield return new WaitForSeconds(1);
         ASyncLoader asyncLoader = FindObjectOfType<ASyncLoader>();
-        asyncLoader.StartCoroutine(asyncLoader.LoadLevelAsync(3));
+        ActionEvents.LoadNewSceneEvent?.Invoke(3, 1.0f);
     }
 
 

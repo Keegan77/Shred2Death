@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2480189018995631865}
   - component: {fileID: 561361803173687789}
   - component: {fileID: 938997167298390853}
+  - component: {fileID: 1457067369836955110}
   m_Layer: 0
   m_Name: MESH_ParkBench
   m_TagString: Untagged
@@ -106,3 +107,24 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5750318737700012963, guid: 20d2954a9f0afd941880c4dc950643bb, type: 3}
+--- !u!65 &1457067369836955110
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200077327171669838}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 6.2226124, y: 2.7651315, z: 1.9001367}
+  m_Center: {x: 0, y: -0.16857183, z: -0.95006835}

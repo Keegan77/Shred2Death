@@ -20,9 +20,9 @@ public class Sensor_DodgeRadius : Sensor
     {
         if (!other.CompareTag ("Player")) return;
 
-        Debug.LogWarning (other.GetInstanceID(), other);
+        //Debug.LogWarning (other.GetInstanceID(), other);
 
-        Debug.Log ($"{transform.parent.name}: {name} Entered");
+        //Debug.Log ($"{transform.parent.name}: {name} Entered");
         SetPlayerReference p = other.GetComponentInParent<SetPlayerReference>();
         E_Demon_Ground eg = transform.GetComponentInParent<E_Demon_Ground> ();
         if (p != null && eg.rb.isKinematic)

@@ -25,4 +25,12 @@ public class RigWeightController : MonoBehaviour
     {
         rig.weight = targetWeight;
     }
+    
+    public IEnumerator SetWeightToValueForSeconds(Rig rig, float targetWeight, float seconds)
+    {
+        float cachedWeight = rig.weight;
+        rig.weight = targetWeight;
+        yield return new WaitForSeconds(seconds);
+        rig.weight = 1;
+    }
 }

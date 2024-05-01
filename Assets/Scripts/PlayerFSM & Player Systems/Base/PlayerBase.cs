@@ -38,6 +38,9 @@ public class PlayerBase : MonoBehaviour
         public RigWeightController proceduralRigController;
         public GameObject shotgunUltSpiralTrail;
         public GameObject shotgunUltSelectionCircle;
+
+        public bool grindSpeedOverride;
+        public float overrideSpeed;
         
     #endregion
 
@@ -47,7 +50,7 @@ public class PlayerBase : MonoBehaviour
         private SplineComputer currentSpline;
         private double splineCompletionPercent;
         public PlayerMovementMethods movement { get; private set; }
-        public ConstantForce constantForce;
+        //public ConstantForce constantForce;
         public RaycastHit forwardLeftSlopeHit, forwardRightSlopeHit, backLeftSlopeHit, backRightSlopeHit;
 
         private bool queueJump;
@@ -296,7 +299,7 @@ public class PlayerBase : MonoBehaviour
     public void CheckAndSetSpline()
     {
         RaycastHit[] hits = ReturnSplineDetection();
-        
+        Debug.Log("checked");
         foreach (RaycastHit hit in hits)
         {
             SplineComputer hitSpline = hit.collider.GetComponent<SplineComputer>();
@@ -308,6 +311,12 @@ public class PlayerBase : MonoBehaviour
                 stateMachine.SwitchState(grindState);
             }
         }
+    }
+    
+    public void OverrideGrindSpeed(float speed)
+    {
+        overrideSpeed = speed;
+        grindSpeedOverride = true;
     }
 
 

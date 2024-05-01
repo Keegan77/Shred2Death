@@ -10,6 +10,7 @@ using UnityEngine.AI;
 /// </summary>
 public class E_Demon_Ground : Enemy
 {
+
     [Header("Navigation")]
     public NavMeshAgent agent; //NavMeshAgent refuses to load in time and now I have to serialize it. Hate.
     public NavMeshPath agentPath;

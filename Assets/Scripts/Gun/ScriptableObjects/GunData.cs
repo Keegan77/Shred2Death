@@ -45,7 +45,7 @@ public class GunData : ScriptableObject
     public float readyUpTime;
   
 
-    [HideInInspector] public float currentAmmo; //stored on a per-gun basis to keep the value between gun switches
+    public float currentAmmo; //stored on a per-gun basis to keep the value between gun switches
 
     [Tooltip("Setting this to true will alternate the firing of the gun between the player model's " +
              "left and right hand. Useful for duelies.")]

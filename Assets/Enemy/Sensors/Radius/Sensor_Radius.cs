@@ -6,6 +6,7 @@ public class Sensor_Radius : Sensor
 {
     private void OnTriggerEnter (Collider other)
     {
+        //Debug.Log ($"{other.gameObject.name} entered", gameObject);
         if (other.CompareTag ("Player"))
         {
             Activate ();

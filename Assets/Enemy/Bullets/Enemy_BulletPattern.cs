@@ -18,7 +18,8 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     //There's multiple things that determine whether a bullet is ready,
     //One of which is a key per bullet pattern that dictates whether or not its on cooldown.
     private bool _bulletReady = true;
-    public bool bulletReady { get { return _bulletReady == true && tokenCost < tokens; } protected set { _bulletReady = value; } }
+    //public bool bulletReady { get { return _bulletReady == true && tokenCost < tokens; } protected set { _bulletReady = value; } }
+    public bool bulletReady { get { return _bulletReady == true; } protected set { _bulletReady = value; } }
     public bool bulletPlaying = false;
 
     [Header("Basic Info")]
@@ -80,6 +81,7 @@ public abstract class Enemy_BulletPattern : MonoBehaviour
     #region Aiming and shooting
     public void SpawnBullet (Vector3 target, GameObject muzzle)
     {
+        Debug.Log ("<color=#329DF6>Bullet Pattern: Bullet Spawned</color>");
         //GameObject eb = Instantiate (bulletObject, muzzle.transform.position, Quaternion.identity);
         GameObject eb = Instantiate (bulletObject, muzzle.transform.position, Quaternion.identity);
 

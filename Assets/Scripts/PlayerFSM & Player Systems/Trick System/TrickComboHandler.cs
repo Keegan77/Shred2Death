@@ -97,7 +97,7 @@ public class TrickComboHandler : MonoBehaviour
         // create ease in out animation curve
         
         playerHUD.stats.styleMeter.meterCurrentValue = Mathf.Lerp(playerHUD.stats.styleMeter.meterCurrentValue,
-            (currentStylePoints / (styleLevelThreshold * (maxStyleLevel))) * 100,  Time.deltaTime * 5);
+            (currentStylePoints / (styleLevelThreshold * (maxStyleLevel))) * playerHUD.stats.styleMeter.meterMaxValue,  Time.deltaTime * 5);
         // STYLE LEVEL THRESH * MAX STYLE LEVEL = MAX STYLE POINTS
         // current style points / max style points = percentage to max style points
         // bar fills to 100, so we multiply by 100

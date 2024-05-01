@@ -17,6 +17,7 @@ public class ESG_Empty : ES_DemonGround
     public override void Enter ()
     {
         base.Enter ();
+        e.animator.Play (animationEnter);
     }
 
 }
