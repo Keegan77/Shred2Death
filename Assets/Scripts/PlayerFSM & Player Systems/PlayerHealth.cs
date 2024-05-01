@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
@@ -11,18 +12,31 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [SerializeField] float regenHealthCooldown;
     [SerializeField] float healthRegenerationSpeed;
     private PlayerBase player;
-    [SerializeField] private Volume postProcessVolume;
+    [SerializeField] private Image healthVignette;
+    private Color color;
+    [SerializeField] private float pulseSpeed;
+    [SerializeField] 
+    [Range(0, 1)]private float pulseDistanceDivisor;
 
     private void Start()
     {
         player = FindObjectOfType<PlayerBase>();
+        color = Color.white;
+        color.a = 0;
         currentHealth = maxHealth;
     }
     
     private void UpdateHealthUI()
     {
         float t = Mathf.InverseLerp(maxHealth, 0, currentHealth);
-        //postProcessVolume.weight = Mathf.Lerp(.4f, .8f, t);
+        float cur = 0;
+        cur = Mathf.Lerp(0, 1, t);
+        if (cur > .1f)
+        {
+            cur += (Mathf.Sin(Time.time * pulseSpeed) + 1) * pulseDistanceDivisor;
+        }
+        color.a = Mathf.Lerp(color.a, cur, Time.deltaTime * 2);//
+        healthVignette.color = color;
     }
 
     private void Update()

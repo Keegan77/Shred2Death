@@ -78,7 +78,7 @@ public class SkateboardSlopePositioner : MonoBehaviour
             transform.position = hit.point + localOffset;
             if (hit.collider.CompareTag("BurnDamage"))
             {
-                player.movement.DoBurnForce(hit.point, 10, keepHozForces:true);
+                player.movement.DoBurnForce(hit.point, 15, keepHozForces:true);
             }
         }
         else

@@ -104,7 +104,6 @@ public class PlayerBase : MonoBehaviour
     {
         stateMachine.currentState.LogicUpdate();
         abilityStateMachine.currentAbilityState.LogicUpdate();
-        Debug.Log($"speed: {rb.velocity.magnitude}");
     }
 
     private void FixedUpdate()
