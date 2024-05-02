@@ -172,10 +172,10 @@ public class PlayerBase : MonoBehaviour
         Gizmos.color = Color.red;
 
         // Draw raycasts for CheckGround()
-        /*Gizmos.DrawLine(backLeftRayOrigin, backLeftRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
+        Gizmos.DrawLine(backLeftRayOrigin, backLeftRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
         Gizmos.DrawLine(backRightRayOrigin, backRightRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
         Gizmos.DrawLine(forwardLeftRayOrigin, forwardLeftRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
-        Gizmos.DrawLine(forwardRightRayOrigin, forwardRightRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);*/
+        Gizmos.DrawLine(forwardRightRayOrigin, forwardRightRayOrigin - playerModelTransform.up * orientationHandler.slopeDownDetectionDistance);
         
         Gizmos.color = Color.blue;
         
@@ -256,7 +256,6 @@ public class PlayerBase : MonoBehaviour
                                 0,
                                   1 << LayerMask.NameToLayer("Spline"));
     }
-
 
     private bool ran;
 
