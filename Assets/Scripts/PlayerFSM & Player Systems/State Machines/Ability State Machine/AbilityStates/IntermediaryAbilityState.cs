@@ -38,7 +38,6 @@ public class IntermediaryAbilityState : AbilityState
         // we meet the pre-requisites to enter the next ability
         player.GetComboHandler().DecrementStylePoints(abilityStateMaps.abilityStyleCostMap[state.GetType()]);
         stateMachine.SwitchState(state);
-        ActionEvents.OnAbilityStateSwitch?.Invoke(state);
     }
 
     public override void Enter()

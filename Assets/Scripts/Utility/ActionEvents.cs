@@ -28,7 +28,7 @@ public static class ActionEvents
     public static Action<string> OnPlayBehaviourAnimation;
     public static Action<Type> OnBehaviourStateSwitch;
     public static Action LoadBowlMeshes; //pertains to player because only the player can interact with these
-    public static Action<AbilityState> OnAbilityStateSwitch;
+    public static Action<Type> OnAbilityStateSwitch;
     public static Action IntermediaryAbilityStateEnter;
     public static Action MakePlayerLookForward;
     public static Action MakePlayerLookMouse;

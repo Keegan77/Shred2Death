@@ -15,6 +15,7 @@ public class AbilityStateMachine
     {
         currentAbilityState.Exit();
         currentAbilityState = newState;
+        ActionEvents.OnAbilityStateSwitch?.Invoke(currentAbilityState.GetType());
         currentAbilityState.Enter();
     }
 }
