@@ -8,6 +8,7 @@ public class PlayerAirborneState : BehaviourState
 {
     private bool coolingDown;
     private Coroutine coolDownCoroutine;
+    private float timer;
     public PlayerAirborneState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
         behaviourInputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
@@ -40,6 +41,7 @@ public class PlayerAirborneState : BehaviourState
     public override void Enter()
     {
         base.Enter();
+        timer = 0;
         if (player.JumpQueued())
         {
             player.rb.velocity = new Vector3(player.rb.velocity.x, 0, player.rb.velocity.z);
@@ -83,8 +85,9 @@ public class PlayerAirborneState : BehaviourState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        timer += Time.deltaTime;
         player.UpdateGrindRailUI();
-        if (player.CheckGround())
+        if (player.CheckGround() && timer > .333f)
         {
             stateMachine.SwitchState(player.skatingState);
         }
