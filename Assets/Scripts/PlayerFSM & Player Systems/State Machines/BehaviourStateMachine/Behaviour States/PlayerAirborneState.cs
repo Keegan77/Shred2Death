@@ -84,7 +84,7 @@ public class PlayerAirborneState : BehaviourState
     {
         base.LogicUpdate();
         player.UpdateGrindRailUI();
-        if (player.CheckGround() && player.rb.velocity.y < 0f)
+        if (player.CheckGround())
         {
             stateMachine.SwitchState(player.skatingState);
         }
