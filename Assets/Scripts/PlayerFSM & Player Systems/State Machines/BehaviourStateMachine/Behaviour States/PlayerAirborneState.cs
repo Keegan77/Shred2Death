@@ -46,7 +46,12 @@ public class PlayerAirborneState : BehaviourState
             player.movement.OllieJump();
             ActionEvents.OnPlayBehaviourAnimation?.Invoke("Ollie");
             ActionEvents.OnTrickCompletion?.Invoke(TrickMaps.Ollie);
-            player.proceduralRigController.StartCoroutine(player.proceduralRigController.SetWeightToValueForSeconds(player.proceduralRigController.legRig, 0, .88f));
+            
+            player.proceduralRigController.setWeightForSecondsCoroutine =
+                player.proceduralRigController.StartCoroutine(
+                    player.proceduralRigController.SetWeightToValueForSeconds(
+                        player.proceduralRigController.legRig, 0, .88f));
+            
             player.SetJumpQueued(false);
         }
         

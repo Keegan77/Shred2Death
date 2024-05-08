@@ -6,6 +6,7 @@ using UnityEngine.Animations.Rigging;
 public class RigWeightController : MonoBehaviour
 {
     public Rig armRig, legRig, headAndChestRig;
+    public Coroutine setWeightForSecondsCoroutine;
     
     public IEnumerator LerpWeightToValue(Rig rig, float targetWeight, float lerpTime)
     {
@@ -23,6 +24,10 @@ public class RigWeightController : MonoBehaviour
     
     public void SetWeightToValue(Rig rig, float targetWeight)
     {
+        if (setWeightForSecondsCoroutine != null)
+        {
+            StopCoroutine(setWeightForSecondsCoroutine);
+        }
         rig.weight = targetWeight;
     }
     
