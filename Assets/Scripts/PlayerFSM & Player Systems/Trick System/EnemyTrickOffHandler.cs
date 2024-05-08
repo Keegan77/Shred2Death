@@ -3,12 +3,11 @@ using System.Collections;
 using Interfaces;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class EnemyTrickOffHandler : MonoBehaviour
 {
-    Stack<GameObject> enemiesInTriggerStack = new Stack<GameObject>();
     [SerializeField] private float trickDamage;
-    [SerializeField] PlayerBase player;
+    [SerializeField] private PlayerBase player;
+    [SerializeField] private Vector3 boxSize; // Size of the box for the boxcast
 
     private void OnEnable()
     {
@@ -19,46 +18,39 @@ public class EnemyTrickOffHandler : MonoBehaviour
     {
         ActionEvents.OnTrickPerformed -= CheckForAndExecuteTrickOff;
     }
-    
+
     private void CheckForAndExecuteTrickOff(Trick trick)
     {
-        if (enemiesInTriggerStack.Count > 0 && player.stateMachine.currentState == player.airborneState)
+        if (player.stateMachine.currentState == player.airborneState)
         {
-            // get the top enemy on the stack
-            GameObject enemy = enemiesInTriggerStack.Peek();
+            Vector3 boxPos = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
+            Collider[] hits = Physics.OverlapBox(boxPos, boxSize / 2, transform.rotation, 1 << LayerMask.NameToLayer("Enemy"));
 
-            IDamageable damageable;
-            ITrickOffable trickOffable;
-            
-            if (enemy.gameObject == null) return;
-            if (enemy.TryGetComponent<IDamageable>(out damageable))
+            foreach (Collider hit in hits)
             {
-                damageable.TakeDamage(trickDamage);
-            }
-            if (enemy.TryGetComponent<ITrickOffable>(out trickOffable))
-            {
-                trickOffable.TrickOffEvent(player.rb.velocity);
-            }
-            if (player.rb.velocity.y < 0) player.rb.velocity = new Vector3(player.rb.velocity.x, 0, player.rb.velocity.z);
-            player.movement.OllieJump();
-                // sending in player velocity so demons can potentially
-                //calculate a knockback force based on player velocity
-        }
-    }
+                IDamageable damageable;
+                ITrickOffable trickOffable;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            enemiesInTriggerStack.Push(other.gameObject);
+                if (hit.TryGetComponent<IDamageable>(out damageable))
+                {
+                    damageable.TakeDamage(trickDamage);
+                }
+                if (hit.TryGetComponent<ITrickOffable>(out trickOffable))
+                {
+                    trickOffable.TrickOffEvent(player.rb.velocity);
+                }
+                if (player.rb.velocity.y < 0) player.rb.velocity = new Vector3(player.rb.velocity.x, 0, player.rb.velocity.z);
+                player.movement.OllieJump();
+                break; // Exit the loop after executing the trick off on the first enemy found
+                
+            }
         }
     }
-
-    private void OnTriggerExit(Collider other)
+    private void OnDrawGizmos()
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            enemiesInTriggerStack.Pop();
-        }
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), boxSize);
     }
+    
 }
+
