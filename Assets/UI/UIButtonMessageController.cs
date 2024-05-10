@@ -8,8 +8,6 @@ using UnityEngine.InputSystem;
 public class UIButtonMessageController : MonoBehaviour
 {
     [SerializeField] private BounceUI messagePopUp;
-    [SerializeField] private float showingPopUp;
-    [SerializeField] private float hidingPopUp;
     private bool buttonPressed;
     private void OnEnable()
     {
@@ -30,10 +28,10 @@ public class UIButtonMessageController : MonoBehaviour
     {
         BulletTimeManager.Instance.ChangeBulletTime(0);
         textForPopUp.SetActive(true);
-        messagePopUp.targetXPosition = showingPopUp;
+        messagePopUp.MoveToEndPosition();
         inputAction.Enable();
         yield return new WaitUntil(() => inputAction.triggered);
-        messagePopUp.targetXPosition = hidingPopUp;
+        messagePopUp.MoveToStartPosition();
         Time.timeScale = 1;
         inputAction.Disable();
         yield return new WaitForSeconds(1);

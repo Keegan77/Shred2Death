@@ -1431,7 +1431,6 @@ GameObject:
   - component: {fileID: 329324736}
   - component: {fileID: 329324738}
   - component: {fileID: 329324737}
-  - component: {fileID: 329324739}
   m_Layer: 5
   m_Name: SettingsSubMenu
   m_TagString: Untagged
@@ -1473,11 +1472,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 10
   dampingRatio: 0.75
-  targetXPosition: 1314
-  startingXPosition: 2585
-  endingXPosition: 0
+  targetLocalDisplacement: {x: -1275, y: 0, z: 0}
   isMask: 0
-  useCurrentAsStarting: 0
 --- !u!114 &329324738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1492,20 +1488,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraAngle: {fileID: 0}
   defaultButtonSelected: {fileID: 0}
---- !u!114 &329324739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 329324735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db9dd6af76d2e6f4185ef80984161167, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restingPos: 2585
-  selectedPos: 1314
 --- !u!1 &336677628
 GameObject:
   m_ObjectHideFlags: 0
@@ -2349,7 +2331,6 @@ GameObject:
   - component: {fileID: 605952860}
   - component: {fileID: 605952857}
   - component: {fileID: 605952859}
-  - component: {fileID: 605952858}
   m_Layer: 5
   m_Name: CreditsSubMenu
   m_TagString: Untagged
@@ -2371,20 +2352,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraAngle: {fileID: 0}
   defaultButtonSelected: {fileID: 0}
---- !u!114 &605952858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605952856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db9dd6af76d2e6f4185ef80984161167, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restingPos: 2585
-  selectedPos: 1314
 --- !u!114 &605952859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2399,11 +2366,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 10
   dampingRatio: 0.75
-  targetXPosition: 1314
-  startingXPosition: 2585
-  endingXPosition: 0
+  targetLocalDisplacement: {x: -1275, y: 0, z: 0}
   isMask: 0
-  useCurrentAsStarting: 0
 --- !u!224 &605952860
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3087,7 +3051,6 @@ GameObject:
   - component: {fileID: 762377838}
   - component: {fileID: 762377837}
   - component: {fileID: 762377836}
-  - component: {fileID: 762377835}
   m_Layer: 5
   m_Name: Credits
   m_TagString: Untagged
@@ -3102,33 +3065,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 762377833}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8100001, y: 0.8100001, z: 0.8100001}
+  m_LocalScale: {x: 0.81000006, y: 0.81000006, z: 0.81000006}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1334199576}
-  m_Father: {fileID: 1457517855}
+  m_Father: {fileID: 1817020696}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -299, y: -78.999985}
+  m_AnchoredPosition: {x: -6.9999943, y: -25}
   m_SizeDelta: {x: 272.9589, y: 53.7808}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &762377835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 762377833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db9dd6af76d2e6f4185ef80984161167, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restingPos: 260
-  selectedPos: 225
 --- !u!114 &762377836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3146,10 +3095,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 762377835}
-          m_TargetAssemblyTypeName: MenuButtonBehaviour, Assembly-CSharp
-          m_MethodName: ChangeTargetPosition
-          m_Mode: 4
+        - m_Target: {fileID: 762377837}
+          m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
+          m_MethodName: MoveToEndPosition
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3162,10 +3111,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 762377835}
-          m_TargetAssemblyTypeName: MenuButtonBehaviour, Assembly-CSharp
-          m_MethodName: ChangeTargetPosition
-          m_Mode: 4
+        - m_Target: {fileID: 762377837}
+          m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
+          m_MethodName: MoveToStartPosition
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3188,11 +3137,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 15
   dampingRatio: 0.75
-  targetXPosition: 260
-  startingXPosition: 225
-  endingXPosition: 0
+  targetLocalDisplacement: {x: 30, y: 0, z: 0}
   isMask: 0
-  useCurrentAsStarting: 1
 --- !u!114 &762377838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3511,7 +3457,6 @@ GameObject:
   - component: {fileID: 812081354}
   - component: {fileID: 812081353}
   - component: {fileID: 812081352}
-  - component: {fileID: 812081351}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -3526,33 +3471,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 812081349}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8100001, y: 0.8100001, z: 0.8100001}
+  m_LocalScale: {x: 0.81000006, y: 0.81000006, z: 0.81000006}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 786020677}
-  m_Father: {fileID: 1457517855}
+  m_Father: {fileID: 1817020696}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -299, y: -28.999987}
+  m_AnchoredPosition: {x: -6.9999943, y: 24.999998}
   m_SizeDelta: {x: 272.9589, y: 53.7808}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &812081351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 812081349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db9dd6af76d2e6f4185ef80984161167, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restingPos: 260
-  selectedPos: 225
 --- !u!114 &812081352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3570,10 +3501,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 812081351}
-          m_TargetAssemblyTypeName: MenuButtonBehaviour, Assembly-CSharp
-          m_MethodName: ChangeTargetPosition
-          m_Mode: 4
+        - m_Target: {fileID: 812081353}
+          m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
+          m_MethodName: MoveToEndPosition
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3586,10 +3517,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 812081351}
-          m_TargetAssemblyTypeName: MenuButtonBehaviour, Assembly-CSharp
-          m_MethodName: ChangeTargetPosition
-          m_Mode: 4
+        - m_Target: {fileID: 812081353}
+          m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
+          m_MethodName: MoveToStartPosition
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3612,11 +3543,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 15
   dampingRatio: 0.75
-  targetXPosition: 260
-  startingXPosition: 225
-  endingXPosition: 0
+  targetLocalDisplacement: {x: 30, y: 0, z: 0}
   isMask: 0
-  useCurrentAsStarting: 1
 --- !u!114 &812081354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4280,7 +4208,6 @@ GameObject:
   - component: {fileID: 1026466526}
   - component: {fileID: 1026466525}
   - component: {fileID: 1026466524}
-  - component: {fileID: 1026466523}
   m_Layer: 5
   m_Name: Exit
   m_TagString: Untagged
@@ -4295,33 +4222,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1026466521}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8100001, y: 0.8100001, z: 0.8100001}
+  m_LocalScale: {x: 0.81000006, y: 0.81000006, z: 0.81000006}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 483083489}
-  m_Father: {fileID: 1457517855}
+  m_Father: {fileID: 1817020696}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -299, y: -128.99998}
+  m_AnchoredPosition: {x: -6.9999943, y: -75}
   m_SizeDelta: {x: 272.9589, y: 53.7808}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1026466523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026466521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db9dd6af76d2e6f4185ef80984161167, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restingPos: 225
-  selectedPos: 260
 --- !u!114 &1026466524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4339,10 +4252,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1026466523}
-          m_TargetAssemblyTypeName: MenuButtonBehaviour, Assembly-CSharp
-          m_MethodName: ChangeTargetPosition
-          m_Mode: 4
+        - m_Target: {fileID: 1026466525}
+          m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
+          m_MethodName: MoveToEndPosition
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4355,10 +4268,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1026466523}
-          m_TargetAssemblyTypeName: MenuButtonBehaviour, Assembly-CSharp
-          m_MethodName: ChangeTargetPosition
-          m_Mode: 4
+        - m_Target: {fileID: 1026466525}
+          m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
+          m_MethodName: MoveToStartPosition
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4381,11 +4294,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 15
   dampingRatio: 0.75
-  targetXPosition: 260
-  startingXPosition: 225
-  endingXPosition: 0
+  targetLocalDisplacement: {x: 30, y: 0, z: 0}
   isMask: 0
-  useCurrentAsStarting: 1
 --- !u!114 &1026466526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4570,11 +4480,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 5
   dampingRatio: 0.75
-  targetXPosition: 225.7
-  startingXPosition: 0
-  endingXPosition: 0
+  targetLocalDisplacement: {x: 0, y: 0, z: 0}
   isMask: 0
-  useCurrentAsStarting: 1
 --- !u!1 &1063043490
 GameObject:
   m_ObjectHideFlags: 0
@@ -4625,9 +4532,8 @@ GameObject:
   - component: {fileID: 1105287341}
   - component: {fileID: 1105287340}
   - component: {fileID: 1105287344}
-  - component: {fileID: 1105287345}
   m_Layer: 5
-  m_Name: New Game Button
+  m_Name: New Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4640,17 +4546,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105287338}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.81000006, y: 0.81000006, z: 0.81000006}
+  m_LocalScale: {x: 0.81, y: 0.81, z: 0.81}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 656087297}
-  m_Father: {fileID: 1457517855}
+  m_Father: {fileID: 1817020696}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -299, y: 21.000013}
+  m_AnchoredPosition: {x: -7, y: 75}
   m_SizeDelta: {x: 272.9589, y: 53.7808}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1105287340
@@ -4667,11 +4573,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 15
   dampingRatio: 0.75
-  targetXPosition: 260
-  startingXPosition: 225
-  endingXPosition: 0
+  targetLocalDisplacement: {x: 30, y: 0, z: 0}
   isMask: 0
-  useCurrentAsStarting: 0
 --- !u!114 &1105287341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4783,10 +4686,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1105287345}
-          m_TargetAssemblyTypeName: MenuButtonBehaviour, Assembly-CSharp
-          m_MethodName: ChangeTargetPosition
-          m_Mode: 4
+        - m_Target: {fileID: 1105287340}
+          m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
+          m_MethodName: MoveToEndPosition
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4799,10 +4702,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1105287345}
-          m_TargetAssemblyTypeName: MenuButtonBehaviour, Assembly-CSharp
-          m_MethodName: ChangeTargetPosition
-          m_Mode: 4
+        - m_Target: {fileID: 1105287340}
+          m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
+          m_MethodName: MoveToStartPosition
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4811,20 +4714,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &1105287345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1105287338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db9dd6af76d2e6f4185ef80984161167, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restingPos: 260
-  selectedPos: 225
 --- !u!1 &1116281273
 GameObject:
   m_ObjectHideFlags: 0
@@ -5525,10 +5414,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1047568057}
-  - {fileID: 1105287339}
-  - {fileID: 812081350}
-  - {fileID: 762377834}
-  - {fileID: 1026466522}
+  - {fileID: 1817020696}
   - {fileID: 329324736}
   - {fileID: 605952860}
   m_Father: {fileID: 0}
@@ -6394,6 +6280,45 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1716262340}
   m_CullTransparentMesh: 1
+--- !u!1 &1817020695
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1817020696}
+  m_Layer: 5
+  m_Name: UI Buttons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1817020696
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817020695}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1105287339}
+  - {fileID: 812081350}
+  - {fileID: 762377834}
+  - {fileID: 1026466522}
+  m_Father: {fileID: 1457517855}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -299, y: -53.999992}
+  m_SizeDelta: {x: 221.09674, y: 193.56245}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1916584534
 GameObject:
   m_ObjectHideFlags: 0
