@@ -13,7 +13,7 @@ using UnityEngine.AI;
 public class Enemy_State : MonoBehaviour
 {
     //public static GameObject playerObject
-    protected Enemy e;
+    public Enemy e { get; protected set; }
 
     //Is the enemy currently playing an animation?
     protected bool isAnimationPlaying = false;

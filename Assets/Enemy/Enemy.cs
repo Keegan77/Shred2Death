@@ -93,6 +93,10 @@ public class Enemy : MonoBehaviour, IDamageable, ITrickOffable
 
     #region SCRIPT FUNCTIONS
 
+    /// <summary>
+    /// subtract health from the enemy. If they reach 0 health they will play their death routine.
+    /// </summary>
+    /// <param name="damage"></param>
     public void TakeDamage (float damage)
     {
         if (isDead) return;
