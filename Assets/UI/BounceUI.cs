@@ -11,7 +11,6 @@ public class BounceUI : MonoBehaviour
 {
     SpringUtils.tDampedSpringMotionParams springParams;
     
-    // Reference screen size
     private Vector2 referenceResolution = new Vector2(1920, 1080);
 
     [SerializeField] private float frequency;
@@ -40,7 +39,7 @@ public class BounceUI : MonoBehaviour
         
         //this scaling factor stuff is necessary because the bigger the screen is, the more units our UI has to cross
         //to get to the intended value. because the game is intended at an aspect ratio of 16:9, it doesnt matter what our 
-        //reference resolution is, as long as it's 16:9
+        //reference resolution is, as long as it's 16:9 (all intended values are based off of 1920x1080 so pls dont change)
     }
 
     private void Start()
