@@ -9,12 +9,13 @@ public class ConnectorTunnelCutscene : GameplayCutsceneBase
     [SerializeField]
     float stallTime = 5;
     [SerializeField] Transform[] goToTransforms;
+    [SerializeField] AnimationCurve easeCurve;
     private void Start()
     {
         cameraTasks.Add(MoveCameraToTransform(null, goToTransforms[0], 0, instantCut:true, fov:35));
         cameraTasks.Add(new WaitForSecondsRealtime(stallTime));
         StartCoroutine(LookAtPlayer());
-        cameraTasks.Add(MoveCameraToTransform(null, GetOriginalParent(), 1.5f));
+        cameraTasks.Add(MoveCameraToTransform(null, GetOriginalParent(), 1.5f, motionCurve: easeCurve));
 
         StartCoroutine(ExecuteCameraTasks(cameraTasks, true, false, cameraFov: 90));
     }

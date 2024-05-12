@@ -49,17 +49,15 @@ public class MainMenuController : MonoBehaviour
 
         foreach (var UIElement in leftSideUIObjects)
         {
-            UIElement.GetComponent<BounceUI>().targetXPosition = buttonOffScreenXValue;
-            //if try get component menu button behaviour
-            if (UIElement.TryGetComponent(out MenuButtonBehaviour menuButtonBehaviour))
-            {
-                menuButtonBehaviour.DisableHover();
-            }
+            BounceUI bounceUI = UIElement.GetComponent<BounceUI>();
+            bounceUI.DisableHover();
+            bounceUI.SetSpringPosition(new Vector3(buttonOffScreenXValue, 
+                                                   UIElement.transform.position.y,
+                                                   UIElement.transform.position.z));
             yield return new WaitForSeconds(.1f);
         }
 
         yield return new WaitForSeconds(1);
-        ASyncLoader asyncLoader = FindObjectOfType<ASyncLoader>();
         ActionEvents.LoadNewSceneEvent?.Invoke(3, 1.0f);
     }
 
@@ -71,11 +69,11 @@ public class MainMenuController : MonoBehaviour
             if (menu == newSubMenu && currentSubMenu != newSubMenu)
             {
                 currentSubMenu = newSubMenu;
-                menu.GetComponent<BounceUI>().targetXPosition = menu.GetComponent<MenuButtonBehaviour>().selectedPos;
+                menu.GetComponent<BounceUI>().MoveToEndPosition();
             }
             else
             {
-                menu.GetComponent<BounceUI>().targetXPosition = menu.GetComponent<MenuButtonBehaviour>().restingPos;
+                menu.GetComponent<BounceUI>().MoveToStartPosition();
                 if (currentSubMenu == menu)
                 {
                     currentSubMenu = null;
