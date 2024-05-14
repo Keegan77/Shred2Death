@@ -11,8 +11,8 @@ public class ForceDeathTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerBase player = other.GetComponentInParent<PlayerBase>();
-            player.stateMachine.SwitchState(player.deathState);
-            ActionEvents.LoadNewSceneEvent?.Invoke(SceneManager.GetActiveScene().buildIndex, 3);
+            player.stateMachine.SwitchState(player.deathState);   
+            //ActionEvents.LoadNewSceneEvent?.Invoke(SceneManager.GetActiveScene().buildIndex, 3);
         }
     }
 }

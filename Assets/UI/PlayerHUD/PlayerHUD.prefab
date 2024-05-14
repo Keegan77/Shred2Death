@@ -2220,8 +2220,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 7
   dampingRatio: 0.6
+  startValue: {x: 0, y: 0, z: 0}
+  useSceneStartValueInstead: 0
   targetLocalDisplacement: {x: 200, y: 0, z: 0}
   isMask: 1
+  currentTransformationType: 0
 --- !u!1 &5030877226502919357
 GameObject:
   m_ObjectHideFlags: 0
@@ -2536,12 +2539,12 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2413566639890036392}
   - {fileID: 9043055556862933131}
+  - {fileID: 5266774833845081039}
+  - {fileID: 2413566639890036392}
   - {fileID: 4300122832298096160}
   - {fileID: 2497843970168623671}
   - {fileID: 3038261987179504106}
-  - {fileID: 5266774833845081039}
   - {fileID: 3917974290061335381}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4381,8 +4384,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 15
   dampingRatio: 0.75
+  startValue: {x: 0, y: 0, z: 0}
+  useSceneStartValueInstead: 0
   targetLocalDisplacement: {x: 775, y: 0, z: 0}
   isMask: 0
+  currentTransformationType: 0
 --- !u!1 &8451153069141734811
 GameObject:
   m_ObjectHideFlags: 0
@@ -4813,7 +4819,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9015808789049399021}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.000025431307}
+  m_LocalPosition: {x: 0, y: 0, z: 0.00017801928}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4912,7 +4918,7 @@ PrefabInstance:
       objectReference: {fileID: 4825270911490475076}
     - target: {fileID: 470110221732121652, guid: 6f5aacc94db584f41b67adc2e17a918d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Scene_ReturnToTile
+      value: Scene_ReturnToTitle
       objectReference: {fileID: 0}
     - target: {fileID: 470110221732121652, guid: 6f5aacc94db584f41b67adc2e17a918d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -5209,7 +5215,7 @@ PrefabInstance:
       objectReference: {fileID: 4825270911490475076}
     - target: {fileID: 470110221732121652, guid: 6f5aacc94db584f41b67adc2e17a918d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Scene_ReturnToTile
+      value: Scene_ReturnToTitle
       objectReference: {fileID: 0}
     - target: {fileID: 470110221732121652, guid: 6f5aacc94db584f41b67adc2e17a918d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

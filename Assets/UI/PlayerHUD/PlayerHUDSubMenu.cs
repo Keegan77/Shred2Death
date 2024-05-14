@@ -13,7 +13,9 @@ public class PlayerHUDSubMenu : MonoBehaviour
     public void OnActivated()
     {
         gameObject.SetActive(true);
-        defaultButtonActive.Select();
+        //defaultButtonActive.Select();
+        GetComponent<Image>().enabled = true;
+        Cursor.lockState = CursorLockMode.None;
         
         // Get all BounceUI components attached to this object and its children
         BounceUI[] bounceUIComponents = GetComponentsInChildren<BounceUI>();
