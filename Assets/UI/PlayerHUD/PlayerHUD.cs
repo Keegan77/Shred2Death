@@ -121,13 +121,13 @@ public class PlayerHUD : MonoBehaviour
     #region Menuing
     public void openMenu(PlayerHUDSubMenu menu)
     {
-        InputRouting.Instance.DisableInput();
+        //InputRouting.Instance.DisableInput();
         foreach (Transform t in subMenuContainer.transform)
         {
-            t.gameObject.SetActive(false);
+            t.GetComponentInChildren<PlayerHUDSubMenu>().OnActivated(false);
         }
 
-        menu.OnActivated();
+        menu.OnActivated(true);
     }
     
     private void CloseMenu()
@@ -135,7 +135,7 @@ public class PlayerHUD : MonoBehaviour
         InputRouting.Instance.EnableInput();
         foreach (Transform t in subMenuContainer.transform)
         {
-            t.gameObject.SetActive(false);
+            t.GetComponentInChildren<PlayerHUDSubMenu>().OnActivated(false);
         }
     }
 

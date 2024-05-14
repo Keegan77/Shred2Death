@@ -17,7 +17,7 @@ public class PlayerDeathState : BehaviourState
     
     private IEnumerator DelayGameOver()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         player.playerHUD.openMenu(player.playerHUD.menuGameOver);
     }
 }
