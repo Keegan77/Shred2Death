@@ -49,11 +49,20 @@ public class MainMenuController : MonoBehaviour
 
         foreach (var UIElement in leftSideUIObjects)
         {
-            BounceUI bounceUI = UIElement.GetComponent<BounceUI>();
-            bounceUI.DisableHover();
-            bounceUI.SetSpringPosition(new Vector3(buttonOffScreenXValue, 
-                                                   UIElement.transform.position.y,
-                                                   UIElement.transform.position.z));
+            BounceUI[] bounceUI = UIElement.GetComponents<BounceUI>();
+            
+            foreach (var bounce in bounceUI)
+            {
+                if (bounce.GetCurrentTransformationType() == BounceUI.UITransformationType.Scale)
+                {
+                    bounce.MoveToEndValue();
+                    continue;
+                }
+                bounce.DisableHover();
+                bounce.SetSpringValue(new Vector3(buttonOffScreenXValue, 
+                                                     UIElement.transform.position.y,
+                                                     UIElement.transform.position.z));
+            }
             yield return new WaitForSeconds(.1f);
         }
 
@@ -69,11 +78,11 @@ public class MainMenuController : MonoBehaviour
             if (menu == newSubMenu && currentSubMenu != newSubMenu)
             {
                 currentSubMenu = newSubMenu;
-                menu.GetComponent<BounceUI>().MoveToEndPosition();
+                menu.GetComponent<BounceUI>().MoveToEndValue();
             }
             else
             {
-                menu.GetComponent<BounceUI>().MoveToStartPosition();
+                menu.GetComponent<BounceUI>().MoveToStartValue();
                 if (currentSubMenu == menu)
                 {
                     currentSubMenu = null;

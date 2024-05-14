@@ -14,5 +14,14 @@ public class PlayerHUDSubMenu : MonoBehaviour
     {
         gameObject.SetActive(true);
         defaultButtonActive.Select();
+        
+        // Get all BounceUI components attached to this object and its children
+        BounceUI[] bounceUIComponents = GetComponentsInChildren<BounceUI>();
+
+        // Call MoveToEndValue on each BounceUI component
+        foreach (BounceUI bounceUI in bounceUIComponents)
+        {
+            bounceUI.MoveToEndValue();
+        }
     }
 }

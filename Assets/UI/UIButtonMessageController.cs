@@ -28,10 +28,10 @@ public class UIButtonMessageController : MonoBehaviour
     {
         BulletTimeManager.Instance.ChangeBulletTime(0);
         textForPopUp.SetActive(true);
-        messagePopUp.MoveToEndPosition();
+        messagePopUp.MoveToEndValue();
         inputAction.Enable();
         yield return new WaitUntil(() => inputAction.triggered);
-        messagePopUp.MoveToStartPosition();
+        messagePopUp.MoveToStartValue();
         Time.timeScale = 1;
         inputAction.Disable();
         yield return new WaitForSeconds(1);

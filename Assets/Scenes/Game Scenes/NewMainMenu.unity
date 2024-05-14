@@ -1472,8 +1472,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 10
   dampingRatio: 0.75
+  startValue: {x: 0, y: 0, z: 0}
+  useSceneStartValueInstead: 1
   targetLocalDisplacement: {x: -1275, y: 0, z: 0}
   isMask: 0
+  currentTransformationType: 0
 --- !u!114 &329324738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2366,8 +2369,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 10
   dampingRatio: 0.75
+  startValue: {x: 0, y: 0, z: 0}
+  useSceneStartValueInstead: 1
   targetLocalDisplacement: {x: -1275, y: 0, z: 0}
   isMask: 0
+  currentTransformationType: 0
 --- !u!224 &605952860
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3097,7 +3103,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 762377837}
           m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
-          m_MethodName: MoveToEndPosition
+          m_MethodName: MoveToEndValue
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -3113,7 +3119,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 762377837}
           m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
-          m_MethodName: MoveToStartPosition
+          m_MethodName: MoveToStartValue
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -3137,8 +3143,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 15
   dampingRatio: 0.75
+  startValue: {x: 0, y: 0, z: 0}
+  useSceneStartValueInstead: 1
   targetLocalDisplacement: {x: 30, y: 0, z: 0}
   isMask: 0
+  currentTransformationType: 0
 --- !u!114 &762377838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3503,7 +3512,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 812081353}
           m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
-          m_MethodName: MoveToEndPosition
+          m_MethodName: MoveToEndValue
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -3519,7 +3528,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 812081353}
           m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
-          m_MethodName: MoveToStartPosition
+          m_MethodName: MoveToStartValue
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -3543,8 +3552,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 15
   dampingRatio: 0.75
+  startValue: {x: 0, y: 0, z: 0}
+  useSceneStartValueInstead: 1
   targetLocalDisplacement: {x: 30, y: 0, z: 0}
   isMask: 0
+  currentTransformationType: 0
 --- !u!114 &812081354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4254,7 +4266,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1026466525}
           m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
-          m_MethodName: MoveToEndPosition
+          m_MethodName: MoveToEndValue
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4270,7 +4282,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1026466525}
           m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
-          m_MethodName: MoveToStartPosition
+          m_MethodName: MoveToStartValue
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4294,8 +4306,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 15
   dampingRatio: 0.75
+  startValue: {x: 0, y: 0, z: 0}
+  useSceneStartValueInstead: 1
   targetLocalDisplacement: {x: 30, y: 0, z: 0}
   isMask: 0
+  currentTransformationType: 0
 --- !u!114 &1026466526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4402,6 +4417,7 @@ GameObject:
   - component: {fileID: 1047568059}
   - component: {fileID: 1047568058}
   - component: {fileID: 1047568060}
+  - component: {fileID: 1047568061}
   m_Layer: 5
   m_Name: Logo
   m_TagString: Untagged
@@ -4419,7 +4435,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.20688207, y: 0.20688207, z: 0.20688207}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1457517855}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4480,8 +4496,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 5
   dampingRatio: 0.75
+  startValue: {x: 0, y: 0, z: 0}
+  useSceneStartValueInstead: 1
   targetLocalDisplacement: {x: 0, y: 0, z: 0}
   isMask: 0
+  currentTransformationType: 0
+--- !u!114 &1047568061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047568056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d8a98fd50a85e4998ad0fe3573ecba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frequency: 15
+  dampingRatio: 0.75
+  startValue: {x: 0, y: 0, z: 0}
+  useSceneStartValueInstead: 1
+  targetLocalDisplacement: {x: -0.1, y: -0.1, z: -0.1}
+  isMask: 0
+  currentTransformationType: 1
 --- !u!1 &1063043490
 GameObject:
   m_ObjectHideFlags: 0
@@ -4573,8 +4611,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 15
   dampingRatio: 0.75
+  startValue: {x: 0, y: 0, z: 0}
+  useSceneStartValueInstead: 1
   targetLocalDisplacement: {x: 30, y: 0, z: 0}
   isMask: 0
+  currentTransformationType: 0
 --- !u!114 &1105287341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4688,13 +4729,13 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1105287340}
           m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
-          m_MethodName: MoveToEndPosition
+          m_MethodName: MoveToEndValue
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 260
+            m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -4704,7 +4745,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1105287340}
           m_TargetAssemblyTypeName: BounceUI, Assembly-CSharp
-          m_MethodName: MoveToStartPosition
+          m_MethodName: MoveToStartValue
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

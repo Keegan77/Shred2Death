@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class ConnectorTunnelCutscene : GameplayCutsceneBase
@@ -9,6 +11,7 @@ public class ConnectorTunnelCutscene : GameplayCutsceneBase
     [SerializeField]
     float stallTime = 5;
     [SerializeField] Transform[] goToTransforms;
+    [SerializeField] private TextMeshProUGUI areaText;
     [SerializeField] AnimationCurve easeCurve;
     private void Start()
     {
@@ -16,8 +19,9 @@ public class ConnectorTunnelCutscene : GameplayCutsceneBase
         cameraTasks.Add(new WaitForSecondsRealtime(stallTime));
         StartCoroutine(LookAtPlayer());
         cameraTasks.Add(MoveCameraToTransform(null, GetOriginalParent(), 1.5f, motionCurve: easeCurve));
-
-        StartCoroutine(ExecuteCameraTasks(cameraTasks, true, false, cameraFov: 90));
+        
+        areaText.text = SceneManager.GetActiveScene().name;
+        StartCoroutine(ExecuteCameraTasks(cameraTasks, true, false, cameraFov: 90, showZoneTitle:true));
     }
     
     private IEnumerator LookAtPlayer()
