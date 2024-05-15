@@ -13,6 +13,7 @@ public class ConnectorTunnelCutscene : GameplayCutsceneBase
     [SerializeField] Transform[] goToTransforms;
     [SerializeField] private TextMeshProUGUI areaText;
     [SerializeField] AnimationCurve easeCurve;
+    [SerializeField] private bool popUpAreaName;
     private void Start()
     {
         cameraTasks.Add(MoveCameraToTransform(null, goToTransforms[0], 0, instantCut:true, fov:35));
@@ -20,7 +21,8 @@ public class ConnectorTunnelCutscene : GameplayCutsceneBase
         StartCoroutine(LookAtPlayer());
         cameraTasks.Add(MoveCameraToTransform(null, GetOriginalParent(), 1.5f, motionCurve: easeCurve));
         
-        areaText.text = SceneManager.GetActiveScene().name;
+        if (popUpAreaName) areaText.text = SceneManager.GetActiveScene().name;
+        else areaText.text = "";
         StartCoroutine(ExecuteCameraTasks(cameraTasks, true, false, cameraFov: 90, showZoneTitle:true));
     }
     
