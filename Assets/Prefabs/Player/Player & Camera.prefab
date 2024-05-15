@@ -7121,6 +7121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 3686535255245228384}
   player: {fileID: 1464697803107471213}
+  trickBeingPerformed: 0
 --- !u!114 &6644245972921724407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28287,7 +28288,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3903198324656205047, guid: 8204e795f862bc14db23677e72352bca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0000019073486
+      value: 0.0000038146973
       objectReference: {fileID: 0}
     - target: {fileID: 3939995358890876687, guid: 8204e795f862bc14db23677e72352bca, type: 3}
       propertyPath: useSceneStartValueInstead
@@ -30797,6 +30798,8 @@ MonoBehaviour:
   armRig: {fileID: 7326819366841382584}
   legRig: {fileID: 406594010102296293}
   headAndChestRig: {fileID: 1624361652709433663}
+  player: {fileID: 1464697803107471213}
+  animHandler: {fileID: 7059973690341233823}
 --- !u!114 &8516419429264436924
 MonoBehaviour:
   m_ObjectHideFlags: 0

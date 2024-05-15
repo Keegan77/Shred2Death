@@ -10,7 +10,7 @@ public class PlayerAnimationHandler : MonoBehaviour
 {
     [SerializeField] Animator animator;
     [SerializeField] PlayerBase player;
-    private bool trickBeingPerformed;
+    public bool trickBeingPerformed;
     private bool interruptState;
 
     private void OnEnable()

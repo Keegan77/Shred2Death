@@ -1,14 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.Animations.Rigging;
 
 public class RigWeightController : MonoBehaviour
 {
     public Rig armRig, legRig, headAndChestRig;
     public Coroutine currentRigWeightRequest;
+    [SerializeField] private PlayerBase player;
+    [SerializeField] private PlayerAnimationHandler animHandler;
 
 
     private void OnEnable()
@@ -39,9 +43,17 @@ public class RigWeightController : MonoBehaviour
             yield return null;
         }
     }
-    
-    public void SetWeightToValueOverTime(Rig rig, float targetWeight, float lerpTime, bool useThisAsRequest = true)
+    //TODO: Make it so you can't start a grind if you're in the middle of a trick
+    public async void SetWeightToValueOverTime(Rig rig, float targetWeight, float lerpTime, bool useThisAsRequest = true)
     {
+        if (player.stateMachine.currentState == player.grindState &&
+            animHandler.trickBeingPerformed)
+        {
+            while (animHandler.trickBeingPerformed)
+            {
+                await Task.Yield();
+            }
+        }
         if (currentRigWeightRequest != null)
         {
             StopCoroutine(currentRigWeightRequest);
