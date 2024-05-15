@@ -48,11 +48,12 @@ public class PlayerAirborneState : BehaviourState
             player.movement.OllieJump();
             ActionEvents.OnPlayBehaviourAnimation?.Invoke("Ollie");
             ActionEvents.OnTrickCompletion?.Invoke(TrickMaps.Ollie);
-            
-            player.proceduralRigController.setWeightForSecondsCoroutine =
-                player.proceduralRigController.StartCoroutine(
-                    player.proceduralRigController.SetWeightToValueForSeconds(
-                        player.proceduralRigController.legRig, 0, .88f));
+
+            player.proceduralRigController.StartCoroutine(
+                player.proceduralRigController.SetWeightToValueOverSeconds(
+                                                     player.proceduralRigController.legRig,
+                                                     0.88f,
+                                                     player.playerData.animBlendTime));
             
             player.SetJumpQueued(false);
         }
@@ -63,6 +64,8 @@ public class PlayerAirborneState : BehaviourState
         //ActionEvents.OnPlayBehaviourAnimation?.Invoke("Idle");
         comboHandler = player.gameObject.GetComponent<TrickComboHandler>();
     }
+
+
     
     private void RotationInAir()
     {
