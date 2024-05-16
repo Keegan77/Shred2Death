@@ -168,6 +168,7 @@ public class PlayerBase : MonoBehaviour
 
         
         
+        /*
         // Set Gizmos color
         Gizmos.color = Color.red;
 
@@ -217,7 +218,7 @@ public class PlayerBase : MonoBehaviour
         float rayLength = 4;
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawRay(rayOrigin, rayDirection * rayLength);
+        Gizmos.DrawRay(rayOrigin, rayDirection * rayLength);*/
     }
     
 #endregion

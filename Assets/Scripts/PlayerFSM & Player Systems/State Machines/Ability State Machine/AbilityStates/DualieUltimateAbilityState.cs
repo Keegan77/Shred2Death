@@ -22,17 +22,21 @@ public class DualieUltimateAbilityState : AbilityState
         playerRootMover = player.rootMover;
         abilityInputActions.Add(InputRouting.Instance.input.Player.Fire, new InputActionEvents()
         {
-            onStarted = ctx =>
+            onStarted = ctx => 
             {
                 rotateBackCoroutine = playerRootMover.StartCoroutine(playerRootMover.RotateBackToZero());
-                gunfireHandler.ShootFromGunForward(false);
+                gunfireHandler.ShootFromGunForward(false); //now shooting at crosshair point
                 foreach (var recoil in gunfireHandler.GetCurrentGunSceneData().GetRecoilObjects())
                 {
                     recoil.ResetStartRotation();
                 }
                 gunPositionMover.ResetTransformPositions();
-                player.proceduralRigController.SetWeightToValue(player.proceduralRigController.headAndChestRig, 1);
+                player.proceduralRigController.SetWeightToValueOverTime(player.proceduralRigController.headAndChestRig, 
+                    1, 
+                    player.playerData.animBlendTime);
                 gunSwitcher.SetRigTargetPoints(gunfireHandler.GetCurrentGunSceneData().GetAllTargets());
+                //this is to reset the gun position to arms in front, the mechanic has shreddy shooting like normal with
+                //an increased fire rate and 0 ammo loss instead of christ rotating as long as you're holding mouse left
             },
             onCanceled = ctx =>
             {
@@ -40,7 +44,10 @@ public class DualieUltimateAbilityState : AbilityState
                 if (stateMachine.currentAbilityState == this)
                 {
                     gunfireHandler.ShootFromGunForward(true);
-                    player.proceduralRigController.SetWeightToValue(player.proceduralRigController.headAndChestRig, 0);
+                    player.proceduralRigController.SetWeightToValueOverTime(
+                        player.proceduralRigController.headAndChestRig,
+                        0, 
+                        player.playerData.animBlendTime);
                     gunPositionMover.SwitchToChristPosition();
                 }
             }
@@ -58,7 +65,9 @@ public class DualieUltimateAbilityState : AbilityState
         gunPositionMover.SwitchToChristPosition();
         //player.gunSwitcher.SetRigTargetPoints(player.gunfireHandler.GetCurrentGunSceneData().GetAbilityTargets());
         autoFireCoroutine = player.StartCoroutine(AutoFire());
-        player.proceduralRigController.SetWeightToValue(player.proceduralRigController.headAndChestRig, 0);
+        player.proceduralRigController.SetWeightToValueOverTime(player.proceduralRigController.headAndChestRig, 
+                                                                0, 
+                                                                player.playerData.animBlendTime);
         if (rotateBackCoroutine != null) player.StopCoroutine(rotateBackCoroutine);
     }
 
@@ -98,6 +107,8 @@ public class DualieUltimateAbilityState : AbilityState
         gunPositionMover.ResetTransformPositions();
         gunSwitcher.SetRigTargetPoints(gunfireHandler.GetCurrentGunSceneData().GetAllTargets());
         rotateBackCoroutine = playerRootMover.StartCoroutine(playerRootMover.RotateBackToZero());
-        player.proceduralRigController.SetWeightToValue(player.proceduralRigController.headAndChestRig, 1);
+        player.proceduralRigController.SetWeightToValueOverTime(player.proceduralRigController.headAndChestRig,
+                                                                1,
+                                                                player.playerData.animBlendTime);
     }
 }

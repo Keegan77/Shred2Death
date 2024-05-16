@@ -17,12 +17,10 @@ public class GunData : ScriptableObject
     public float bulletLerpTime;
     [Tooltip("Amount of bullets that will be fired per mouse click")]
     public int bulletsInOneShot;
-
-
+    
     [Header("Reloading")]
     public int magCapacity;
     public float timeBetweenShots;
-
     
     [Header("Camera Recoil")]
     public float camRecoilX;

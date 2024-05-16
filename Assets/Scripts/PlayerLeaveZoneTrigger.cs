@@ -41,7 +41,7 @@ public class PlayerLeaveZoneTrigger : MonoBehaviour
     private IEnumerator GoToNextZone()
     {
         yield return new WaitForSeconds(timeAfterTriggerEnterToFadeOut);
-        ActionEvents.LoadNewSceneEvent?.Invoke(1, 1);
+        ActionEvents.LoadNewSceneEvent?.Invoke(buildIndexToGoTo, 1);
         
     }
 }

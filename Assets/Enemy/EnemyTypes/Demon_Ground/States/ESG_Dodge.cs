@@ -106,7 +106,7 @@ public class ESG_Dodge : ES_DemonGround
         {
             ES_Ragdoll ragdoll = GetComponent<ES_Ragdoll> ();
             //ragdoll.entryVelocityInfluence = eBody.velocity;
-            ragdoll.EnterRagdoll (e.rb.velocity, false);
+            ragdoll.EnterRagdoll (e.rb.velocity);
 
         }
 

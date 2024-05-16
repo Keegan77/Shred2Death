@@ -16,11 +16,27 @@ public class RotateWithMouse : MonoBehaviour
     float resetRotationSpeed;
 
     [SerializeField] private PlayerBase player;
+    
+    private Action cutsceneResetAction;
+    private void OnEnable()
+    {
+        cutsceneResetAction = () => StartCoroutine(ResetLocalRotationToEulers(Vector3.zero));
+        ActionEvents.StartedGameplayCutscene += cutsceneResetAction;
+    }
 
+    private void OnDisable()
+    {
+        ActionEvents.StartedGameplayCutscene -= cutsceneResetAction;
+    }
 
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void Start()
+    {
+        SetRotation(Vector3.zero);
     }
 
     private void Update()
@@ -30,8 +46,8 @@ public class RotateWithMouse : MonoBehaviour
         // Get the input delta
         Vector2 lookDelta = InputRouting.Instance.GetLookInput();
 
-        rotation.y += lookDelta.x * PlayerPrefs.GetFloat("Sensitivity") * Time.deltaTime;
-        rotation.x -= lookDelta.y * PlayerPrefs.GetFloat("Sensitivity") * Time.deltaTime;
+        rotation.y += lookDelta.x * PlayerPrefs.GetFloat("Sensitivity") * Time.unscaledDeltaTime;
+        rotation.x -= lookDelta.y * PlayerPrefs.GetFloat("Sensitivity") * Time.unscaledDeltaTime;
         rotation.x = Mathf.Clamp(rotation.x, -90f, 90f); // Limit the vertical rotation
         
         

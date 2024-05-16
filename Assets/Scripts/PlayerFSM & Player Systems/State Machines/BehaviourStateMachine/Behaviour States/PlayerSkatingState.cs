@@ -70,7 +70,9 @@ public class PlayerSkatingState : BehaviourState
     {
         UnsubscribeInputs();
         if (kickOffCoroutine != null) player.StopCoroutine(kickOffCoroutine);
-        player.proceduralRigController.SetWeightToValue(player.proceduralRigController.legRig, 1);
+        player.proceduralRigController.SetWeightToValueOverTime(player.proceduralRigController.legRig, 
+            1, 
+            player.playerData.animBlendTime);
         
         //player.constantForce.relativeForce = new Vector3(0, 0, 0);
         player.capsuleFloater.SetRideHeight(player.capsuleFloater.standingRideHeight);

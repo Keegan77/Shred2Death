@@ -49,17 +49,24 @@ public class MainMenuController : MonoBehaviour
 
         foreach (var UIElement in leftSideUIObjects)
         {
-            UIElement.GetComponent<BounceUI>().targetXPosition = buttonOffScreenXValue;
-            //if try get component menu button behaviour
-            if (UIElement.TryGetComponent(out MenuButtonBehaviour menuButtonBehaviour))
+            BounceUI[] bounceUI = UIElement.GetComponents<BounceUI>();
+            
+            foreach (var bounce in bounceUI)
             {
-                menuButtonBehaviour.DisableHover();
+                if (bounce.GetCurrentTransformationType() == BounceUI.UITransformationType.Scale)
+                {
+                    bounce.MoveToEndValue();
+                    continue;
+                }
+                bounce.DisableHover();
+                bounce.SetSpringValue(new Vector3(buttonOffScreenXValue, 
+                                                     UIElement.transform.position.y,
+                                                     UIElement.transform.position.z));
             }
             yield return new WaitForSeconds(.1f);
         }
 
         yield return new WaitForSeconds(1);
-        ASyncLoader asyncLoader = FindObjectOfType<ASyncLoader>();
         ActionEvents.LoadNewSceneEvent?.Invoke(3, 1.0f);
     }
 
@@ -71,11 +78,11 @@ public class MainMenuController : MonoBehaviour
             if (menu == newSubMenu && currentSubMenu != newSubMenu)
             {
                 currentSubMenu = newSubMenu;
-                menu.GetComponent<BounceUI>().targetXPosition = menu.GetComponent<MenuButtonBehaviour>().selectedPos;
+                menu.GetComponent<BounceUI>().MoveToEndValue();
             }
             else
             {
-                menu.GetComponent<BounceUI>().targetXPosition = menu.GetComponent<MenuButtonBehaviour>().restingPos;
+                menu.GetComponent<BounceUI>().MoveToStartValue();
                 if (currentSubMenu == menu)
                 {
                     currentSubMenu = null;
