@@ -31,7 +31,7 @@ public class SettingsManager : MonoBehaviour
         }
         if (PlayerPrefs.GetFloat(PrefNames.SFXVolume) == 0)
         {
-            PlayerPrefs.SetFloat(PrefNames.SFXVolume, .75f);
+            PlayerPrefs.SetFloat(PrefNames.SFXVolume, 1f);
         }
         
         //set the sliders to the player prefs. i hate this method of doing things
