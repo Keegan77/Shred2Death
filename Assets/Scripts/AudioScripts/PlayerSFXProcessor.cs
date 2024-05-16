@@ -20,7 +20,7 @@ public class PlayerSFXProcessor : MonoBehaviour
     {
         AudioSource audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.pitch = Time.timeScale;
-        audioSource.volume = 0.4f;
+        audioSource.volume = PlayerPrefs.GetFloat(SettingsManager.PrefNames.SFXVolume);
         audioSource.clip = audioClip;
         audioSource.time = cutoffTime;
         audioSource.Play();
