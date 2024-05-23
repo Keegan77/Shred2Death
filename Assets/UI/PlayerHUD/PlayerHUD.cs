@@ -19,7 +19,7 @@ public class PlayerHUD : MonoBehaviour
 
     public PlayerHUDSubMenu menuGameOver;
     public PlayerHUDSubMenu menuPause;
-
+    
     public GameObject subMenuContainer;
     public GameObject widgetContainer;
 
@@ -35,7 +35,6 @@ public class PlayerHUD : MonoBehaviour
     {
         subMenuContainer = transform.Find("SubMenus").gameObject;
         widgetContainer = transform.Find("Widgets").gameObject;
-        subMenuContainer.SetActive(false);
         playerCanvas = GetComponent<Canvas>();
     }
 
@@ -82,7 +81,7 @@ public class PlayerHUD : MonoBehaviour
 
     private void TurnOffUI()
     {
-        foreach (GameObject menuComponent in GetAllChildren(gameObject))
+        foreach (GameObject menuComponent in GetAllChildren(widgetContainer))
         {
             if (menuComponent == gameObject) return;
             menuComponent.SetActive(false);
@@ -91,7 +90,7 @@ public class PlayerHUD : MonoBehaviour
     
     private void TurnOnUI()
     {
-        foreach (GameObject menuComponent in GetAllChildren(gameObject))
+        foreach (GameObject menuComponent in GetAllChildren(widgetContainer))
         {
             if (menuComponent == gameObject) return;
             menuComponent.SetActive(true);
@@ -122,12 +121,22 @@ public class PlayerHUD : MonoBehaviour
     #region Menuing
     public void openMenu(PlayerHUDSubMenu menu)
     {
+        //InputRouting.Instance.DisableInput();
         foreach (Transform t in subMenuContainer.transform)
         {
-            t.gameObject.SetActive(false);
+            t.GetComponentInChildren<PlayerHUDSubMenu>().OnActivated(false);
         }
 
-        menu.OnActivated();
+        menu.OnActivated(true);
+    }
+    
+    private void CloseMenu()
+    {
+        InputRouting.Instance.EnableInput();
+        foreach (Transform t in subMenuContainer.transform)
+        {
+            t.GetComponentInChildren<PlayerHUDSubMenu>().OnActivated(false);
+        }
     }
 
     public void ToggleGamePaused()
@@ -135,23 +144,21 @@ public class PlayerHUD : MonoBehaviour
         //pause the game, recording the timescale
         if (!gamePaused)
         {
-            subMenuContainer.SetActive(true);
-            widgetContainer.SetActive(false);
+            TurnOffUI();
             openMenu(menuPause);
             Cursor.lockState = CursorLockMode.None;
 
             currentTimeScale = Time.timeScale;
-            Time.timeScale = 0;
+            BulletTimeManager.Instance.ChangeBulletTime(0);
         }
 
         //unpause the game, setting the timescale to the proper speed
         else
         {
-            subMenuContainer.SetActive(false);
-            widgetContainer.SetActive(true);
+            TurnOnUI();
+            CloseMenu();
             Cursor.lockState = CursorLockMode.Locked;
-
-            Time.timeScale = currentTimeScale;
+            BulletTimeManager.Instance.ChangeBulletTime(1);
         }
 
         gamePaused = !gamePaused;
@@ -160,9 +167,10 @@ public class PlayerHUD : MonoBehaviour
     #endregion
 
     #region Scene Management
-    public void Scene_ReturnToTile()
+    public void Scene_ReturnToTitle()
     {
-        SceneManager.LoadScene("MainMenu");
+        GameManager.instance.SetGameState(GameManager.GameState.MainMenu);
+        SceneManager.LoadScene("NewMainMenu");
         Time.timeScale = 1;
     }
 

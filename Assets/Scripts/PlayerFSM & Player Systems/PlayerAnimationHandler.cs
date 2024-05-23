@@ -10,7 +10,7 @@ public class PlayerAnimationHandler : MonoBehaviour
 {
     [SerializeField] Animator animator;
     [SerializeField] PlayerBase player;
-    private bool trickBeingPerformed;
+    public bool trickBeingPerformed;
     private bool interruptState;
 
     private void OnEnable()
@@ -69,7 +69,9 @@ public class PlayerAnimationHandler : MonoBehaviour
         ActionEvents.OnTrickPerformed?.Invoke(trick);
         
         if (trick.customMethod != null) trick.customMethod.Invoke(player);
-        player.proceduralRigController.SetWeightToValue(player.proceduralRigController.legRig, 0);
+        player.proceduralRigController.SetWeightToValueOverTime(player.proceduralRigController.legRig, 
+                                                     0, 
+                                                                player.playerData.animBlendTime);
         
         //yield return new WaitForSeconds(currentClipInfo[0].clip.length);
         yield return new WaitForSeconds(trick.animTime);
@@ -77,7 +79,9 @@ public class PlayerAnimationHandler : MonoBehaviour
         trickBeingPerformed = false;
         
         ActionEvents.OnTrickCompletion?.Invoke(trick);
-        player.proceduralRigController.SetWeightToValue(player.proceduralRigController.legRig, 1);
+        player.proceduralRigController.SetWeightToValueOverTime(player.proceduralRigController.legRig, 
+            1, 
+            player.playerData.animBlendTime);
         
     }
     

@@ -17,7 +17,7 @@ public class PlayerGrindState : BehaviourState
         behaviourInputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents { onPerformed = ctx => JumpOffRail()});
     }
     private SplineFollower sFollower;
-    private Coroutine lerpRigRoutine;
+    //private Coroutine lerpRigRoutine;
     
     public override void Enter()
     {
@@ -25,12 +25,11 @@ public class PlayerGrindState : BehaviourState
         player.particleManager.playerGrindSparks.Play();
         totalInputRotation = 0;
         player.GetComboHandler().SetPauseComboDrop(true);
-        lerpRigRoutine = player.proceduralRigController.StartCoroutine(
-            player.proceduralRigController.LerpWeightToValue
-                                                 (player.proceduralRigController.legRig,
-                                                     0,
-                                                     .1f)
-        );
+        
+        player.proceduralRigController.SetWeightToValueOverTime(player.proceduralRigController.legRig,
+            0, .1f);
+        //lerpRigRoutine = player.proceduralRigController.currentRigWeightRequest;
+        
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Grind");
         lerping = true;
         List<AudioClip> grindImpacts = SFXContainerSingleton.Instance.grindImpactNoises;
@@ -50,11 +49,11 @@ public class PlayerGrindState : BehaviourState
     public override void Exit()
     {
         UnsubscribeInputs();
-        if (lerpRigRoutine != null) player.StopCoroutine(lerpRigRoutine);
+        //if (lerpRigRoutine != null) player.StopCoroutine(lerpRigRoutine);
         player.particleManager.playerGrindSparks.Stop();
         player.GetComboHandler().SetPauseComboDrop(false);
         ActionEvents.StopLoopAudio?.Invoke();
-        player.proceduralRigController.SetWeightToValue(player.proceduralRigController.legRig, 1);
+        player.proceduralRigController.SetWeightToValueOverTime(player.proceduralRigController.legRig, 1, .1f);
         ActionEvents.OnPlayBehaviourAnimation?.Invoke("Grind Reverse");
     }
     private void SetUpSplineFollower()
@@ -72,9 +71,7 @@ public class PlayerGrindState : BehaviourState
         else sFollower.wrapMode = SplineFollower.Wrap.Default;
         
         Vector3 playerForward = player.inputTurningTransform.forward;
-        
         SplineSample sample = sFollower.spline.Project(player.transform.position);
-        
         Vector3 splineTangent = sample.forward;
 
         

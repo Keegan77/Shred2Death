@@ -1449,19 +1449,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 }
             ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""cd7a0a7c-c505-4628-b947-d074398a6c5c"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""InitiateDeath"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
+            ""bindings"": []
         }
     ],
     ""controlSchemes"": [

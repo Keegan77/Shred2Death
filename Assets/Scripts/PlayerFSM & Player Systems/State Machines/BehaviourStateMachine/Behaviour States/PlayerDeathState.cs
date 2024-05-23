@@ -12,5 +12,12 @@ public class PlayerDeathState : BehaviourState
     {
         base.Enter();
         player.GetRagdollHandler().ActivateRagdoll();
+        player.StartCoroutine(DelayGameOver());
+    }
+    
+    private IEnumerator DelayGameOver()
+    {
+        yield return new WaitForSeconds(3);
+        player.playerHUD.openMenu(player.playerHUD.menuGameOver);
     }
 }

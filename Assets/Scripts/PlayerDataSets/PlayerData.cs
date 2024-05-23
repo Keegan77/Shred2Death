@@ -115,4 +115,7 @@ public class PlayerData : ScriptableObject
     public float extraBurnVerticalForce;
     public float burnBounceCooldown;
 
+    [Header("Other")] 
+    public float animBlendTime;
+
 }

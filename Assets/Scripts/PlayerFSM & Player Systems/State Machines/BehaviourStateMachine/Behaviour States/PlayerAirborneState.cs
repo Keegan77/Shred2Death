@@ -8,6 +8,7 @@ public class PlayerAirborneState : BehaviourState
 {
     private bool coolingDown;
     private Coroutine coolDownCoroutine;
+    private float timer;
     public PlayerAirborneState(PlayerBase player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
         behaviourInputActions.Add(InputRouting.Instance.input.Player.Jump, new InputActionEvents 
@@ -40,13 +41,20 @@ public class PlayerAirborneState : BehaviourState
     public override void Enter()
     {
         base.Enter();
+        timer = 0;
         if (player.JumpQueued())
         {
             player.rb.velocity = new Vector3(player.rb.velocity.x, 0, player.rb.velocity.z);
             player.movement.OllieJump();
             ActionEvents.OnPlayBehaviourAnimation?.Invoke("Ollie");
             ActionEvents.OnTrickCompletion?.Invoke(TrickMaps.Ollie);
-            player.proceduralRigController.StartCoroutine(player.proceduralRigController.SetWeightToValueForSeconds(player.proceduralRigController.legRig, 0, .88f));
+
+            player.proceduralRigController.StartCoroutine(
+                player.proceduralRigController.SetWeightToValueOverSeconds(
+                                                     player.proceduralRigController.legRig,
+                                                     0.88f,
+                                                     player.playerData.animBlendTime));
+            
             player.SetJumpQueued(false);
         }
         
@@ -56,6 +64,8 @@ public class PlayerAirborneState : BehaviourState
         //ActionEvents.OnPlayBehaviourAnimation?.Invoke("Idle");
         comboHandler = player.gameObject.GetComponent<TrickComboHandler>();
     }
+
+
     
     private void RotationInAir()
     {
@@ -78,8 +88,9 @@ public class PlayerAirborneState : BehaviourState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        timer += Time.deltaTime;
         player.UpdateGrindRailUI();
-        if (player.CheckGround() && player.rb.velocity.y < 0f)
+        if (player.CheckGround() && timer > .333f)
         {
             stateMachine.SwitchState(player.skatingState);
         }
